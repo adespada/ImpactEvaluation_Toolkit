@@ -1,6 +1,6 @@
 ---
 format: html
-bibliography: referencias.bib
+bibliography: ../referencias.bib
 ---
 
 # Outcome Harvesting (OH)

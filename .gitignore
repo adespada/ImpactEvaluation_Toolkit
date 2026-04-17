@@ -2,3 +2,6 @@ _book/
 _freeze/
 .quarto/
 Referencias/
+
+/.quarto/
+**/*.quarto_ipynb

@@ -9,28 +9,53 @@ Sin embargo, hay una diferencia fundamental entre ambos:
 - El **monitoreo** responde: *¿estamos haciendo lo que dijimos que haríamos?*
 - La **evaluación de impacto** responde: *¿lo que hicimos está generando el cambio que esperábamos?*
 
-```{mermaid}
-%%| fig-cap: "Cómo el monitoreo alimenta la evaluación de impacto"
-%%| label: fig-monitoreo-evaluacion
+```{r}
+#| label: fig-monitoreo-evaluacion
+#| fig-cap: "Cómo el monitoreo alimenta la evaluación de impacto"
+#| echo: false
+#| message: false
+#| warning: false
 
-flowchart LR
-    subgraph MON["Sistema de monitoreo"]
-        direction TB
-        M1["Registros de\nactividades"] --> M2["Seguimiento\nde productos"]
-        M2 --> M3["Indicadores de\ncobertura y calidad"]
-    end
+library(DiagrammeR)
 
-    subgraph EVAL["Evaluación de impacto"]
-        direction TB
-        E1["Línea base"] --> E2["Datos de\nseguimiento"]
-        E2 --> E3["Análisis causal\ndel efecto"]
-    end
+grViz("
+digraph monitoreo_evaluacion {
+  graph [rankdir = LR, splines = true, nodesep = 0.5, ranksep = 0.8]
+  node  [shape = box, style = 'filled,rounded', fontname = Helvetica, fontsize = 11]
+  edge  [fontname = Helvetica, fontsize = 10]
 
-    MON -- "Datos de implementación,\ncovariables, fidelidad" --> EVAL
-    EVAL -- "Retroalimentación:\n¿qué ajustar?" --> MON
+  subgraph cluster_eval {
+    label = 'Evaluación de impacto'
+    style = 'filled,rounded'
+    color = '#185FA5'
+    fillcolor = '#E8F4FD'
+    fontname = Helvetica
+    fontsize = 12
 
-    style MON fill:#E8F5E9,stroke:#0F6E56,color:#000
-    style EVAL fill:#E8F4FD,stroke:#185FA5,color:#000
+    E1 [label = 'Línea base', fillcolor = '#D6E9F8', color = '#185FA5']
+    E2 [label = 'Datos de\\nseguimiento', fillcolor = '#D6E9F8', color = '#185FA5']
+    E3 [label = 'Análisis causal\\ndel efecto', fillcolor = '#D6E9F8', color = '#185FA5']
+    E1 -> E2 -> E3
+  }
+
+  subgraph cluster_mon {
+    label = 'Sistema de monitoreo'
+    style = 'filled,rounded'
+    color = '#0F6E56'
+    fillcolor = '#E8F5E9'
+    fontname = Helvetica
+    fontsize = 12
+
+    M1 [label = 'Registros de\\nactividades', fillcolor = '#CDE9D6', color = '#0F6E56']
+    M2 [label = 'Seguimiento\\nde productos', fillcolor = '#CDE9D6', color = '#0F6E56']
+    M3 [label = 'Indicadores de\\ncobertura y calidad', fillcolor = '#CDE9D6', color = '#0F6E56']
+    M1 -> M2 -> M3
+  }
+
+  E2 -> M2 [label = 'Retroalimentación:\\n¿qué ajustar?', constraint = false]
+  M2 -> E2 [label = 'Datos de implementación,\\ncovariables, fidelidad', constraint = false]
+}
+")
 ```
 
 ## ¿Qué datos de monitoreo sirven para la evaluación?
