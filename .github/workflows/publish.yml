@@ -44,6 +44,7 @@ jobs:
             any::rddensity
             any::pwr
             any::patchwork
+            any::DiagrammeR
 
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
