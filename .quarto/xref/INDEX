@@ -1,0 +1,119 @@
+{
+  "index.qmd": {
+    "index.html": "f463f13b"
+  },
+  "capitulos/00-bienvenida.qmd": {
+    "00-bienvenida.html": "cba8feef"
+  },
+  "capitulos/00-que-es-evaluacion.qmd": {
+    "00-que-es-evaluacion.html": "cf98c53c"
+  },
+  "capitulos/00-teoria-de-cambio.qmd": {
+    "00-teoria-de-cambio.html": "24cca2fa"
+  },
+  "capitulos/01-marco-logico.qmd": {
+    "01-marco-logico.html": "68e6f292"
+  },
+  "capitulos/01-recoleccion-datos.qmd": {
+    "01-recoleccion-datos.html": "3cded22f"
+  },
+  "capitulos/01-linea-base.qmd": {
+    "01-linea-base.html": "2c56cb07"
+  },
+  "capitulos/01-monitoreo-a-evaluacion.qmd": {
+    "01-monitoreo-a-evaluacion.html": "2c585b58"
+  },
+  "capitulos/02-autodiagnostico.qmd": {
+    "02-autodiagnostico.html": "f71fa80b"
+  },
+  "capitulos/03-intro-cuantitativa.qmd": {
+    "03-intro-cuantitativa.html": "78ce5fb6"
+  },
+  "capitulos/03-rct.qmd": {
+    "03-rct.html": "d8496207"
+  },
+  "capitulos/03-did.qmd": {
+    "03-did.html": "3ec10578"
+  },
+  "capitulos/03-matching.qmd": {
+    "03-matching.html": "55319451"
+  },
+  "capitulos/03-iv.qmd": {
+    "03-iv.html": "35ac1d41"
+  },
+  "capitulos/03-rdd.qmd": {
+    "03-rdd.html": "5cf5aea4"
+  },
+  "capitulos/03-poder-muestra.qmd": {
+    "03-poder-muestra.html": "91088780"
+  },
+  "capitulos/04-intro-cualitativa.qmd": {
+    "04-intro-cualitativa.html": "4e4874ba"
+  },
+  "capitulos/04-systems-mapping.qmd": {
+    "04-systems-mapping.html": "001e8bab"
+  },
+  "capitulos/04-outcome-mapping.qmd": {
+    "04-outcome-mapping.html": "cfc5b77e"
+  },
+  "capitulos/04-outcome-harvesting.qmd": {
+    "04-outcome-harvesting.html": "44eaed28"
+  },
+  "capitulos/04-contribution-analysis.qmd": {
+    "04-contribution-analysis.html": "ec6983d0"
+  },
+  "capitulos/04-process-tracing.qmd": {
+    "04-process-tracing.html": "5a5274d0"
+  },
+  "capitulos/04-qca.qmd": {
+    "04-qca.html": "0c1c6a89"
+  },
+  "capitulos/04-quip.qmd": {
+    "04-quip.html": "e8a55efb"
+  },
+  "capitulos/05-por-que-combinar.qmd": {
+    "05-por-que-combinar.html": "27cd18d3"
+  },
+  "capitulos/05-disenos-mixtos.qmd": {
+    "05-disenos-mixtos.html": "c5333739"
+  },
+  "capitulos/05-casos-estudio.qmd": {
+    "05-casos-estudio.html": "99990964"
+  },
+  "capitulos/06-guia-ia.qmd": {
+    "06-guia-ia.html": "d69d2292"
+  },
+  "capitulos/anexo-codigo-rct.qmd": {
+    "anexo-codigo-rct.html": "8bcebbfa"
+  },
+  "capitulos/anexo-codigo-did.qmd": {
+    "anexo-codigo-did.html": "08c5464f"
+  },
+  "capitulos/anexo-codigo-matching.qmd": {
+    "anexo-codigo-matching.html": "d3236ac4"
+  },
+  "capitulos/anexo-codigo-iv.qmd": {
+    "anexo-codigo-iv.html": "81c3719d"
+  },
+  "capitulos/anexo-codigo-rdd.qmd": {
+    "anexo-codigo-rdd.html": "6e8f1364"
+  },
+  "capitulos/anexo-codigo-poder.qmd": {
+    "anexo-codigo-poder.html": "c6e1a1b1"
+  },
+  "capitulos/08-glosario.qmd": {
+    "08-glosario.html": "c6bc46f0"
+  },
+  "capitulos/08-plantillas.qmd": {
+    "08-plantillas.html": "6e33ddb3"
+  },
+  "capitulos/08-etica.qmd": {
+    "08-etica.html": "f4f21816"
+  },
+  "capitulos/08-bibliografia.qmd": {
+    "08-bibliografia.html": "ecb721d2"
+  },
+  "capitulos/08-tabla-resumen-metodos.qmd": {
+    "08-tabla-resumen-metodos.html": "a0634ed7"
+  }
+}

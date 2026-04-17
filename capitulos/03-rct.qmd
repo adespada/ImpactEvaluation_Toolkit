@@ -1,0 +1,163 @@
+# Experimentos aleatorizados (RCT) {#sec-rct}
+
+## A. Teoría y explicación {#sec-rct-teoria}
+
+### ¿Qué es un experimento aleatorizado?
+
+Suponga que un gobierno desea saber si un programa de transferencias monetarias condicionadas mejora la asistencia escolar. El problema fundamental de la evaluación de impacto es que no podemos observar qué habría pasado con los beneficiarios si **no** hubieran recibido el programa. A esto se le llama el **contrafactual**.
+
+Un experimento aleatorizado controlado (RCT, por sus siglas en inglés) resuelve este problema de manera elegante: se asigna **al azar** quién recibe el programa (grupo de tratamiento) y quién no lo recibe (grupo de control). Como la asignación es aleatoria, los dos grupos son, en promedio, idénticos en todas sus características — tanto las observables como las no observables. Cualquier diferencia posterior en los resultados se puede atribuir causalmente al programa. Como señalan @gertler2016impact, la aleatorización es el método más robusto para estimar contrafactuales porque no depende de reglas de asignación conocidas ni de supuestos sobre el comportamiento de los participantes. En la misma línea, @bernal2011 destacan que los diseños experimentales constituyen el *estándar de oro* de la evaluación de impacto precisamente porque eliminan el sesgo de selección por construcción.
+
+::: {.callout-note}
+## La idea clave
+La aleatorización garantiza que el grupo de control es un contrafactual válido para el grupo de tratamiento. La diferencia de promedios entre ambos grupos es una estimación **insesgada** del efecto causal del programa.
+:::
+
+### Un ejemplo clásico: PROGRESA en México
+
+Uno de los RCT más influyentes en política social es el programa PROGRESA (hoy Prospera/Oportunidades) en México, implementado en 1998. El gobierno seleccionó aleatoriamente 320 comunidades rurales para recibir transferencias monetarias condicionadas a que las familias enviaran a sus hijos a la escuela y asistieran a consultas de salud. Otras 186 comunidades sirvieron como grupo de control durante la fase inicial. Esta evaluación demostró aumentos significativos en la matrícula escolar, especialmente entre niñas, y se convirtió en un modelo para programas similares en toda América Latina.
+
+Cabe señalar que @gertler2016impact utilizan a lo largo de su libro un programa ficticio llamado HISP (*Health Insurance Subsidy Program*) como ejemplo pedagógico de asignación aleatoria, inspirado en evaluaciones reales como la de PROGRESA. La experiencia de este programa ilustra un punto central: la asignación aleatoria no solo permite medir impactos de forma rigurosa, sino que también genera la evidencia necesaria para que los tomadores de decisiones puedan justificar la expansión o el rediseño de un programa con base en resultados concretos [@gertler2016impact; @bernal2011].
+
+```{r}
+#| label: fig-rct-concepto
+#| fig-cap: "Concepto de un experimento aleatorizado: comparación de resultados entre grupo tratado y grupo de control"
+#| echo: false
+
+library(ggplot2)
+
+set.seed(42)
+n <- 200
+
+datos_concepto <- data.frame(
+  grupo = rep(c("Tratamiento", "Control"), each = n),
+  resultado = c(rnorm(n, mean = 72, sd = 10),
+                rnorm(n, mean = 65, sd = 10))
+)
+
+medias <- aggregate(resultado ~ grupo, data = datos_concepto, FUN = mean)
+
+ggplot(datos_concepto, aes(x = resultado, fill = grupo)) +
+  geom_density(alpha = 0.5, color = NA) +
+  geom_vline(data = medias, aes(xintercept = resultado, color = grupo),
+             linetype = "dashed", linewidth = 1) +
+  annotate("segment", x = medias$resultado[1], xend = medias$resultado[2],
+           y = 0.038, yend = 0.038,
+           arrow = arrow(length = unit(0.2, "cm"), ends = "both"),
+           color = "#BA7517", linewidth = 0.8) +
+  annotate("text", x = mean(medias$resultado), y = 0.041,
+           label = "Efecto del\ntratamiento (ATE)",
+           color = "#BA7517", fontface = "bold", size = 3.5) +
+  scale_fill_manual(values = c("Control" = "#185FA5",
+                                "Tratamiento" = "#D85A30")) +
+  scale_color_manual(values = c("Control" = "#185FA5",
+                                 "Tratamiento" = "#D85A30")) +
+  labs(x = "Variable de resultado", y = "Densidad",
+       fill = NULL, color = NULL,
+       title = "RCT: la diferencia de medias es el efecto causal") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold")) +
+  guides(color = "none")
+```
+
+### La fórmula
+
+El estimador del efecto promedio del tratamiento (ATE) en un RCT es simplemente la diferencia de medias entre los dos grupos:
+
+$$
+\hat{\tau}_{ATE} = \bar{Y}_{tratamiento} - \bar{Y}_{control}
+$$
+
+Donde:
+
+- $\bar{Y}_{tratamiento}$: promedio del resultado en el grupo que recibió el programa
+- $\bar{Y}_{control}$: promedio del resultado en el grupo de control
+
+### Niveles de aleatorización
+
+Un aspecto fundamental en el diseño de un RCT es la **unidad de aleatorización**. @gertler2016impact distinguen entre la aleatorización a nivel individual y la aleatorización por conglomerados (*clusters*), como aldeas, escuelas o centros de salud. En la práctica, la aleatorización por conglomerados es frecuente por razones operativas y políticas: resulta más sencillo asignar comunidades enteras al tratamiento que seleccionar individuos dentro de una misma comunidad. Sin embargo, como advierten @gertler2016impact y @imbens2015, la aleatorización por conglomerados requiere muestras considerablemente más grandes para alcanzar el mismo poder estadístico que la aleatorización individual, debido a la correlación intra-conglomerado entre las observaciones. El caso de PROGRESA es ilustrativo: la aleatorización se realizó a nivel de comunidad, no de familia, precisamente porque administrar el programa de forma diferencial dentro de una misma localidad habría sido políticamente inviable.
+
+### En forma de regresión
+
+En la práctica, el efecto se estima con una regresión lineal:
+
+$$
+Y_i = \beta_0 + \beta_1 \cdot T_i + \epsilon_i
+$$ {#eq-rct}
+
+Donde $T_i = 1$ si la unidad $i$ fue asignada al tratamiento y $T_i = 0$ si fue asignada al control. El coeficiente $\beta_1$ es el **efecto causal del programa**.
+
+```{r}
+#| label: tbl-rct-coeficientes
+#| tbl-cap: "¿Qué significa cada coeficiente en la regresión de un RCT?"
+#| echo: false
+
+tabla <- data.frame(
+  Coeficiente = c("β₀", "β₁"),
+  Nombre = c("Intercepto",
+             "Efecto del tratamiento (ATE)"),
+  Interpretacion = c(
+    "Promedio del resultado en el grupo de control",
+    "Diferencia causal: cuánto cambia el resultado por recibir el programa"
+  )
+)
+
+knitr::kable(tabla, col.names = c("Coeficiente", "Nombre", "Interpretación"))
+```
+
+::: {.callout-tip}
+## ¿Por qué usar regresión si basta con una diferencia de medias?
+La regresión permite agregar **covariables** (características pre-tratamiento) que mejoran la precisión de la estimación al reducir la varianza residual, sin alterar el estimador del efecto. El modelo extendido es: $Y_i = \beta_0 + \beta_1 \cdot T_i + \mathbf{X}_i'\gamma + \epsilon_i$.
+:::
+
+### Supuestos y limitaciones
+
+::: {.callout-warning}
+## Amenazas a la validez interna
+
+Aunque la aleatorización resuelve el sesgo de selección, un RCT puede verse comprometido por varios problemas:
+
+- **Atrición diferencial**: si las personas abandonan el estudio de forma distinta en cada grupo, se pierde la comparabilidad. Por esta razón, @gertler2016impact enfatizan la importancia de verificar el **balance de línea base** entre los grupos de tratamiento y control antes de analizar los resultados. Si las características observables están balanceadas al inicio, se tiene mayor confianza en que la aleatorización fue exitosa y que la atrición no ha comprometido la validez del estudio.
+- **Incumplimiento (*non-compliance*)**: si personas asignadas al tratamiento no lo reciben, o personas del control acceden al programa. En presencia de incumplimiento, es fundamental distinguir entre dos estimadores: el **ITT** (*intention-to-treat*), que mide el efecto de haber sido *asignado* al tratamiento independientemente de si la persona lo recibió; y el **TOT** o **ATT** (*treatment-on-treated* / *average treatment effect on the treated*), que mide el efecto sobre quienes efectivamente participaron en el programa [@gertler2016impact; @bernal2011]. El ITT es generalmente más conservador pero siempre válido, mientras que el TOT requiere técnicas adicionales como variables instrumentales para su estimación consistente.
+- **Contaminación del grupo de control**: ocurre cuando miembros del grupo de comparación logran acceder al programa por vías no previstas. @gertler2016impact señalan que la contaminación reduce la diferencia observada entre los grupos y, por tanto, lleva a subestimar el impacto real del programa.
+- **Efectos de derrame (*spillovers*)**: si el tratamiento de unos afecta los resultados de otros (por ejemplo, vecinos que comparten información o recursos proporcionados por el programa).
+- **Efecto Hawthorne**: los participantes pueden cambiar su comportamiento simplemente por saberse observados.
+:::
+
+**Cuándo un RCT es una buena opción:**
+
+- El programa aún no se ha implementado y existe flexibilidad para asignar beneficiarios
+- Hay más demanda que oferta, lo que justifica éticamente una asignación por sorteo
+- Se desea la evidencia más sólida posible sobre el efecto causal
+- Es posible mantener la integridad de la asignación durante la implementación
+- Las unidades de tratamiento están suficientemente separadas para evitar efectos de derrame
+- Cuando el programa se va a escalar gradualmente y es posible aleatorizar el orden de entrada de los beneficiarios — lo que @gertler2016impact llaman *randomized rollout* o implementación escalonada, donde todas las unidades eventualmente reciben el programa pero en un orden determinado al azar
+
+**Cuándo un RCT NO es buena opción:**
+
+- El programa ya fue implementado y no hay forma de aleatorizar
+- Existen razones éticas que impiden negar el tratamiento a un grupo (por ejemplo, vacunas durante una pandemia)
+- El número de unidades es muy pequeño para que la aleatorización genere grupos balanceados
+- No es posible controlar quién recibe y quién no recibe el tratamiento
+- Los efectos de derrame entre grupos son inevitables
+
+::: {.callout-note}
+## Consideraciones éticas de la aleatorización
+La aleatorización no es inherentemente antiética. Cuando los recursos son limitados y no todos pueden recibir el programa simultáneamente, asignar por sorteo es una forma transparente y justa de distribuir los beneficios. Como argumentan @gertler2016impact, en contextos de escasez, la aleatorización puede ser el mecanismo de asignación más equitativo, ya que otorga a todos los elegibles la misma probabilidad de ser beneficiarios. Además, estos autores insisten en que una evaluación rigurosa nunca debe implicar negar beneficios exclusivamente con fines de investigación: el grupo de control debe conformarse con personas que, en ausencia de la evaluación, tampoco habrían recibido el programa. Muchos comités de ética consideran que es más cuestionable implementar un programa sin evaluarlo que aleatorizar para medir su impacto [@gerber2012].
+:::
+
+::: {.callout-tip}
+## Código y práctica
+Para el taller práctico con código R de este método, consulte el [Anexo de código: Experimentos aleatorizados](anexo-codigo-rct.qmd). Para una guía paso a paso de cómo usar IA para ejecutar este análisis, consulte la [Parte 6: Cómo hablar con la IA](06-guia-ia.qmd).
+:::
+
+::: {.callout-tip}
+## Para profundizar
+
+- @gertler2016impact, Capítulo 4: presenta el diseño experimental con el ejemplo del programa HISP y discute aleatorización por conglomerados, incumplimiento y aspectos éticos.
+- @bernal2011, Capítulo 4: ofrece una exposición detallada de los RCT con ejemplos de América Latina, incluyendo PROGRESA y otros programas de la región.
+- @gerber2012: una guía completa sobre el diseño, análisis e interpretación de experimentos de campo en ciencias sociales.
+- @imbens2015: tratamiento riguroso de la inferencia causal con énfasis en diseños experimentales y cuasi-experimentales.
+- Para una explicación intuitiva y accesible, consulte también el capítulo correspondiente en [The Effect](https://theeffectbook.net) de Nick Huntington-Klein.
+:::

@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.35">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Línea base y datos de seguimiento – Toolkit de Evaluación de Impacto</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/01-monitoreo-a-evaluacion.html" rel="next">
+<link href="../capitulos/01-recoleccion-datos.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-22b4aaf4c2978829df3684e8f2c068db.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-18c4648ec6b711cbdcb06aa220cd8088.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-6f8e7d7ac6489dfa4e33f32d5ebc9ead.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-18c4648ec6b711cbdcb06aa220cd8088.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/01-marco-logico.html">PARTE 1 — Sistemas de monitoreo</a></li><li class="breadcrumb-item"><a href="../capitulos/01-linea-base.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Línea base y datos de seguimiento</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Toolkit de Evaluación de Impacto</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/adespada/ImpactEvaluation_Toolkit" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenido al Toolkit</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 0 — Contexto y fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-bienvenida.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bienvenida y cómo usar esta guía</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-que-es-evaluacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">¿Qué es evaluación de impacto?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-teoria-de-cambio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Teoría de cambio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 1 — Sistemas de monitoreo</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-marco-logico.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Marco lógico e indicadores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-recoleccion-datos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diseño de sistemas de recolección de datos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-linea-base.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Línea base y datos de seguimiento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-monitoreo-a-evaluacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">De monitoreo a evaluación</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 2 — Herramienta de autodiagnóstico</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/02-autodiagnostico.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Herramienta de autodiagnóstico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 3 — Métodos cuantitativos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-intro-cuantitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introducción a los métodos cuantitativos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-rct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Experimentos aleatorizados (RCT)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-did.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Diferencias en diferencias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Matching y Propensity Score</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Variables instrumentales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Regresión discontinua</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-poder-muestra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poder estadístico y tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 4 — Métodos cualitativos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-intro-cualitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Introducción a métodos cualitativos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-systems-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Participatory Systems Mapping (PSM)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-outcome-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Outcome Mapping (OM)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-outcome-harvesting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Outcome Harvesting (OH)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-contribution-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Contribution Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-process-tracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Process Tracing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-qca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Qualitative Comparative Analysis (QCA)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-quip.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Qualitative Impact Protocol (QuIP)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 5 — Métodos mixtos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-por-que-combinar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">¿Cuándo y por qué combinar métodos?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-disenos-mixtos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Diseños mixtos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-casos-estudio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Casos de estudio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 6 — Cómo hablar con la IA</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/06-guia-ia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Cómo hablar con la IA para hacer una evaluación de impacto</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 7 — Anexos de código</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-rct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Código R: Experimentos aleatorizados (RCT)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-did.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Código R: Diferencias en diferencias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Código R: Variables instrumentales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Código R: Regresión discontinua</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-poder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Código R: Poder estadístico y tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 8 — Recursos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-glosario.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Glosario</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-plantillas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Plantillas descargables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-etica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Checklist ético</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-bibliografia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Bibliografía anotada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-tabla-resumen-metodos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Tabla resumen de métodos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#qué-es-una-línea-base" id="toc-qué-es-una-línea-base" class="nav-link active" data-scroll-target="#qué-es-una-línea-base"><span class="header-section-number">6.1</span> ¿Qué es una línea base?</a></li>
+  <li><a href="#qué-medir-en-la-línea-base" id="toc-qué-medir-en-la-línea-base" class="nav-link" data-scroll-target="#qué-medir-en-la-línea-base"><span class="header-section-number">6.2</span> ¿Qué medir en la línea base?</a>
+  <ul class="collapse">
+  <li><a href="#variables-según-el-método-de-evaluación-planeado" id="toc-variables-según-el-método-de-evaluación-planeado" class="nav-link" data-scroll-target="#variables-según-el-método-de-evaluación-planeado"><span class="header-section-number">6.2.1</span> Variables según el método de evaluación planeado</a></li>
+  </ul></li>
+  <li><a href="#diseño-del-cuestionario-de-línea-base" id="toc-diseño-del-cuestionario-de-línea-base" class="nav-link" data-scroll-target="#diseño-del-cuestionario-de-línea-base"><span class="header-section-number">6.3</span> Diseño del cuestionario de línea base</a>
+  <ul class="collapse">
+  <li><a href="#principios-generales" id="toc-principios-generales" class="nav-link" data-scroll-target="#principios-generales"><span class="header-section-number">6.3.1</span> Principios generales</a></li>
+  <li><a href="#ejemplo-de-cuestionario-mínimo" id="toc-ejemplo-de-cuestionario-mínimo" class="nav-link" data-scroll-target="#ejemplo-de-cuestionario-mínimo"><span class="header-section-number">6.3.2</span> Ejemplo de cuestionario mínimo</a></li>
+  </ul></li>
+  <li><a href="#datos-de-seguimiento" id="toc-datos-de-seguimiento" class="nav-link" data-scroll-target="#datos-de-seguimiento"><span class="header-section-number">6.4</span> Datos de seguimiento</a>
+  <ul class="collapse">
+  <li><a href="#consistencia-temporal" id="toc-consistencia-temporal" class="nav-link" data-scroll-target="#consistencia-temporal"><span class="header-section-number">6.4.1</span> Consistencia temporal</a></li>
+  <li><a href="#cuántas-mediciones-de-seguimiento" id="toc-cuántas-mediciones-de-seguimiento" class="nav-link" data-scroll-target="#cuántas-mediciones-de-seguimiento"><span class="header-section-number">6.4.2</span> ¿Cuántas mediciones de seguimiento?</a></li>
+  <li><a href="#atrición-el-enemigo-silencioso" id="toc-atrición-el-enemigo-silencioso" class="nav-link" data-scroll-target="#atrición-el-enemigo-silencioso"><span class="header-section-number">6.4.3</span> Atrición: el enemigo silencioso</a></li>
+  </ul></li>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen"><span class="header-section-number">6.5</span> Resumen</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/edit/main/capitulos/01-linea-base.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/01-marco-logico.html">PARTE 1 — Sistemas de monitoreo</a></li><li class="breadcrumb-item"><a href="../capitulos/01-linea-base.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Línea base y datos de seguimiento</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-linea-base" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Línea base y datos de seguimiento</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Código</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="qué-es-una-línea-base" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="qué-es-una-línea-base"><span class="header-section-number">6.1</span> ¿Qué es una línea base?</h2>
+<p>Una <strong>línea base</strong> es la medición de los indicadores clave <strong>antes</strong> de que el programa comience. Es la “foto” del punto de partida que permite, después, calcular cuánto cambió la situación.</p>
+<p>Sin línea base, no es posible saber si las condiciones mejoraron, empeoraron o se mantuvieron igual. Es como querer saber cuánto peso perdió un paciente sin haberlo pesado antes de empezar la dieta.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>¿Por qué la línea base es indispensable?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La línea base cumple tres funciones:</p>
+<ol type="1">
+<li><strong>Medir el punto de partida</strong> de las variables de resultado.</li>
+<li><strong>Verificar que los grupos de tratamiento y comparación son similares</strong> al inicio (balance de covariables).</li>
+<li><strong>Proporcionar datos para estimar el tamaño de muestra</strong> necesario para detectar el efecto esperado.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="qué-medir-en-la-línea-base" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="qué-medir-en-la-línea-base"><span class="header-section-number">6.2</span> ¿Qué medir en la línea base?</h2>
+<p>Las variables que debe incluir en su línea base dependen de su teoría de cambio y del método de evaluación que planea usar. Sin embargo, hay categorías comunes a la mayoría de programas:</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-variables-lb" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-variables-lb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;6.1: Variables a incluir en una encuesta de línea base
+</figcaption>
+<div aria-describedby="tbl-variables-lb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 27%">
+<col style="width: 32%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Categoría</th>
+<th style="text-align: left;">Descripción</th>
+<th style="text-align: left;">Ejemplo</th>
+<th style="text-align: left;">Importancia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Variables de resultado</td>
+<td style="text-align: left;">El indicador principal que el programa busca cambiar</td>
+<td style="text-align: left;">Tasa de desnutrición crónica, rendimiento escolar, ingreso per cápita</td>
+<td style="text-align: left;">Esencial — sin esto no hay evaluación</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variables de resultado</td>
+<td style="text-align: left;">Indicadores secundarios relevantes</td>
+<td style="text-align: left;">Diversidad de dieta, asistencia escolar, ahorro</td>
+<td style="text-align: left;">Importante — fortalece el análisis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Indicador de tratamiento</td>
+<td style="text-align: left;">Quién recibe o recibirá el programa</td>
+<td style="text-align: left;">1 = participante del programa, 0 = no participante</td>
+<td style="text-align: left;">Esencial — define los grupos de comparación</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Características demográficas</td>
+<td style="text-align: left;">Edad, sexo, nivel educativo, composición del hogar</td>
+<td style="text-align: left;">Edad del jefe de hogar, % de mujeres, años de educación</td>
+<td style="text-align: left;">Importante — necesarias como covariables de control</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Características socioeconómicas</td>
+<td style="text-align: left;">Ingresos, empleo, acceso a servicios, activos</td>
+<td style="text-align: left;">Ingreso mensual, tipo de empleo, acceso a crédito</td>
+<td style="text-align: left;">Importante — necesarias como covariables de control</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variables geográficas</td>
+<td style="text-align: left;">Ubicación, zona (rural/urbana), distancia a servicios</td>
+<td style="text-align: left;">Municipio, vereda, distancia al centro de salud más cercano</td>
+<td style="text-align: left;">Importante — permite análisis por subgrupos</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Variables específicas del programa</td>
+<td style="text-align: left;">Variables relacionadas con el mecanismo causal del programa</td>
+<td style="text-align: left;">Prácticas agrícolas actuales, conocimientos previos, actitudes</td>
+<td style="text-align: left;">Crítica — vinculada a la teoría de cambio</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variables de contexto</td>
+<td style="text-align: left;">Acceso a otros programas, eventos externos relevantes</td>
+<td style="text-align: left;">Beneficiario de Familias en Acción, presencia de otros proyectos</td>
+<td style="text-align: left;">Importante — ayuda a controlar por factores externos</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<section id="variables-según-el-método-de-evaluación-planeado" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="variables-según-el-método-de-evaluación-planeado"><span class="header-section-number">6.2.1</span> Variables según el método de evaluación planeado</h3>
+<p>Algunos métodos de evaluación requieren variables específicas en la línea base:</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-variables-por-metodo" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-variables-por-metodo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;6.2: Variables adicionales según el método de evaluación
+</figcaption>
+<div aria-describedby="tbl-variables-por-metodo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 43%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Método</th>
+<th style="text-align: left;">Variable adicional necesaria</th>
+<th style="text-align: left;">¿Por qué?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Experimento aleatorio (RCT)</td>
+<td style="text-align: left;">Variable de asignación al azar (número de sorteo, bloque de aleatorización)</td>
+<td style="text-align: left;">Permite verificar que la aleatorización funcionó correctamente</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Diferencias en diferencias (DiD)</td>
+<td style="text-align: left;">Datos de varios periodos pre-tratamiento para verificar tendencias paralelas</td>
+<td style="text-align: left;">Sin datos pre-tratamiento no puede verificar el supuesto clave del DiD</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Matching / Propensity Score</td>
+<td style="text-align: left;">El mayor número posible de covariables observables para construir el propensity score</td>
+<td style="text-align: left;">La calidad del matching depende de cuántas variables observables se incluyan</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variables instrumentales / RDD</td>
+<td style="text-align: left;">La variable que determina la elegibilidad (puntaje, ingreso, distancia al umbral)</td>
+<td style="text-align: left;">Necesita observaciones cerca del punto de corte de elegibilidad</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Métodos cualitativos</td>
+<td style="text-align: left;">Información sobre actores clave, contexto institucional, relaciones de poder</td>
+<td style="text-align: left;">Los métodos cualitativos requieren comprensión profunda del contexto</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="diseño-del-cuestionario-de-línea-base" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="diseño-del-cuestionario-de-línea-base"><span class="header-section-number">6.3</span> Diseño del cuestionario de línea base</h2>
+<section id="principios-generales" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="principios-generales"><span class="header-section-number">6.3.1</span> Principios generales</h3>
+<div class="pasos-container">
+<div class="paso">
+<p><strong>Parta de su marco lógico.</strong> Cada indicador del marco lógico que se mide con encuesta debe traducirse en una o más preguntas del cuestionario.</p>
+</div>
+<div class="paso">
+<p><strong>Use instrumentos validados cuando existan.</strong> Para muchas variables estándar (pobreza, seguridad alimentaria, salud) existen cuestionarios validados internacionalmente. Úselos en lugar de inventar preguntas nuevas.</p>
+</div>
+<div class="paso">
+<p><strong>Sea preciso en las preguntas.</strong> “¿Cuánto gana usted?” es muy diferente de “¿Cuál fue el ingreso total de su hogar en el último mes, incluyendo todos los miembros?”. La segunda es mucho mejor.</p>
+</div>
+<div class="paso">
+<p><strong>Incluya instrucciones claras para el encuestador.</strong> Cada pregunta debe indicar cómo leerla, si se acepta respuesta múltiple, qué hacer si la persona no sabe o no quiere responder.</p>
+</div>
+<div class="paso">
+<p><strong>Pilotee el cuestionario.</strong> Aplíquelo a 10-20 personas antes de la recolección real. Identifique preguntas confusas, tiempos excesivos, y opciones de respuesta faltantes.</p>
+</div>
+</div>
+</section>
+<section id="ejemplo-de-cuestionario-mínimo" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="ejemplo-de-cuestionario-mínimo"><span class="header-section-number">6.3.2</span> Ejemplo de cuestionario mínimo</h3>
+<div class="cell" data-layout-align="center">
+<div id="tbl-cuestionario-ejemplo" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cuestionario-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;6.3: Ejemplo de cuestionario de línea base para programa agrícola
+</figcaption>
+<div aria-describedby="tbl-cuestionario-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 46%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sección</th>
+<th style="text-align: left;">Pregunta</th>
+<th style="text-align: left;">Tipo de respuesta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A. Identificación</td>
+<td style="text-align: left;">A1. Código del beneficiario</td>
+<td style="text-align: left;">Texto (código predefinido)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A. Identificación</td>
+<td style="text-align: left;">A2. Municipio</td>
+<td style="text-align: left;">Selección de lista</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A. Identificación</td>
+<td style="text-align: left;">A3. Vereda</td>
+<td style="text-align: left;">Texto abierto</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A. Identificación</td>
+<td style="text-align: left;">A4. Fecha de la encuesta</td>
+<td style="text-align: left;">Fecha (DD/MM/AAAA)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B. Hogar</td>
+<td style="text-align: left;">B1. ¿Cuántas personas viven en este hogar?</td>
+<td style="text-align: left;">Numérica (entero)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B. Hogar</td>
+<td style="text-align: left;">B2. ¿Cuál es el nivel educativo más alto alcanzado por el jefe de hogar?</td>
+<td style="text-align: left;">Selección: Ninguno / Primaria / Secundaria / Técnico / Universitario</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B. Hogar</td>
+<td style="text-align: left;">B3. ¿Cuál fue el ingreso total del hogar en el último mes?</td>
+<td style="text-align: left;">Numérica (pesos colombianos)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C. Producción agrícola</td>
+<td style="text-align: left;">C1. ¿Cuántas hectáreas cultiva actualmente?</td>
+<td style="text-align: left;">Numérica (con decimales)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C. Producción agrícola</td>
+<td style="text-align: left;">C2. ¿Cuáles son los tres cultivos principales?</td>
+<td style="text-align: left;">Texto (máximo 3 respuestas)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C. Producción agrícola</td>
+<td style="text-align: left;">C3. ¿Cuántas toneladas cosechó del cultivo principal en la última temporada?</td>
+<td style="text-align: left;">Numérica (con decimales)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C. Producción agrícola</td>
+<td style="text-align: left;">C4. ¿Usa actualmente alguna de estas técnicas? (lista de técnicas del programa)</td>
+<td style="text-align: left;">Selección múltiple (marcar todas las que apliquen)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">D. Programa</td>
+<td style="text-align: left;">D1. ¿Ha recibido capacitación agrícola en los últimos 12 meses? (Sí/No)</td>
+<td style="text-align: left;">Binaria (Sí / No)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">D. Programa</td>
+<td style="text-align: left;">D2. Si sí, ¿de qué organización?</td>
+<td style="text-align: left;">Texto abierto</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="datos-de-seguimiento" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="datos-de-seguimiento"><span class="header-section-number">6.4</span> Datos de seguimiento</h2>
+<p>La línea base es solo la primera medición. Para una evaluación de impacto necesita al menos una medición posterior (<strong>seguimiento</strong> o <em>endline</em>). Algunos puntos clave:</p>
+<section id="consistencia-temporal" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="consistencia-temporal"><span class="header-section-number">6.4.1</span> Consistencia temporal</h3>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Use el mismo instrumento
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Las mediciones de seguimiento deben usar <strong>exactamente las mismas preguntas</strong> que la línea base. Si cambia la redacción, las opciones de respuesta o la forma de medir, no podrá comparar los datos de manera confiable.</p>
+</div>
+</div>
+</section>
+<section id="cuántas-mediciones-de-seguimiento" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="cuántas-mediciones-de-seguimiento"><span class="header-section-number">6.4.2</span> ¿Cuántas mediciones de seguimiento?</h3>
+<div class="cell" data-layout-align="center">
+<div id="tbl-seguimientos" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-seguimientos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;6.4: Número de mediciones según el método de evaluación
+</figcaption>
+<div aria-describedby="tbl-seguimientos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 37%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Método</th>
+<th style="text-align: left;">Mínimo necesario</th>
+<th style="text-align: left;">Ideal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">RCT (experimento aleatorio)</td>
+<td style="text-align: left;">1 (línea base + 1 seguimiento)</td>
+<td style="text-align: left;">1 línea base + 2 seguimientos (corto y largo plazo)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Diferencias en diferencias</td>
+<td style="text-align: left;">2-3 pre + 1-2 post (mínimo 3 periodos en total)</td>
+<td style="text-align: left;">3+ pre + 2+ post (para event study robusto)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Matching</td>
+<td style="text-align: left;">1 (línea base + 1 seguimiento, idealmente)</td>
+<td style="text-align: left;">Línea base + seguimiento, con datos administrativos complementarios</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Métodos cualitativos</td>
+<td style="text-align: left;">Depende del diseño — generalmente 2 rondas de recolección</td>
+<td style="text-align: left;">Rondas iterativas que permitan ajustar la indagación</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="atrición-el-enemigo-silencioso" class="level3" data-number="6.4.3">
+<h3 data-number="6.4.3" class="anchored" data-anchor-id="atrición-el-enemigo-silencioso"><span class="header-section-number">6.4.3</span> Atrición: el enemigo silencioso</h3>
+<p>La <strong>atrición</strong> ocurre cuando personas que estaban en la línea base no se encuentran en el seguimiento — porque se mudaron, no quisieron responder, o no fue posible contactarlas. La atrición es un problema grave porque:</p>
+<ul>
+<li>Reduce el tamaño de la muestra y el poder estadístico</li>
+<li>Puede introducir sesgo si las personas que se pierden son sistemáticamente diferentes (por ejemplo, si los más pobres migran)</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Cómo reducir la atrición
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Recolecte <strong>información de contacto completa</strong>: teléfono, dirección, nombre de un vecino o familiar, coordenadas GPS.</li>
+<li><strong>Explique a los participantes</strong> que serán contactados en el futuro y por qué es importante.</li>
+<li>Planifique <strong>múltiples intentos de contacto</strong> en diferentes horarios y días.</li>
+<li>Registre las <strong>razones</strong> por las que no se pudo encuestar a alguien (migración, rechazo, fallecimiento, no localizado).</li>
+<li>Presupueste un <strong>sobre-muestreo</strong> del 10-20% para compensar pérdidas esperadas.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="resumen" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="resumen"><span class="header-section-number">6.5</span> Resumen</h2>
+<p>La línea base y los datos de seguimiento son el insumo fundamental de cualquier evaluación de impacto:</p>
+<ul>
+<li>Recolecte la línea base <strong>antes</strong> de que el programa comience.</li>
+<li>Incluya variables de <strong>resultado, tratamiento, covariables y contexto</strong>.</li>
+<li>Use el <strong>mismo instrumento</strong> en todas las mediciones.</li>
+<li>Planifique contra la <strong>atrición</strong> desde el inicio.</li>
+<li>Adapte las variables a las necesidades del <strong>método de evaluación</strong> que planea usar.</li>
+</ul>
+<p>En el siguiente capítulo veremos cómo los datos de monitoreo se conectan con la evaluación de impacto: <a href="../capitulos/01-monitoreo-a-evaluacion.html">De monitoreo a evaluación</a>.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/01-recoleccion-datos.html" class="pagination-link" aria-label="Diseño de sistemas de recolección de datos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diseño de sistemas de recolección de datos</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../capitulos/01-monitoreo-a-evaluacion.html" class="pagination-link" aria-label="De monitoreo a evaluación">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">De monitoreo a evaluación</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Ejecutar el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu"># Línea base y datos de seguimiento {#sec-linea-base}</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">## ¿Qué es una línea base?</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>Una **línea base** es la medición de los indicadores clave **antes** de que el programa comience. Es la "foto" del punto de partida que permite, después, calcular cuánto cambió la situación.</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>Sin línea base, no es posible saber si las condiciones mejoraron, empeoraron o se mantuvieron igual. Es como querer saber cuánto peso perdió un paciente sin haberlo pesado antes de empezar la dieta.</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a>::: {.callout-note}</span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="fu">## ¿Por qué la línea base es indispensable?</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>La línea base cumple tres funciones:</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="ss">1. </span>**Medir el punto de partida** de las variables de resultado.</span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="ss">2. </span>**Verificar que los grupos de tratamiento y comparación son similares** al inicio (balance de covariables).</span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="ss">3. </span>**Proporcionar datos para estimar el tamaño de muestra** necesario para detectar el efecto esperado.</span>
+<span id="cb1-16"><a href="#cb1-16"></a>:::</span>
+<span id="cb1-17"><a href="#cb1-17"></a></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="fu">## ¿Qué medir en la línea base?</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a></span>
+<span id="cb1-20"><a href="#cb1-20"></a>Las variables que debe incluir en su línea base dependen de su teoría de cambio y del método de evaluación que planea usar. Sin embargo, hay categorías comunes a la mayoría de programas:</span>
+<span id="cb1-21"><a href="#cb1-21"></a></span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="in">```{r}</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a><span class="co">#| label: tbl-variables-lb</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="co">#| tbl-cap: "Variables a incluir en una encuesta de línea base"</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a></span>
+<span id="cb1-29"><a href="#cb1-29"></a>variables <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-30"><a href="#cb1-30"></a>  <span class="at">Categoria =</span> <span class="fu">c</span>(</span>
+<span id="cb1-31"><a href="#cb1-31"></a>    <span class="st">"Variables de resultado"</span>,</span>
+<span id="cb1-32"><a href="#cb1-32"></a>    <span class="st">"Variables de resultado"</span>,</span>
+<span id="cb1-33"><a href="#cb1-33"></a>    <span class="st">"Indicador de tratamiento"</span>,</span>
+<span id="cb1-34"><a href="#cb1-34"></a>    <span class="st">"Características demográficas"</span>,</span>
+<span id="cb1-35"><a href="#cb1-35"></a>    <span class="st">"Características socioeconómicas"</span>,</span>
+<span id="cb1-36"><a href="#cb1-36"></a>    <span class="st">"Variables geográficas"</span>,</span>
+<span id="cb1-37"><a href="#cb1-37"></a>    <span class="st">"Variables específicas del programa"</span>,</span>
+<span id="cb1-38"><a href="#cb1-38"></a>    <span class="st">"Variables de contexto"</span></span>
+<span id="cb1-39"><a href="#cb1-39"></a>  ),</span>
+<span id="cb1-40"><a href="#cb1-40"></a>  <span class="at">Descripcion =</span> <span class="fu">c</span>(</span>
+<span id="cb1-41"><a href="#cb1-41"></a>    <span class="st">"El indicador principal que el programa busca cambiar"</span>,</span>
+<span id="cb1-42"><a href="#cb1-42"></a>    <span class="st">"Indicadores secundarios relevantes"</span>,</span>
+<span id="cb1-43"><a href="#cb1-43"></a>    <span class="st">"Quién recibe o recibirá el programa"</span>,</span>
+<span id="cb1-44"><a href="#cb1-44"></a>    <span class="st">"Edad, sexo, nivel educativo, composición del hogar"</span>,</span>
+<span id="cb1-45"><a href="#cb1-45"></a>    <span class="st">"Ingresos, empleo, acceso a servicios, activos"</span>,</span>
+<span id="cb1-46"><a href="#cb1-46"></a>    <span class="st">"Ubicación, zona (rural/urbana), distancia a servicios"</span>,</span>
+<span id="cb1-47"><a href="#cb1-47"></a>    <span class="st">"Variables relacionadas con el mecanismo causal del programa"</span>,</span>
+<span id="cb1-48"><a href="#cb1-48"></a>    <span class="st">"Acceso a otros programas, eventos externos relevantes"</span></span>
+<span id="cb1-49"><a href="#cb1-49"></a>  ),</span>
+<span id="cb1-50"><a href="#cb1-50"></a>  <span class="at">Ejemplo =</span> <span class="fu">c</span>(</span>
+<span id="cb1-51"><a href="#cb1-51"></a>    <span class="st">"Tasa de desnutrición crónica, rendimiento escolar, ingreso per cápita"</span>,</span>
+<span id="cb1-52"><a href="#cb1-52"></a>    <span class="st">"Diversidad de dieta, asistencia escolar, ahorro"</span>,</span>
+<span id="cb1-53"><a href="#cb1-53"></a>    <span class="st">"1 = participante del programa, 0 = no participante"</span>,</span>
+<span id="cb1-54"><a href="#cb1-54"></a>    <span class="st">"Edad del jefe de hogar, % de mujeres, años de educación"</span>,</span>
+<span id="cb1-55"><a href="#cb1-55"></a>    <span class="st">"Ingreso mensual, tipo de empleo, acceso a crédito"</span>,</span>
+<span id="cb1-56"><a href="#cb1-56"></a>    <span class="st">"Municipio, vereda, distancia al centro de salud más cercano"</span>,</span>
+<span id="cb1-57"><a href="#cb1-57"></a>    <span class="st">"Prácticas agrícolas actuales, conocimientos previos, actitudes"</span>,</span>
+<span id="cb1-58"><a href="#cb1-58"></a>    <span class="st">"Beneficiario de Familias en Acción, presencia de otros proyectos"</span></span>
+<span id="cb1-59"><a href="#cb1-59"></a>  ),</span>
+<span id="cb1-60"><a href="#cb1-60"></a>  <span class="at">Importancia =</span> <span class="fu">c</span>(</span>
+<span id="cb1-61"><a href="#cb1-61"></a>    <span class="st">"Esencial — sin esto no hay evaluación"</span>,</span>
+<span id="cb1-62"><a href="#cb1-62"></a>    <span class="st">"Importante — fortalece el análisis"</span>,</span>
+<span id="cb1-63"><a href="#cb1-63"></a>    <span class="st">"Esencial — define los grupos de comparación"</span>,</span>
+<span id="cb1-64"><a href="#cb1-64"></a>    <span class="st">"Importante — necesarias como covariables de control"</span>,</span>
+<span id="cb1-65"><a href="#cb1-65"></a>    <span class="st">"Importante — necesarias como covariables de control"</span>,</span>
+<span id="cb1-66"><a href="#cb1-66"></a>    <span class="st">"Importante — permite análisis por subgrupos"</span>,</span>
+<span id="cb1-67"><a href="#cb1-67"></a>    <span class="st">"Crítica — vinculada a la teoría de cambio"</span>,</span>
+<span id="cb1-68"><a href="#cb1-68"></a>    <span class="st">"Importante — ayuda a controlar por factores externos"</span></span>
+<span id="cb1-69"><a href="#cb1-69"></a>  )</span>
+<span id="cb1-70"><a href="#cb1-70"></a>)</span>
+<span id="cb1-71"><a href="#cb1-71"></a></span>
+<span id="cb1-72"><a href="#cb1-72"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(variables,</span>
+<span id="cb1-73"><a href="#cb1-73"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Categoría"</span>, <span class="st">"Descripción"</span>, <span class="st">"Ejemplo"</span>, <span class="st">"Importancia"</span>))</span>
+<span id="cb1-74"><a href="#cb1-74"></a><span class="in">```</span></span>
+<span id="cb1-75"><a href="#cb1-75"></a></span>
+<span id="cb1-76"><a href="#cb1-76"></a><span class="fu">### Variables según el método de evaluación planeado</span></span>
+<span id="cb1-77"><a href="#cb1-77"></a></span>
+<span id="cb1-78"><a href="#cb1-78"></a>Algunos métodos de evaluación requieren variables específicas en la línea base:</span>
+<span id="cb1-79"><a href="#cb1-79"></a></span>
+<span id="cb1-82"><a href="#cb1-82"></a><span class="in">```{r}</span></span>
+<span id="cb1-83"><a href="#cb1-83"></a><span class="co">#| label: tbl-variables-por-metodo</span></span>
+<span id="cb1-84"><a href="#cb1-84"></a><span class="co">#| tbl-cap: "Variables adicionales según el método de evaluación"</span></span>
+<span id="cb1-85"><a href="#cb1-85"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-86"><a href="#cb1-86"></a></span>
+<span id="cb1-87"><a href="#cb1-87"></a>por_metodo <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-88"><a href="#cb1-88"></a>  <span class="at">Metodo =</span> <span class="fu">c</span>(</span>
+<span id="cb1-89"><a href="#cb1-89"></a>    <span class="st">"Experimento aleatorio (RCT)"</span>,</span>
+<span id="cb1-90"><a href="#cb1-90"></a>    <span class="st">"Diferencias en diferencias (DiD)"</span>,</span>
+<span id="cb1-91"><a href="#cb1-91"></a>    <span class="st">"Matching / Propensity Score"</span>,</span>
+<span id="cb1-92"><a href="#cb1-92"></a>    <span class="st">"Variables instrumentales / RDD"</span>,</span>
+<span id="cb1-93"><a href="#cb1-93"></a>    <span class="st">"Métodos cualitativos"</span></span>
+<span id="cb1-94"><a href="#cb1-94"></a>  ),</span>
+<span id="cb1-95"><a href="#cb1-95"></a>  <span class="at">Variable_extra =</span> <span class="fu">c</span>(</span>
+<span id="cb1-96"><a href="#cb1-96"></a>    <span class="st">"Variable de asignación al azar (número de sorteo, bloque de aleatorización)"</span>,</span>
+<span id="cb1-97"><a href="#cb1-97"></a>    <span class="st">"Datos de varios periodos pre-tratamiento para verificar tendencias paralelas"</span>,</span>
+<span id="cb1-98"><a href="#cb1-98"></a>    <span class="st">"El mayor número posible de covariables observables para construir el propensity score"</span>,</span>
+<span id="cb1-99"><a href="#cb1-99"></a>    <span class="st">"La variable que determina la elegibilidad (puntaje, ingreso, distancia al umbral)"</span>,</span>
+<span id="cb1-100"><a href="#cb1-100"></a>    <span class="st">"Información sobre actores clave, contexto institucional, relaciones de poder"</span></span>
+<span id="cb1-101"><a href="#cb1-101"></a>  ),</span>
+<span id="cb1-102"><a href="#cb1-102"></a>  <span class="at">Por_que =</span> <span class="fu">c</span>(</span>
+<span id="cb1-103"><a href="#cb1-103"></a>    <span class="st">"Permite verificar que la aleatorización funcionó correctamente"</span>,</span>
+<span id="cb1-104"><a href="#cb1-104"></a>    <span class="st">"Sin datos pre-tratamiento no puede verificar el supuesto clave del DiD"</span>,</span>
+<span id="cb1-105"><a href="#cb1-105"></a>    <span class="st">"La calidad del matching depende de cuántas variables observables se incluyan"</span>,</span>
+<span id="cb1-106"><a href="#cb1-106"></a>    <span class="st">"Necesita observaciones cerca del punto de corte de elegibilidad"</span>,</span>
+<span id="cb1-107"><a href="#cb1-107"></a>    <span class="st">"Los métodos cualitativos requieren comprensión profunda del contexto"</span></span>
+<span id="cb1-108"><a href="#cb1-108"></a>  )</span>
+<span id="cb1-109"><a href="#cb1-109"></a>)</span>
+<span id="cb1-110"><a href="#cb1-110"></a></span>
+<span id="cb1-111"><a href="#cb1-111"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(por_metodo,</span>
+<span id="cb1-112"><a href="#cb1-112"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Método"</span>, <span class="st">"Variable adicional necesaria"</span>, <span class="st">"¿Por qué?"</span>))</span>
+<span id="cb1-113"><a href="#cb1-113"></a><span class="in">```</span></span>
+<span id="cb1-114"><a href="#cb1-114"></a></span>
+<span id="cb1-115"><a href="#cb1-115"></a><span class="fu">## Diseño del cuestionario de línea base</span></span>
+<span id="cb1-116"><a href="#cb1-116"></a></span>
+<span id="cb1-117"><a href="#cb1-117"></a><span class="fu">### Principios generales</span></span>
+<span id="cb1-118"><a href="#cb1-118"></a></span>
+<span id="cb1-119"><a href="#cb1-119"></a>::: {.pasos-container}</span>
+<span id="cb1-120"><a href="#cb1-120"></a>::: {.paso}</span>
+<span id="cb1-121"><a href="#cb1-121"></a>**Parta de su marco lógico.** Cada indicador del marco lógico que se mide con encuesta debe traducirse en una o más preguntas del cuestionario.</span>
+<span id="cb1-122"><a href="#cb1-122"></a>:::</span>
+<span id="cb1-123"><a href="#cb1-123"></a></span>
+<span id="cb1-124"><a href="#cb1-124"></a>::: {.paso}</span>
+<span id="cb1-125"><a href="#cb1-125"></a>**Use instrumentos validados cuando existan.** Para muchas variables estándar (pobreza, seguridad alimentaria, salud) existen cuestionarios validados internacionalmente. Úselos en lugar de inventar preguntas nuevas.</span>
+<span id="cb1-126"><a href="#cb1-126"></a>:::</span>
+<span id="cb1-127"><a href="#cb1-127"></a></span>
+<span id="cb1-128"><a href="#cb1-128"></a>::: {.paso}</span>
+<span id="cb1-129"><a href="#cb1-129"></a>**Sea preciso en las preguntas.** "¿Cuánto gana usted?" es muy diferente de "¿Cuál fue el ingreso total de su hogar en el último mes, incluyendo todos los miembros?". La segunda es mucho mejor.</span>
+<span id="cb1-130"><a href="#cb1-130"></a>:::</span>
+<span id="cb1-131"><a href="#cb1-131"></a></span>
+<span id="cb1-132"><a href="#cb1-132"></a>::: {.paso}</span>
+<span id="cb1-133"><a href="#cb1-133"></a>**Incluya instrucciones claras para el encuestador.** Cada pregunta debe indicar cómo leerla, si se acepta respuesta múltiple, qué hacer si la persona no sabe o no quiere responder.</span>
+<span id="cb1-134"><a href="#cb1-134"></a>:::</span>
+<span id="cb1-135"><a href="#cb1-135"></a></span>
+<span id="cb1-136"><a href="#cb1-136"></a>::: {.paso}</span>
+<span id="cb1-137"><a href="#cb1-137"></a>**Pilotee el cuestionario.** Aplíquelo a 10-20 personas antes de la recolección real. Identifique preguntas confusas, tiempos excesivos, y opciones de respuesta faltantes.</span>
+<span id="cb1-138"><a href="#cb1-138"></a>:::</span>
+<span id="cb1-139"><a href="#cb1-139"></a>:::</span>
+<span id="cb1-140"><a href="#cb1-140"></a></span>
+<span id="cb1-141"><a href="#cb1-141"></a><span class="fu">### Ejemplo de cuestionario mínimo</span></span>
+<span id="cb1-142"><a href="#cb1-142"></a></span>
+<span id="cb1-145"><a href="#cb1-145"></a><span class="in">```{r}</span></span>
+<span id="cb1-146"><a href="#cb1-146"></a><span class="co">#| label: tbl-cuestionario-ejemplo</span></span>
+<span id="cb1-147"><a href="#cb1-147"></a><span class="co">#| tbl-cap: "Ejemplo de cuestionario de línea base para programa agrícola"</span></span>
+<span id="cb1-148"><a href="#cb1-148"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-149"><a href="#cb1-149"></a></span>
+<span id="cb1-150"><a href="#cb1-150"></a>cuestionario <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-151"><a href="#cb1-151"></a>  <span class="at">Seccion =</span> <span class="fu">c</span>(</span>
+<span id="cb1-152"><a href="#cb1-152"></a>    <span class="fu">rep</span>(<span class="st">"A. Identificación"</span>, <span class="dv">4</span>),</span>
+<span id="cb1-153"><a href="#cb1-153"></a>    <span class="fu">rep</span>(<span class="st">"B. Hogar"</span>, <span class="dv">3</span>),</span>
+<span id="cb1-154"><a href="#cb1-154"></a>    <span class="fu">rep</span>(<span class="st">"C. Producción agrícola"</span>, <span class="dv">4</span>),</span>
+<span id="cb1-155"><a href="#cb1-155"></a>    <span class="fu">rep</span>(<span class="st">"D. Programa"</span>, <span class="dv">2</span>)</span>
+<span id="cb1-156"><a href="#cb1-156"></a>  ),</span>
+<span id="cb1-157"><a href="#cb1-157"></a>  <span class="at">Pregunta =</span> <span class="fu">c</span>(</span>
+<span id="cb1-158"><a href="#cb1-158"></a>    <span class="st">"A1. Código del beneficiario"</span>,</span>
+<span id="cb1-159"><a href="#cb1-159"></a>    <span class="st">"A2. Municipio"</span>,</span>
+<span id="cb1-160"><a href="#cb1-160"></a>    <span class="st">"A3. Vereda"</span>,</span>
+<span id="cb1-161"><a href="#cb1-161"></a>    <span class="st">"A4. Fecha de la encuesta"</span>,</span>
+<span id="cb1-162"><a href="#cb1-162"></a>    <span class="st">"B1. ¿Cuántas personas viven en este hogar?"</span>,</span>
+<span id="cb1-163"><a href="#cb1-163"></a>    <span class="st">"B2. ¿Cuál es el nivel educativo más alto alcanzado por el jefe de hogar?"</span>,</span>
+<span id="cb1-164"><a href="#cb1-164"></a>    <span class="st">"B3. ¿Cuál fue el ingreso total del hogar en el último mes?"</span>,</span>
+<span id="cb1-165"><a href="#cb1-165"></a>    <span class="st">"C1. ¿Cuántas hectáreas cultiva actualmente?"</span>,</span>
+<span id="cb1-166"><a href="#cb1-166"></a>    <span class="st">"C2. ¿Cuáles son los tres cultivos principales?"</span>,</span>
+<span id="cb1-167"><a href="#cb1-167"></a>    <span class="st">"C3. ¿Cuántas toneladas cosechó del cultivo principal en la última temporada?"</span>,</span>
+<span id="cb1-168"><a href="#cb1-168"></a>    <span class="st">"C4. ¿Usa actualmente alguna de estas técnicas? (lista de técnicas del programa)"</span>,</span>
+<span id="cb1-169"><a href="#cb1-169"></a>    <span class="st">"D1. ¿Ha recibido capacitación agrícola en los últimos 12 meses? (Sí/No)"</span>,</span>
+<span id="cb1-170"><a href="#cb1-170"></a>    <span class="st">"D2. Si sí, ¿de qué organización?"</span></span>
+<span id="cb1-171"><a href="#cb1-171"></a>  ),</span>
+<span id="cb1-172"><a href="#cb1-172"></a>  <span class="at">Tipo =</span> <span class="fu">c</span>(</span>
+<span id="cb1-173"><a href="#cb1-173"></a>    <span class="st">"Texto (código predefinido)"</span>,</span>
+<span id="cb1-174"><a href="#cb1-174"></a>    <span class="st">"Selección de lista"</span>,</span>
+<span id="cb1-175"><a href="#cb1-175"></a>    <span class="st">"Texto abierto"</span>,</span>
+<span id="cb1-176"><a href="#cb1-176"></a>    <span class="st">"Fecha (DD/MM/AAAA)"</span>,</span>
+<span id="cb1-177"><a href="#cb1-177"></a>    <span class="st">"Numérica (entero)"</span>,</span>
+<span id="cb1-178"><a href="#cb1-178"></a>    <span class="st">"Selección: Ninguno / Primaria / Secundaria / Técnico / Universitario"</span>,</span>
+<span id="cb1-179"><a href="#cb1-179"></a>    <span class="st">"Numérica (pesos colombianos)"</span>,</span>
+<span id="cb1-180"><a href="#cb1-180"></a>    <span class="st">"Numérica (con decimales)"</span>,</span>
+<span id="cb1-181"><a href="#cb1-181"></a>    <span class="st">"Texto (máximo 3 respuestas)"</span>,</span>
+<span id="cb1-182"><a href="#cb1-182"></a>    <span class="st">"Numérica (con decimales)"</span>,</span>
+<span id="cb1-183"><a href="#cb1-183"></a>    <span class="st">"Selección múltiple (marcar todas las que apliquen)"</span>,</span>
+<span id="cb1-184"><a href="#cb1-184"></a>    <span class="st">"Binaria (Sí / No)"</span>,</span>
+<span id="cb1-185"><a href="#cb1-185"></a>    <span class="st">"Texto abierto"</span></span>
+<span id="cb1-186"><a href="#cb1-186"></a>  )</span>
+<span id="cb1-187"><a href="#cb1-187"></a>)</span>
+<span id="cb1-188"><a href="#cb1-188"></a></span>
+<span id="cb1-189"><a href="#cb1-189"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(cuestionario,</span>
+<span id="cb1-190"><a href="#cb1-190"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Sección"</span>, <span class="st">"Pregunta"</span>, <span class="st">"Tipo de respuesta"</span>))</span>
+<span id="cb1-191"><a href="#cb1-191"></a><span class="in">```</span></span>
+<span id="cb1-192"><a href="#cb1-192"></a></span>
+<span id="cb1-193"><a href="#cb1-193"></a><span class="fu">## Datos de seguimiento</span></span>
+<span id="cb1-194"><a href="#cb1-194"></a></span>
+<span id="cb1-195"><a href="#cb1-195"></a>La línea base es solo la primera medición. Para una evaluación de impacto necesita al menos una medición posterior (**seguimiento** o *endline*). Algunos puntos clave:</span>
+<span id="cb1-196"><a href="#cb1-196"></a></span>
+<span id="cb1-197"><a href="#cb1-197"></a><span class="fu">### Consistencia temporal</span></span>
+<span id="cb1-198"><a href="#cb1-198"></a></span>
+<span id="cb1-199"><a href="#cb1-199"></a>::: {.callout-warning}</span>
+<span id="cb1-200"><a href="#cb1-200"></a><span class="fu">## Use el mismo instrumento</span></span>
+<span id="cb1-201"><a href="#cb1-201"></a>Las mediciones de seguimiento deben usar **exactamente las mismas preguntas** que la línea base. Si cambia la redacción, las opciones de respuesta o la forma de medir, no podrá comparar los datos de manera confiable.</span>
+<span id="cb1-202"><a href="#cb1-202"></a>:::</span>
+<span id="cb1-203"><a href="#cb1-203"></a></span>
+<span id="cb1-204"><a href="#cb1-204"></a><span class="fu">### ¿Cuántas mediciones de seguimiento?</span></span>
+<span id="cb1-205"><a href="#cb1-205"></a></span>
+<span id="cb1-208"><a href="#cb1-208"></a><span class="in">```{r}</span></span>
+<span id="cb1-209"><a href="#cb1-209"></a><span class="co">#| label: tbl-seguimientos</span></span>
+<span id="cb1-210"><a href="#cb1-210"></a><span class="co">#| tbl-cap: "Número de mediciones según el método de evaluación"</span></span>
+<span id="cb1-211"><a href="#cb1-211"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-212"><a href="#cb1-212"></a></span>
+<span id="cb1-213"><a href="#cb1-213"></a>seguimientos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-214"><a href="#cb1-214"></a>  <span class="at">Metodo =</span> <span class="fu">c</span>(</span>
+<span id="cb1-215"><a href="#cb1-215"></a>    <span class="st">"RCT (experimento aleatorio)"</span>,</span>
+<span id="cb1-216"><a href="#cb1-216"></a>    <span class="st">"Diferencias en diferencias"</span>,</span>
+<span id="cb1-217"><a href="#cb1-217"></a>    <span class="st">"Matching"</span>,</span>
+<span id="cb1-218"><a href="#cb1-218"></a>    <span class="st">"Métodos cualitativos"</span></span>
+<span id="cb1-219"><a href="#cb1-219"></a>  ),</span>
+<span id="cb1-220"><a href="#cb1-220"></a>  <span class="at">Minimo =</span> <span class="fu">c</span>(</span>
+<span id="cb1-221"><a href="#cb1-221"></a>    <span class="st">"1 (línea base + 1 seguimiento)"</span>,</span>
+<span id="cb1-222"><a href="#cb1-222"></a>    <span class="st">"2-3 pre + 1-2 post (mínimo 3 periodos en total)"</span>,</span>
+<span id="cb1-223"><a href="#cb1-223"></a>    <span class="st">"1 (línea base + 1 seguimiento, idealmente)"</span>,</span>
+<span id="cb1-224"><a href="#cb1-224"></a>    <span class="st">"Depende del diseño — generalmente 2 rondas de recolección"</span></span>
+<span id="cb1-225"><a href="#cb1-225"></a>  ),</span>
+<span id="cb1-226"><a href="#cb1-226"></a>  <span class="at">Ideal =</span> <span class="fu">c</span>(</span>
+<span id="cb1-227"><a href="#cb1-227"></a>    <span class="st">"1 línea base + 2 seguimientos (corto y largo plazo)"</span>,</span>
+<span id="cb1-228"><a href="#cb1-228"></a>    <span class="st">"3+ pre + 2+ post (para event study robusto)"</span>,</span>
+<span id="cb1-229"><a href="#cb1-229"></a>    <span class="st">"Línea base + seguimiento, con datos administrativos complementarios"</span>,</span>
+<span id="cb1-230"><a href="#cb1-230"></a>    <span class="st">"Rondas iterativas que permitan ajustar la indagación"</span></span>
+<span id="cb1-231"><a href="#cb1-231"></a>  )</span>
+<span id="cb1-232"><a href="#cb1-232"></a>)</span>
+<span id="cb1-233"><a href="#cb1-233"></a></span>
+<span id="cb1-234"><a href="#cb1-234"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(seguimientos,</span>
+<span id="cb1-235"><a href="#cb1-235"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Método"</span>, <span class="st">"Mínimo necesario"</span>, <span class="st">"Ideal"</span>))</span>
+<span id="cb1-236"><a href="#cb1-236"></a><span class="in">```</span></span>
+<span id="cb1-237"><a href="#cb1-237"></a></span>
+<span id="cb1-238"><a href="#cb1-238"></a><span class="fu">### Atrición: el enemigo silencioso</span></span>
+<span id="cb1-239"><a href="#cb1-239"></a></span>
+<span id="cb1-240"><a href="#cb1-240"></a>La **atrición** ocurre cuando personas que estaban en la línea base no se encuentran en el seguimiento — porque se mudaron, no quisieron responder, o no fue posible contactarlas. La atrición es un problema grave porque:</span>
+<span id="cb1-241"><a href="#cb1-241"></a></span>
+<span id="cb1-242"><a href="#cb1-242"></a><span class="ss">- </span>Reduce el tamaño de la muestra y el poder estadístico</span>
+<span id="cb1-243"><a href="#cb1-243"></a><span class="ss">- </span>Puede introducir sesgo si las personas que se pierden son sistemáticamente diferentes (por ejemplo, si los más pobres migran)</span>
+<span id="cb1-244"><a href="#cb1-244"></a></span>
+<span id="cb1-245"><a href="#cb1-245"></a>::: {.callout-tip}</span>
+<span id="cb1-246"><a href="#cb1-246"></a><span class="fu">## Cómo reducir la atrición</span></span>
+<span id="cb1-247"><a href="#cb1-247"></a></span>
+<span id="cb1-248"><a href="#cb1-248"></a><span class="ss">- </span>Recolecte **información de contacto completa**: teléfono, dirección, nombre de un vecino o familiar, coordenadas GPS.</span>
+<span id="cb1-249"><a href="#cb1-249"></a><span class="ss">- </span>**Explique a los participantes** que serán contactados en el futuro y por qué es importante.</span>
+<span id="cb1-250"><a href="#cb1-250"></a><span class="ss">- </span>Planifique **múltiples intentos de contacto** en diferentes horarios y días.</span>
+<span id="cb1-251"><a href="#cb1-251"></a><span class="ss">- </span>Registre las **razones** por las que no se pudo encuestar a alguien (migración, rechazo, fallecimiento, no localizado).</span>
+<span id="cb1-252"><a href="#cb1-252"></a><span class="ss">- </span>Presupueste un **sobre-muestreo** del 10-20% para compensar pérdidas esperadas.</span>
+<span id="cb1-253"><a href="#cb1-253"></a>:::</span>
+<span id="cb1-254"><a href="#cb1-254"></a></span>
+<span id="cb1-255"><a href="#cb1-255"></a><span class="fu">## Resumen</span></span>
+<span id="cb1-256"><a href="#cb1-256"></a></span>
+<span id="cb1-257"><a href="#cb1-257"></a>La línea base y los datos de seguimiento son el insumo fundamental de cualquier evaluación de impacto:</span>
+<span id="cb1-258"><a href="#cb1-258"></a></span>
+<span id="cb1-259"><a href="#cb1-259"></a><span class="ss">- </span>Recolecte la línea base **antes** de que el programa comience.</span>
+<span id="cb1-260"><a href="#cb1-260"></a><span class="ss">- </span>Incluya variables de **resultado, tratamiento, covariables y contexto**.</span>
+<span id="cb1-261"><a href="#cb1-261"></a><span class="ss">- </span>Use el **mismo instrumento** en todas las mediciones.</span>
+<span id="cb1-262"><a href="#cb1-262"></a><span class="ss">- </span>Planifique contra la **atrición** desde el inicio.</span>
+<span id="cb1-263"><a href="#cb1-263"></a><span class="ss">- </span>Adapte las variables a las necesidades del **método de evaluación** que planea usar.</span>
+<span id="cb1-264"><a href="#cb1-264"></a></span>
+<span id="cb1-265"><a href="#cb1-265"></a>En el siguiente capítulo veremos cómo los datos de monitoreo se conectan con la evaluación de impacto: <span class="co">[</span><span class="ot">De monitoreo a evaluación</span><span class="co">](01-monitoreo-a-evaluacion.qmd)</span>.</span>
+</code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/edit/main/capitulos/01-linea-base.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

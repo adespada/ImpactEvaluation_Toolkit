@@ -1,0 +1,143 @@
+# De monitoreo a evaluación {#sec-monitoreo-evaluacion}
+
+## El monitoreo como cimiento de la evaluación
+
+El monitoreo y la evaluación de impacto no son actividades independientes. Un buen sistema de monitoreo proporciona los datos que la evaluación necesita, y la evaluación le da sentido a los datos que el monitoreo recolecta.
+
+Sin embargo, hay una diferencia fundamental entre ambos:
+
+- El **monitoreo** responde: *¿estamos haciendo lo que dijimos que haríamos?*
+- La **evaluación de impacto** responde: *¿lo que hicimos está generando el cambio que esperábamos?*
+
+```{mermaid}
+%%| fig-cap: "Cómo el monitoreo alimenta la evaluación de impacto"
+%%| label: fig-monitoreo-evaluacion
+
+flowchart LR
+    subgraph MON["Sistema de monitoreo"]
+        direction TB
+        M1["Registros de\nactividades"] --> M2["Seguimiento\nde productos"]
+        M2 --> M3["Indicadores de\ncobertura y calidad"]
+    end
+
+    subgraph EVAL["Evaluación de impacto"]
+        direction TB
+        E1["Línea base"] --> E2["Datos de\nseguimiento"]
+        E2 --> E3["Análisis causal\ndel efecto"]
+    end
+
+    MON -- "Datos de implementación,\ncovariables, fidelidad" --> EVAL
+    EVAL -- "Retroalimentación:\n¿qué ajustar?" --> MON
+
+    style MON fill:#E8F5E9,stroke:#0F6E56,color:#000
+    style EVAL fill:#E8F4FD,stroke:#185FA5,color:#000
+```
+
+## ¿Qué datos de monitoreo sirven para la evaluación?
+
+No todos los datos de monitoreo son útiles para la evaluación de impacto, pero varios de ellos son indispensables:
+
+```{r}
+#| label: tbl-datos-monitoreo-eval
+#| tbl-cap: "Datos de monitoreo que alimentan la evaluación de impacto"
+#| echo: false
+
+datos_me <- data.frame(
+  Dato_monitoreo = c(
+    "Registro de beneficiarios",
+    "Dosis de tratamiento recibida",
+    "Fechas de implementación",
+    "Cobertura geográfica",
+    "Indicadores de calidad de implementación",
+    "Razones de abandono o exclusión"
+  ),
+  Uso_evaluacion = c(
+    "Definir el grupo de tratamiento e identificar el grupo de comparación",
+    "Estimar efectos según la intensidad del programa (análisis de dosis-respuesta)",
+    "Determinar los periodos pre y post para el análisis",
+    "Controlar por heterogeneidad geográfica y seleccionar comparaciones adecuadas",
+    "Distinguir entre falla del programa (mala implementación) y falla de la teoría (el programa no funciona)",
+    "Verificar si la atrición introduce sesgo de selección"
+  ),
+  Si_falta = c(
+    "No puede identificar quién recibió el programa",
+    "Solo puede estimar un efecto promedio, no por intensidad",
+    "No puede definir correctamente los periodos de análisis",
+    "Pierde precisión y puede confundir efectos regionales con efectos del programa",
+    "No puede distinguir por qué el programa no tuvo efecto",
+    "El análisis puede estar sesgado sin saberlo"
+  )
+)
+
+knitr::kable(datos_me,
+             col.names = c("Dato de monitoreo", "Uso en la evaluación", "Si falta este dato..."))
+```
+
+## Errores comunes que comprometen la evaluación
+
+::: {.callout-warning}
+## Siete errores del monitoreo que arruinan una evaluación
+
+**1. No registrar quién NO recibió el programa.** El monitoreo se enfoca naturalmente en los beneficiarios, pero la evaluación necesita también datos del grupo de comparación. Si solo tiene datos de los participantes, no puede construir un contrafactual.
+
+**2. No tener datos de antes del programa.** Sin línea base, la mayoría de métodos de evaluación son imposibles o muy débiles. Recolecte datos *antes* de que el programa empiece.
+
+**3. Cambiar los indicadores a mitad de camino.** Si en el año 1 midió "ingreso mensual" y en el año 2 cambió a "ingreso semanal", no puede comparar las mediciones directamente.
+
+**4. Datos incompletos o con calidad deficiente.** Registros con celdas vacías, errores de digitación, o formatos inconsistentes son difíciles de usar en un análisis riguroso.
+
+**5. No registrar la dosis de tratamiento.** Si algunos beneficiarios asistieron a 2 de 10 talleres y otros a los 10, eso importa para la evaluación. Registre cuánto recibió cada persona.
+
+**6. Ausencia de grupo de comparación.** Muchos programas solo recolectan datos de los beneficiarios. Sin un grupo de comparación, no hay contrafactual.
+
+**7. No documentar los cambios en la implementación.** Si el programa cambió de estrategia a mitad de camino (por ejemplo, pasó de visitas domiciliarias a talleres grupales), eso debe estar documentado para interpretar los resultados.
+:::
+
+## Checklist: ¿está listo para evaluar?
+
+Use esta lista para determinar si sus datos de monitoreo son suficientes para realizar una evaluación de impacto:
+
+### Datos básicos
+
+- [ ] ¿Tiene una **lista completa de beneficiarios** con identificador único?
+- [ ] ¿Tiene datos de un **grupo de comparación** (personas/unidades que no recibieron el programa)?
+- [ ] ¿Tiene datos de **antes** de que el programa comenzara (línea base)?
+- [ ] ¿Tiene datos de **después** de un tiempo razonable de implementación?
+
+### Calidad de los datos
+
+- [ ] ¿Los datos están en formato **digital** y organizado (no en cuadernos o archivos dispersos)?
+- [ ] ¿Las **mismas variables** se midieron de la misma forma en todos los periodos?
+- [ ] ¿Los datos están **razonablemente completos** (menos del 20% de valores faltantes en variables clave)?
+- [ ] ¿Se puede **vincular** a la misma persona/unidad entre la línea base y el seguimiento?
+
+### Información del programa
+
+- [ ] ¿Sabe **cuándo** comenzó el programa en cada ubicación o grupo?
+- [ ] ¿Sabe **cuánto** recibió cada beneficiario (dosis, duración, número de sesiones)?
+- [ ] ¿Conoce la **razón** por la que unas personas recibieron el programa y otras no?
+- [ ] ¿Están documentados los **cambios** que hubo en la implementación?
+
+::: {.callout-tip}
+## Interprete su resultado
+- **12 de 12 casillas marcadas:** Excelente — puede proceder con la evaluación con confianza.
+- **9-11 casillas:** Puede hacer una evaluación, pero con algunas limitaciones. Identifique las brechas.
+- **6-8 casillas:** La evaluación será difícil. Considere recolectar los datos faltantes antes de proceder.
+- **Menos de 6:** Probablemente necesita fortalecer primero su sistema de monitoreo antes de intentar una evaluación de impacto.
+:::
+
+## ¿Qué sigue?
+
+Si respondió afirmativamente a la mayoría de las preguntas del checklist, está listo para avanzar al siguiente paso: **elegir el método de evaluación más apropiado para su contexto**.
+
+La [Herramienta de autodiagnóstico](02-autodiagnostico.qmd) en la Parte 2 le guiará a través de una serie de preguntas interactivas para identificar qué método se ajusta mejor a su programa, sus datos disponibles y las preguntas que quiere responder.
+
+## Resumen
+
+El monitoreo y la evaluación están íntimamente conectados:
+
+- Los datos de monitoreo son **insumos esenciales** para la evaluación.
+- La evaluación necesita datos que el monitoreo rutinario a menudo **no recolecta** (línea base, grupo de comparación).
+- Planifique ambos de forma **integrada** desde el diseño del programa.
+- Use el checklist para verificar si está listo para evaluar.
+- Si tiene brechas, invierta en cerrarlas antes de comprometerse con un método de evaluación.

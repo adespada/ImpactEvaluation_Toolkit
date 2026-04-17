@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.35">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>30&nbsp; Código R: Matching y Propensity Score – Toolkit de Evaluación de Impacto</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/anexo-codigo-iv.html" rel="next">
+<link href="../capitulos/anexo-codigo-did.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-22b4aaf4c2978829df3684e8f2c068db.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-18c4648ec6b711cbdcb06aa220cd8088.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-6f8e7d7ac6489dfa4e33f32d5ebc9ead.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-18c4648ec6b711cbdcb06aa220cd8088.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/anexo-codigo-rct.html">PARTE 7 — Anexos de código</a></li><li class="breadcrumb-item"><a href="../capitulos/anexo-codigo-matching.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Toolkit de Evaluación de Impacto</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/adespada/ImpactEvaluation_Toolkit" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenido al Toolkit</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 0 — Contexto y fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-bienvenida.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bienvenida y cómo usar esta guía</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-que-es-evaluacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">¿Qué es evaluación de impacto?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-teoria-de-cambio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Teoría de cambio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 1 — Sistemas de monitoreo</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-marco-logico.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Marco lógico e indicadores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-recoleccion-datos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diseño de sistemas de recolección de datos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-linea-base.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Línea base y datos de seguimiento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-monitoreo-a-evaluacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">De monitoreo a evaluación</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 2 — Herramienta de autodiagnóstico</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/02-autodiagnostico.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Herramienta de autodiagnóstico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 3 — Métodos cuantitativos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-intro-cuantitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introducción a los métodos cuantitativos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-rct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Experimentos aleatorizados (RCT)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-did.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Diferencias en diferencias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Matching y Propensity Score</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Variables instrumentales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Regresión discontinua</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-poder-muestra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poder estadístico y tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 4 — Métodos cualitativos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-intro-cualitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Introducción a métodos cualitativos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-systems-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Participatory Systems Mapping (PSM)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-outcome-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Outcome Mapping (OM)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-outcome-harvesting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Outcome Harvesting (OH)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-contribution-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Contribution Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-process-tracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Process Tracing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-qca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Qualitative Comparative Analysis (QCA)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-quip.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Qualitative Impact Protocol (QuIP)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 5 — Métodos mixtos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-por-que-combinar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">¿Cuándo y por qué combinar métodos?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-disenos-mixtos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Diseños mixtos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-casos-estudio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Casos de estudio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 6 — Cómo hablar con la IA</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/06-guia-ia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Cómo hablar con la IA para hacer una evaluación de impacto</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 7 — Anexos de código</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-rct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Código R: Experimentos aleatorizados (RCT)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-did.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Código R: Diferencias en diferencias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-matching.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Código R: Variables instrumentales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Código R: Regresión discontinua</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-poder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Código R: Poder estadístico y tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 8 — Recursos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-glosario.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Glosario</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-plantillas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Plantillas descargables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-etica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Checklist ético</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-bibliografia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Bibliografía anotada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-tabla-resumen-metodos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Tabla resumen de métodos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#taller-práctico" id="toc-taller-práctico" class="nav-link active" data-scroll-target="#taller-práctico"><span class="header-section-number">30.1</span> Taller práctico</a>
+  <ul class="collapse">
+  <li><a href="#paso-1-crear-los-datos-simulados" id="toc-paso-1-crear-los-datos-simulados" class="nav-link" data-scroll-target="#paso-1-crear-los-datos-simulados"><span class="header-section-number">30.1.1</span> Paso 1: Crear los datos simulados</a></li>
+  <li><a href="#paso-2-comparación-naive-sesgada" id="toc-paso-2-comparación-naive-sesgada" class="nav-link" data-scroll-target="#paso-2-comparación-naive-sesgada"><span class="header-section-number">30.1.2</span> Paso 2: Comparación naive (sesgada)</a></li>
+  <li><a href="#paso-3-estimar-el-propensity-score" id="toc-paso-3-estimar-el-propensity-score" class="nav-link" data-scroll-target="#paso-3-estimar-el-propensity-score"><span class="header-section-number">30.1.3</span> Paso 3: Estimar el propensity score</a></li>
+  <li><a href="#paso-4-realizar-el-matching-con-matchit" id="toc-paso-4-realizar-el-matching-con-matchit" class="nav-link" data-scroll-target="#paso-4-realizar-el-matching-con-matchit"><span class="header-section-number">30.1.4</span> Paso 4: Realizar el matching con MatchIt</a></li>
+  <li><a href="#paso-5-verificar-balance-love-plot" id="toc-paso-5-verificar-balance-love-plot" class="nav-link" data-scroll-target="#paso-5-verificar-balance-love-plot"><span class="header-section-number">30.1.5</span> Paso 5: Verificar balance (Love plot)</a></li>
+  <li><a href="#paso-6-estimar-el-att-sobre-la-muestra-emparejada" id="toc-paso-6-estimar-el-att-sobre-la-muestra-emparejada" class="nav-link" data-scroll-target="#paso-6-estimar-el-att-sobre-la-muestra-emparejada"><span class="header-section-number">30.1.6</span> Paso 6: Estimar el ATT sobre la muestra emparejada</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/edit/main/capitulos/anexo-codigo-matching.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/anexo-codigo-rct.html">PARTE 7 — Anexos de código</a></li><li class="breadcrumb-item"><a href="../capitulos/anexo-codigo-matching.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-anexo-codigo-matching" class="quarto-section-identifier"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Código</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Sobre este anexo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Este anexo contiene el código R completo para el taller práctico del método Matching / Propensity Score. Para la teoría y explicación del método, consulte el <a href="../capitulos/03-matching.html">capítulo correspondiente</a>.</p>
+</div>
+</div>
+<section id="taller-práctico" class="level2" data-number="30.1">
+<h2 data-number="30.1" class="anchored" data-anchor-id="taller-práctico"><span class="header-section-number">30.1</span> Taller práctico</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Sobre este taller
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Vamos a trabajar con datos <strong>simulados</strong> de un programa de microfinanzas que otorgó microcréditos a 100 personas. Otras 100 personas no participaron. El resultado de interés es el ingreso mensual. Los participantes se autoseleccionaron: personas con más educación, más jóvenes, con mayor ingreso previo y de zona urbana tenían mayor probabilidad de participar.</p>
+</div>
+</div>
+<section id="paso-1-crear-los-datos-simulados" class="level3" data-number="30.1.1">
+<h3 data-number="30.1.1" class="anchored" data-anchor-id="paso-1-crear-los-datos-simulados"><span class="header-section-number">30.1.1</span> Paso 1: Crear los datos simulados</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(MatchIt)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># Covariables</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>educacion <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">3</span>))</span>
+<span id="cb1-11"><a href="#cb1-11"></a>educacion <span class="ot">&lt;-</span> <span class="fu">pmax</span>(educacion, <span class="dv">4</span>)</span>
+<span id="cb1-12"><a href="#cb1-12"></a>edad <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">35</span>, <span class="at">sd =</span> <span class="dv">10</span>))</span>
+<span id="cb1-13"><a href="#cb1-13"></a>edad <span class="ot">&lt;-</span> <span class="fu">pmax</span>(edad, <span class="dv">18</span>)</span>
+<span id="cb1-14"><a href="#cb1-14"></a>ingreso_previo <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">800</span>, <span class="at">sd =</span> <span class="dv">200</span>))</span>
+<span id="cb1-15"><a href="#cb1-15"></a>ingreso_previo <span class="ot">&lt;-</span> <span class="fu">pmax</span>(ingreso_previo, <span class="dv">300</span>)</span>
+<span id="cb1-16"><a href="#cb1-16"></a>urbano <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb1-17"><a href="#cb1-17"></a></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co"># Selección al tratamiento (sesgo: más probable si joven, educado, urbano, mayor ingreso)</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a>logit_p <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span> <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> educacion <span class="sc">+</span> (<span class="sc">-</span><span class="fl">0.03</span>) <span class="sc">*</span> edad <span class="sc">+</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a>  <span class="fl">0.002</span> <span class="sc">*</span> ingreso_previo <span class="sc">+</span> <span class="fl">0.8</span> <span class="sc">*</span> urbano</span>
+<span id="cb1-21"><a href="#cb1-21"></a>prob_tratamiento <span class="ot">&lt;-</span> <span class="fu">plogis</span>(logit_p)</span>
+<span id="cb1-22"><a href="#cb1-22"></a>tratamiento <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, prob_tratamiento)</span>
+<span id="cb1-23"><a href="#cb1-23"></a></span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="co"># Forzar 100 tratados y 100 controles para el ejemplo</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a>indices_trat <span class="ot">&lt;-</span> <span class="fu">which</span>(tratamiento <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb1-26"><a href="#cb1-26"></a>indices_ctrl <span class="ot">&lt;-</span> <span class="fu">which</span>(tratamiento <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb1-27"><a href="#cb1-27"></a></span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="cf">if</span> (<span class="fu">length</span>(indices_trat) <span class="sc">&gt;</span> <span class="dv">100</span>) {</span>
+<span id="cb1-29"><a href="#cb1-29"></a>  remover <span class="ot">&lt;-</span> <span class="fu">sample</span>(indices_trat, <span class="fu">length</span>(indices_trat) <span class="sc">-</span> <span class="dv">100</span>)</span>
+<span id="cb1-30"><a href="#cb1-30"></a>  tratamiento[remover] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-31"><a href="#cb1-31"></a>} <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">length</span>(indices_trat) <span class="sc">&lt;</span> <span class="dv">100</span>) {</span>
+<span id="cb1-32"><a href="#cb1-32"></a>  agregar <span class="ot">&lt;-</span> <span class="fu">sample</span>(indices_ctrl, <span class="dv">100</span> <span class="sc">-</span> <span class="fu">length</span>(indices_trat))</span>
+<span id="cb1-33"><a href="#cb1-33"></a>  tratamiento[agregar] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-34"><a href="#cb1-34"></a>}</span>
+<span id="cb1-35"><a href="#cb1-35"></a></span>
+<span id="cb1-36"><a href="#cb1-36"></a><span class="co"># Resultado: ingreso mensual (efecto real del programa = 150)</span></span>
+<span id="cb1-37"><a href="#cb1-37"></a>efecto_real <span class="ot">&lt;-</span> <span class="dv">150</span></span>
+<span id="cb1-38"><a href="#cb1-38"></a>ingreso <span class="ot">&lt;-</span> <span class="dv">500</span> <span class="sc">+</span> <span class="dv">30</span> <span class="sc">*</span> educacion <span class="sc">+</span> (<span class="sc">-</span><span class="dv">2</span>) <span class="sc">*</span> edad <span class="sc">+</span> <span class="fl">0.4</span> <span class="sc">*</span> ingreso_previo <span class="sc">+</span></span>
+<span id="cb1-39"><a href="#cb1-39"></a>  <span class="dv">100</span> <span class="sc">*</span> urbano <span class="sc">+</span> efecto_real <span class="sc">*</span> tratamiento <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">120</span>)</span>
+<span id="cb1-40"><a href="#cb1-40"></a></span>
+<span id="cb1-41"><a href="#cb1-41"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-42"><a href="#cb1-42"></a>  <span class="at">id =</span> <span class="fu">sprintf</span>(<span class="st">"ID_%03d"</span>, <span class="dv">1</span><span class="sc">:</span>n),</span>
+<span id="cb1-43"><a href="#cb1-43"></a>  <span class="at">tratamiento =</span> tratamiento,</span>
+<span id="cb1-44"><a href="#cb1-44"></a>  <span class="at">ingreso =</span> <span class="fu">round</span>(ingreso),</span>
+<span id="cb1-45"><a href="#cb1-45"></a>  <span class="at">educacion =</span> educacion,</span>
+<span id="cb1-46"><a href="#cb1-46"></a>  <span class="at">edad =</span> edad,</span>
+<span id="cb1-47"><a href="#cb1-47"></a>  <span class="at">ingreso_previo =</span> ingreso_previo,</span>
+<span id="cb1-48"><a href="#cb1-48"></a>  <span class="at">urbano =</span> urbano</span>
+<span id="cb1-49"><a href="#cb1-49"></a>)</span>
+<span id="cb1-50"><a href="#cb1-50"></a></span>
+<span id="cb1-51"><a href="#cb1-51"></a><span class="fu">head</span>(datos, <span class="dv">10</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;        id tratamiento ingreso educacion edad ingreso_previo urbano
+#&gt; 1  ID_001           1    1319        14   18           1067      0
+#&gt; 2  ID_002           1    1450         8   38            626      0
+#&gt; 3  ID_003           1    1004        11   47            811      1
+#&gt; 4  ID_004           0    1044        12   56            810      0
+#&gt; 5  ID_005           1    1280        11   21            684      1
+#&gt; 6  ID_006           0    1014        10   23            600      1
+#&gt; 7  ID_007           1    1426        15   28            800      1
+#&gt; 8  ID_008           0    1313        10   24            931      1
+#&gt; 9  ID_009           1    1405        16   29           1095      0
+#&gt; 10 ID_010           0     751        10   33            418      1</code></pre>
+</div>
+</div>
+</section>
+<section id="paso-2-comparación-naive-sesgada" class="level3" data-number="30.1.2">
+<h3 data-number="30.1.2" class="anchored" data-anchor-id="paso-2-comparación-naive-sesgada"><span class="header-section-number">30.1.2</span> Paso 2: Comparación naive (sesgada)</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>media_trat <span class="ot">&lt;-</span> <span class="fu">mean</span>(datos<span class="sc">$</span>ingreso[datos<span class="sc">$</span>tratamiento <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb3-2"><a href="#cb3-2"></a>media_ctrl <span class="ot">&lt;-</span> <span class="fu">mean</span>(datos<span class="sc">$</span>ingreso[datos<span class="sc">$</span>tratamiento <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">cat</span>(<span class="st">"Ingreso promedio - Participantes:"</span>, <span class="fu">round</span>(media_trat), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Ingreso promedio - Participantes: 1274</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">cat</span>(<span class="st">"Ingreso promedio - No participantes:"</span>, <span class="fu">round</span>(media_ctrl), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Ingreso promedio - No participantes: 1078</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">cat</span>(<span class="st">"Diferencia naive:"</span>, <span class="fu">round</span>(media_trat <span class="sc">-</span> media_ctrl), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Diferencia naive: 196</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">cat</span>(<span class="st">"Efecto real programado:"</span>, efecto_real, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Efecto real programado: 150</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Sesgo de selección
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La diferencia naive sobreestima el efecto real porque los participantes ya tenían características asociadas a mayores ingresos. Matching busca corregir este sesgo.</p>
+</div>
+</div>
+</section>
+<section id="paso-3-estimar-el-propensity-score" class="level3" data-number="30.1.3">
+<h3 data-number="30.1.3" class="anchored" data-anchor-id="paso-3-estimar-el-propensity-score"><span class="header-section-number">30.1.3</span> Paso 3: Estimar el propensity score</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>modelo_ps <span class="ot">&lt;-</span> <span class="fu">glm</span>(tratamiento <span class="sc">~</span> educacion <span class="sc">+</span> edad <span class="sc">+</span> ingreso_previo <span class="sc">+</span> urbano,</span>
+<span id="cb11-2"><a href="#cb11-2"></a>                  <span class="at">data =</span> datos, <span class="at">family =</span> binomial)</span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a>datos<span class="sc">$</span>ps <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelo_ps, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5"></a></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(<span class="at">x =</span> ps, <span class="at">fill =</span> <span class="fu">factor</span>(tratamiento,</span>
+<span id="cb11-7"><a href="#cb11-7"></a>                   <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No participante"</span>, <span class="st">"Participante"</span>)))) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"No participante"</span> <span class="ot">=</span> <span class="st">"#185FA5"</span>,</span>
+<span id="cb11-10"><a href="#cb11-10"></a>                                <span class="st">"Participante"</span> <span class="ot">=</span> <span class="st">"#D85A30"</span>)) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Propensity score estimado"</span>,</span>
+<span id="cb11-12"><a href="#cb11-12"></a>       <span class="at">y =</span> <span class="st">"Densidad"</span>, <span class="at">fill =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-13"><a href="#cb11-13"></a>       <span class="at">title =</span> <span class="st">"Distribución del propensity score por grupo"</span>) <span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb11-15"><a href="#cb11-15"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb11-16"><a href="#cb11-16"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-matching-ps-taller" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-matching-ps-taller-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="anexo-codigo-matching_files/figure-html/fig-matching-ps-taller-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-matching-ps-taller-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;30.1: Distribución del propensity score por grupo
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="paso-4-realizar-el-matching-con-matchit" class="level3" data-number="30.1.4">
+<h3 data-number="30.1.4" class="anchored" data-anchor-id="paso-4-realizar-el-matching-con-matchit"><span class="header-section-number">30.1.4</span> Paso 4: Realizar el matching con MatchIt</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>m_out <span class="ot">&lt;-</span> <span class="fu">matchit</span>(tratamiento <span class="sc">~</span> educacion <span class="sc">+</span> edad <span class="sc">+</span> ingreso_previo <span class="sc">+</span> urbano,</span>
+<span id="cb12-2"><a href="#cb12-2"></a>                  <span class="at">data =</span> datos,</span>
+<span id="cb12-3"><a href="#cb12-3"></a>                  <span class="at">method =</span> <span class="st">"nearest"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4"></a>                  <span class="at">distance =</span> <span class="st">"glm"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5"></a>                  <span class="at">ratio =</span> <span class="dv">1</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="fu">summary</span>(m_out)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; 
+#&gt; Call:
+#&gt; matchit(formula = tratamiento ~ educacion + edad + ingreso_previo + 
+#&gt;     urbano, data = datos, method = "nearest", distance = "glm", 
+#&gt;     ratio = 1)
+#&gt; 
+#&gt; Summary of Balance for All Data:
+#&gt;                Means Treated Means Control Std. Mean Diff. Var. Ratio eCDF Mean
+#&gt; distance              0.5329        0.4671          0.5586     0.7937    0.1411
+#&gt; educacion            10.1400        9.8200          0.1062     1.2963    0.0240
+#&gt; edad                 33.8400       36.5200         -0.3284     0.6527    0.0775
+#&gt; ingreso_previo      819.4900      757.3900          0.2943     1.0948    0.0751
+#&gt; urbano                0.5800        0.4400          0.2837          .    0.1400
+#&gt;                eCDF Max
+#&gt; distance           0.22
+#&gt; educacion          0.07
+#&gt; edad               0.18
+#&gt; ingreso_previo     0.14
+#&gt; urbano             0.14
+#&gt; 
+#&gt; Summary of Balance for Matched Data:
+#&gt;                Means Treated Means Control Std. Mean Diff. Var. Ratio eCDF Mean
+#&gt; distance              0.5329        0.4671          0.5586     0.7937    0.1411
+#&gt; educacion            10.1400        9.8200          0.1062     1.2963    0.0240
+#&gt; edad                 33.8400       36.5200         -0.3284     0.6527    0.0775
+#&gt; ingreso_previo      819.4900      757.3900          0.2943     1.0948    0.0751
+#&gt; urbano                0.5800        0.4400          0.2837          .    0.1400
+#&gt;                eCDF Max Std. Pair Dist.
+#&gt; distance           0.22          0.5630
+#&gt; educacion          0.07          1.0758
+#&gt; edad               0.18          1.1643
+#&gt; ingreso_previo     0.14          0.8842
+#&gt; urbano             0.14          0.7294
+#&gt; 
+#&gt; Sample Sizes:
+#&gt;           Control Treated
+#&gt; All           100     100
+#&gt; Matched       100     100
+#&gt; Unmatched       0       0
+#&gt; Discarded       0       0</code></pre>
+</div>
+</div>
+</section>
+<section id="paso-5-verificar-balance-love-plot" class="level3" data-number="30.1.5">
+<h3 data-number="30.1.5" class="anchored" data-anchor-id="paso-5-verificar-balance-love-plot"><span class="header-section-number">30.1.5</span> Paso 5: Verificar balance (Love plot)</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">library</span>(cobalt)</span>
+<span id="cb14-2"><a href="#cb14-2"></a></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="fu">love.plot</span>(m_out,</span>
+<span id="cb14-4"><a href="#cb14-4"></a>          <span class="at">binary =</span> <span class="st">"std"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5"></a>          <span class="at">thresholds =</span> <span class="fu">c</span>(<span class="at">m =</span> <span class="fl">0.1</span>),</span>
+<span id="cb14-6"><a href="#cb14-6"></a>          <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"#185FA5"</span>, <span class="st">"#D85A30"</span>),</span>
+<span id="cb14-7"><a href="#cb14-7"></a>          <span class="at">var.names =</span> <span class="fu">c</span>(<span class="at">educacion =</span> <span class="st">"Educación (años)"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8"></a>                        <span class="at">edad =</span> <span class="st">"Edad"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9"></a>                        <span class="at">ingreso_previo =</span> <span class="st">"Ingreso previo"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10"></a>                        <span class="at">urbano =</span> <span class="st">"Zona urbana"</span>),</span>
+<span id="cb14-11"><a href="#cb14-11"></a>          <span class="at">title =</span> <span class="st">"Balance de covariables"</span>) <span class="sc">+</span></span>
+<span id="cb14-12"><a href="#cb14-12"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-matching-love-taller" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-matching-love-taller-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="anexo-codigo-matching_files/figure-html/fig-matching-love-taller-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-matching-love-taller-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matching
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>¿Cómo leer el Love plot?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cada punto muestra la diferencia estandarizada entre tratados y controles. Los puntos <strong>azules</strong> son antes del matching y los <strong>naranjas</strong> después. Un buen matching acerca todos los puntos a cero. La línea vertical punteada (0.1) es el umbral recomendado.</p>
+</div>
+</div>
+</section>
+<section id="paso-6-estimar-el-att-sobre-la-muestra-emparejada" class="level3" data-number="30.1.6">
+<h3 data-number="30.1.6" class="anchored" data-anchor-id="paso-6-estimar-el-att-sobre-la-muestra-emparejada"><span class="header-section-number">30.1.6</span> Paso 6: Estimar el ATT sobre la muestra emparejada</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>datos_matched <span class="ot">&lt;-</span> <span class="fu">match.data</span>(m_out)</span>
+<span id="cb15-2"><a href="#cb15-2"></a></span>
+<span id="cb15-3"><a href="#cb15-3"></a>modelo_att <span class="ot">&lt;-</span> <span class="fu">lm</span>(ingreso <span class="sc">~</span> tratamiento <span class="sc">+</span> educacion <span class="sc">+</span> edad <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>                   ingreso_previo <span class="sc">+</span> urbano,</span>
+<span id="cb15-5"><a href="#cb15-5"></a>                 <span class="at">data =</span> datos_matched,</span>
+<span id="cb15-6"><a href="#cb15-6"></a>                 <span class="at">weights =</span> weights)</span>
+<span id="cb15-7"><a href="#cb15-7"></a></span>
+<span id="cb15-8"><a href="#cb15-8"></a>resultado <span class="ot">&lt;-</span> <span class="fu">summary</span>(modelo_att)</span>
+<span id="cb15-9"><a href="#cb15-9"></a>coef_trat <span class="ot">&lt;-</span> resultado<span class="sc">$</span>coefficients[<span class="st">"tratamiento"</span>, ]</span>
+<span id="cb15-10"><a href="#cb15-10"></a></span>
+<span id="cb15-11"><a href="#cb15-11"></a><span class="fu">cat</span>(<span class="st">"========================================</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; ========================================</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">cat</span>(<span class="st">"Efecto estimado (ATT):"</span>, <span class="fu">round</span>(coef_trat[<span class="dv">1</span>]), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Efecto estimado (ATT): 142</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">cat</span>(<span class="st">"Error estándar:"</span>, <span class="fu">round</span>(coef_trat[<span class="dv">2</span>], <span class="dv">1</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Error estándar: 20</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">cat</span>(<span class="st">"Valor p:"</span>, <span class="fu">round</span>(coef_trat[<span class="dv">4</span>], <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Valor p: 0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">cat</span>(<span class="st">"IC 95%: ["</span>, <span class="fu">round</span>(coef_trat[<span class="dv">1</span>] <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> coef_trat[<span class="dv">2</span>]),</span>
+<span id="cb23-2"><a href="#cb23-2"></a>    <span class="st">","</span>, <span class="fu">round</span>(coef_trat[<span class="dv">1</span>] <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> coef_trat[<span class="dv">2</span>]), <span class="st">"]</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; IC 95%: [ 103 , 181 ]</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">cat</span>(<span class="st">"Efecto real programado:"</span>, efecto_real, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; Efecto real programado: 150</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">cat</span>(<span class="st">"========================================</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; ========================================</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Interpretación
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compare el efecto estimado con el efecto real programado (150). El matching debería acercar la estimación al valor real, corrigiendo el sesgo de la comparación naive.</p>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/anexo-codigo-did.html" class="pagination-link" aria-label="Código R: Diferencias en diferencias">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Código R: Diferencias en diferencias</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../capitulos/anexo-codigo-iv.html" class="pagination-link" aria-label="Código R: Variables instrumentales">
+        <span class="nav-page-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Código R: Variables instrumentales</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Ejecutar el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu"># Código R: Matching y Propensity Score {#sec-anexo-codigo-matching}</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a></span>
+<span id="cb29-3"><a href="#cb29-3"></a>::: {.callout-note}</span>
+<span id="cb29-4"><a href="#cb29-4"></a><span class="fu">## Sobre este anexo</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a>Este anexo contiene el código R completo para el taller práctico del método Matching / Propensity Score. Para la teoría y explicación del método, consulte el <span class="co">[</span><span class="ot">capítulo correspondiente</span><span class="co">](03-matching.qmd)</span>.</span>
+<span id="cb29-6"><a href="#cb29-6"></a>:::</span>
+<span id="cb29-7"><a href="#cb29-7"></a></span>
+<span id="cb29-8"><a href="#cb29-8"></a><span class="fu">## Taller práctico</span></span>
+<span id="cb29-9"><a href="#cb29-9"></a></span>
+<span id="cb29-10"><a href="#cb29-10"></a>::: {.callout-note}</span>
+<span id="cb29-11"><a href="#cb29-11"></a><span class="fu">## Sobre este taller</span></span>
+<span id="cb29-12"><a href="#cb29-12"></a>Vamos a trabajar con datos **simulados** de un programa de microfinanzas que otorgó microcréditos a 100 personas. Otras 100 personas no participaron. El resultado de interés es el ingreso mensual. Los participantes se autoseleccionaron: personas con más educación, más jóvenes, con mayor ingreso previo y de zona urbana tenían mayor probabilidad de participar.</span>
+<span id="cb29-13"><a href="#cb29-13"></a>:::</span>
+<span id="cb29-14"><a href="#cb29-14"></a></span>
+<span id="cb29-15"><a href="#cb29-15"></a><span class="fu">### Paso 1: Crear los datos simulados</span></span>
+<span id="cb29-16"><a href="#cb29-16"></a></span>
+<span id="cb29-19"><a href="#cb29-19"></a><span class="in">```{r}</span></span>
+<span id="cb29-20"><a href="#cb29-20"></a><span class="co">#| label: matching-datos-simulados</span></span>
+<span id="cb29-21"><a href="#cb29-21"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb29-22"><a href="#cb29-22"></a></span>
+<span id="cb29-23"><a href="#cb29-23"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb29-24"><a href="#cb29-24"></a><span class="fu">library</span>(MatchIt)</span>
+<span id="cb29-25"><a href="#cb29-25"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb29-26"><a href="#cb29-26"></a></span>
+<span id="cb29-27"><a href="#cb29-27"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb29-28"><a href="#cb29-28"></a></span>
+<span id="cb29-29"><a href="#cb29-29"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb29-30"><a href="#cb29-30"></a></span>
+<span id="cb29-31"><a href="#cb29-31"></a><span class="co"># Covariables</span></span>
+<span id="cb29-32"><a href="#cb29-32"></a>educacion <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">3</span>))</span>
+<span id="cb29-33"><a href="#cb29-33"></a>educacion <span class="ot">&lt;-</span> <span class="fu">pmax</span>(educacion, <span class="dv">4</span>)</span>
+<span id="cb29-34"><a href="#cb29-34"></a>edad <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">35</span>, <span class="at">sd =</span> <span class="dv">10</span>))</span>
+<span id="cb29-35"><a href="#cb29-35"></a>edad <span class="ot">&lt;-</span> <span class="fu">pmax</span>(edad, <span class="dv">18</span>)</span>
+<span id="cb29-36"><a href="#cb29-36"></a>ingreso_previo <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">800</span>, <span class="at">sd =</span> <span class="dv">200</span>))</span>
+<span id="cb29-37"><a href="#cb29-37"></a>ingreso_previo <span class="ot">&lt;-</span> <span class="fu">pmax</span>(ingreso_previo, <span class="dv">300</span>)</span>
+<span id="cb29-38"><a href="#cb29-38"></a>urbano <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb29-39"><a href="#cb29-39"></a></span>
+<span id="cb29-40"><a href="#cb29-40"></a><span class="co"># Selección al tratamiento (sesgo: más probable si joven, educado, urbano, mayor ingreso)</span></span>
+<span id="cb29-41"><a href="#cb29-41"></a>logit_p <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span> <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">*</span> educacion <span class="sc">+</span> (<span class="sc">-</span><span class="fl">0.03</span>) <span class="sc">*</span> edad <span class="sc">+</span></span>
+<span id="cb29-42"><a href="#cb29-42"></a>  <span class="fl">0.002</span> <span class="sc">*</span> ingreso_previo <span class="sc">+</span> <span class="fl">0.8</span> <span class="sc">*</span> urbano</span>
+<span id="cb29-43"><a href="#cb29-43"></a>prob_tratamiento <span class="ot">&lt;-</span> <span class="fu">plogis</span>(logit_p)</span>
+<span id="cb29-44"><a href="#cb29-44"></a>tratamiento <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, prob_tratamiento)</span>
+<span id="cb29-45"><a href="#cb29-45"></a></span>
+<span id="cb29-46"><a href="#cb29-46"></a><span class="co"># Forzar 100 tratados y 100 controles para el ejemplo</span></span>
+<span id="cb29-47"><a href="#cb29-47"></a>indices_trat <span class="ot">&lt;-</span> <span class="fu">which</span>(tratamiento <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb29-48"><a href="#cb29-48"></a>indices_ctrl <span class="ot">&lt;-</span> <span class="fu">which</span>(tratamiento <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb29-49"><a href="#cb29-49"></a></span>
+<span id="cb29-50"><a href="#cb29-50"></a><span class="cf">if</span> (<span class="fu">length</span>(indices_trat) <span class="sc">&gt;</span> <span class="dv">100</span>) {</span>
+<span id="cb29-51"><a href="#cb29-51"></a>  remover <span class="ot">&lt;-</span> <span class="fu">sample</span>(indices_trat, <span class="fu">length</span>(indices_trat) <span class="sc">-</span> <span class="dv">100</span>)</span>
+<span id="cb29-52"><a href="#cb29-52"></a>  tratamiento[remover] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb29-53"><a href="#cb29-53"></a>} <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">length</span>(indices_trat) <span class="sc">&lt;</span> <span class="dv">100</span>) {</span>
+<span id="cb29-54"><a href="#cb29-54"></a>  agregar <span class="ot">&lt;-</span> <span class="fu">sample</span>(indices_ctrl, <span class="dv">100</span> <span class="sc">-</span> <span class="fu">length</span>(indices_trat))</span>
+<span id="cb29-55"><a href="#cb29-55"></a>  tratamiento[agregar] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb29-56"><a href="#cb29-56"></a>}</span>
+<span id="cb29-57"><a href="#cb29-57"></a></span>
+<span id="cb29-58"><a href="#cb29-58"></a><span class="co"># Resultado: ingreso mensual (efecto real del programa = 150)</span></span>
+<span id="cb29-59"><a href="#cb29-59"></a>efecto_real <span class="ot">&lt;-</span> <span class="dv">150</span></span>
+<span id="cb29-60"><a href="#cb29-60"></a>ingreso <span class="ot">&lt;-</span> <span class="dv">500</span> <span class="sc">+</span> <span class="dv">30</span> <span class="sc">*</span> educacion <span class="sc">+</span> (<span class="sc">-</span><span class="dv">2</span>) <span class="sc">*</span> edad <span class="sc">+</span> <span class="fl">0.4</span> <span class="sc">*</span> ingreso_previo <span class="sc">+</span></span>
+<span id="cb29-61"><a href="#cb29-61"></a>  <span class="dv">100</span> <span class="sc">*</span> urbano <span class="sc">+</span> efecto_real <span class="sc">*</span> tratamiento <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">120</span>)</span>
+<span id="cb29-62"><a href="#cb29-62"></a></span>
+<span id="cb29-63"><a href="#cb29-63"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb29-64"><a href="#cb29-64"></a>  <span class="at">id =</span> <span class="fu">sprintf</span>(<span class="st">"ID_%03d"</span>, <span class="dv">1</span><span class="sc">:</span>n),</span>
+<span id="cb29-65"><a href="#cb29-65"></a>  <span class="at">tratamiento =</span> tratamiento,</span>
+<span id="cb29-66"><a href="#cb29-66"></a>  <span class="at">ingreso =</span> <span class="fu">round</span>(ingreso),</span>
+<span id="cb29-67"><a href="#cb29-67"></a>  <span class="at">educacion =</span> educacion,</span>
+<span id="cb29-68"><a href="#cb29-68"></a>  <span class="at">edad =</span> edad,</span>
+<span id="cb29-69"><a href="#cb29-69"></a>  <span class="at">ingreso_previo =</span> ingreso_previo,</span>
+<span id="cb29-70"><a href="#cb29-70"></a>  <span class="at">urbano =</span> urbano</span>
+<span id="cb29-71"><a href="#cb29-71"></a>)</span>
+<span id="cb29-72"><a href="#cb29-72"></a></span>
+<span id="cb29-73"><a href="#cb29-73"></a><span class="fu">head</span>(datos, <span class="dv">10</span>)</span>
+<span id="cb29-74"><a href="#cb29-74"></a><span class="in">```</span></span>
+<span id="cb29-75"><a href="#cb29-75"></a></span>
+<span id="cb29-76"><a href="#cb29-76"></a><span class="fu">### Paso 2: Comparación naive (sesgada)</span></span>
+<span id="cb29-77"><a href="#cb29-77"></a></span>
+<span id="cb29-80"><a href="#cb29-80"></a><span class="in">```{r}</span></span>
+<span id="cb29-81"><a href="#cb29-81"></a><span class="co">#| label: matching-naive</span></span>
+<span id="cb29-82"><a href="#cb29-82"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb29-83"><a href="#cb29-83"></a></span>
+<span id="cb29-84"><a href="#cb29-84"></a>media_trat <span class="ot">&lt;-</span> <span class="fu">mean</span>(datos<span class="sc">$</span>ingreso[datos<span class="sc">$</span>tratamiento <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb29-85"><a href="#cb29-85"></a>media_ctrl <span class="ot">&lt;-</span> <span class="fu">mean</span>(datos<span class="sc">$</span>ingreso[datos<span class="sc">$</span>tratamiento <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb29-86"><a href="#cb29-86"></a></span>
+<span id="cb29-87"><a href="#cb29-87"></a><span class="fu">cat</span>(<span class="st">"Ingreso promedio - Participantes:"</span>, <span class="fu">round</span>(media_trat), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-88"><a href="#cb29-88"></a><span class="fu">cat</span>(<span class="st">"Ingreso promedio - No participantes:"</span>, <span class="fu">round</span>(media_ctrl), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-89"><a href="#cb29-89"></a><span class="fu">cat</span>(<span class="st">"Diferencia naive:"</span>, <span class="fu">round</span>(media_trat <span class="sc">-</span> media_ctrl), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-90"><a href="#cb29-90"></a><span class="fu">cat</span>(<span class="st">"Efecto real programado:"</span>, efecto_real, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-91"><a href="#cb29-91"></a><span class="in">```</span></span>
+<span id="cb29-92"><a href="#cb29-92"></a></span>
+<span id="cb29-93"><a href="#cb29-93"></a>::: {.callout-warning}</span>
+<span id="cb29-94"><a href="#cb29-94"></a><span class="fu">## Sesgo de selección</span></span>
+<span id="cb29-95"><a href="#cb29-95"></a>La diferencia naive sobreestima el efecto real porque los participantes ya tenían características asociadas a mayores ingresos. Matching busca corregir este sesgo.</span>
+<span id="cb29-96"><a href="#cb29-96"></a>:::</span>
+<span id="cb29-97"><a href="#cb29-97"></a></span>
+<span id="cb29-98"><a href="#cb29-98"></a><span class="fu">### Paso 3: Estimar el propensity score</span></span>
+<span id="cb29-99"><a href="#cb29-99"></a></span>
+<span id="cb29-102"><a href="#cb29-102"></a><span class="in">```{r}</span></span>
+<span id="cb29-103"><a href="#cb29-103"></a><span class="co">#| label: fig-matching-ps-taller</span></span>
+<span id="cb29-104"><a href="#cb29-104"></a><span class="co">#| fig-cap: "Distribución del propensity score por grupo"</span></span>
+<span id="cb29-105"><a href="#cb29-105"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb29-106"><a href="#cb29-106"></a></span>
+<span id="cb29-107"><a href="#cb29-107"></a>modelo_ps <span class="ot">&lt;-</span> <span class="fu">glm</span>(tratamiento <span class="sc">~</span> educacion <span class="sc">+</span> edad <span class="sc">+</span> ingreso_previo <span class="sc">+</span> urbano,</span>
+<span id="cb29-108"><a href="#cb29-108"></a>                  <span class="at">data =</span> datos, <span class="at">family =</span> binomial)</span>
+<span id="cb29-109"><a href="#cb29-109"></a></span>
+<span id="cb29-110"><a href="#cb29-110"></a>datos<span class="sc">$</span>ps <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelo_ps, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb29-111"><a href="#cb29-111"></a></span>
+<span id="cb29-112"><a href="#cb29-112"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(<span class="at">x =</span> ps, <span class="at">fill =</span> <span class="fu">factor</span>(tratamiento,</span>
+<span id="cb29-113"><a href="#cb29-113"></a>                   <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No participante"</span>, <span class="st">"Participante"</span>)))) <span class="sc">+</span></span>
+<span id="cb29-114"><a href="#cb29-114"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb29-115"><a href="#cb29-115"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"No participante"</span> <span class="ot">=</span> <span class="st">"#185FA5"</span>,</span>
+<span id="cb29-116"><a href="#cb29-116"></a>                                <span class="st">"Participante"</span> <span class="ot">=</span> <span class="st">"#D85A30"</span>)) <span class="sc">+</span></span>
+<span id="cb29-117"><a href="#cb29-117"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Propensity score estimado"</span>,</span>
+<span id="cb29-118"><a href="#cb29-118"></a>       <span class="at">y =</span> <span class="st">"Densidad"</span>, <span class="at">fill =</span> <span class="cn">NULL</span>,</span>
+<span id="cb29-119"><a href="#cb29-119"></a>       <span class="at">title =</span> <span class="st">"Distribución del propensity score por grupo"</span>) <span class="sc">+</span></span>
+<span id="cb29-120"><a href="#cb29-120"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb29-121"><a href="#cb29-121"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb29-122"><a href="#cb29-122"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb29-123"><a href="#cb29-123"></a><span class="in">```</span></span>
+<span id="cb29-124"><a href="#cb29-124"></a></span>
+<span id="cb29-125"><a href="#cb29-125"></a><span class="fu">### Paso 4: Realizar el matching con MatchIt</span></span>
+<span id="cb29-126"><a href="#cb29-126"></a></span>
+<span id="cb29-129"><a href="#cb29-129"></a><span class="in">```{r}</span></span>
+<span id="cb29-130"><a href="#cb29-130"></a><span class="co">#| label: matching-matchit</span></span>
+<span id="cb29-131"><a href="#cb29-131"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb29-132"><a href="#cb29-132"></a></span>
+<span id="cb29-133"><a href="#cb29-133"></a>m_out <span class="ot">&lt;-</span> <span class="fu">matchit</span>(tratamiento <span class="sc">~</span> educacion <span class="sc">+</span> edad <span class="sc">+</span> ingreso_previo <span class="sc">+</span> urbano,</span>
+<span id="cb29-134"><a href="#cb29-134"></a>                  <span class="at">data =</span> datos,</span>
+<span id="cb29-135"><a href="#cb29-135"></a>                  <span class="at">method =</span> <span class="st">"nearest"</span>,</span>
+<span id="cb29-136"><a href="#cb29-136"></a>                  <span class="at">distance =</span> <span class="st">"glm"</span>,</span>
+<span id="cb29-137"><a href="#cb29-137"></a>                  <span class="at">ratio =</span> <span class="dv">1</span>)</span>
+<span id="cb29-138"><a href="#cb29-138"></a></span>
+<span id="cb29-139"><a href="#cb29-139"></a><span class="fu">summary</span>(m_out)</span>
+<span id="cb29-140"><a href="#cb29-140"></a><span class="in">```</span></span>
+<span id="cb29-141"><a href="#cb29-141"></a></span>
+<span id="cb29-142"><a href="#cb29-142"></a><span class="fu">### Paso 5: Verificar balance (Love plot)</span></span>
+<span id="cb29-143"><a href="#cb29-143"></a></span>
+<span id="cb29-146"><a href="#cb29-146"></a><span class="in">```{r}</span></span>
+<span id="cb29-147"><a href="#cb29-147"></a><span class="co">#| label: fig-matching-love-taller</span></span>
+<span id="cb29-148"><a href="#cb29-148"></a><span class="co">#| fig-cap: "Love plot: balance de covariables antes y después del matching"</span></span>
+<span id="cb29-149"><a href="#cb29-149"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb29-150"><a href="#cb29-150"></a></span>
+<span id="cb29-151"><a href="#cb29-151"></a><span class="fu">library</span>(cobalt)</span>
+<span id="cb29-152"><a href="#cb29-152"></a></span>
+<span id="cb29-153"><a href="#cb29-153"></a><span class="fu">love.plot</span>(m_out,</span>
+<span id="cb29-154"><a href="#cb29-154"></a>          <span class="at">binary =</span> <span class="st">"std"</span>,</span>
+<span id="cb29-155"><a href="#cb29-155"></a>          <span class="at">thresholds =</span> <span class="fu">c</span>(<span class="at">m =</span> <span class="fl">0.1</span>),</span>
+<span id="cb29-156"><a href="#cb29-156"></a>          <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"#185FA5"</span>, <span class="st">"#D85A30"</span>),</span>
+<span id="cb29-157"><a href="#cb29-157"></a>          <span class="at">var.names =</span> <span class="fu">c</span>(<span class="at">educacion =</span> <span class="st">"Educación (años)"</span>,</span>
+<span id="cb29-158"><a href="#cb29-158"></a>                        <span class="at">edad =</span> <span class="st">"Edad"</span>,</span>
+<span id="cb29-159"><a href="#cb29-159"></a>                        <span class="at">ingreso_previo =</span> <span class="st">"Ingreso previo"</span>,</span>
+<span id="cb29-160"><a href="#cb29-160"></a>                        <span class="at">urbano =</span> <span class="st">"Zona urbana"</span>),</span>
+<span id="cb29-161"><a href="#cb29-161"></a>          <span class="at">title =</span> <span class="st">"Balance de covariables"</span>) <span class="sc">+</span></span>
+<span id="cb29-162"><a href="#cb29-162"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
+<span id="cb29-163"><a href="#cb29-163"></a><span class="in">```</span></span>
+<span id="cb29-164"><a href="#cb29-164"></a></span>
+<span id="cb29-165"><a href="#cb29-165"></a>::: {.callout-note}</span>
+<span id="cb29-166"><a href="#cb29-166"></a><span class="fu">## ¿Cómo leer el Love plot?</span></span>
+<span id="cb29-167"><a href="#cb29-167"></a>Cada punto muestra la diferencia estandarizada entre tratados y controles. Los puntos **azules** son antes del matching y los **naranjas** después. Un buen matching acerca todos los puntos a cero. La línea vertical punteada (0.1) es el umbral recomendado.</span>
+<span id="cb29-168"><a href="#cb29-168"></a>:::</span>
+<span id="cb29-169"><a href="#cb29-169"></a></span>
+<span id="cb29-170"><a href="#cb29-170"></a><span class="fu">### Paso 6: Estimar el ATT sobre la muestra emparejada</span></span>
+<span id="cb29-171"><a href="#cb29-171"></a></span>
+<span id="cb29-174"><a href="#cb29-174"></a><span class="in">```{r}</span></span>
+<span id="cb29-175"><a href="#cb29-175"></a><span class="co">#| label: matching-att</span></span>
+<span id="cb29-176"><a href="#cb29-176"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb29-177"><a href="#cb29-177"></a></span>
+<span id="cb29-178"><a href="#cb29-178"></a>datos_matched <span class="ot">&lt;-</span> <span class="fu">match.data</span>(m_out)</span>
+<span id="cb29-179"><a href="#cb29-179"></a></span>
+<span id="cb29-180"><a href="#cb29-180"></a>modelo_att <span class="ot">&lt;-</span> <span class="fu">lm</span>(ingreso <span class="sc">~</span> tratamiento <span class="sc">+</span> educacion <span class="sc">+</span> edad <span class="sc">+</span></span>
+<span id="cb29-181"><a href="#cb29-181"></a>                   ingreso_previo <span class="sc">+</span> urbano,</span>
+<span id="cb29-182"><a href="#cb29-182"></a>                 <span class="at">data =</span> datos_matched,</span>
+<span id="cb29-183"><a href="#cb29-183"></a>                 <span class="at">weights =</span> weights)</span>
+<span id="cb29-184"><a href="#cb29-184"></a></span>
+<span id="cb29-185"><a href="#cb29-185"></a>resultado <span class="ot">&lt;-</span> <span class="fu">summary</span>(modelo_att)</span>
+<span id="cb29-186"><a href="#cb29-186"></a>coef_trat <span class="ot">&lt;-</span> resultado<span class="sc">$</span>coefficients[<span class="st">"tratamiento"</span>, ]</span>
+<span id="cb29-187"><a href="#cb29-187"></a></span>
+<span id="cb29-188"><a href="#cb29-188"></a><span class="fu">cat</span>(<span class="st">"========================================</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-189"><a href="#cb29-189"></a><span class="fu">cat</span>(<span class="st">"Efecto estimado (ATT):"</span>, <span class="fu">round</span>(coef_trat[<span class="dv">1</span>]), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-190"><a href="#cb29-190"></a><span class="fu">cat</span>(<span class="st">"Error estándar:"</span>, <span class="fu">round</span>(coef_trat[<span class="dv">2</span>], <span class="dv">1</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-191"><a href="#cb29-191"></a><span class="fu">cat</span>(<span class="st">"Valor p:"</span>, <span class="fu">round</span>(coef_trat[<span class="dv">4</span>], <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-192"><a href="#cb29-192"></a><span class="fu">cat</span>(<span class="st">"IC 95%: ["</span>, <span class="fu">round</span>(coef_trat[<span class="dv">1</span>] <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> coef_trat[<span class="dv">2</span>]),</span>
+<span id="cb29-193"><a href="#cb29-193"></a>    <span class="st">","</span>, <span class="fu">round</span>(coef_trat[<span class="dv">1</span>] <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> coef_trat[<span class="dv">2</span>]), <span class="st">"]</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-194"><a href="#cb29-194"></a><span class="fu">cat</span>(<span class="st">"Efecto real programado:"</span>, efecto_real, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-195"><a href="#cb29-195"></a><span class="fu">cat</span>(<span class="st">"========================================</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-196"><a href="#cb29-196"></a><span class="in">```</span></span>
+<span id="cb29-197"><a href="#cb29-197"></a></span>
+<span id="cb29-198"><a href="#cb29-198"></a>::: {.callout-tip}</span>
+<span id="cb29-199"><a href="#cb29-199"></a><span class="fu">## Interpretación</span></span>
+<span id="cb29-200"><a href="#cb29-200"></a>Compare el efecto estimado con el efecto real programado (150). El matching debería acercar la estimación al valor real, corrigiendo el sesgo de la comparación naive.</span>
+<span id="cb29-201"><a href="#cb29-201"></a>:::</span>
+</code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/edit/main/capitulos/anexo-codigo-matching.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

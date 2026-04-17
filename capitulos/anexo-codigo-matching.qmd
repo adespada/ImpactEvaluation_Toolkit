@@ -1,0 +1,189 @@
+# Código R: Matching y Propensity Score {#sec-anexo-codigo-matching}
+
+::: {.callout-note}
+## Sobre este anexo
+Este anexo contiene el código R completo para el taller práctico del método Matching / Propensity Score. Para la teoría y explicación del método, consulte el [capítulo correspondiente](03-matching.qmd).
+:::
+
+## Taller práctico
+
+::: {.callout-note}
+## Sobre este taller
+Vamos a trabajar con datos **simulados** de un programa de microfinanzas que otorgó microcréditos a 100 personas. Otras 100 personas no participaron. El resultado de interés es el ingreso mensual. Los participantes se autoseleccionaron: personas con más educación, más jóvenes, con mayor ingreso previo y de zona urbana tenían mayor probabilidad de participar.
+:::
+
+### Paso 1: Crear los datos simulados
+
+```{r}
+#| label: matching-datos-simulados
+#| code-fold: false
+
+library(dplyr)
+library(MatchIt)
+library(ggplot2)
+
+set.seed(42)
+
+n <- 200
+
+# Covariables
+educacion <- round(rnorm(n, mean = 10, sd = 3))
+educacion <- pmax(educacion, 4)
+edad <- round(rnorm(n, mean = 35, sd = 10))
+edad <- pmax(edad, 18)
+ingreso_previo <- round(rnorm(n, mean = 800, sd = 200))
+ingreso_previo <- pmax(ingreso_previo, 300)
+urbano <- rbinom(n, 1, 0.5)
+
+# Selección al tratamiento (sesgo: más probable si joven, educado, urbano, mayor ingreso)
+logit_p <- -3 + 0.15 * educacion + (-0.03) * edad +
+  0.002 * ingreso_previo + 0.8 * urbano
+prob_tratamiento <- plogis(logit_p)
+tratamiento <- rbinom(n, 1, prob_tratamiento)
+
+# Forzar 100 tratados y 100 controles para el ejemplo
+indices_trat <- which(tratamiento == 1)
+indices_ctrl <- which(tratamiento == 0)
+
+if (length(indices_trat) > 100) {
+  remover <- sample(indices_trat, length(indices_trat) - 100)
+  tratamiento[remover] <- 0
+} else if (length(indices_trat) < 100) {
+  agregar <- sample(indices_ctrl, 100 - length(indices_trat))
+  tratamiento[agregar] <- 1
+}
+
+# Resultado: ingreso mensual (efecto real del programa = 150)
+efecto_real <- 150
+ingreso <- 500 + 30 * educacion + (-2) * edad + 0.4 * ingreso_previo +
+  100 * urbano + efecto_real * tratamiento + rnorm(n, 0, 120)
+
+datos <- data.frame(
+  id = sprintf("ID_%03d", 1:n),
+  tratamiento = tratamiento,
+  ingreso = round(ingreso),
+  educacion = educacion,
+  edad = edad,
+  ingreso_previo = ingreso_previo,
+  urbano = urbano
+)
+
+head(datos, 10)
+```
+
+### Paso 2: Comparación naive (sesgada)
+
+```{r}
+#| label: matching-naive
+#| code-fold: false
+
+media_trat <- mean(datos$ingreso[datos$tratamiento == 1])
+media_ctrl <- mean(datos$ingreso[datos$tratamiento == 0])
+
+cat("Ingreso promedio - Participantes:", round(media_trat), "\n")
+cat("Ingreso promedio - No participantes:", round(media_ctrl), "\n")
+cat("Diferencia naive:", round(media_trat - media_ctrl), "\n")
+cat("Efecto real programado:", efecto_real, "\n")
+```
+
+::: {.callout-warning}
+## Sesgo de selección
+La diferencia naive sobreestima el efecto real porque los participantes ya tenían características asociadas a mayores ingresos. Matching busca corregir este sesgo.
+:::
+
+### Paso 3: Estimar el propensity score
+
+```{r}
+#| label: fig-matching-ps-taller
+#| fig-cap: "Distribución del propensity score por grupo"
+#| code-fold: false
+
+modelo_ps <- glm(tratamiento ~ educacion + edad + ingreso_previo + urbano,
+                  data = datos, family = binomial)
+
+datos$ps <- predict(modelo_ps, type = "response")
+
+ggplot(datos, aes(x = ps, fill = factor(tratamiento,
+                   labels = c("No participante", "Participante")))) +
+  geom_density(alpha = 0.5, color = NA) +
+  scale_fill_manual(values = c("No participante" = "#185FA5",
+                                "Participante" = "#D85A30")) +
+  labs(x = "Propensity score estimado",
+       y = "Densidad", fill = NULL,
+       title = "Distribución del propensity score por grupo") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold"))
+```
+
+### Paso 4: Realizar el matching con MatchIt
+
+```{r}
+#| label: matching-matchit
+#| code-fold: false
+
+m_out <- matchit(tratamiento ~ educacion + edad + ingreso_previo + urbano,
+                  data = datos,
+                  method = "nearest",
+                  distance = "glm",
+                  ratio = 1)
+
+summary(m_out)
+```
+
+### Paso 5: Verificar balance (Love plot)
+
+```{r}
+#| label: fig-matching-love-taller
+#| fig-cap: "Love plot: balance de covariables antes y después del matching"
+#| code-fold: false
+
+library(cobalt)
+
+love.plot(m_out,
+          binary = "std",
+          thresholds = c(m = 0.1),
+          colors = c("#185FA5", "#D85A30"),
+          var.names = c(educacion = "Educación (años)",
+                        edad = "Edad",
+                        ingreso_previo = "Ingreso previo",
+                        urbano = "Zona urbana"),
+          title = "Balance de covariables") +
+  theme_minimal(base_size = 13)
+```
+
+::: {.callout-note}
+## ¿Cómo leer el Love plot?
+Cada punto muestra la diferencia estandarizada entre tratados y controles. Los puntos **azules** son antes del matching y los **naranjas** después. Un buen matching acerca todos los puntos a cero. La línea vertical punteada (0.1) es el umbral recomendado.
+:::
+
+### Paso 6: Estimar el ATT sobre la muestra emparejada
+
+```{r}
+#| label: matching-att
+#| code-fold: false
+
+datos_matched <- match.data(m_out)
+
+modelo_att <- lm(ingreso ~ tratamiento + educacion + edad +
+                   ingreso_previo + urbano,
+                 data = datos_matched,
+                 weights = weights)
+
+resultado <- summary(modelo_att)
+coef_trat <- resultado$coefficients["tratamiento", ]
+
+cat("========================================\n")
+cat("Efecto estimado (ATT):", round(coef_trat[1]), "\n")
+cat("Error estándar:", round(coef_trat[2], 1), "\n")
+cat("Valor p:", round(coef_trat[4], 4), "\n")
+cat("IC 95%: [", round(coef_trat[1] - 1.96 * coef_trat[2]),
+    ",", round(coef_trat[1] + 1.96 * coef_trat[2]), "]\n")
+cat("Efecto real programado:", efecto_real, "\n")
+cat("========================================\n")
+```
+
+::: {.callout-tip}
+## Interpretación
+Compare el efecto estimado con el efecto real programado (150). El matching debería acercar la estimación al valor real, corrigiendo el sesgo de la comparación naive.
+:::

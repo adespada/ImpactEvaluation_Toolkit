@@ -1,0 +1,176 @@
+# Matching y Propensity Score {#sec-matching}
+
+## A. Teoría y explicación {#sec-matching-teoria}
+
+### ¿Qué es matching y por qué funciona?
+
+Imagine que un gobierno implementa un programa de capacitación laboral para personas desempleadas. Quienes se inscribieron voluntariamente tienden a ser más motivadas, más jóvenes o con mayor educación que quienes no se inscribieron. Si simplemente comparamos los ingresos de participantes y no participantes, la diferencia reflejará tanto el efecto del programa como esas diferencias preexistentes.
+
+**Matching** resuelve este problema buscando **gemelos estadísticos**: para cada participante del programa, encuentra una o varias personas no participantes que sean lo más parecidas posible en sus características observables (edad, educación, experiencia, zona geográfica, etc.). Al comparar solo pares similares, eliminamos el sesgo de selección que proviene de diferencias observables. Como señalan @gertler2016impact, matching consiste en construir un grupo de comparación artificial identificando, para cada unidad tratada, una unidad no tratada con las características más similares posibles.
+
+::: {.callout-note}
+## La idea clave
+Matching imita lo que haría un experimento aleatorio: construye un grupo de comparación que se parece al grupo tratado en todas las características observables. La diferencia en resultados entre estos pares similares se atribuye al programa. Es importante tener en cuenta que matching es típicamente más útil cuando se combina con otros métodos de evaluación [@gertler2016impact].
+:::
+
+### ¿Por qué no comparar directamente?
+
+Considere un programa de capacitación laboral. Los participantes tienen en promedio 30 años y 12 años de educación; los no participantes tienen 45 años y 8 años de educación. Una comparación directa de ingresos mezclaría el efecto del programa con las diferencias de edad y educación. Matching selecciona, para cada participante, un no participante de edad y educación similares, aislando así el efecto del programa.
+
+### El supuesto de selección en observables
+
+Matching se basa en un supuesto fundamental: **toda la diferencia** entre quienes participan y quienes no participan en el programa puede explicarse por variables que usted observa en sus datos. Formalmente, esto se conoce como la **Conditional Independence Assumption (CIA)** o supuesto de independencia condicional [@bernal2011]:
+
+$$
+(Y_0, Y_1) \perp T \mid X
+$$
+
+Esto dice que, una vez que controlamos por las características $X$, la asignación al tratamiento $T$ es como si fuera aleatoria. Los resultados potenciales $(Y_0, Y_1)$ no dependen de si la persona participó en el programa.
+
+::: {.callout-warning}
+## Supuesto fuerte
+Si existen factores **no observados** que afectan tanto la participación como el resultado (por ejemplo, motivación personal), matching **no** corrige ese sesgo. Este es el talón de Aquiles del método: usted necesita datos ricos en covariables relevantes. Como enfatizan @gertler2016impact, este supuesto es muy fuerte y, lo que es más problemático, no puede ser verificado empíricamente — no es posible demostrar que ninguna característica no observada afecta simultáneamente la participación y los resultados.
+:::
+
+### El puntaje de propensión (propensity score)
+
+Cuando tiene muchas covariables, encontrar gemelos exactos se vuelve imposible: es lo que se conoce como la **maldición de la dimensionalidad**. Con 10 variables binarias, hay 1.024 combinaciones posibles, y muchas celdas quedarán vacías.
+
+El **propensity score** resuelve esto colapsando todas las covariables en un solo número: la probabilidad estimada de participar en el programa dadas las características observadas:
+
+$$
+p(X) = P(T = 1 \mid X)
+$$
+
+Se estima típicamente con una regresión logística. @rosenbaum1983 demostraron que, si el CIA se cumple condicionando por $X$, también se cumple condicionando solo por $p(X)$. Esto permite hacer matching en una sola dimensión.
+
+@gertler2016impact describen los pasos del PSM siguiendo a Jalan y Ravallion (2003): (1) identificar las unidades tratadas y potenciales controles, (2) agrupar ambas muestras y estimar los puntajes de propensión, (3) restringir la muestra a la zona de soporte común, (4) localizar las unidades emparejadas con puntajes de propensión similares, (5) comparar los resultados entre pares emparejados, y (6) promediar los impactos individuales para obtener el efecto promedio del programa.
+
+```{r}
+#| label: fig-matching-propensity
+#| fig-cap: "Distribución del propensity score antes y después del matching"
+#| echo: false
+
+library(ggplot2)
+
+set.seed(42)
+n <- 300
+
+# Simular propensity scores con diferente distribución por grupo
+ps_tratamiento <- rbeta(n, 5, 2)
+ps_control <- rbeta(n, 2, 5)
+
+# Después del matching: distribuciones más parecidas
+ps_control_matched <- sample(ps_control[ps_control > 0.25 & ps_control < 0.85],
+                              size = 120, replace = TRUE)
+ps_trat_matched <- sample(ps_tratamiento[ps_tratamiento > 0.25 & ps_tratamiento < 0.85],
+                           size = 120, replace = TRUE)
+
+datos_ps <- data.frame(
+  ps = c(ps_tratamiento, ps_control, ps_trat_matched, ps_control_matched),
+  grupo = c(rep("Tratamiento", n), rep("Control", n),
+            rep("Tratamiento", 120), rep("Control", 120)),
+  etapa = c(rep("Antes del matching", 2 * n),
+            rep("Después del matching", 240))
+)
+datos_ps$etapa <- factor(datos_ps$etapa,
+                          levels = c("Antes del matching", "Después del matching"))
+
+ggplot(datos_ps, aes(x = ps, fill = grupo)) +
+  geom_density(alpha = 0.5, color = NA) +
+  facet_wrap(~etapa, ncol = 1) +
+  scale_fill_manual(values = c("Control" = "#185FA5",
+                                "Tratamiento" = "#D85A30")) +
+  labs(x = "Propensity score estimado", y = "Densidad",
+       fill = NULL,
+       title = "Soporte común: distribuciones del propensity score") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold"),
+        strip.text = element_text(face = "bold"))
+```
+
+### La fórmula del efecto
+
+El efecto promedio del tratamiento sobre los tratados (**ATT**) se estima como:
+
+$$
+\widehat{ATT} = \frac{1}{N_T} \sum_{i: T_i=1} \left[ Y_i - \hat{Y}_i^{(0)} \right]
+$$
+
+Donde $\hat{Y}_i^{(0)}$ es el resultado del individuo (o individuos) del grupo de control emparejado con el tratado $i$. En esencia: para cada participante, reste el resultado de su gemelo no participante, y promedie.
+
+### Tipos de matching
+
+```{r}
+#| label: tbl-matching-tipos
+#| tbl-cap: "Comparación de métodos de matching"
+#| echo: false
+
+tabla_tipos <- data.frame(
+  Metodo = c("Vecino más cercano\n(Nearest Neighbor)",
+             "Caliper",
+             "Kernel"),
+  Descripcion = c(
+    "Empareja cada tratado con el control de propensity score más cercano",
+    "Como vecino más cercano, pero descarta pares cuya diferencia en PS supera un umbral",
+    "Cada tratado se compara con un promedio ponderado de todos los controles, con mayor peso a los más cercanos"
+  ),
+  Ventaja = c(
+    "Simple, intuitivo, fácil de implementar",
+    "Evita emparejamientos de baja calidad",
+    "Usa toda la información del grupo de control; menor varianza"
+  ),
+  Desventaja = c(
+    "Puede emparejar unidades muy diferentes si no hay buen soporte",
+    "Puede perder observaciones tratadas sin par cercano",
+    "Más complejo de interpretar; depende del ancho de banda"
+  )
+)
+
+knitr::kable(tabla_tipos,
+             col.names = c("Método", "Descripción", "Ventaja", "Desventaja"))
+```
+
+@gertler2016impact recomiendan verificar la robustez de los resultados utilizando diversos algoritmos de matching, ya que distintos métodos pueden producir estimaciones diferentes. Si los resultados son consistentes entre métodos, esto fortalece la credibilidad de las conclusiones.
+
+### Supuestos y limitaciones
+
+::: {.callout-warning}
+## Soporte común (overlap)
+Para cada participante debe existir al menos un no participante con un propensity score similar. Si los grupos son muy diferentes, no hay base para la comparación. Siempre verifique la zona de soporte común antes de estimar efectos.
+:::
+
+@gertler2016impact señalan dos aspectos cruciales adicionales: el matching debe realizarse utilizando características de **línea base** (previas al tratamiento), nunca variables post-tratamiento que podrían estar afectadas por el programa; y la calidad del emparejamiento depende de contar con un número amplio de características de contexto. Además, matching es generalmente menos robusto que los métodos aleatorizados porque requiere el supuesto, que no puede verificarse empíricamente, de que no existen confusores no observados [@gertler2016impact].
+
+Cuando se dispone de datos de línea base, combinar matching con Diferencias en Diferencias (matched DD) constituye una estrategia poderosa, ya que DiD controla por factores no observables que son invariantes en el tiempo [@gertler2016impact].
+
+**Cuándo matching es una buena opción:**
+
+- Tiene datos transversales (de un solo momento) sin línea base temporal
+- Existe autoselección al programa pero usted tiene datos ricos de covariables
+- Los grupos tratado y control se solapan razonablemente en sus características
+- No hay variables no observadas importantes que afecten la selección
+
+**Cuándo matching NO es buena opción:**
+
+- Sospecha que hay factores no observados importantes (motivación, habilidad innata)
+- Los grupos son muy diferentes y no hay soporte común
+- Tiene pocas covariables para explicar la selección al programa
+- Tiene datos de panel — en ese caso considere DiD o efectos fijos
+- Si los datos disponibles no incluyen variables pre-tratamiento (matching ex-post es riesgoso porque las covariables podrían estar afectadas por el programa) [@gertler2016impact]
+
+::: {.callout-tip}
+## Código y práctica
+Para el taller práctico con código R de este método, consulte el [Anexo de código: Matching y Propensity Score](anexo-codigo-matching.qmd). Para una guía paso a paso de cómo usar IA para ejecutar este análisis, consulte la [Parte 6: Cómo hablar con la IA](06-guia-ia.qmd).
+:::
+
+::: {.callout-tip}
+## Recursos recomendados
+Para profundizar en matching y propensity score, se recomiendan las siguientes referencias:
+
+- @gertler2016impact, capítulos 7 y 8, para una explicación detallada de matching, propensity score y su combinación con otros métodos.
+- @rosenbaum1983, el artículo fundacional que demuestra las propiedades del propensity score.
+- @khandker2009, para una guía práctica de métodos de evaluación de impacto incluyendo matching.
+- La documentación del paquete [MatchIt](https://kosukeimai.github.io/MatchIt/) para la implementación en R.
+:::

@@ -1,0 +1,710 @@
+# Herramienta de autodiagnóstico {#sec-autodiagnostico}
+
+Esta herramienta interactiva le ayuda a identificar qué método(s) de evaluación de impacto son más apropiados para su programa. Está basada en la herramienta *Choosing Appropriate Evaluation Methods* desarrollada por Barbara Befani y Michael O'Donnell para [BOND UK](https://www.bond.org.uk/resources/evaluation-methods-tool) y actualizada por Barbara Befani para [CECAN](https://www.cecan.ac.uk/).
+
+::: {.callout-important}
+## Advertencia importante
+Esta herramienta es una **ayuda para la toma de decisiones**, no un sustituto del juicio profesional. Los resultados deben discutirse con evaluadores expertos antes de tomar una decisión final. Considere los resultados como un punto de partida para la conversación, no como una receta definitiva.
+:::
+
+<!-- Stepper de progreso -->
+:::: {.diag-stepper}
+::: {.diag-step .active}
+[Preguntas de evaluación]{.diag-step-label}
+:::
+::: {.diag-step}
+[Preferencias]{.diag-step-label}
+:::
+::: {.diag-step}
+[Factibilidad]{.diag-step-label}
+:::
+::::
+
+Responda las preguntas a continuación y observe cómo cambian las recomendaciones en tiempo real.
+
+```{ojs}
+//| echo: false
+
+// === DATOS BASE ===
+methodNames = ["Experimento aleatorio (RCT)", "Diferencias en diferencias", "Matching / Propensity Score", "Variables instrumentales (IV)", "Regresión discontinua (RDD)", "Outcome Mapping", "QuIP", "Mapeo de sistemas", "QCA", "Process Tracing", "Contribution Analysis", "Outcome Harvesting"]
+
+methodTypes = ["cuantitativo", "cuantitativo", "cuantitativo", "cuantitativo", "cuantitativo", "cualitativo", "cualitativo", "cualitativo", "cualitativo", "cualitativo", "cualitativo", "cualitativo"]
+
+methodChapters = ["03-rct.qmd", "03-did.qmd", "03-matching.qmd", "03-iv.qmd", "03-rdd.qmd", "04-outcome-mapping.qmd", "04-quip.qmd", "04-systems-mapping.qmd", "04-qca.qmd", "04-process-tracing.qmd", "04-contribution-analysis.qmd", "04-outcome-harvesting.qmd"]
+
+nMethods = 12
+```
+
+---
+
+:::: {.diag-stage .diag-stage-1}
+
+::: {.diag-stage-header}
+::: {.diag-stage-icon}
+🎯
+:::
+::: {}
+[Etapa 1: Preguntas de evaluación]{.diag-stage-title}
+
+[¿Qué quiere saber sobre su programa?]{.diag-stage-subtitle}
+:::
+:::
+
+¿Qué preguntas quiere que su evaluación responda? Seleccione **Sí** o **No** para cada una.
+
+```{ojs}
+//| echo: false
+
+// Etapa 1: scores de expertos (1-5) del Excel Tool2
+// Orden: [RCT, DID, Match, IV, RDD, OM, QuIP, SysMap, QCA, PT, CA, OH]
+s1_matrix = [
+  [5, 4, 3, 5, 5, 1, 3, 1, 2, 1, 1, 1],
+  [4, 4, 4, 3, 3, 3, 4, 3, 5, 3, 4, 3],
+  [2, 2, 2, 2, 2, 2, 4, 3, 3, 5, 5, 3],
+  [3, 3, 3, 2, 2, 1, 3, 4, 5, 4, 3, 2],
+  [1, 1, 1, 1, 1, 5, 3, 5, 1, 2, 1, 4]
+]
+```
+
+```{ojs}
+//| echo: false
+viewof s1q1 = Inputs.radio(["Sí", "No"], {label: "1.1 ¿Quiere saber cuál fue el cambio neto causado por la intervención? (¿Cuánto del resultado observado se puede atribuir al programa?)", value: "No"})
+```
+
+```{ojs}
+//| echo: false
+viewof s1q2 = Inputs.radio(["Sí", "No"], {label: "1.2 ¿Quiere saber qué diferencia hizo el programa en diferentes grupos de población y bajo qué circunstancias?", value: "No"})
+```
+
+```{ojs}
+//| echo: false
+viewof s1q3 = Inputs.radio(["Sí", "No"], {label: "1.3 ¿Quiere entender cómo y por qué la intervención generó cambios? ¿Cuál fue el mecanismo causal?", value: "No"})
+```
+
+```{ojs}
+//| echo: false
+viewof s1q4 = Inputs.radio(["Sí", "No"], {label: "1.4 ¿Quiere saber qué otros factores necesitaron estar presentes junto con la intervención para producir los resultados?", value: "No"})
+```
+
+```{ojs}
+//| echo: false
+viewof s1q5 = Inputs.radio(["Sí", "No"], {label: "1.5 ¿Quiere saber qué resultados consideran más importantes los diferentes grupos de beneficiarios?", value: "No"})
+```
+
+```{ojs}
+//| echo: false
+
+s1_active = [s1q1 === "Sí" ? 1 : 0, s1q2 === "Sí" ? 1 : 0, s1q3 === "Sí" ? 1 : 0, s1q4 === "Sí" ? 1 : 0, s1q5 === "Sí" ? 1 : 0]
+```
+
+```{ojs}
+//| echo: false
+
+s1_n_active = s1_active[0] + s1_active[1] + s1_active[2] + s1_active[3] + s1_active[4]
+```
+
+```{ojs}
+//| echo: false
+
+s1_scores = {
+  const arr = [];
+  for (let i = 0; i < nMethods; i++) {
+    let total = 0;
+    let maxP = 0;
+    for (let q = 0; q < 5; q++) {
+      if (s1_active[q] === 1) {
+        total += s1_matrix[q][i];
+        maxP += 5;
+      }
+    }
+    const sc = maxP > 0 ? Math.round((total / maxP) * 100) : 0;
+    arr.push({name: methodNames[i], type: methodTypes[i], chapter: methodChapters[i], score1: sc, idx: i});
+  }
+  return arr;
+}
+```
+
+```{ojs}
+//| echo: false
+
+s1_chart = {
+  if (s1_n_active === 0) {
+    const div = document.createElement("div");
+    div.className = "diag-empty";
+    div.innerHTML = '<div class="diag-empty-icon">📊</div><div class="diag-empty-title">Sin datos aún</div><div class="diag-empty-text">Seleccione al menos una pregunta de evaluación para ver los resultados.</div>';
+    return div;
+  }
+
+  const data = s1_scores.slice().sort((a, b) => b.score1 - a.score1);
+
+  return Plot.plot({
+    title: "Idoneidad del método para sus preguntas de evaluación",
+    marginLeft: 220,
+    width: 700,
+    height: 380,
+    x: {domain: [0, 100], label: "Puntaje (%)"},
+    y: {label: ""},
+    color: {domain: ["cuantitativo", "cualitativo"], range: ["#185FA5", "#0F6E56"], legend: true},
+    marks: [
+      Plot.barX(data, {y: "name", x: "score1", fill: "type", sort: {y: "-x"}}),
+      Plot.text(data, {y: "name", x: "score1", text: d => d.score1 + "%", dx: 5, textAnchor: "start", fontSize: 11}),
+      Plot.ruleX([80], {stroke: "#BA7517", strokeDasharray: "4,3", strokeWidth: 1.5})
+    ]
+  });
+}
+```
+
+::::
+
+---
+
+:::: {.diag-stage .diag-stage-2}
+
+::: {.diag-stage-header}
+::: {.diag-stage-icon}
+⚙️
+:::
+::: {}
+[Etapa 2: Preferencias adicionales]{.diag-stage-title}
+
+[¿Qué características adicionales valora en la evaluación?]{.diag-stage-subtitle}
+:::
+:::
+
+Más allá de las preguntas de evaluación, ¿qué características le interesan? Seleccione su nivel de preferencia para cada aspecto.
+
+```{ojs}
+//| echo: false
+
+// Etapa 2: scores de expertos (0.33/0.67/1.0)
+// Orden: [RCT, DID, Match, IV, RDD, OM, QuIP, SysMap, QCA, PT, CA, OH]
+s2_matrix = [
+  [1, 0.67, 0.67, 1, 1, 0.33, 0.33, 0.33, 0.33, 0.33, 0.33, 0.33],
+  [0.33, 1, 1, 0.67, 0.67, 0.67, 1, 0.33, 1, 1, 1, 0.67],
+  [0.67, 0.67, 0.67, 0.67, 0.67, 0.33, 0.67, 0.33, 1, 0.33, 0.67, 0.33],
+  [0.67, 0.67, 0.67, 0.33, 0.33, 1, 1, 1, 1, 1, 0.67, 1],
+  [0.67, 0.33, 0.67, 0.67, 0.67, 1, 0.67, 1, 0.67, 0.67, 1, 1],
+  [0.33, 0.33, 0.33, 0.33, 0.33, 1, 0.33, 1, 0.67, 0.67, 0.33, 0.33],
+  [0.67, 0.67, 0.67, 0.33, 0.33, 0.67, 1, 1, 0.33, 0.33, 0.67, 1],
+  [0.33, 0.33, 0.33, 0.33, 0.33, 0.67, 0.67, 0.67, 1, 0.67, 0.67, 0.67],
+  [1, 0.67, 0.67, 0.67, 0.67, 0.33, 0.67, 0.67, 0.67, 1, 0.67, 0.33],
+  [0.33, 0.33, 0.33, 0.33, 0.33, 1, 0.67, 1, 1, 1, 1, 0.67]
+]
+```
+
+```{ojs}
+//| echo: false
+pref_opts = ["No me interesa", "Poco deseable", "Deseable", "Muy deseable"]
+```
+
+```{ojs}
+//| echo: false
+viewof s2q1 = Inputs.select(pref_opts, {label: "2.1 Tener grupos de tratamiento y control perfectamente comparables (eliminar sesgo de selección)", value: "No me interesa"})
+```
+
+```{ojs}
+//| echo: false
+viewof s2q2 = Inputs.select(pref_opts, {label: "2.2 Permitir que todos los elegibles participen (sin excluir a nadie por el diseño de evaluación)", value: "No me interesa"})
+```
+
+```{ojs}
+//| echo: false
+viewof s2q3 = Inputs.select(pref_opts, {label: "2.3 Poder generalizar los resultados a otras poblaciones o contextos (validez externa)", value: "No me interesa"})
+```
+
+```{ojs}
+//| echo: false
+viewof s2q4 = Inputs.select(pref_opts, {label: "2.4 Identificar y explicar cambios no intencionados, tanto positivos como negativos", value: "No me interesa"})
+```
+
+```{ojs}
+//| echo: false
+viewof s2q5 = Inputs.select(pref_opts, {label: "2.5 Comunicar fácilmente los resultados a no especialistas", value: "No me interesa"})
+```
+
+```{ojs}
+//| echo: false
+viewof s2q6 = Inputs.select(pref_opts, {label: "2.6 Capturar una visión sistémica amplia (relaciones de poder, dependencia histórica, factores estructurales)", value: "No me interesa"})
+```
+
+```{ojs}
+//| echo: false
+viewof s2q7 = Inputs.select(pref_opts, {label: "2.7 Hacer explícitas las diferentes perspectivas sobre los resultados entre distintos grupos", value: "No me interesa"})
+```
+
+```{ojs}
+//| echo: false
+viewof s2q8 = Inputs.select(pref_opts, {label: "2.8 Identificar las condiciones que permiten el cambio en diferentes contextos", value: "No me interesa"})
+```
+
+```{ojs}
+//| echo: false
+viewof s2q9 = Inputs.select(pref_opts, {label: "2.9 Medir la confianza en las afirmaciones causales (¿la evidencia es fuerte o débil?)", value: "No me interesa"})
+```
+
+```{ojs}
+//| echo: false
+viewof s2q10 = Inputs.select(pref_opts, {label: "2.10 Manejar incertidumbre y datos escasos o de diferentes tipos en contextos complejos", value: "No me interesa"})
+```
+
+```{ojs}
+//| echo: false
+
+pref_val = ({"No me interesa": 0, "Poco deseable": 0.33, "Deseable": 0.67, "Muy deseable": 1})
+```
+
+```{ojs}
+//| echo: false
+
+s2_weights = [pref_val[s2q1], pref_val[s2q2], pref_val[s2q3], pref_val[s2q4], pref_val[s2q5], pref_val[s2q6], pref_val[s2q7], pref_val[s2q8], pref_val[s2q9], pref_val[s2q10]]
+```
+
+```{ojs}
+//| echo: false
+
+s2_n_active = s2_weights.filter(w => w > 0).length
+```
+
+```{ojs}
+//| echo: false
+
+s2_scores = {
+  const arr = [];
+  for (let i = 0; i < nMethods; i++) {
+    let wsum = 0;
+    let wmax = 0;
+    for (let q = 0; q < 10; q++) {
+      if (s2_weights[q] > 0) {
+        wsum += s2_matrix[q][i] * s2_weights[q];
+        wmax += 1.0 * s2_weights[q];
+      }
+    }
+    const sc = wmax > 0 ? Math.round((wsum / wmax) * 100) : 0;
+    arr.push({name: methodNames[i], type: methodTypes[i], chapter: methodChapters[i], score1: s1_scores[i].score1, score2: sc, idx: i});
+  }
+  return arr;
+}
+```
+
+```{ojs}
+//| echo: false
+
+s2_chart = {
+  if (s2_n_active === 0) {
+    const div = document.createElement("div");
+    div.className = "diag-empty";
+    div.innerHTML = '<div class="diag-empty-icon">⚙️</div><div class="diag-empty-title">Sin preferencias seleccionadas</div><div class="diag-empty-text">Seleccione al menos una preferencia para ver los resultados de la Etapa 2.</div>';
+    return div;
+  }
+
+  const data = s2_scores.slice().sort((a, b) => b.score2 - a.score2);
+
+  return Plot.plot({
+    title: "Capacidad del método para abordar sus preferencias",
+    marginLeft: 220,
+    width: 700,
+    height: 380,
+    x: {domain: [0, 100], label: "Puntaje (%)"},
+    y: {label: ""},
+    color: {domain: ["cuantitativo", "cualitativo"], range: ["#185FA5", "#0F6E56"], legend: true},
+    marks: [
+      Plot.barX(data, {y: "name", x: "score2", fill: "type", sort: {y: "-x"}}),
+      Plot.text(data, {y: "name", x: "score2", text: d => d.score2 + "%", dx: 5, textAnchor: "start", fontSize: 11})
+    ]
+  });
+}
+```
+
+::::
+
+---
+
+:::: {.diag-stage .diag-stage-3}
+
+::: {.diag-stage-header}
+::: {.diag-stage-icon}
+✅
+:::
+::: {}
+[Etapa 3: Factibilidad]{.diag-stage-title}
+
+[¿Su programa y contexto cumplen los requisitos de los métodos?]{.diag-stage-subtitle}
+:::
+:::
+
+::: {.callout-note}
+## Sobre esta sección
+Las preguntas 3.1–3.10 se refieren a requisitos de métodos cuantitativos. Las preguntas 3.11–3.15 se refieren a métodos cualitativos. Si un requisito no aplica a su contexto, seleccione "No sé".
+:::
+
+```{ojs}
+//| echo: false
+feas_opts = ["No sé", "No / nada", "Parcialmente", "Sí / totalmente"]
+```
+
+:::: {.diag-section-divider}
+Requisitos cuantitativos
+::::
+
+```{ojs}
+//| echo: false
+viewof s3q1 = Inputs.select(feas_opts, {label: "3.1 ¿Fue o será posible controlar quién participa en el programa y quién no?", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q2 = Inputs.select(feas_opts, {label: "3.2 ¿Cuántos individuos/hogares/comunidades participan en la intervención? (>30 parcialmente, >100 sí)", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q3 = Inputs.select(feas_opts, {label: "3.3 ¿Existe un grupo de no participantes comparable en tamaño suficiente?", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q4 = Inputs.select(feas_opts, {label: "3.4 ¿Los participantes y no participantes están aislados entre sí? (Sin contaminación)", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q5 = Inputs.select(feas_opts, {label: "3.5 ¿Ambos grupos están sujetos a las mismas influencias externas durante todo el programa?", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q6 = Inputs.select(feas_opts, {label: "3.6 ¿Hay datos de alta calidad sobre características de participantes y no participantes?", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q7 = Inputs.select(feas_opts, {label: "3.7 ¿Tiene datos de línea base de calidad para ambos grupos?", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q8 = Inputs.select(feas_opts, {label: "3.8 ¿Los datos confirman que la tendencia en indicadores era similar antes del programa? (Tendencias paralelas)", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q9 = Inputs.select(feas_opts, {label: "3.9 ¿Puede emparejar al menos 30 pares de participantes y no participantes similares?", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q10 = Inputs.select(feas_opts, {label: "3.10 ¿Existe una variable instrumental o punto de corte de elegibilidad?", value: "No sé"})
+```
+
+:::: {.diag-section-divider}
+Requisitos cualitativos
+::::
+
+```{ojs}
+//| echo: false
+viewof s3q11 = Inputs.select(feas_opts, {label: "3.11 ¿El equipo evaluador tiene buenas habilidades de facilitación grupal?", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q12 = Inputs.select(feas_opts, {label: "3.12 ¿Están los participantes y evaluadores abiertos a expresar diferentes perspectivas?", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q13 = Inputs.select(feas_opts, {label: "3.13 ¿El equipo evaluador puede formular y refinar supuestos teóricos sobre mecanismos?", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q14 = Inputs.select(feas_opts, {label: "3.14 ¿El equipo puede construir una teoría de cambio sólida con cadena causal y supuestos?", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+viewof s3q15 = Inputs.select(feas_opts, {label: "3.15 ¿Tiene acceso a habilidades técnicas para escribir y usar modelos o software de análisis?", value: "No sé"})
+```
+
+```{ojs}
+//| echo: false
+
+// Requisitos por método: 1=esencial, 0.5=deseable, 0=no requerido
+// [RCT, DID, Match, IV, RDD, OM, QuIP, SysMap, QCA, PT, CA, OH]
+s3_req_matrix = [
+  [1,   0,   0,    0,   0,   0,   0,   0,    0,   0,   0,   0],
+  [1,   1,   1,    1,   1,   0,   0,   0,    0,   0,   0,   0],
+  [1,   1,   1,    1,   1,   0,   0,   0,    0,   0,   0,   0],
+  [1,   1,   1,    1,   1,   0,   0,   0,    0,   0,   0,   0],
+  [1,   1,   1,    1,   1,   0,   0,   0,    0,   0,   0,   0],
+  [0.5, 1,   1,    0.5, 0.5, 0,   0,   0,    0,   0,   0,   0],
+  [0.5, 1,   0.5,  0.5, 0.5, 0,   0,   0,    0,   0,   0,   0],
+  [0,   1,   0,    0,   0,   0,   0,   0,    0,   0,   0,   0],
+  [0,   0,   1,    0,   0,   0,   0,   0,    0,   0,   0,   0],
+  [0,   0,   0,    1,   1,   0,   0,   0,    0,   0,   0,   0],
+  [0,   0,   0,    0,   0,   0.5, 1,   1,    0,   0,   0,   0.5],
+  [0,   0,   0,    0,   0,   0.5, 1,   0.5,  0,   0.5, 0.5, 0.5],
+  [0,   0,   0,    0,   0,   0,   0,   0,    0.5, 1,   0.5, 0],
+  [0,   0,   0,    0,   0,   0,   0,   0,    0,   0.5, 1,   0],
+  [0.5, 1,   0.5,  1,   1,   0,   0,   0.5,  0.5, 0,   0,   0]
+]
+```
+
+```{ojs}
+//| echo: false
+
+feas_val = ({"No sé": -1, "No / nada": 0, "Parcialmente": 0.5, "Sí / totalmente": 1})
+```
+
+```{ojs}
+//| echo: false
+
+s3_answers = [feas_val[s3q1], feas_val[s3q2], feas_val[s3q3], feas_val[s3q4], feas_val[s3q5], feas_val[s3q6], feas_val[s3q7], feas_val[s3q8], feas_val[s3q9], feas_val[s3q10], feas_val[s3q11], feas_val[s3q12], feas_val[s3q13], feas_val[s3q14], feas_val[s3q15]]
+```
+
+```{ojs}
+//| echo: false
+
+s3_has_answers = s3_answers.some(v => v >= 0)
+```
+
+```{ojs}
+//| echo: false
+
+s3_scores = {
+  const arr = [];
+  for (let i = 0; i < nMethods; i++) {
+    let ess_unmet = 0;
+    let ess_unknown = 0;
+    let fscore = 0;
+    let fmax = 0;
+
+    for (let q = 0; q < 15; q++) {
+      const req = s3_req_matrix[q][i];
+      const ans = s3_answers[q];
+      if (req > 0) {
+        fmax += req;
+        if (ans < 0) {
+          if (req >= 1) ess_unknown++;
+        } else if (ans === 0) {
+          if (req >= 1) ess_unmet++;
+        } else {
+          fscore += req * ans;
+        }
+      }
+    }
+
+    const sc = fmax > 0 ? Math.round((fscore / fmax) * 100) : 100;
+    arr.push({
+      name: methodNames[i], type: methodTypes[i], chapter: methodChapters[i],
+      score1: s2_scores[i].score1, score2: s2_scores[i].score2, score3: sc,
+      ess_unmet: ess_unmet, ess_unknown: ess_unknown, idx: i
+    });
+  }
+  return arr;
+}
+```
+
+```{ojs}
+//| echo: false
+
+s3_chart = {
+  if (!s3_has_answers) {
+    const div = document.createElement("div");
+    div.className = "diag-empty";
+    div.innerHTML = '<div class="diag-empty-icon">✅</div><div class="diag-empty-title">Sin respuestas de factibilidad</div><div class="diag-empty-text">Responda al menos una pregunta de factibilidad para ver los resultados.</div>';
+    return div;
+  }
+
+  const data = s3_scores.slice().sort((a, b) => b.score3 - a.score3);
+
+  return Plot.plot({
+    title: "Factibilidad del método dado su contexto",
+    marginLeft: 220,
+    width: 700,
+    height: 380,
+    x: {domain: [0, 100], label: "Puntaje de factibilidad (%)"},
+    y: {label: ""},
+    marks: [
+      Plot.barX(data, {
+        y: "name", x: "score3",
+        fill: d => d.ess_unmet > 0 ? "#D85A30" : (d.type === "cuantitativo" ? "#185FA5" : "#0F6E56"),
+        sort: {y: "-x"}
+      }),
+      Plot.text(data, {
+        y: "name", x: "score3",
+        text: d => d.ess_unmet > 0 ? d.score3 + "% (" + d.ess_unmet + " req. no cumplido)" : d.score3 + "%",
+        dx: 5, textAnchor: "start", fontSize: 10
+      })
+    ]
+  });
+}
+```
+
+::::
+
+---
+
+## Resultado combinado {#sec-autodiag-resultado}
+
+```{ojs}
+//| echo: false
+
+combined = {
+  const arr = [];
+  for (let i = 0; i < nMethods; i++) {
+    const m = s3_scores[i];
+    const s1 = m.score1 || 0;
+    const s2 = m.score2 || 0;
+    const s3 = m.score3 || 0;
+    const penalty = m.ess_unmet > 0 ? 0.5 : 1;
+    const score = Math.round((0.40 * s1 + 0.25 * s2 + 0.35 * s3) * penalty);
+    arr.push({name: m.name, type: m.type, chapter: m.chapter, score1: s1, score2: s2, score3: s3, ess_unmet: m.ess_unmet, ess_unknown: m.ess_unknown, combined: score});
+  }
+  arr.sort((a, b) => b.combined - a.combined);
+  return arr;
+}
+```
+
+```{ojs}
+//| echo: false
+
+any_input = s1_n_active > 0 || s2_n_active > 0 || s3_has_answers
+```
+
+```{ojs}
+//| echo: false
+
+combined_chart = {
+  if (!any_input) {
+    const div = document.createElement("div");
+    div.className = "diag-empty";
+    div.innerHTML = '<div class="diag-empty-icon">📋</div><div class="diag-empty-title">Responda las preguntas de las tres etapas</div><div class="diag-empty-text">A medida que responda, verá aquí un ranking combinado de los métodos más apropiados para su contexto.</div>';
+    return div;
+  }
+
+  return Plot.plot({
+    title: "Resultado combinado: ranking de métodos para su contexto",
+    subtitle: "Ponderación: 40% preguntas · 25% preferencias · 35% factibilidad",
+    marginLeft: 220,
+    width: 700,
+    height: 380,
+    x: {domain: [0, 100], label: "Puntaje combinado (%)"},
+    y: {label: ""},
+    marks: [
+      Plot.barX(combined, {
+        y: "name", x: "combined",
+        fill: d => d.ess_unmet > 0 ? "#D85A30" : (d.type === "cuantitativo" ? "#185FA5" : "#0F6E56"),
+        sort: {y: "-x"}
+      }),
+      Plot.text(combined, {
+        y: "name", x: "combined",
+        text: d => d.combined + "%",
+        dx: 5, textAnchor: "start", fontSize: 11, fontWeight: "bold"
+      })
+    ]
+  });
+}
+```
+
+### Recomendación
+
+```{ojs}
+//| echo: false
+
+recommendation = {
+  if (!any_input) {
+    const div = document.createElement("div");
+    div.className = "diag-empty";
+    div.innerHTML = '<div class="diag-empty-icon">🏆</div><div class="diag-empty-title">Esperando sus respuestas</div><div class="diag-empty-text">Complete las preguntas para obtener una recomendación personalizada.</div>';
+    return div;
+  }
+
+  const top3 = combined.slice(0, 3);
+  const rankClasses = ["diag-method-rank-1", "diag-method-rank-2", "diag-method-rank-3"];
+  const rankLabels = ["1", "2", "3"];
+
+  let cards = "";
+  for (let k = 0; k < top3.length; k++) {
+    const m = top3[k];
+    const badgeClass = m.type === "cuantitativo" ? "diag-badge-cuanti" : "diag-badge-cuali";
+    const badgeLabel = m.type === "cuantitativo" ? "Cuantitativo" : "Cualitativo";
+    const warn = m.ess_unmet > 0
+      ? '<div class="diag-warning-text">⚠ Tiene ' + m.ess_unmet + ' requisito(s) esencial(es) no cumplido(s)</div>'
+      : '';
+    cards += '<div class="diag-method-card">'
+      + '<div class="diag-method-rank ' + rankClasses[k] + '">' + rankLabels[k] + '</div>'
+      + '<div class="diag-method-info">'
+      + '<div class="diag-method-name"><a href="' + m.chapter + '">' + m.name + '</a> <span class="diag-badge ' + badgeClass + '">' + badgeLabel + '</span></div>'
+      + warn
+      + '</div>'
+      + '<div class="diag-method-score">' + m.combined + '%</div>'
+      + '</div>';
+  }
+
+  let mixedNote = "";
+  if (top3.length >= 2 && top3[0].type !== top3[1].type) {
+    mixedNote = '<div class="diag-mixed-note">💡 <strong>Diseño mixto recomendado:</strong> Sus respuestas sugieren que podría beneficiarse de combinar un método cuantitativo con uno cualitativo. Consulte la <a href="05-por-que-combinar.qmd">Parte 5: Métodos mixtos</a>.</div>';
+  }
+
+  const div = document.createElement("div");
+  div.className = "diag-results";
+  div.innerHTML = '<div class="diag-results-title">🏆 Métodos más recomendados para su contexto</div>'
+    + cards + mixedNote;
+  return div;
+}
+```
+
+### Tabla de detalle por etapa
+
+```{ojs}
+//| echo: false
+
+detail_table = {
+  if (!any_input) {
+    const div = document.createElement("div");
+    return div;
+  }
+
+  return Inputs.table(combined, {
+    columns: ["name", "type", "score1", "score2", "score3", "ess_unmet", "combined"],
+    header: {
+      name: "Método",
+      type: "Tipo",
+      score1: "Etapa 1 (%)",
+      score2: "Etapa 2 (%)",
+      score3: "Etapa 3 (%)",
+      ess_unmet: "Req. no cumplidos",
+      combined: "Combinado (%)"
+    },
+    sort: "combined",
+    reverse: true
+  });
+}
+```
+
+---
+
+## ¿Cómo interpretar estos resultados?
+
+::: {.callout-tip}
+## Guía de interpretación
+
+- **Puntaje combinado > 70%:** El método es una buena opción para su contexto. Consulte el capítulo correspondiente.
+- **Puntaje combinado 50-70%:** El método podría funcionar pero tiene limitaciones. Evalúe si puede resolver las restricciones.
+- **Puntaje combinado < 50%:** El método probablemente no es adecuado para su situación actual.
+- **Barras en rojo:** El método tiene requisitos esenciales que usted indicó que no puede cumplir. Considere si esa restricción es resoluble.
+- **Si ningún método supera el 70%:** Considere fortalecer su sistema de monitoreo (vuelva a la [Parte 1](01-marco-logico.qmd)) o explore diseños mixtos ([Parte 5](05-por-que-combinar.qmd)).
+:::
+
+::: {.callout-note}
+## Sobre la combinación de métodos
+Es raro que un solo método responda a todas las preguntas de evaluación. Si sus preguntas combinan interés en el efecto neto (Etapa 1, pregunta 1.1) con interés en los mecanismos causales (pregunta 1.3), probablemente necesitará combinar un método cuantitativo con uno cualitativo.
+:::
+
+## Créditos y atribución
+
+Esta herramienta es una adaptación al español de la *Choosing Appropriate Evaluation Methods Tool* (versión 2.1, octubre 2020):
+
+- **Versión original (1.0):** Desarrollada por Barbara Befani y Michael O'Donnell para [BOND UK](https://www.bond.org.uk/resources/evaluation-methods-tool), con financiamiento del Departamento de Desarrollo Internacional del Reino Unido (DFID) y Comic Relief.
+- **Actualización (2.1):** Desarrollada por Barbara Befani para [CECAN](https://www.cecan.ac.uk/), con financiamiento de UK Research and Innovation (UKRI/ESRC) y agencias del gobierno del Reino Unido.
+- **Adaptación para este toolkit:** Se seleccionaron los métodos cubiertos en esta guía, se tradujeron las preguntas al español y se simplificó la interfaz para uso interactivo en web.

@@ -1,0 +1,6 @@
+# Bibliografía anotada
+
+::: {.callout-note}
+## En construcción
+Este capítulo está en desarrollo. Consulta el [capítulo piloto de Diferencias en Diferencias](03-did.qmd) como referencia del formato y profundidad esperada.
+:::

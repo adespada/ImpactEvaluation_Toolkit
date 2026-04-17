@@ -1,0 +1,348 @@
+# Código R: Experimentos aleatorizados (RCT) {#sec-anexo-codigo-rct}
+
+::: {.callout-note}
+## Sobre este anexo
+Este anexo contiene el código R completo para el taller práctico del método de experimentos aleatorizados (RCT). Para la teoría y explicación del método, consulte el [capítulo correspondiente](03-rct.qmd).
+:::
+
+## Taller práctico
+
+::: {.callout-note}
+## Sobre este taller
+Se trabajará con datos **simulados** de una campaña de vacunación en 80 comunidades rurales. El gobierno asignó aleatoriamente 40 comunidades a recibir brigadas móviles de vacunación (tratamiento) y 40 comunidades como control. El resultado de interés es la tasa de vacunación infantil (porcentaje de niños vacunados). Además, se cuenta con características pre-tratamiento como la población, la distancia al hospital más cercano y el ingreso promedio.
+:::
+
+### Paso 1: Crear los datos simulados
+
+```{r}
+#| label: rct-datos-simulados
+#| code-fold: false
+
+set.seed(42)
+
+n <- 80  # 40 tratamiento + 40 control
+
+# Covariables pre-tratamiento
+poblacion <- round(runif(n, min = 500, max = 5000))
+distancia_hospital <- round(runif(n, min = 2, max = 60), 1)
+ingreso_base <- round(rnorm(n, mean = 800, sd = 200))
+
+# Asignación aleatoria al tratamiento
+tratamiento <- c(rep(1, 40), rep(0, 40))
+
+# Efecto verdadero del programa: 12 puntos porcentuales
+efecto_real <- 12
+
+# Variable de resultado: tasa de vacunación (%)
+tasa_vacunacion <- 45 +
+  0.003 * poblacion +
+  -0.15 * distancia_hospital +
+  0.01 * ingreso_base +
+  efecto_real * tratamiento +
+  rnorm(n, mean = 0, sd = 8)
+
+tasa_vacunacion <- pmin(pmax(round(tasa_vacunacion, 1), 10), 98)
+
+# Crear base de datos
+datos <- data.frame(
+  comunidad_id = sprintf("COM_%03d", 1:n),
+  tratamiento = tratamiento,
+  poblacion = poblacion,
+  distancia_hospital = distancia_hospital,
+  ingreso_base = ingreso_base,
+  tasa_vacunacion = tasa_vacunacion
+)
+
+# Vista previa
+head(datos, 10)
+```
+
+### Paso 2: Tabla de balance
+
+```{r}
+#| label: tbl-rct-balance
+#| tbl-cap: "Tabla de balance: comparación de características pre-tratamiento entre grupos"
+#| code-fold: false
+
+library(dplyr)
+
+balance <- datos |>
+  group_by(tratamiento) |>
+  summarise(
+    n = n(),
+    poblacion_media = round(mean(poblacion), 0),
+    distancia_media = round(mean(distancia_hospital), 1),
+    ingreso_medio = round(mean(ingreso_base), 0),
+    .groups = "drop"
+  )
+
+# Tests de diferencia de medias
+test_pob <- t.test(poblacion ~ tratamiento, data = datos)
+test_dist <- t.test(distancia_hospital ~ tratamiento, data = datos)
+test_ing <- t.test(ingreso_base ~ tratamiento, data = datos)
+
+tabla_balance <- data.frame(
+  Variable = c("Población", "Distancia al hospital (km)", "Ingreso base (USD)"),
+  Control = c(balance$poblacion_media[1],
+              balance$distancia_media[1],
+              balance$ingreso_medio[1]),
+  Tratamiento = c(balance$poblacion_media[2],
+                  balance$distancia_media[2],
+                  balance$ingreso_medio[2]),
+  Diferencia = c(
+    round(balance$poblacion_media[2] - balance$poblacion_media[1], 1),
+    round(balance$distancia_media[2] - balance$distancia_media[1], 1),
+    round(balance$ingreso_medio[2] - balance$ingreso_medio[1], 1)
+  ),
+  Valor_p = c(
+    round(test_pob$p.value, 3),
+    round(test_dist$p.value, 3),
+    round(test_ing$p.value, 3)
+  )
+)
+
+knitr::kable(tabla_balance,
+             col.names = c("Variable", "Control", "Tratamiento",
+                           "Diferencia", "Valor p"))
+```
+
+::: {.callout-tip}
+## ¿Cómo interpretar la tabla de balance?
+Si la aleatorización funcionó correctamente, las diferencias entre grupos deben ser pequeñas y los valores p deben ser **mayores a 0.05** (no significativos). Esto indica que los grupos son comparables y cualquier diferencia posterior en la tasa de vacunación puede atribuirse al programa.
+:::
+
+### Paso 3: Estimar el efecto del tratamiento
+
+```{r}
+#| label: rct-estimacion
+#| code-fold: false
+
+# Modelo 1: diferencia de medias simple
+modelo_simple <- lm(tasa_vacunacion ~ tratamiento, data = datos)
+summary(modelo_simple)
+```
+
+```{r}
+#| label: fig-rct-resultados
+#| fig-cap: "Distribución de la tasa de vacunación por grupo"
+#| code-fold: false
+
+library(ggplot2)
+
+datos$grupo <- ifelse(datos$tratamiento == 1,
+                      "Tratamiento\n(brigada móvil)",
+                      "Control")
+
+medias_grupo <- datos |>
+  group_by(grupo) |>
+  summarise(media = mean(tasa_vacunacion), .groups = "drop")
+
+ggplot(datos, aes(x = grupo, y = tasa_vacunacion, fill = grupo)) +
+  geom_boxplot(alpha = 0.6, outlier.shape = NA) +
+  geom_jitter(width = 0.15, alpha = 0.4, size = 1.5) +
+  geom_point(data = medias_grupo, aes(y = media),
+             shape = 18, size = 5, color = "black") +
+  annotate("segment",
+           x = 1, xend = 2,
+           y = max(datos$tasa_vacunacion) + 2,
+           yend = max(datos$tasa_vacunacion) + 2,
+           color = "#BA7517", linewidth = 0.8) +
+  annotate("text",
+           x = 1.5, y = max(datos$tasa_vacunacion) + 4,
+           label = paste0("Efecto = ",
+                          round(coef(modelo_simple)[2], 1), " pp"),
+           color = "#BA7517", fontface = "bold", size = 4) +
+  scale_fill_manual(values = c("Control" = "#185FA5",
+                                "Tratamiento\n(brigada móvil)" = "#D85A30")) +
+  labs(x = NULL, y = "Tasa de vacunación (%)",
+       title = "Efecto de la brigada móvil de vacunación") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "none",
+        plot.title = element_text(face = "bold"))
+```
+
+```{r}
+#| label: tbl-rct-modelos
+#| tbl-cap: "Comparación de modelos: con y sin covariables"
+#| code-fold: false
+
+# Modelo 2: con covariables para mayor precisión
+modelo_covariables <- lm(tasa_vacunacion ~ tratamiento + poblacion +
+                           distancia_hospital + ingreso_base,
+                         data = datos)
+
+# Tabla comparativa
+resultados <- data.frame(
+  Modelo = c("Sin covariables", "Con covariables"),
+  Efecto = c(round(coef(modelo_simple)[2], 2),
+             round(coef(modelo_covariables)[2], 2)),
+  Error_std = c(round(summary(modelo_simple)$coefficients[2, 2], 2),
+                round(summary(modelo_covariables)$coefficients[2, 2], 2)),
+  Valor_p = c(round(summary(modelo_simple)$coefficients[2, 4], 4),
+              round(summary(modelo_covariables)$coefficients[2, 4], 4)),
+  R2 = c(round(summary(modelo_simple)$r.squared, 3),
+         round(summary(modelo_covariables)$r.squared, 3))
+)
+
+knitr::kable(resultados,
+             col.names = c("Modelo", "Efecto (pp)", "Error estándar",
+                           "Valor p", "R²"))
+```
+
+::: {.callout-note}
+## ¿Cómo leer estos resultados?
+El coeficiente de `tratamiento` es el efecto del programa. En nuestro ejemplo simulado, debería estar cercano a **12 puntos porcentuales** (el efecto real que programamos). Note que al incluir covariables el error estándar se reduce (mayor precisión), pero el coeficiente del tratamiento no debería cambiar sustancialmente — esto es lo esperable en un RCT bien aleatorizado.
+:::
+
+### Paso 4: Efectos heterogéneos por subgrupos
+
+```{r}
+#| label: fig-rct-heterogeneos
+#| fig-cap: "Efectos heterogéneos: ¿el programa funciona igual en comunidades cercanas y lejanas?"
+#| code-fold: false
+
+library(dplyr)
+library(ggplot2)
+
+# Crear subgrupos por distancia al hospital
+datos$subgrupo_dist <- ifelse(datos$distancia_hospital > median(datos$distancia_hospital),
+                               "Lejanas (>mediana)", "Cercanas (≤mediana)")
+
+# Crear subgrupos por tamaño de población
+datos$subgrupo_pob <- ifelse(datos$poblacion > median(datos$poblacion),
+                              "Grandes (>mediana)", "Pequeñas (≤mediana)")
+
+# Estimar efectos por subgrupo de distancia
+efectos_dist <- datos |>
+  group_by(subgrupo_dist) |>
+  summarise(
+    efecto = coef(lm(tasa_vacunacion ~ tratamiento))[2],
+    se = summary(lm(tasa_vacunacion ~ tratamiento))$coefficients[2, 2],
+    .groups = "drop"
+  ) |>
+  mutate(dimension = "Distancia al hospital",
+         subgrupo = subgrupo_dist)
+
+# Estimar efectos por subgrupo de población
+efectos_pob <- datos |>
+  group_by(subgrupo_pob) |>
+  summarise(
+    efecto = coef(lm(tasa_vacunacion ~ tratamiento))[2],
+    se = summary(lm(tasa_vacunacion ~ tratamiento))$coefficients[2, 2],
+    .groups = "drop"
+  ) |>
+  mutate(dimension = "Tamaño de población",
+         subgrupo = subgrupo_pob)
+
+# Combinar
+efectos_sub <- bind_rows(
+  efectos_dist |> select(dimension, subgrupo, efecto, se),
+  efectos_pob |> select(dimension, subgrupo, efecto, se)
+)
+
+ggplot(efectos_sub, aes(x = subgrupo, y = efecto)) +
+  geom_point(size = 3, color = "#D85A30") +
+  geom_errorbar(aes(ymin = efecto - 1.96 * se,
+                     ymax = efecto + 1.96 * se),
+                width = 0.15, color = "#D85A30", linewidth = 0.8) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+  facet_wrap(~dimension, scales = "free_x") +
+  labs(x = NULL, y = "Efecto estimado (pp)",
+       title = "Efectos heterogéneos por subgrupo") +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(face = "bold"),
+        strip.text = element_text(face = "bold"))
+```
+
+::: {.callout-tip}
+## ¿Cómo interpretar los efectos heterogéneos?
+Si los intervalos de confianza de los subgrupos se superponen, no hay evidencia estadística de que el programa funcione de manera diferente entre subgrupos. Si un subgrupo muestra un efecto significativamente mayor, esto puede orientar la focalización de futuras intervenciones.
+:::
+
+## Guía de recolección de datos
+
+::: {.callout-important}
+## ¿Cuándo leer esta sección?
+Lea esto **antes** de implementar el programa, cuando aún se encuentra en fase de planificación. La calidad de su evaluación RCT depende de un diseño riguroso y de la integridad de la asignación aleatoria.
+:::
+
+### ¿Qué datos necesita para un RCT?
+
+Para llevar a cabo un experimento aleatorizado necesita como mínimo:
+
+1. **Línea base (datos pre-tratamiento)**: medición de su variable de resultado y covariables **antes** de la asignación aleatoria.
+
+2. **Registro de la asignación**: documentación clara de qué unidades fueron asignadas a tratamiento y cuáles a control, y cómo se hizo la aleatorización.
+
+3. **Datos de seguimiento (endline)**: medición de las mismas variables **después** de la intervención, para ambos grupos.
+
+4. **Datos de cumplimiento**: información sobre si las unidades asignadas al tratamiento efectivamente lo recibieron (y si alguna unidad de control accedió al programa).
+
+### Estructura de su base de datos
+
+Su base de datos debe tener la siguiente estructura (formato de **panel**):
+
+```{r}
+#| label: tbl-rct-estructura-anexo
+#| tbl-cap: "Estructura mínima de base de datos para un RCT"
+#| code-fold: true
+#| echo: false
+
+ejemplo <- data.frame(
+  id = c("ID_001", "ID_001", "ID_002", "ID_002", "ID_003", "ID_003"),
+  periodo = c("Línea base", "Seguimiento", "Línea base", "Seguimiento",
+              "Línea base", "Seguimiento"),
+  asignacion = c(1, 1, 0, 0, 1, 1),
+  tratamiento_efectivo = c(1, 1, 0, 0, 0, 0),
+  resultado = c(42, 58, 45, 47, 38, 40),
+  covariable_1 = c(2500, 2500, 1800, 1800, 3200, 3200),
+  covariable_2 = c(15, 15, 8, 8, 32, 32)
+)
+
+knitr::kable(ejemplo,
+             col.names = c("ID", "Periodo", "Asignación", "Tratamiento efectivo",
+                           "Resultado", "Población", "Distancia (km)"))
+```
+
+::: {.callout-tip}
+## Asignación vs. tratamiento efectivo
+Note que `asignacion` indica a qué grupo fue sorteada cada unidad, mientras que `tratamiento_efectivo` indica si realmente recibió la intervención. En el ejemplo, ID_003 fue asignada al tratamiento pero no lo recibió (incumplimiento). Registrar ambas variables es esencial para estimar el efecto ITT y el efecto LATE.
+:::
+
+### Checklist de recolección
+
+Antes de iniciar la recolección, verifique que puede responder "sí" a cada pregunta:
+
+- [ ] ¿Se ha definido la unidad de aleatorización (individuo, hogar, comunidad, escuela)?
+- [ ] ¿Se tiene un listado completo del universo de unidades elegibles?
+- [ ] ¿Se ha recolectado la **línea base** antes de revelar la asignación?
+- [ ] ¿La aleatorización fue documentada y es reproducible (semilla aleatoria guardada)?
+- [ ] ¿Se cuenta con un protocolo para manejar el incumplimiento?
+- [ ] ¿Se miden las mismas variables con el mismo instrumento en línea base y seguimiento?
+- [ ] ¿Se tiene un identificador único para cada unidad de observación?
+- [ ] ¿Se ha calculado el tamaño de muestra necesario (análisis de poder estadístico)?
+- [ ] ¿Se ha registrado el estudio en un registro público (por ejemplo, AEA RCT Registry)?
+
+### Prompt para planificar la recolección con IA
+
+::: {.prompt-block}
+Estoy diseñando un experimento aleatorizado (RCT) para evaluar un programa. Mi programa es:
+
+- Tipo de programa: [describir brevemente]
+- Beneficiarios potenciales: [tipo y número aproximado]
+- Indicador de resultado principal: [describir]
+- Unidad de aleatorización: [individuo / hogar / comunidad / escuela]
+- Presupuesto aproximado para la evaluación: [monto]
+
+¿Puede ayudarme a:
+1. Calcular el tamaño de muestra mínimo que necesito (análisis de poder) dado un efecto mínimo detectable de [X] y un nivel de significancia de 0.05
+2. Diseñar el protocolo de aleatorización (simple, estratificada, por bloques)
+3. Definir qué variables necesito recolectar en la línea base
+4. Sugerir un cronograma de recolección de datos (línea base, seguimiento)
+5. Identificar riesgos potenciales (atrición, incumplimiento, derrame) y cómo mitigarlos
+:::
+
+::: {.callout-warning}
+## El error más común: comprometer la aleatorización
+El riesgo más grave en un RCT es que la asignación aleatoria se vea comprometida — por ejemplo, si administradores del programa reasignan beneficiarios después del sorteo, o si el grupo de control accede al tratamiento. Si la aleatorización pierde integridad, el RCT pierde su principal ventaja y los resultados dejan de ser causales. **Documente y proteja el proceso de asignación con protocolos estrictos.**
+:::

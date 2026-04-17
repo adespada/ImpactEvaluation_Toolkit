@@ -1,0 +1,371 @@
+---
+format: html
+bibliography: ../referencias.bib
+---
+
+# Outcome Mapping (OM)
+
+## A. Teoría y explicación
+
+### ¿Qué es Outcome Mapping?
+
+El **Outcome Mapping (OM)** es una metodología de planificación, monitoreo y evaluación que se centra en los cambios en el comportamiento, las relaciones, las acciones y las prácticas de los actores clave involucrados en una intervención. A diferencia de los enfoques tradicionales que buscan medir impactos finales (como ingresos, puntajes o indicadores agregados), el OM pone el foco en los procesos de cambio que ocurren en los llamados boundary partners, es decir, aquellos actores con los que el programa interactúa directamente y sobre los cuales puede influir de manera más inmediata.
+
+Este enfoque reconoce que, en contextos complejos, los resultados de largo plazo no dependen únicamente de una intervención, sino de la interacción entre múltiples actores y factores. Por ello, en lugar de atribuir cambios finales directamente al programa, el Outcome Mapping propone analizar cómo el programa contribuye a transformaciones observables en el comportamiento de los actores, entendiendo estos cambios como pasos intermedios hacia impactos más amplios (@earl2001).
+
+Uno de los aportes centrales del OM es que redefine el concepto de “resultado” (outcome): no como un estado final, sino como un cambio en el comportamiento de actores clave dentro del sistema. Esto permite capturar dinámicas que suelen quedar invisibles en evaluaciones tradicionales, como procesos de aprendizaje, fortalecimiento de capacidades, coordinación entre actores o cambios en normas sociales. Como señalan @earl2001, el OM es especialmente útil en intervenciones orientadas al cambio social, la gobernanza o el desarrollo institucional, donde los efectos son no lineales y difíciles de atribuir de manera directa.
+
+Además, el Outcome Mapping introduce herramientas específicas como los outcome challenges (definición del cambio esperado en los actores) y los progress markers (indicadores cualitativos y graduales del cambio), que permiten hacer seguimiento sistemático a estos procesos. Este enfoque ha sido ampliamente utilizado por organizaciones de desarrollo internacional para complementar evaluaciones de impacto más tradicionales, aportando una mejor comprensión de cómo y por qué ocurren los cambios (@earl2001; @jones2009).
+
+
+### ¿Para qué sirve en evaluación?
+
+El Outcome Mapping (OM) es especialmente útil en evaluación cuando el objetivo no es solo medir resultados finales, sino comprender cómo ocurren los cambios dentro de un sistema, particularmente a través del comportamiento de los actores. Este enfoque es más adecuado en contextos donde los procesos son complejos, los resultados son no lineales y múltiples factores influyen en los resultados observados. En estos casos, medir únicamente el impacto final puede ser insuficiente para entender el verdadero aporte de una intervención (@earl2001; @jones2009).
+
+En términos de cuándo usar OM, resulta particularmente valioso en programas donde el cambio depende de la interacción entre actores, como intervenciones en educación, salud pública, fortalecimiento institucional o gobernanza. También es útil cuando los resultados esperados implican transformaciones en prácticas, capacidades, relaciones o normas sociales, más que cambios inmediatos en indicadores cuantificables. Por ejemplo, en programas de formación docente o participación comunitaria, el éxito del programa depende de cómo los actores adoptan nuevas formas de actuar, más que de un resultado puntual observable en el corto plazo (@earl2001).
+
+En cuanto a los tipos de programas donde es más pertinente, el OM es particularmente adecuado para intervenciones orientadas al cambio social, el desarrollo de capacidades, la incidencia en políticas públicas o la articulación entre múltiples actores. En estos contextos, los efectos suelen ser indirectos, emergentes y difíciles de atribuir a una sola causa. Por ello, el OM permite capturar mejor estas dinámicas al enfocarse en los cambios intermedios que hacen posible el impacto final (@jones2009).
+
+Además, el Outcome Mapping responde a un conjunto de preguntas evaluativas clave que suelen quedar fuera de los enfoques tradicionales, tales como:
+
+- ¿Cómo están cambiando los comportamientos de los actores clave?
+- ¿Qué relaciones se están fortaleciendo o debilitando dentro del sistema?
+- ¿Qué prácticas nuevas están emergiendo como resultado del programa?
+- ¿A través de qué mecanismos se están generando los cambios?
+
+En este sentido, el OM complementa de manera natural herramientas como el Participatory Systems Mapping (PSM). Mientras el PSM permite entender la estructura del sistema —identificando variables, relaciones causales y bucles de retroalimentación—, el Outcome Mapping se enfoca en cómo cambian los actores dentro de ese sistema. Es decir, el PSM ayuda a responder qué importa y cómo se conecta, mientras que el OM permite profundizar en quién cambia y de qué manera. Juntos, ambos enfoques ofrecen una visión más completa para el diseño y la evaluación de intervenciones en contextos complejos (@earl2001; @jones2009).
+
+
+### ¿Cómo se usa en evaluación de impacto?
+
+El Outcome Mapping (OM) se utiliza en evaluación de impacto como una herramienta complementaria a los métodos cuantitativos, especialmente cuando queremos ir más allá de estimar si un programa funciona y entender cómo y por qué produce cambios. Mientras los métodos cuantitativos (como experimentos, DiD o IV) permiten identificar efectos causales, el OM aporta una comprensión más profunda de los procesos que conectan la intervención con los resultados, lo que resulta clave en contextos complejos (@earl2001; @jones2009).
+
+En primer lugar, el OM permite la identificación de cambios intermedios que suelen quedar invisibles en evaluaciones tradicionales. En lugar de centrarse únicamente en resultados finales (por ejemplo, puntajes o ingresos), el enfoque pone atención en transformaciones graduales en los actores, como mejoras en capacidades, cambios en prácticas o fortalecimiento de relaciones. Estos cambios intermedios —capturados a través de herramientas como los progress markers— permiten construir una narrativa más completa del impacto y entender las rutas causales que lo explican (@earl2001).
+
+En segundo lugar, el Outcome Mapping facilita el seguimiento sistemático de actores clave (boundary partners), que son quienes implementan, adaptan o amplifican los efectos del programa. A través de este enfoque, la evaluación no solo observa resultados agregados, sino que monitorea cómo evolucionan los comportamientos de estos actores a lo largo del tiempo. Esto es particularmente útil en intervenciones donde el éxito depende de procesos de adopción, aprendizaje o coordinación entre múltiples actores (@jones2009).
+
+Además, el OM permite traducir elementos cualitativos en insumos útiles para el análisis cuantitativo. Por ejemplo:
+
+- Los cambios identificados en los actores pueden convertirse en variables observables o indicadores.
+- Los progress markers pueden operacionalizarse como métricas de seguimiento.
+- Las relaciones identificadas pueden formularse como hipótesis que luego se contrastan con datos.
+
+En este sentido, el OM actúa como un puente entre el análisis cualitativo y cuantitativo, fortaleciendo el diseño de la evaluación y mejorando la interpretación de resultados.
+
+Finalmente, al conectarlo con herramientas como el Participatory Systems Mapping (PSM), el uso del OM se vuelve aún más potente. Mientras el PSM ayuda a identificar las variables y relaciones clave del sistema, el Outcome Mapping permite hacer seguimiento a cómo cambian los actores dentro de ese sistema. Esta combinación permite diseñar evaluaciones más completas, donde no solo se mide el impacto, sino que también se entienden los mecanismos que lo generan (@earl2001; @jones2009).
+
+::: {.callout-note}
+## Conceptos clave
+
+**Boundary partners:** Actores clave con los que el programa interactúa directamente y en quienes busca influir. No son controlados por la intervención, pero sí pueden cambiar su comportamiento como resultado de ella.
+
+**Outcome challenges:** Descripción clara del cambio esperado en los *boundary partners*, es decir, cómo deberían actuar, relacionarse o tomar decisiones si el programa es exitoso.
+
+**Progress markers:** Indicadores cualitativos y graduales que permiten hacer seguimiento al cambio en los actores. Se organizan en niveles (lo que se espera ver, lo que sería positivo ver y lo que sería ideal ver).
+
+**Estrategias:** Acciones o intervenciones que implementa el programa para generar los cambios en los *boundary partners*, incluyendo actividades de capacitación, acompañamiento o incentivos.
+:::
+
+---
+
+## B. Aplicación paso a paso
+
+### Ejemplo aplicado: Programa de monitorias 
+
+Vamos a aplicar Outcome Mapping al programa de monitorías académicas, cuyo objetivo es mejorar el rendimiento de los estudiantes.
+
+### Paso 1: Definir la visión del programa  
+
+La visión describe el cambio de largo plazo que se espera lograr.
+
+::: {.callout-note}
+## Visión 
+Estudiantes con mejores resultados académicos, mayor autonomía en su aprendizaje y una comunidad académica colaborativa
+:::
+
+### Paso 2: Identificar boundary partners  
+
+Son los actores sobre los cuales el programa puede influir directamente.
+
+1. Estudiantes que reciben monitoría
+2. Monitores
+3. Profesores
+
+
+### Paso 3: Definir outcome challenges  
+
+Se describe cómo deberían cambiar los actores si el programa funciona bien.
+
+```{r tabla1}
+#| echo: false
+#| message: false
+#| warning: false
+outcome_challenges <- data.frame(
+  Actor = c("Estudiantes", "Monitores", "Profesores"),
+  Cambio_esperado = c(
+    "Participan activamente en monitorías y mejoran hábitos de estudio",
+    "Desarrollan habilidades pedagógicas y acompañan efectivamente",
+    "Integran monitorías en su estrategia de enseñanza"
+  ),
+  stringsAsFactors = FALSE
+)
+
+outcome_challenges
+```
+
+### Paso 4: Construir progress markers  
+
+Indicadores graduales del cambio.
+
+```{r tabla2}
+#| echo: false
+#| message: false
+#| warning: false
+
+ progress_markers <- data.frame(
+  Actor = rep("Estudiantes", 3),
+  Nivel = c("Esperar ver", "Sería bueno ver", "Ideal ver"),
+  Comportamiento = c(
+    "Asisten regularmente a monitorías",
+    "Participan activamente en sesiones",
+    "Ayudan a otros estudiantes"
+  ),
+  stringsAsFactors = FALSE
+)
+
+progress_markers
+```
+
+
+### Paso 5: Diseñar estrategias  
+
+Acciones que el programa implementa para generar los cambios.
+
+```{r tabla3}
+#| echo: false
+#| message: false
+#| warning: false
+
+estrategias <- data.frame(
+  Estrategia = c(
+    "Capacitación a monitores",
+    "Sesiones semanales de monitoría",
+    "Seguimiento académico",
+    "Coordinación con profesores"
+  ),
+  Objetivo = c(
+    "Mejorar calidad del acompañamiento",
+    "Aumentar participación estudiantil",
+    "Detectar estudiantes en riesgo",
+    "Alinear monitorías con cursos"
+  ),
+  stringsAsFactors = FALSE
+)
+
+estrategias
+
+```
+
+
+### Paso 6: Sistema de seguimiento  
+
+Construimos una base simple para monitorear cambios en los actores.
+
+```{r sistema}
+#| echo: false
+#| message: false
+#| warning: false
+
+set.seed(123)
+
+seguimiento <- data.frame(
+  estudiante = 1:10,
+  asistencia = sample(0:1, 10, replace = TRUE),
+  participacion = sample(1:5, 10, replace = TRUE),
+  ayuda_otros = sample(0:1, 10, replace = TRUE)
+)
+
+seguimiento
+```
+
+## Visualización
+
+```{r visualizacion}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(ggplot2)
+
+ggplot(seguimiento, aes(x = participacion)) +
+  geom_bar() +
+  labs(
+    title = "Nivel de participación en monitorías",
+    x = "Participación (1-5)",
+    y = "Número de estudiantes"
+  ) +
+  theme_minimal()
+```
+
+::: {.callout-note}
+## Importante
+El sistema de seguimiento en Outcome Mapping permite monitorear cambios en el comportamiento de los actores, no estimar causalidad. Sin embargo, estos datos pueden complementar evaluaciones cuantitativas posteriores.
+:::
+
+---
+
+## C. ¿Cómo se usa en evaluación?
+
+Una vez construido el Outcome Mapping, el siguiente paso es traducir sus elementos en componentes operativos de la evaluación. El valor del OM no está solo en describir el cambio, sino en convertir esa información en indicadores, datos y estrategias de análisis.
+
+Podemos hacer tres conversiones clave:
+
+**1. De cambios → indicadores**
+
+Los cambios en comportamiento definidos en los outcome challenges se pueden traducir en indicadores observables. Esto implica pasar de descripciones cualitativas a variables que puedan medirse en la práctica.
+
+Por ejemplo, si el cambio esperado es que los estudiantes “participen activamente en monitorías”, esto puede convertirse en indicadores como:
+
+- Número de sesiones asistidas
+- Nivel de participación en clase
+- Frecuencia de intervención en actividades
+
+De esta manera, el OM ayuda a definir qué medir y a asegurar que los indicadores estén alineados con los mecanismos del programa.
+
+
+**2. De actores → unidades de análisis**
+
+Los boundary partners permiten definir claramente quiénes son las unidades de análisis en la evaluación. En lugar de centrarse únicamente en resultados agregados, el enfoque pone atención en los actores que experimentan el cambio.
+
+Por ejemplo:
+
+- Estudiantes → unidad de análisis individual
+- Monitores → unidad de análisis individual o grupal
+- Profesores → unidad de análisis a nivel de curso
+
+Esto es clave porque permite diseñar mejor la recolección de datos y elegir métodos adecuados (encuestas, paneles, datos administrativos).
+
+**3. De progress markers → métricas**
+
+Los progress markers ofrecen una forma natural de construir métricas graduales del cambio. A diferencia de los indicadores tradicionales (que suelen ser binarios o puntuales), estos permiten capturar niveles de avance.
+
+Por ejemplo:
+
+- Esperar ver → asistencia a monitorías
+- Sería bueno ver → participación activa
+- Ideal ver → apoyo a otros estudiantes
+
+Estos niveles pueden convertirse en:
+
+- Escalas ordinales (bajo, medio, alto)
+- Índices de comportamiento
+- Variables acumulativas de progreso
+
+Esto permite analizar no solo si ocurrió el cambio, sino en qué medida y con qué intensidad.
+
+::: {.callout-note}
+## Importante
+
+El Outcome Mapping no reemplaza la evaluación cuantitativa, pero la fortalece:
+
+- Mejora la definición de indicadores
+- Clarifica las unidades de análisis
+- Permite medir procesos de cambio, no solo resultados finales
+
+Esto facilita la integración con métodos econométricos y mejora la interpretación de los resultados.
+:::
+
+---
+
+## D. Limitaciones y riesgos
+
+Aunque el Outcome Mapping (OM) es una herramienta poderosa para comprender procesos de cambio, también presenta limitaciones importantes que deben tenerse en cuenta al momento de diseñar y utilizar una evaluación.
+
+**1. No permite identificar efectos causales por sí solo**
+
+Una de las principales limitaciones del OM es que no está diseñado para estimar impactos causales. A diferencia de métodos como experimentos, Diferencias en Diferencias o Variables Instrumentales, el OM no permite aislar el efecto de una intervención frente a otros factores. Su enfoque está en la contribución al cambio, no en la atribución causal. Por lo tanto, si se utiliza de manera aislada, no es posible responder preguntas como "¿cuánto del cambio observado se debe al programa?"
+
+**2. Dependencia de percepciones y subjetividad**
+
+El OM se basa en gran medida en la identificación de cambios en comportamiento a partir de la observación, el seguimiento o la percepción de los actores. Esto introduce un riesgo de subjetividad, ya que los resultados pueden depender de cómo los participantes interpretan o reportan los cambios.
+
+Además, los progress markers pueden variar según quién los defina, lo que puede afectar la comparabilidad y consistencia de los resultados (@jones2009).
+
+**3. Dificultad para priorizar y simplificar**
+
+En contextos complejos, el Outcome Mapping puede generar una gran cantidad de información sobre actores, cambios y procesos. Esto puede llevar a mapas o sistemas de seguimiento demasiado amplios, dificultando la priorización de qué medir o analizar.
+
+Si no se gestiona adecuadamente, existe el riesgo de que la evaluación pierda foco y se vuelva operativamente costosa (@earl2001).
+
+**4. Requiere tiempo y capacidades institucionales**
+
+Implementar OM de manera adecuada implica procesos de reflexión, construcción participativa y seguimiento continuo. En particular,
+
+- Tiempo
+- Capacidades técnicas
+- Coordinación entre actores
+
+En contextos con recursos limitados, puede ser difícil sostener estos procesos en el tiempo (@earl2001; @jones2009).
+
+**5. Riesgo de desconexión con métodos cuantitativos**
+
+Si no se diseña de manera articulada, el Outcome Mapping puede quedar como un ejercicio cualitativo aislado, sin conexión con el análisis cuantitativo. Esto limita su utilidad en evaluaciones de impacto que requieren evidencia más robusta.
+
+Por ello, es clave integrar OM con otras herramientas (como PSM o métodos econométricos), de modo que los cambios identificados puedan traducirse en indicadores medibles y contrastables.
+
+::: {.callout-note}
+## Importante
+
+El Outcome Mapping no reemplaza la evaluación de impacto.
+Su valor está en complementar otros métodos, ayudando a entender cómo ocurren los cambios, no necesariamente cuánto impacto generan.
+:::
+
+---
+
+## E. Conclusiones y recomendaciones
+
+El Outcome Mapping (OM) aporta una perspectiva clave para la evaluación de impacto al desplazar el foco desde los resultados finales hacia los procesos de cambio en los actores. En contextos donde los programas operan a través de múltiples mecanismos y dependen de la interacción entre distintos actores, entender estos procesos no es opcional, sino necesario para interpretar adecuadamente los resultados.
+
+A lo largo de esta guía, se mostró que el OM permite identificar cómo cambian los comportamientos, las prácticas y las relaciones, ofreciendo una visión más rica de la intervención. Sin embargo, su mayor valor emerge cuando se utiliza de manera articulada con otros enfoques. En particular:
+
+- El Participatory Systems Mapping (PSM) ayuda a entender la estructura del sistema, las variables clave y sus interacciones. 
+- El Outcome Mapping permite hacer seguimiento a los cambios en los actores dentro de ese sistema.
+- Los métodos cuantitativos permiten estimar el efecto causal de la intervención.
+
+Esta complementariedad es fundamental en evaluaciones de impacto en contextos reales, donde los problemas no son lineales y las intervenciones no actúan en condiciones controladas.
+
+
+**Recomendaciones prácticas**
+
+A partir de lo anterior, se proponen algunas recomendaciones para el uso del Outcome Mapping en evaluación:
+
+**1. Usar OM desde el diseño del programa**
+El Outcome Mapping es más útil cuando se incorpora desde etapas tempranas, ya que permite estructurar la teoría de cambio, identificar actores clave y definir indicadores relevantes desde el inicio.
+
+**2. Priorizar actores y cambios clave**
+No todos los actores ni todos los cambios pueden ser monitoreados. Es importante seleccionar aquellos más relevantes para la lógica del programa y donde existe mayor incertidumbre.
+
+**3. Traducir los resultados a indicadores medibles**
+Para integrar el OM con otros enfoques, es fundamental convertir los progress markers y cambios observados en variables que puedan medirse y analizarse.
+
+**4. Integrar con métodos cuantitativos**
+El OM debe utilizarse como complemento, no como sustituto. Idealmente, los cambios identificados deben alimentar el diseño de evaluaciones cuantitativas que permitan contrastar hipótesis y estimar efectos.
+
+**5. Mantener un equilibrio entre profundidad y simplicidad**
+Aunque el OM permite capturar la complejidad, es importante evitar sistemas de seguimiento demasiado extensos. Un diseño claro y focalizado mejora la utilidad de la evaluación.
+
+
+::: {.callout-note}
+## Idea final
+
+Evaluar impacto no es solo medir resultados, sino entender procesos.
+El Outcome Mapping permite cerrar esa brecha, conectando lo que los programas hacen con cómo generan cambio en la realidad.
+:::
+
+
+
+## Referencias
+
+::: {#refs}
+:::
+

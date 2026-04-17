@@ -1,0 +1,175 @@
+# ¿Qué es evaluación de impacto? {#sec-que-es-evaluacion}
+
+## Tres formas de mirar un programa
+
+Cuando se implementa un programa social, hay diferentes formas de examinar si está funcionando. Cada una responde a preguntas distintas:
+
+```{r}
+#| label: tbl-tipos-evaluacion
+#| tbl-cap: "Diferencias entre monitoreo, evaluación de proceso y evaluación de impacto"
+#| echo: false
+
+tipos <- data.frame(
+  Aspecto = c(
+    "Pregunta central",
+    "¿Cuándo se hace?",
+    "Ejemplo",
+    "Datos típicos",
+    "Complejidad"
+  ),
+  Monitoreo = c(
+    "¿Se están ejecutando las actividades según lo planeado?",
+    "Continuamente, durante la implementación",
+    "¿Cuántas capacitaciones se realizaron este trimestre?",
+    "Registros administrativos, informes de avance",
+    "Baja"
+  ),
+  Evaluacion_proceso = c(
+    "¿Cómo se está implementando el programa y por qué?",
+    "Durante o al final de la implementación",
+    "¿Por qué algunos beneficiarios abandonan el programa?",
+    "Entrevistas, grupos focales, observación",
+    "Media"
+  ),
+  Evaluacion_impacto = c(
+    "¿Qué cambios causó el programa en los beneficiarios?",
+    "Después de un tiempo suficiente de implementación",
+    "¿El programa de nutrición redujo la desnutrición infantil?",
+    "Encuestas, datos de panel, registros administrativos",
+    "Alta"
+  )
+)
+
+knitr::kable(tipos,
+             col.names = c("Aspecto", "Monitoreo", "Evaluación de proceso", "Evaluación de impacto"),
+             align = c("l", "l", "l", "l"))
+```
+
+::: {.callout-note}
+## La diferencia clave
+El **monitoreo** le dice *qué* se hizo. La **evaluación de proceso** le dice *cómo* se hizo. La **evaluación de impacto** le dice *qué diferencia hizo*. Las tres son complementarias y necesarias.
+:::
+
+## El problema del contrafactual
+
+La evaluación de impacto busca responder una pregunta aparentemente simple: *¿qué habría pasado si el programa no hubiera existido?*
+
+Considere este ejemplo: un programa de suplementación nutricional atiende a 500 niños en comunidades rurales. Después de dos años, la tasa de desnutrición crónica en esas comunidades bajó del 30% al 22%. ¿Fue gracias al programa?
+
+No necesariamente. Durante esos dos años pudieron ocurrir muchas otras cosas:
+
+- La economía local mejoró y las familias compraron más alimentos
+- Hubo una campaña nacional de vacunación que redujo enfermedades
+- Las lluvias fueron mejores y la producción agrícola aumentó
+- Los niños simplemente crecieron y su nutrición mejoró naturalmente
+
+::: {.callout-warning}
+## El error de atribución
+Comparar el "antes" con el "después" en los beneficiarios **no** es suficiente para medir el impacto de un programa. Muchos cambios habrían ocurrido de todos modos, con o sin el programa.
+:::
+
+Lo que necesitamos saber es: ¿cuál habría sido la tasa de desnutrición en esas mismas comunidades si el programa **no** se hubiera implementado? Esa situación hipotética se llama el **contrafactual**.
+
+Como no podemos observar el contrafactual directamente (las comunidades no pueden recibir y no recibir el programa al mismo tiempo), necesitamos **métodos** que nos ayuden a construir una aproximación creíble del contrafactual. Esa es la esencia de la evaluación de impacto.
+
+## ¿Cómo se construye el contrafactual?
+
+Existen dos grandes familias de enfoques:
+
+### Métodos cuantitativos
+
+Construyen el contrafactual usando un **grupo de comparación** — personas, comunidades o instituciones similares a las que recibieron el programa, pero que no lo recibieron. La clave está en que ambos grupos sean lo más parecidos posible, de modo que la única diferencia relevante sea haber participado o no en el programa.
+
+| Método | Idea central | Capítulo |
+|--------|-------------|----------|
+| Experimentos aleatorios (RCT) | Asignar el programa por sorteo garantiza grupos comparables | [Cap. RCT](03-rct.qmd) |
+| Diferencias en diferencias (DiD) | Comparar cambios en el tiempo entre tratados y no tratados | [Cap. DiD](03-did.qmd) |
+| Matching / Propensity Score | Emparejar participantes con no participantes similares | [Cap. Matching](03-matching.qmd) |
+| Variables instrumentales (IV) | Usar una variable externa para corregir el sesgo de selección | [Cap. IV](03-iv.qmd) |
+| Regresión discontinua (RDD) | Usar un punto de corte para identificar el efecto | [Cap. RDD](03-rdd.qmd) |
+
+: Métodos cuantitativos cubiertos en este toolkit {#tbl-metodos-cuanti}
+
+### Métodos cualitativos y participativos
+
+Construyen el contrafactual o la explicación causal a través del **análisis de mecanismos**, la **triangulación de evidencia** o la **participación de actores clave**. Son especialmente útiles cuando:
+
+- El programa opera en contextos complejos con múltiples actores
+- No es posible o ético tener un grupo de comparación
+- Se necesita entender *cómo* y *por qué* funcionó (o no) el programa
+
+| Método | Idea central | Capítulo |
+|--------|-------------|----------|
+| Process Tracing | Rastrear paso a paso el mecanismo causal | [Cap. Process Tracing](04-process-tracing.qmd) |
+| Contribution Analysis | Construir una historia de contribución creíble | [Cap. Contribution Analysis](04-contribution-analysis.qmd) |
+| QCA | Identificar combinaciones de condiciones necesarias y suficientes | [Cap. QCA](04-qca.qmd) |
+| Outcome Mapping | Mapear cambios en el comportamiento de socios directos | [Cap. Outcome Mapping](04-outcome-mapping.qmd) |
+| Most Significant Change | Recolectar y analizar historias de cambio más significativo | [Cap. MSC](04-msc.qmd) |
+
+: Métodos cualitativos cubiertos en este toolkit {#tbl-metodos-cuali}
+
+## ¿Por qué importan los métodos rigurosos?
+
+### El sesgo de selección
+
+Imagine que un programa de microcrédito reporta que sus beneficiarios aumentaron sus ingresos en un 40% después de participar. Suena impresionante, pero hay un problema: las personas que **solicitan** un microcrédito probablemente son más emprendedoras, están más motivadas y tienen mejores redes sociales que las que no lo solicitan. Parte de ese aumento de ingresos habría ocurrido de todas formas, sin el microcrédito.
+
+Esto se llama **sesgo de selección**: las personas que participan en un programa son sistemáticamente diferentes de las que no participan, y esas diferencias también afectan los resultados.
+
+::: {.callout-note}
+## ¿Por qué no basta con comparar participantes y no participantes?
+Si las personas que participan son diferentes desde el inicio (más motivadas, más educadas, en mejor situación geográfica), entonces cualquier diferencia en resultados puede deberse a esas características previas y no al programa. Los métodos de evaluación de impacto buscan eliminar o reducir este sesgo.
+:::
+
+### Ejemplos de América Latina
+
+La evaluación rigurosa de programas sociales tiene una larga tradición en la región:
+
+**Progresa/Oportunidades (México, 1997).** Este programa de transferencias condicionadas fue evaluado con un experimento aleatorio desde su inicio. La evaluación demostró que el programa aumentó la asistencia escolar, mejoró la nutrición infantil y redujo la pobreza. Estos resultados rigurosos fueron clave para que el programa se expandiera y se replicara en decenas de países.
+
+**Familias en Acción (Colombia, 2002).** Evaluado con métodos cuasi-experimentales (diferencias en diferencias y matching), se demostró que el programa tuvo efectos positivos en nutrición y asistencia escolar, aunque los efectos en el largo plazo fueron más modestos de lo esperado.
+
+**Bono de Desarrollo Humano (Ecuador, 2003).** Un experimento aleatorio mostró que las transferencias condicionadas mejoraron la matrícula escolar y las visitas a centros de salud, particularmente en hogares más pobres.
+
+::: {.callout-tip}
+## La evaluación no es solo para los investigadores
+Los resultados de estas evaluaciones transformaron las políticas públicas de la región. Sin evaluaciones rigurosas, los gobiernos no habrían tenido evidencia para expandir, ajustar o discontinuar programas que cuestan millones de dólares. La evaluación de impacto es una herramienta de rendición de cuentas y aprendizaje institucional.
+:::
+
+## ¿Cuándo es necesaria una evaluación de impacto?
+
+No todo programa necesita una evaluación de impacto. Esta tiene sentido cuando:
+
+- [ ] El programa es relativamente **nuevo** y no hay evidencia clara de que funcione
+- [ ] Se están invirtiendo **recursos significativos** y se necesita justificar la inversión
+- [ ] Se planea **escalar** el programa a otras regiones o poblaciones
+- [ ] Hay **debate** sobre si el programa funciona o si los recursos se podrían usar mejor de otra forma
+- [ ] Los **donantes o autoridades** requieren evidencia de resultados
+
+::: {.callout-warning}
+## Cuándo NO hacer evaluación de impacto
+Si el programa lleva muy poco tiempo operando, si no hay datos previos disponibles, si el contexto es tan volátil que no se puede mantener un diseño de evaluación, o si el costo de la evaluación supera los beneficios de la información que generará, puede ser mejor invertir primero en un buen sistema de monitoreo (vea la [Parte 1](01-marco-logico.qmd)).
+:::
+
+## Resumen
+
+```{r}
+#| label: tbl-resumen-conceptos
+#| tbl-cap: "Conceptos clave de este capítulo"
+#| echo: false
+
+resumen <- data.frame(
+  Concepto = c("Contrafactual", "Sesgo de selección", "Grupo de comparación", "Impacto"),
+  Definicion = c(
+    "Lo que habría ocurrido sin el programa. No se observa directamente, se estima.",
+    "Diferencias sistemáticas entre participantes y no participantes que pueden confundirse con el efecto del programa.",
+    "Grupo de personas o unidades que no recibieron el programa y sirven como referencia para estimar el contrafactual.",
+    "El cambio en los resultados que se puede atribuir causalmente al programa, descontando lo que habría ocurrido sin él."
+  )
+)
+
+knitr::kable(resumen,
+             col.names = c("Concepto", "Definición"))
+```
+
+En el siguiente capítulo aprenderá a construir una **teoría de cambio**, que es el primer paso para diseñar cualquier evaluación: entender *cómo* se supone que su programa genera impacto.

@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.35">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; Introducción a los métodos cuantitativos – Toolkit de Evaluación de Impacto</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/03-rct.html" rel="next">
+<link href="../capitulos/02-autodiagnostico.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-22b4aaf4c2978829df3684e8f2c068db.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-18c4648ec6b711cbdcb06aa220cd8088.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-6f8e7d7ac6489dfa4e33f32d5ebc9ead.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-18c4648ec6b711cbdcb06aa220cd8088.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/03-intro-cuantitativa.html">PARTE 3 — Métodos cuantitativos</a></li><li class="breadcrumb-item"><a href="../capitulos/03-intro-cuantitativa.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introducción a los métodos cuantitativos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Toolkit de Evaluación de Impacto</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/adespada/ImpactEvaluation_Toolkit" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenido al Toolkit</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 0 — Contexto y fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-bienvenida.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bienvenida y cómo usar esta guía</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-que-es-evaluacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">¿Qué es evaluación de impacto?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-teoria-de-cambio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Teoría de cambio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 1 — Sistemas de monitoreo</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-marco-logico.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Marco lógico e indicadores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-recoleccion-datos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diseño de sistemas de recolección de datos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-linea-base.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Línea base y datos de seguimiento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-monitoreo-a-evaluacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">De monitoreo a evaluación</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 2 — Herramienta de autodiagnóstico</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/02-autodiagnostico.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Herramienta de autodiagnóstico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 3 — Métodos cuantitativos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-intro-cuantitativa.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introducción a los métodos cuantitativos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-rct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Experimentos aleatorizados (RCT)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-did.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Diferencias en diferencias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Matching y Propensity Score</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Variables instrumentales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Regresión discontinua</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-poder-muestra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poder estadístico y tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 4 — Métodos cualitativos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-intro-cualitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Introducción a métodos cualitativos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-systems-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Participatory Systems Mapping (PSM)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-outcome-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Outcome Mapping (OM)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-outcome-harvesting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Outcome Harvesting (OH)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-contribution-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Contribution Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-process-tracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Process Tracing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-qca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Qualitative Comparative Analysis (QCA)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-quip.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Qualitative Impact Protocol (QuIP)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 5 — Métodos mixtos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-por-que-combinar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">¿Cuándo y por qué combinar métodos?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-disenos-mixtos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Diseños mixtos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-casos-estudio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Casos de estudio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 6 — Cómo hablar con la IA</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/06-guia-ia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Cómo hablar con la IA para hacer una evaluación de impacto</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 7 — Anexos de código</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-rct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Código R: Experimentos aleatorizados (RCT)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-did.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Código R: Diferencias en diferencias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Código R: Variables instrumentales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Código R: Regresión discontinua</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-poder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Código R: Poder estadístico y tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 8 — Recursos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-glosario.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Glosario</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-plantillas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Plantillas descargables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-etica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Checklist ético</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-bibliografia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Bibliografía anotada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-tabla-resumen-metodos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Tabla resumen de métodos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#el-problema-fundamental-de-la-evaluación" id="toc-el-problema-fundamental-de-la-evaluación" class="nav-link active" data-scroll-target="#el-problema-fundamental-de-la-evaluación"><span class="header-section-number">9.1</span> El problema fundamental de la evaluación</a></li>
+  <li><a href="#de-la-correlación-a-la-causalidad" id="toc-de-la-correlación-a-la-causalidad" class="nav-link" data-scroll-target="#de-la-correlación-a-la-causalidad"><span class="header-section-number">9.2</span> De la correlación a la causalidad</a></li>
+  <li><a href="#la-estrategia-de-identificación" id="toc-la-estrategia-de-identificación" class="nav-link" data-scroll-target="#la-estrategia-de-identificación"><span class="header-section-number">9.3</span> La estrategia de identificación</a></li>
+  <li><a href="#los-métodos-en-esta-parte" id="toc-los-métodos-en-esta-parte" class="nav-link" data-scroll-target="#los-métodos-en-esta-parte"><span class="header-section-number">9.4</span> Los métodos en esta parte</a></li>
+  <li><a href="#efecto-promedio-del-tratamiento" id="toc-efecto-promedio-del-tratamiento" class="nav-link" data-scroll-target="#efecto-promedio-del-tratamiento"><span class="header-section-number">9.5</span> Efecto promedio del tratamiento</a></li>
+  <li><a href="#validez-interna-vs.-externa" id="toc-validez-interna-vs.-externa" class="nav-link" data-scroll-target="#validez-interna-vs.-externa"><span class="header-section-number">9.6</span> Validez interna vs.&nbsp;externa</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/edit/main/capitulos/03-intro-cuantitativa.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/03-intro-cuantitativa.html">PARTE 3 — Métodos cuantitativos</a></li><li class="breadcrumb-item"><a href="../capitulos/03-intro-cuantitativa.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introducción a los métodos cuantitativos</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-intro-cuantitativa" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introducción a los métodos cuantitativos</span></span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Código</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Mostrar todo el código</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Ocultar todo el código</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">Ver el código fuente</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Los métodos cuantitativos de evaluación de impacto buscan responder una pregunta aparentemente simple: <strong>¿cuánto cambió el resultado gracias al programa?</strong> Para responderla con rigor, necesitan resolver un problema fundamental: no podemos observar qué habría pasado si el programa no hubiera existido.</p>
+<section id="el-problema-fundamental-de-la-evaluación" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="el-problema-fundamental-de-la-evaluación"><span class="header-section-number">9.1</span> El problema fundamental de la evaluación</h2>
+<p>Suponga que un programa de microcrédito aumentó los ingresos promedio de los beneficiarios de $500 a $700 al mes. ¿Significa que el programa causó un aumento de $200?</p>
+<p>No necesariamente. Tal vez los ingresos de toda la región subieron por una mejora económica general. Tal vez las personas que solicitaron el crédito eran más emprendedoras desde el inicio. El cambio observado <strong>no es lo mismo</strong> que el efecto causal del programa.</p>
+<p>Como señala <span class="citation" data-cites="gertler2016impact">@gertler2016impact [Cap. 3]</span>, las dos comparaciones más intuitivas producen estimaciones sesgadas: comparar <em>antes vs.&nbsp;después</em> confunde el efecto del programa con tendencias temporales, y comparar <em>inscritos vs.&nbsp;no inscritos</em> confunde el efecto con las diferencias preexistentes entre quienes deciden participar y quienes no. Ambas son <strong>contrafactuales falsos</strong> que pueden llevar a conclusiones erróneas sobre la efectividad de un programa.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>El contrafactual
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El <strong>contrafactual</strong> es lo que habría ocurrido en ausencia del programa. Como no podemos observarlo directamente, cada método cuantitativo propone una estrategia diferente para <strong>estimarlo</strong>. La calidad de la evaluación depende de qué tan creíble sea esa estimación <span class="citation" data-cites="gertler2016impact bernal2011">[@gertler2016impact; @bernal2011]</span>.</p>
+</div>
+</div>
+</section>
+<section id="de-la-correlación-a-la-causalidad" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="de-la-correlación-a-la-causalidad"><span class="header-section-number">9.2</span> De la correlación a la causalidad</h2>
+<p>Observar que los beneficiarios están mejor después del programa no prueba que el programa causó la mejora. Para establecer causalidad, necesitamos descartar <strong>explicaciones alternativas</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 41%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Amenaza</th>
+<th>Descripción</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Sesgo de selección</strong></td>
+<td>Los participantes son diferentes a los no participantes desde el inicio</td>
+<td>Las personas más motivadas se inscriben al programa</td>
+</tr>
+<tr class="even">
+<td><strong>Tendencias temporales</strong></td>
+<td>Los cambios habrían ocurrido de todas formas</td>
+<td>La economía mejoró para todos, no solo para los beneficiarios</td>
+</tr>
+<tr class="odd">
+<td><strong>Eventos concurrentes</strong></td>
+<td>Otro programa o evento afecta los resultados al mismo tiempo</td>
+<td>El gobierno lanzó otro subsidio en la misma zona</td>
+</tr>
+<tr class="even">
+<td><strong>Maduración</strong></td>
+<td>Los participantes cambian naturalmente con el tiempo</td>
+<td>Los niños aprenden más simplemente porque crecen</td>
+</tr>
+<tr class="odd">
+<td><strong>Regresión a la media</strong></td>
+<td>Valores extremos tienden a normalizarse</td>
+<td>Se seleccionó a los más pobres, que de todas formas habrían mejorado algo</td>
+</tr>
+</tbody>
+</table>
+<p><span class="citation" data-cites="bernal2011">@bernal2011</span> descompone formalmente el sesgo de selección en dos componentes: un componente debido a diferencias en características <strong>observables</strong> (como educación, edad o ingreso previo) y otro debido a diferencias en características <strong>no observables</strong> (como motivación, habilidad innata o información privada). Esta distinción es central para la elección del método: cuando el sesgo proviene principalmente de observables, métodos como Matching pueden ser apropiados; cuando dominan los no observables, se requieren estrategias como RCT, DiD o IV que no dependen de controlar directamente esas características.</p>
+</section>
+<section id="la-estrategia-de-identificación" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="la-estrategia-de-identificación"><span class="header-section-number">9.3</span> La estrategia de identificación</h2>
+<p>Cada método cuantitativo propone una <strong>estrategia de identificación</strong>: un argumento lógico y empírico para aislar el efecto causal del programa de todas las otras explicaciones posibles.</p>
+<div class="cell" data-fig-width="7" data-layout-align="default">
+<details class="code-fold">
+<summary>Mostrar código R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1"></a>flowchart TD</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  Q["¿Puede controlar la asignación&lt;br&gt;al programa?"]</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>  Q --&gt;|"Sí, aleatoriamente"| RCT["&lt;b&gt;RCT&lt;/b&gt;&lt;br&gt;Experimento aleatorio"]</span>
+<span id="cb1-5"><a href="#cb1-5"></a>  Q --&gt;|"No, pero..."| NoRCT["Métodos cuasi-experimentales"]</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>  NoRCT --&gt; D1["¿Tiene datos antes&lt;br&gt;y después para&lt;br&gt;ambos grupos?"]</span>
+<span id="cb1-8"><a href="#cb1-8"></a>  NoRCT --&gt; D2["¿Tiene variables&lt;br&gt;observables para&lt;br&gt;emparejar?"]</span>
+<span id="cb1-9"><a href="#cb1-9"></a>  NoRCT --&gt; D3["¿Existe un punto de&lt;br&gt;corte o variable&lt;br&gt;exógena?"]</span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a>  D1 --&gt;|"Sí"| DID["&lt;b&gt;DiD&lt;/b&gt;&lt;br&gt;Diferencias en&lt;br&gt;diferencias"]</span>
+<span id="cb1-12"><a href="#cb1-12"></a>  D2 --&gt;|"Sí"| MATCH["&lt;b&gt;Matching&lt;/b&gt;&lt;br&gt;Propensity Score"]</span>
+<span id="cb1-13"><a href="#cb1-13"></a>  D3 --&gt;|"Punto de corte"| RDD["&lt;b&gt;RDD&lt;/b&gt;&lt;br&gt;Regresión&lt;br&gt;discontinua"]</span>
+<span id="cb1-14"><a href="#cb1-14"></a>  D3 --&gt;|"Variable exógena"| IV["&lt;b&gt;IV&lt;/b&gt;&lt;br&gt;Variables&lt;br&gt;instrumentales"]</span>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a>  style RCT fill:#E8F4FD,stroke:#185FA5,color:#185FA5</span>
+<span id="cb1-17"><a href="#cb1-17"></a>  style DID fill:#E8F4FD,stroke:#185FA5,color:#185FA5</span>
+<span id="cb1-18"><a href="#cb1-18"></a>  style MATCH fill:#E8F4FD,stroke:#185FA5,color:#185FA5</span>
+<span id="cb1-19"><a href="#cb1-19"></a>  style RDD fill:#E8F4FD,stroke:#185FA5,color:#185FA5</span>
+<span id="cb1-20"><a href="#cb1-20"></a>  style IV fill:#E8F4FD,stroke:#185FA5,color:#185FA5</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+  Q["¿Puede controlar la asignación&lt;br&gt;al programa?"]
+
+  Q --&gt;|"Sí, aleatoriamente"| RCT["&lt;b&gt;RCT&lt;/b&gt;&lt;br&gt;Experimento aleatorio"]
+  Q --&gt;|"No, pero..."| NoRCT["Métodos cuasi-experimentales"]
+
+  NoRCT --&gt; D1["¿Tiene datos antes&lt;br&gt;y después para&lt;br&gt;ambos grupos?"]
+  NoRCT --&gt; D2["¿Tiene variables&lt;br&gt;observables para&lt;br&gt;emparejar?"]
+  NoRCT --&gt; D3["¿Existe un punto de&lt;br&gt;corte o variable&lt;br&gt;exógena?"]
+
+  D1 --&gt;|"Sí"| DID["&lt;b&gt;DiD&lt;/b&gt;&lt;br&gt;Diferencias en&lt;br&gt;diferencias"]
+  D2 --&gt;|"Sí"| MATCH["&lt;b&gt;Matching&lt;/b&gt;&lt;br&gt;Propensity Score"]
+  D3 --&gt;|"Punto de corte"| RDD["&lt;b&gt;RDD&lt;/b&gt;&lt;br&gt;Regresión&lt;br&gt;discontinua"]
+  D3 --&gt;|"Variable exógena"| IV["&lt;b&gt;IV&lt;/b&gt;&lt;br&gt;Variables&lt;br&gt;instrumentales"]
+
+  style RCT fill:#E8F4FD,stroke:#185FA5,color:#185FA5
+  style DID fill:#E8F4FD,stroke:#185FA5,color:#185FA5
+  style MATCH fill:#E8F4FD,stroke:#185FA5,color:#185FA5
+  style RDD fill:#E8F4FD,stroke:#185FA5,color:#185FA5
+  style IV fill:#E8F4FD,stroke:#185FA5,color:#185FA5
+</pre>
+</div>
+<p></p><figcaption> Estrategia de identificación de cada método cuantitativo</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="los-métodos-en-esta-parte" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="los-métodos-en-esta-parte"><span class="header-section-number">9.4</span> Los métodos en esta parte</h2>
+<table class="table-sm small caption-top table">
+<caption>Cada uno de estos métodos se desarrolla en detalle en los capítulos 4 a 7 de <span class="citation" data-cites="gertler2016impact">@gertler2016impact</span>.</caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 32%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Método</th>
+<th>Estrategia</th>
+<th>Supuesto clave</th>
+<th>Cuándo usarlo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>RCT</strong></td>
+<td>Asignación aleatoria crea grupos idénticos en expectativa</td>
+<td>La aleatorización se respetó</td>
+<td>Puede controlar quién recibe el programa</td>
+</tr>
+<tr class="even">
+<td><strong>DiD</strong></td>
+<td>Compara cambios en el tiempo entre tratados y no tratados</td>
+<td>Tendencias paralelas</td>
+<td>Tiene datos pre y post para ambos grupos</td>
+</tr>
+<tr class="odd">
+<td><strong>Matching</strong></td>
+<td>Empareja participantes con no participantes similares</td>
+<td>Selección solo por observables</td>
+<td>Tiene datos ricos sobre características</td>
+</tr>
+<tr class="even">
+<td><strong>IV</strong></td>
+<td>Usa una variable que afecta la participación pero no el resultado</td>
+<td>Restricción de exclusión</td>
+<td>Existe un instrumento válido</td>
+</tr>
+<tr class="odd">
+<td><strong>RDD</strong></td>
+<td>Compara individuos justo arriba y abajo de un punto de corte</td>
+<td>Continuidad en el punto de corte</td>
+<td>La elegibilidad se define por un umbral</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>¿Cuál método elegir?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No existe un método universalmente superior. El método adecuado depende de su <strong>contexto</strong>: cómo se asignó el programa, qué datos tiene disponibles y qué supuestos puede defender. Use la <a href="../capitulos/02-autodiagnostico.html">herramienta de autodiagnóstico</a> para una recomendación personalizada.</p>
+</div>
+</div>
+</section>
+<section id="efecto-promedio-del-tratamiento" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="efecto-promedio-del-tratamiento"><span class="header-section-number">9.5</span> Efecto promedio del tratamiento</h2>
+<p>Todos estos métodos buscan estimar alguna versión del <strong>efecto promedio del tratamiento</strong> (ATE, por sus siglas en inglés). <span class="citation" data-cites="bernal2011">@bernal2011</span> define formalmente los principales parámetros de interés:</p>
+<p><span class="math display">\[
+\text{ATE} = E[Y_i(1) - Y_i(0)]
+\]</span></p>
+<p>Donde <span class="math inline">\(Y_i(1)\)</span> es el resultado del individuo <span class="math inline">\(i\)</span> con programa y <span class="math inline">\(Y_i(0)\)</span> sin programa. El problema es que para cada persona solo observamos <strong>uno</strong> de estos dos resultados — nunca ambos. A esto se le llama el <strong>problema fundamental de la inferencia causal</strong>.</p>
+<p>Variantes importantes:</p>
+<ul>
+<li><strong>ATT</strong> (<em>Average Treatment Effect on the Treated</em>): efecto promedio solo entre quienes recibieron el programa. Es lo que estiman DiD y Matching.</li>
+<li><strong>LATE</strong> (<em>Local Average Treatment Effect</em>): efecto promedio para quienes cambian su participación gracias al instrumento. Es lo que estima IV.</li>
+<li><strong>MTE</strong> (<em>Marginal Treatment Effect</em>): efecto para el individuo que es indiferente entre participar y no participar dado un nivel determinado del instrumento. Es un concepto más general del cual ATT y LATE pueden derivarse <span class="citation" data-cites="bernal2011">[@bernal2011]</span>.</li>
+<li><strong>ATE local en el corte</strong>: efecto para quienes están justo en el umbral de elegibilidad. Es lo que estima RDD.</li>
+</ul>
+<p>Como enfatiza <span class="citation" data-cites="gertler2016impact">@gertler2016impact</span>, estos parámetros responden a preguntas de política diferentes: el ATE informa sobre el efecto de universalizar un programa, el ATT sobre el efecto en quienes efectivamente participan, y el LATE sobre el efecto en quienes podrían ser inducidos a participar mediante un cambio en el diseño del programa.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Diferentes métodos, diferentes efectos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un RCT bien ejecutado estima el ATE general. DiD estima el ATT. IV estima el LATE. Estos números pueden ser diferentes porque se refieren a poblaciones diferentes. Al comparar resultados de diferentes estudios, verifique que están estimando el mismo parámetro <span class="citation" data-cites="gertler2016impact">[@gertler2016impact, Cap. 3]</span>.</p>
+</div>
+</div>
+</section>
+<section id="validez-interna-vs.-externa" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="validez-interna-vs.-externa"><span class="header-section-number">9.6</span> Validez interna vs.&nbsp;externa</h2>
+<ul>
+<li><strong>Validez interna</strong>: ¿el efecto estimado es correcto para la población estudiada? Depende de los supuestos del método.</li>
+<li><strong>Validez externa</strong>: ¿el efecto se mantendría en otro contexto, con otra población o en otro momento? Ningún método la garantiza automáticamente.</li>
+</ul>
+<p>Un RCT tiene alta validez interna pero puede tener baja validez externa si se realizó en condiciones muy específicas. Un estudio con Matching puede ser más generalizable si usa datos representativos, aunque su validez interna depende de la calidad del emparejamiento. <span class="citation" data-cites="gertler2016impact">@gertler2016impact [Cap. 3]</span> advierte además sobre el <strong>sesgo de muestreo</strong>: si la muestra del estudio no es representativa de la población objetivo, incluso un diseño con alta validez interna puede producir conclusiones que no son generalizables. La validez externa requiere considerar explícitamente las diferencias entre el contexto del estudio y el contexto donde se aplicarán los resultados.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Lecturas recomendadas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para profundizar en los conceptos presentados en este capítulo, se recomiendan las siguientes referencias:</p>
+<ul>
+<li><span class="citation" data-cites="gertler2016impact">@gertler2016impact</span> — Texto introductorio del Banco Mundial que cubre el contrafactual, los métodos principales (Cap. 4–7) y aspectos prácticos de implementación. Disponible gratuitamente en el sitio del Banco Mundial.</li>
+<li><span class="citation" data-cites="bernal2011">@bernal2011</span> — Guía en español con un tratamiento formal pero accesible del marco de resultados potenciales, los parámetros de interés (ATE, ATT, LATE, MTE) y cada método cuantitativo.</li>
+<li><span class="citation" data-cites="angrist2009">@angrist2009</span> — Referencia avanzada sobre diseño de investigación y estrategias de identificación causal, con énfasis en variables instrumentales y experimentos naturales.</li>
+<li><span class="citation" data-cites="khandker2009">@khandker2009</span> — Manual práctico del Banco Mundial orientado a la implementación de evaluaciones de impacto en países en desarrollo.</li>
+</ul>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/02-autodiagnostico.html" class="pagination-link" aria-label="Herramienta de autodiagnóstico">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Herramienta de autodiagnóstico</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../capitulos/03-rct.html" class="pagination-link" aria-label="Experimentos aleatorizados (RCT)">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Experimentos aleatorizados (RCT)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Ejecutar el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu"># Introducción a los métodos cuantitativos {#sec-intro-cuantitativa}</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>Los métodos cuantitativos de evaluación de impacto buscan responder una pregunta aparentemente simple: **¿cuánto cambió el resultado gracias al programa?** Para responderla con rigor, necesitan resolver un problema fundamental: no podemos observar qué habría pasado si el programa no hubiera existido.</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">## El problema fundamental de la evaluación</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a>Suponga que un programa de microcrédito aumentó los ingresos promedio de los beneficiarios de \$500 a \$700 al mes. ¿Significa que el programa causó un aumento de \$200?</span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a>No necesariamente. Tal vez los ingresos de toda la región subieron por una mejora económica general. Tal vez las personas que solicitaron el crédito eran más emprendedoras desde el inicio. El cambio observado **no es lo mismo** que el efecto causal del programa.</span>
+<span id="cb2-10"><a href="#cb2-10"></a></span>
+<span id="cb2-11"><a href="#cb2-11"></a>Como señala @gertler2016impact <span class="co">[</span><span class="ot">Cap. 3</span><span class="co">]</span>, las dos comparaciones más intuitivas producen estimaciones sesgadas: comparar *antes vs. después* confunde el efecto del programa con tendencias temporales, y comparar *inscritos vs. no inscritos* confunde el efecto con las diferencias preexistentes entre quienes deciden participar y quienes no. Ambas son **contrafactuales falsos** que pueden llevar a conclusiones erróneas sobre la efectividad de un programa.</span>
+<span id="cb2-12"><a href="#cb2-12"></a></span>
+<span id="cb2-13"><a href="#cb2-13"></a>::: {.callout-note}</span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="fu">## El contrafactual</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>El **contrafactual** es lo que habría ocurrido en ausencia del programa. Como no podemos observarlo directamente, cada método cuantitativo propone una estrategia diferente para **estimarlo**. La calidad de la evaluación depende de qué tan creíble sea esa estimación <span class="co">[</span><span class="ot">@gertler2016impact; @bernal2011</span><span class="co">]</span>.</span>
+<span id="cb2-16"><a href="#cb2-16"></a>:::</span>
+<span id="cb2-17"><a href="#cb2-17"></a></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="fu">## De la correlación a la causalidad</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a></span>
+<span id="cb2-20"><a href="#cb2-20"></a>Observar que los beneficiarios están mejor después del programa no prueba que el programa causó la mejora. Para establecer causalidad, necesitamos descartar **explicaciones alternativas**:</span>
+<span id="cb2-21"><a href="#cb2-21"></a></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="pp">|</span> Amenaza <span class="pp">|</span> Descripción <span class="pp">|</span> Ejemplo <span class="pp">|</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="pp">|---------|-------------|---------|</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a><span class="pp">|</span> **Sesgo de selección** <span class="pp">|</span> Los participantes son diferentes a los no participantes desde el inicio <span class="pp">|</span> Las personas más motivadas se inscriben al programa <span class="pp">|</span></span>
+<span id="cb2-25"><a href="#cb2-25"></a><span class="pp">|</span> **Tendencias temporales** <span class="pp">|</span> Los cambios habrían ocurrido de todas formas <span class="pp">|</span> La economía mejoró para todos, no solo para los beneficiarios <span class="pp">|</span></span>
+<span id="cb2-26"><a href="#cb2-26"></a><span class="pp">|</span> **Eventos concurrentes** <span class="pp">|</span> Otro programa o evento afecta los resultados al mismo tiempo <span class="pp">|</span> El gobierno lanzó otro subsidio en la misma zona <span class="pp">|</span></span>
+<span id="cb2-27"><a href="#cb2-27"></a><span class="pp">|</span> **Maduración** <span class="pp">|</span> Los participantes cambian naturalmente con el tiempo <span class="pp">|</span> Los niños aprenden más simplemente porque crecen <span class="pp">|</span></span>
+<span id="cb2-28"><a href="#cb2-28"></a><span class="pp">|</span> **Regresión a la media** <span class="pp">|</span> Valores extremos tienden a normalizarse <span class="pp">|</span> Se seleccionó a los más pobres, que de todas formas habrían mejorado algo <span class="pp">|</span></span>
+<span id="cb2-29"><a href="#cb2-29"></a></span>
+<span id="cb2-30"><a href="#cb2-30"></a>@bernal2011 descompone formalmente el sesgo de selección en dos componentes: un componente debido a diferencias en características **observables** (como educación, edad o ingreso previo) y otro debido a diferencias en características **no observables** (como motivación, habilidad innata o información privada). Esta distinción es central para la elección del método: cuando el sesgo proviene principalmente de observables, métodos como Matching pueden ser apropiados; cuando dominan los no observables, se requieren estrategias como RCT, DiD o IV que no dependen de controlar directamente esas características.</span>
+<span id="cb2-31"><a href="#cb2-31"></a></span>
+<span id="cb2-32"><a href="#cb2-32"></a><span class="fu">## La estrategia de identificación</span></span>
+<span id="cb2-33"><a href="#cb2-33"></a></span>
+<span id="cb2-34"><a href="#cb2-34"></a>Cada método cuantitativo propone una **estrategia de identificación**: un argumento lógico y empírico para aislar el efecto causal del programa de todas las otras explicaciones posibles.</span>
+<span id="cb2-35"><a href="#cb2-35"></a></span>
+<span id="cb2-38"><a href="#cb2-38"></a><span class="in">```{mermaid}</span></span>
+<span id="cb2-39"><a href="#cb2-39"></a>%%| fig-width: <span class="dv">7</span></span>
+<span id="cb2-40"><a href="#cb2-40"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Estrategia de identificación de cada método cuantitativo</span><span class="ot">"</span></span>
+<span id="cb2-41"><a href="#cb2-41"></a>flowchart TD</span>
+<span id="cb2-42"><a href="#cb2-42"></a>  Q[<span class="ot">"</span><span class="st">¿Puede controlar la asignación&lt;br&gt;al programa?</span><span class="ot">"</span>]</span>
+<span id="cb2-43"><a href="#cb2-43"></a></span>
+<span id="cb2-44"><a href="#cb2-44"></a>  Q --&gt;|<span class="ot">"</span><span class="st">Sí, aleatoriamente</span><span class="ot">"</span>| RCT[<span class="ot">"</span><span class="st">&lt;b&gt;RCT&lt;/b&gt;&lt;br&gt;Experimento aleatorio</span><span class="ot">"</span>]</span>
+<span id="cb2-45"><a href="#cb2-45"></a>  Q --&gt;|<span class="ot">"</span><span class="st">No, pero...</span><span class="ot">"</span>| NoRCT[<span class="ot">"</span><span class="st">Métodos cuasi-experimentales</span><span class="ot">"</span>]</span>
+<span id="cb2-46"><a href="#cb2-46"></a></span>
+<span id="cb2-47"><a href="#cb2-47"></a>  NoRCT --&gt; D1[<span class="ot">"</span><span class="st">¿Tiene datos antes&lt;br&gt;y después para&lt;br&gt;ambos grupos?</span><span class="ot">"</span>]</span>
+<span id="cb2-48"><a href="#cb2-48"></a>  NoRCT --&gt; D2[<span class="ot">"</span><span class="st">¿Tiene variables&lt;br&gt;observables para&lt;br&gt;emparejar?</span><span class="ot">"</span>]</span>
+<span id="cb2-49"><a href="#cb2-49"></a>  NoRCT --&gt; D3[<span class="ot">"</span><span class="st">¿Existe un punto de&lt;br&gt;corte o variable&lt;br&gt;exógena?</span><span class="ot">"</span>]</span>
+<span id="cb2-50"><a href="#cb2-50"></a></span>
+<span id="cb2-51"><a href="#cb2-51"></a>  D1 --&gt;|<span class="ot">"</span><span class="st">Sí</span><span class="ot">"</span>| DID[<span class="ot">"</span><span class="st">&lt;b&gt;DiD&lt;/b&gt;&lt;br&gt;Diferencias en&lt;br&gt;diferencias</span><span class="ot">"</span>]</span>
+<span id="cb2-52"><a href="#cb2-52"></a>  D2 --&gt;|<span class="ot">"</span><span class="st">Sí</span><span class="ot">"</span>| MATCH[<span class="ot">"</span><span class="st">&lt;b&gt;Matching&lt;/b&gt;&lt;br&gt;Propensity Score</span><span class="ot">"</span>]</span>
+<span id="cb2-53"><a href="#cb2-53"></a>  D3 --&gt;|<span class="ot">"</span><span class="st">Punto de corte</span><span class="ot">"</span>| RDD[<span class="ot">"</span><span class="st">&lt;b&gt;RDD&lt;/b&gt;&lt;br&gt;Regresión&lt;br&gt;discontinua</span><span class="ot">"</span>]</span>
+<span id="cb2-54"><a href="#cb2-54"></a>  D3 --&gt;|<span class="ot">"</span><span class="st">Variable exógena</span><span class="ot">"</span>| IV[<span class="ot">"</span><span class="st">&lt;b&gt;IV&lt;/b&gt;&lt;br&gt;Variables&lt;br&gt;instrumentales</span><span class="ot">"</span>]</span>
+<span id="cb2-55"><a href="#cb2-55"></a></span>
+<span id="cb2-56"><a href="#cb2-56"></a>  style RCT fill:<span class="co">#E8F4FD,stroke:#185FA5,color:#185FA5</span></span>
+<span id="cb2-57"><a href="#cb2-57"></a>  style DID fill:<span class="co">#E8F4FD,stroke:#185FA5,color:#185FA5</span></span>
+<span id="cb2-58"><a href="#cb2-58"></a>  style MATCH fill:<span class="co">#E8F4FD,stroke:#185FA5,color:#185FA5</span></span>
+<span id="cb2-59"><a href="#cb2-59"></a>  style RDD fill:<span class="co">#E8F4FD,stroke:#185FA5,color:#185FA5</span></span>
+<span id="cb2-60"><a href="#cb2-60"></a>  style IV fill:<span class="co">#E8F4FD,stroke:#185FA5,color:#185FA5</span></span>
+<span id="cb2-61"><a href="#cb2-61"></a><span class="in">```</span></span>
+<span id="cb2-62"><a href="#cb2-62"></a></span>
+<span id="cb2-63"><a href="#cb2-63"></a><span class="fu">## Los métodos en esta parte</span></span>
+<span id="cb2-64"><a href="#cb2-64"></a></span>
+<span id="cb2-65"><a href="#cb2-65"></a><span class="pp">|</span> Método <span class="pp">|</span> Estrategia <span class="pp">|</span> Supuesto clave <span class="pp">|</span> Cuándo usarlo <span class="pp">|</span></span>
+<span id="cb2-66"><a href="#cb2-66"></a><span class="pp">|--------|-----------|----------------|---------------|</span></span>
+<span id="cb2-67"><a href="#cb2-67"></a><span class="pp">|</span> **RCT** <span class="pp">|</span> Asignación aleatoria crea grupos idénticos en expectativa <span class="pp">|</span> La aleatorización se respetó <span class="pp">|</span> Puede controlar quién recibe el programa <span class="pp">|</span></span>
+<span id="cb2-68"><a href="#cb2-68"></a><span class="pp">|</span> **DiD** <span class="pp">|</span> Compara cambios en el tiempo entre tratados y no tratados <span class="pp">|</span> Tendencias paralelas <span class="pp">|</span> Tiene datos pre y post para ambos grupos <span class="pp">|</span></span>
+<span id="cb2-69"><a href="#cb2-69"></a><span class="pp">|</span> **Matching** <span class="pp">|</span> Empareja participantes con no participantes similares <span class="pp">|</span> Selección solo por observables <span class="pp">|</span> Tiene datos ricos sobre características <span class="pp">|</span></span>
+<span id="cb2-70"><a href="#cb2-70"></a><span class="pp">|</span> **IV** <span class="pp">|</span> Usa una variable que afecta la participación pero no el resultado <span class="pp">|</span> Restricción de exclusión <span class="pp">|</span> Existe un instrumento válido <span class="pp">|</span></span>
+<span id="cb2-71"><a href="#cb2-71"></a><span class="pp">|</span> **RDD** <span class="pp">|</span> Compara individuos justo arriba y abajo de un punto de corte <span class="pp">|</span> Continuidad en el punto de corte <span class="pp">|</span> La elegibilidad se define por un umbral <span class="pp">|</span></span>
+<span id="cb2-72"><a href="#cb2-72"></a></span>
+<span id="cb2-73"><a href="#cb2-73"></a>: Cada uno de estos métodos se desarrolla en detalle en los capítulos 4 a 7 de @gertler2016impact. {.sm}</span>
+<span id="cb2-74"><a href="#cb2-74"></a></span>
+<span id="cb2-75"><a href="#cb2-75"></a>::: {.callout-tip}</span>
+<span id="cb2-76"><a href="#cb2-76"></a><span class="fu">## ¿Cuál método elegir?</span></span>
+<span id="cb2-77"><a href="#cb2-77"></a>No existe un método universalmente superior. El método adecuado depende de su **contexto**: cómo se asignó el programa, qué datos tiene disponibles y qué supuestos puede defender. Use la <span class="co">[</span><span class="ot">herramienta de autodiagnóstico</span><span class="co">](02-autodiagnostico.qmd)</span> para una recomendación personalizada.</span>
+<span id="cb2-78"><a href="#cb2-78"></a>:::</span>
+<span id="cb2-79"><a href="#cb2-79"></a></span>
+<span id="cb2-80"><a href="#cb2-80"></a><span class="fu">## Efecto promedio del tratamiento</span></span>
+<span id="cb2-81"><a href="#cb2-81"></a></span>
+<span id="cb2-82"><a href="#cb2-82"></a>Todos estos métodos buscan estimar alguna versión del **efecto promedio del tratamiento** (ATE, por sus siglas en inglés). @bernal2011 define formalmente los principales parámetros de interés:</span>
+<span id="cb2-83"><a href="#cb2-83"></a></span>
+<span id="cb2-84"><a href="#cb2-84"></a>$$</span>
+<span id="cb2-85"><a href="#cb2-85"></a>\text{ATE} = E<span class="co">[</span><span class="ot">Y_i(1) - Y_i(0)</span><span class="co">]</span></span>
+<span id="cb2-86"><a href="#cb2-86"></a>$$</span>
+<span id="cb2-87"><a href="#cb2-87"></a></span>
+<span id="cb2-88"><a href="#cb2-88"></a>Donde $Y_i(1)$ es el resultado del individuo $i$ con programa y $Y_i(0)$ sin programa. El problema es que para cada persona solo observamos **uno** de estos dos resultados — nunca ambos. A esto se le llama el **problema fundamental de la inferencia causal**.</span>
+<span id="cb2-89"><a href="#cb2-89"></a></span>
+<span id="cb2-90"><a href="#cb2-90"></a>Variantes importantes:</span>
+<span id="cb2-91"><a href="#cb2-91"></a></span>
+<span id="cb2-92"><a href="#cb2-92"></a><span class="ss">- </span>**ATT** (*Average Treatment Effect on the Treated*): efecto promedio solo entre quienes recibieron el programa. Es lo que estiman DiD y Matching.</span>
+<span id="cb2-93"><a href="#cb2-93"></a><span class="ss">- </span>**LATE** (*Local Average Treatment Effect*): efecto promedio para quienes cambian su participación gracias al instrumento. Es lo que estima IV.</span>
+<span id="cb2-94"><a href="#cb2-94"></a><span class="ss">- </span>**MTE** (*Marginal Treatment Effect*): efecto para el individuo que es indiferente entre participar y no participar dado un nivel determinado del instrumento. Es un concepto más general del cual ATT y LATE pueden derivarse <span class="co">[</span><span class="ot">@bernal2011</span><span class="co">]</span>.</span>
+<span id="cb2-95"><a href="#cb2-95"></a><span class="ss">- </span>**ATE local en el corte**: efecto para quienes están justo en el umbral de elegibilidad. Es lo que estima RDD.</span>
+<span id="cb2-96"><a href="#cb2-96"></a></span>
+<span id="cb2-97"><a href="#cb2-97"></a>Como enfatiza @gertler2016impact, estos parámetros responden a preguntas de política diferentes: el ATE informa sobre el efecto de universalizar un programa, el ATT sobre el efecto en quienes efectivamente participan, y el LATE sobre el efecto en quienes podrían ser inducidos a participar mediante un cambio en el diseño del programa.</span>
+<span id="cb2-98"><a href="#cb2-98"></a></span>
+<span id="cb2-99"><a href="#cb2-99"></a>::: {.callout-warning}</span>
+<span id="cb2-100"><a href="#cb2-100"></a><span class="fu">## Diferentes métodos, diferentes efectos</span></span>
+<span id="cb2-101"><a href="#cb2-101"></a>Un RCT bien ejecutado estima el ATE general. DiD estima el ATT. IV estima el LATE. Estos números pueden ser diferentes porque se refieren a poblaciones diferentes. Al comparar resultados de diferentes estudios, verifique que están estimando el mismo parámetro <span class="co">[</span><span class="ot">@gertler2016impact, Cap. 3</span><span class="co">]</span>.</span>
+<span id="cb2-102"><a href="#cb2-102"></a>:::</span>
+<span id="cb2-103"><a href="#cb2-103"></a></span>
+<span id="cb2-104"><a href="#cb2-104"></a><span class="fu">## Validez interna vs. externa</span></span>
+<span id="cb2-105"><a href="#cb2-105"></a></span>
+<span id="cb2-106"><a href="#cb2-106"></a><span class="ss">- </span>**Validez interna**: ¿el efecto estimado es correcto para la población estudiada? Depende de los supuestos del método.</span>
+<span id="cb2-107"><a href="#cb2-107"></a><span class="ss">- </span>**Validez externa**: ¿el efecto se mantendría en otro contexto, con otra población o en otro momento? Ningún método la garantiza automáticamente.</span>
+<span id="cb2-108"><a href="#cb2-108"></a></span>
+<span id="cb2-109"><a href="#cb2-109"></a>Un RCT tiene alta validez interna pero puede tener baja validez externa si se realizó en condiciones muy específicas. Un estudio con Matching puede ser más generalizable si usa datos representativos, aunque su validez interna depende de la calidad del emparejamiento. @gertler2016impact <span class="co">[</span><span class="ot">Cap. 3</span><span class="co">]</span> advierte además sobre el **sesgo de muestreo**: si la muestra del estudio no es representativa de la población objetivo, incluso un diseño con alta validez interna puede producir conclusiones que no son generalizables. La validez externa requiere considerar explícitamente las diferencias entre el contexto del estudio y el contexto donde se aplicarán los resultados.</span>
+<span id="cb2-110"><a href="#cb2-110"></a></span>
+<span id="cb2-111"><a href="#cb2-111"></a>::: {.callout-tip}</span>
+<span id="cb2-112"><a href="#cb2-112"></a><span class="fu">## Lecturas recomendadas</span></span>
+<span id="cb2-113"><a href="#cb2-113"></a></span>
+<span id="cb2-114"><a href="#cb2-114"></a>Para profundizar en los conceptos presentados en este capítulo, se recomiendan las siguientes referencias:</span>
+<span id="cb2-115"><a href="#cb2-115"></a></span>
+<span id="cb2-116"><a href="#cb2-116"></a><span class="ss">- </span>@gertler2016impact — Texto introductorio del Banco Mundial que cubre el contrafactual, los métodos principales (Cap. 4--7) y aspectos prácticos de implementación. Disponible gratuitamente en el sitio del Banco Mundial.</span>
+<span id="cb2-117"><a href="#cb2-117"></a><span class="ss">- </span>@bernal2011 — Guía en español con un tratamiento formal pero accesible del marco de resultados potenciales, los parámetros de interés (ATE, ATT, LATE, MTE) y cada método cuantitativo.</span>
+<span id="cb2-118"><a href="#cb2-118"></a><span class="ss">- </span>@angrist2009 — Referencia avanzada sobre diseño de investigación y estrategias de identificación causal, con énfasis en variables instrumentales y experimentos naturales.</span>
+<span id="cb2-119"><a href="#cb2-119"></a><span class="ss">- </span>@khandker2009 — Manual práctico del Banco Mundial orientado a la implementación de evaluaciones de impacto en países en desarrollo.</span>
+<span id="cb2-120"><a href="#cb2-120"></a>:::</span>
+</code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/edit/main/capitulos/03-intro-cuantitativa.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

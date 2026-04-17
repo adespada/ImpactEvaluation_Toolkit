@@ -1,0 +1,265 @@
+# Código R: Variables instrumentales y RDD {#sec-anexo-codigo-iv-rdd}
+
+::: {.callout-note}
+## Sobre este anexo
+Este anexo contiene el código R completo para los talleres prácticos de Variables Instrumentales (IV) y Regresión Discontinua (RDD). Para la teoría y explicación de estos métodos, consulte el [capítulo correspondiente](03-iv-rdd.qmd).
+:::
+
+## Taller práctico — Variables instrumentales {#sec-iv-taller}
+
+::: {.callout-note}
+## Sobre este taller
+Vamos a trabajar con datos **simulados** de un programa de becas universitarias. El gobierno otorgó becas mediante una lotería entre postulantes elegibles. Queremos estimar el efecto de asistir a la universidad (tratamiento) sobre el ingreso laboral (resultado), usando la lotería (instrumento) para corregir el sesgo de selección. Tenemos 500 individuos.
+:::
+
+### Paso 1: Crear los datos simulados
+
+```{r}
+#| label: iv-datos-simulados
+#| code-fold: false
+
+library(AER)
+
+set.seed(2024)
+n <- 500
+
+habilidad <- rnorm(n, mean = 0, sd = 1)
+loteria <- rbinom(n, 1, prob = 0.5)
+
+prob_universidad <- plogis(-0.5 + 1.5 * loteria + 0.8 * habilidad)
+universidad <- rbinom(n, 1, prob = prob_universidad)
+
+efecto_universidad <- 350
+ingreso <- 800 + efecto_universidad * universidad + 150 * habilidad + rnorm(n, sd = 200)
+
+datos_iv <- data.frame(
+  id = sprintf("ID_%03d", 1:n),
+  loteria = loteria,
+  universidad = universidad,
+  ingreso = round(ingreso)
+)
+
+head(datos_iv, 10)
+```
+
+### Paso 2: Verificar que OLS es sesgado
+
+```{r}
+#| label: iv-ols-sesgado
+#| code-fold: false
+
+modelo_ols <- lm(ingreso ~ universidad, data = datos_iv)
+summary(modelo_ols)
+```
+
+::: {.callout-warning}
+## ¿Por qué OLS está sesgado?
+El coeficiente OLS sobreestima el efecto de la universidad porque las personas con mayor habilidad innata tienen más probabilidad de ir a la universidad **y** de tener mayores ingresos.
+:::
+
+### Paso 3: Verificar la fuerza del instrumento
+
+```{r}
+#| label: iv-primera-etapa
+#| code-fold: false
+
+primera_etapa <- lm(universidad ~ loteria, data = datos_iv)
+summary(primera_etapa)
+
+cat("\nEstadístico F de la primera etapa:",
+    summary(primera_etapa)$fstatistic[1], "\n")
+cat("Regla: F > 10 indica instrumento fuerte\n")
+```
+
+### Paso 4: Estimar el modelo IV (2SLS)
+
+```{r}
+#| label: iv-estimacion-2sls
+#| code-fold: false
+
+modelo_iv <- ivreg(ingreso ~ universidad | loteria, data = datos_iv)
+summary(modelo_iv)
+```
+
+### Paso 5: Comparar OLS vs IV
+
+```{r}
+#| label: tbl-iv-comparacion
+#| tbl-cap: "Comparación de estimaciones OLS y IV (2SLS)"
+#| code-fold: false
+
+comparacion <- data.frame(
+  Metodo = c("OLS (sesgado)", "IV / 2SLS (corregido)", "Efecto real (simulado)"),
+  Coeficiente = c(
+    round(coef(modelo_ols)["universidad"], 1),
+    round(coef(modelo_iv)["universidad"], 1),
+    350
+  ),
+  Error_Estandar = c(
+    round(summary(modelo_ols)$coefficients["universidad", "Std. Error"], 1),
+    round(summary(modelo_iv)$coefficients["universidad", "Std. Error"], 1),
+    NA
+  )
+)
+
+knitr::kable(comparacion,
+             col.names = c("Método", "Efecto estimado", "Error estándar"))
+```
+
+```{r}
+#| label: fig-iv-comparacion
+#| fig-cap: "Comparación visual de las estimaciones OLS e IV frente al efecto verdadero"
+#| code-fold: true
+
+library(ggplot2)
+
+resultados <- data.frame(
+  metodo = c("OLS\n(sesgado)", "IV / 2SLS\n(corregido)"),
+  estimado = c(coef(modelo_ols)["universidad"],
+               coef(modelo_iv)["universidad"]),
+  se = c(summary(modelo_ols)$coefficients["universidad", "Std. Error"],
+         summary(modelo_iv)$coefficients["universidad", "Std. Error"])
+)
+
+ggplot(resultados, aes(x = metodo, y = estimado)) +
+  geom_point(size = 4, color = "#185FA5") +
+  geom_errorbar(aes(ymin = estimado - 1.96 * se, ymax = estimado + 1.96 * se),
+                width = 0.15, linewidth = 0.8, color = "#185FA5") +
+  geom_hline(yintercept = 350, linetype = "dashed", color = "#D85A30",
+             linewidth = 0.9) +
+  annotate("text", x = 2.4, y = 355, label = "Efecto real = 350",
+           color = "#D85A30", fontface = "bold", size = 3.5) +
+  labs(x = NULL, y = "Efecto estimado (miles de pesos)",
+       title = "OLS sobreestima, IV corrige el sesgo") +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(face = "bold"))
+```
+
+---
+
+## Taller práctico — Regresión discontinua {#sec-rdd-taller}
+
+::: {.callout-note}
+## Sobre este taller
+Vamos a trabajar con datos **simulados** de un programa de subsidio de vivienda. La elegibilidad se determina por un puntaje de pobreza: los hogares con puntaje menor a 50 reciben el subsidio. El resultado es un índice de calidad de vivienda. Tenemos 500 hogares.
+:::
+
+### Paso 1: Crear los datos simulados
+
+```{r}
+#| label: rdd-datos-simulados
+#| code-fold: false
+
+library(rdrobust)
+
+set.seed(2024)
+n <- 500
+
+puntaje <- runif(n, min = 15, max = 85)
+corte <- 50
+subsidio <- ifelse(puntaje < corte, 1, 0)
+
+efecto_subsidio <- 8
+calidad <- 30 + 0.4 * puntaje + efecto_subsidio * subsidio + rnorm(n, sd = 5)
+
+datos_rdd <- data.frame(
+  id = sprintf("HOG_%03d", 1:n),
+  puntaje = round(puntaje, 1),
+  subsidio = subsidio,
+  calidad = round(calidad, 1)
+)
+
+head(datos_rdd, 10)
+```
+
+### Paso 2: Visualizar la discontinuidad
+
+```{r}
+#| label: fig-rdd-discontinuidad-taller
+#| fig-cap: "Discontinuidad en la calidad de vivienda en el punto de corte"
+#| code-fold: false
+
+library(ggplot2)
+
+datos_rdd$grupo <- ifelse(datos_rdd$subsidio == 1, "Con subsidio", "Sin subsidio")
+
+ggplot(datos_rdd, aes(x = puntaje, y = calidad, color = grupo)) +
+  geom_point(alpha = 0.4, size = 1.5) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 1.2) +
+  geom_vline(xintercept = corte, linetype = "dashed",
+             color = "#BA7517", linewidth = 0.9) +
+  scale_color_manual(values = c("Con subsidio" = "#D85A30",
+                                 "Sin subsidio" = "#185FA5")) +
+  labs(x = "Puntaje de pobreza", y = "Índice de calidad de vivienda",
+       color = NULL,
+       title = "Regresión discontinua: efecto del subsidio de vivienda") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold"))
+```
+
+### Paso 3: Test de McCrary (no manipulación)
+
+```{r}
+#| label: rdd-mccrary
+#| code-fold: false
+
+library(rddensity)
+
+test_densidad <- rddensity(datos_rdd$puntaje, c = corte)
+summary(test_densidad)
+```
+
+### Paso 4: Estimar el efecto con rdrobust
+
+```{r}
+#| label: rdd-estimacion-taller
+#| code-fold: false
+
+modelo_rdd <- rdrobust(y = datos_rdd$calidad,
+                        x = datos_rdd$puntaje,
+                        c = corte)
+summary(modelo_rdd)
+```
+
+```{r}
+#| label: fig-rdd-rdplot-taller
+#| fig-cap: "Gráfico de regresión discontinua con ajuste local"
+#| code-fold: false
+
+rdplot(y = datos_rdd$calidad,
+       x = datos_rdd$puntaje,
+       c = corte,
+       title = "Efecto del subsidio de vivienda (RDD)",
+       x.label = "Puntaje de pobreza",
+       y.label = "Índice de calidad de vivienda")
+```
+
+### Paso 5: Robustez con diferentes anchos de banda
+
+```{r}
+#| label: tbl-rdd-robustez
+#| tbl-cap: "Sensibilidad del efecto estimado a diferentes anchos de banda"
+#| code-fold: false
+
+bw_optimo <- modelo_rdd$bws[1, 1]
+
+bw_mitad <- rdrobust(datos_rdd$calidad, datos_rdd$puntaje, c = corte,
+                      h = bw_optimo / 2)
+bw_doble <- rdrobust(datos_rdd$calidad, datos_rdd$puntaje, c = corte,
+                      h = bw_optimo * 2)
+
+robustez <- data.frame(
+  Ancho_de_banda = c(
+    paste0("Mitad (", round(bw_optimo / 2, 1), ")"),
+    paste0("Óptimo (", round(bw_optimo, 1), ")"),
+    paste0("Doble (", round(bw_optimo * 2, 1), ")")
+  ),
+  Efecto = c(round(bw_mitad$coef[1], 2), round(modelo_rdd$coef[1], 2), round(bw_doble$coef[1], 2)),
+  Error_Estandar = c(round(bw_mitad$se[1], 2), round(modelo_rdd$se[1], 2), round(bw_doble$se[1], 2)),
+  Valor_p = c(round(bw_mitad$pv[1], 3), round(modelo_rdd$pv[1], 3), round(bw_doble$pv[1], 3))
+)
+
+knitr::kable(robustez,
+             col.names = c("Ancho de banda", "Efecto", "Error estándar", "Valor p"))
+```

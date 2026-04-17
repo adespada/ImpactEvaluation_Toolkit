@@ -1,0 +1,114 @@
+---
+format: html
+bibliography: ../referencias.bib
+---
+
+# Introducción a los métodos cualitativos {#sec-intro-cualitativa}
+
+Los métodos cuantitativos de la Parte 3 responden la pregunta **"¿cuánto cambió?"**. Los métodos cualitativos y participativos de esta parte responden una pregunta distinta pero igualmente central: **"¿cómo y por qué cambió?"**. Ambas preguntas son legítimas, y en la mayoría de evaluaciones serias se necesitan las dos.
+
+## ¿Por qué métodos cualitativos en evaluación de impacto?
+
+Durante décadas, la evaluación de impacto se equiparó casi exclusivamente con métodos contrafactuales (RCT, DiD, IV, RDD). Esta tradición ha producido evidencia valiosa, pero también ha dejado zonas ciegas. Como señala @befani2014, muchas intervenciones operan en entornos donde el enfoque experimental enfrenta **barreras estructurales**: la evaluación inicia después de que el programa está en marcha, hay restricciones éticas para asignar un grupo de control, la intervención cubre a toda la población objetivo, o el programa es tan complejo que "el promedio" esconde más de lo que revela.
+
+En estos contextos, los métodos cualitativos y participativos no son un sustituto de segunda categoría, sino la **alternativa científica rigurosa** para producir inferencia causal. Su lógica es distinta: en lugar de estimar un contrafactual estadístico a partir de muchos casos, examinan **dentro de pocos casos** la cadena de mecanismos que conecta la intervención con el resultado [@collier2011].
+
+::: {.callout-note}
+## La idea clave
+Los métodos cuantitativos **asocian** causas y efectos a partir de muchos casos. Los métodos cualitativos **describen** el mecanismo que produce el efecto en cada caso. Los primeros responden *si* el programa funcionó; los segundos explican *cómo* funcionó.
+:::
+
+## De la caja negra a los mecanismos
+
+Una evaluación puramente cuantitativa trata al programa como una **caja negra**: entran insumos (el tratamiento), salen resultados (los efectos estimados), y el interior queda sin examinar. Los métodos de esta parte abren esa caja negra. Cada uno tiene su propia estrategia:
+
+- **Process Tracing** reconstruye paso a paso la secuencia causal dentro de un caso y somete cada eslabón a pruebas de evidencia.
+- **Contribution Analysis** construye una historia de contribución plausible, validando la teoría del cambio frente a explicaciones rivales.
+- **QCA (Qualitative Comparative Analysis)** identifica qué combinaciones de condiciones son necesarias o suficientes para producir el resultado.
+- **QuIP (Qualitative Impact Protocol)** recoge testimonios de beneficiarios bajo doble ciego para detectar atribución auto-reportada.
+- **Outcome Mapping** y **Outcome Harvesting** siguen cambios en el comportamiento de actores clave.
+- **Participatory Systems Mapping** involucra a las comunidades en la definición misma de qué cuenta como cambio.
+
+## Causalidad generativa vs. causalidad contrafactual
+
+La diferencia más profunda entre los paradigmas no es la naturaleza de los datos (números vs. palabras), sino la **concepción de la causalidad**. @befani2014 distinguen cuatro marcos:
+
+| Marco | Pregunta causal | Descripción del mecanismo |
+|-------|----------------|--------------------------|
+| **Contrafactual** | ¿La intervención causó el efecto? | Ninguna; se enfoca en el "efecto neto". |
+| **Regularidad** | ¿Con qué frecuencia se asocian causa y efecto? | Ninguna; frecuencia y precedencia temporal. |
+| **Configuracional** | ¿Qué configuraciones son necesarias o suficientes? | Ingredientes básicos (intersecciones/uniones lógicas). |
+| **Generativo** | ¿Cómo se produjo el efecto? | Mecánica fina y "paquetes causales". |
+
+: Marcos de inferencia causal en evaluación {#tbl-marcos-causales}
+
+Los métodos cuantitativos clásicos se sitúan en el marco **contrafactual**: buscan el efecto neto mediante comparaciones. Los métodos cualitativos de esta parte se ubican en los marcos **generativo** (Process Tracing, Contribution Analysis, QuIP) y **configuracional** (QCA). Esta diferencia explica por qué los métodos cualitativos no requieren grandes muestras: su poder inferencial viene de la profundidad con que examinan cada caso, no de la variación entre casos.
+
+::: {.callout-tip}
+## Causas INUS
+Muchas intervenciones sociales operan como "paquetes causales" complejos. En lenguaje metodológico se denominan **causas INUS** (*Insufficient but Necessary parts of an Unnecessary but Sufficient package*): partes insuficientes pero necesarias de un paquete innecesario pero suficiente. Por ejemplo, una capacitación docente puede ser necesaria pero no suficiente para mejorar aprendizajes; se requiere también que haya materiales, apoyo directivo y tiempo en clase. Los métodos cualitativos son especialmente buenos para identificar estas configuraciones.
+:::
+
+## La lógica bayesiana del aprendizaje evaluativo
+
+Varios de los métodos de esta parte —especialmente Process Tracing y QuIP— comparten una lógica **bayesiana** de inferencia. En lugar de preguntar "¿es estadísticamente significativo?", preguntan "¿cuánto debería actualizar mi confianza en la hipótesis dada la nueva evidencia?". La fórmula de Bayes formaliza este razonamiento:
+
+$$
+P(H|E) = P(H) \cdot \frac{P(E|H)}{P(E)}
+$$
+
+Donde $P(H)$ es la confianza previa en la hipótesis $H$, $P(E|H)$ es la probabilidad de observar la evidencia $E$ si $H$ es cierta, y $P(E)$ es la probabilidad general de observar esa evidencia. La evidencia tiene **mayor poder inferencial** cuando es muy esperable bajo la hipótesis y muy poco probable en cualquier otro escenario [@collier2011].
+
+Esta lógica permite tratar observaciones cualitativas —un documento, una decisión, un testimonio— como datos rigurosos, no como anécdotas. El rigor no viene del tipo de dato, sino del **proceso** con que se selecciona, interpreta y contrasta con hipótesis alternativas.
+
+## Cuándo usar métodos cualitativos
+
+Los métodos de esta parte son especialmente adecuados cuando:
+
+- La intervención es **compleja**, con múltiples componentes que interactúan.
+- El **contrafactual cuantitativo no es viable** (evaluación tardía, problemas éticos, programa universal).
+- Importa entender **mecanismos**, no solo efectos promedios.
+- Se busca **aprendizaje adaptativo** para mejorar el diseño, no solo rendición de cuentas.
+- Hay **riesgo alto de explicaciones rivales** (factores externos, programas paralelos, tendencias económicas).
+- Los resultados esperados son **comportamientos, relaciones o capacidades**, difíciles de capturar en indicadores agregados.
+
+No son buenos sustitutos cuando lo que se necesita es una estimación precisa de magnitud (¿cuántos pesos más de ingreso?, ¿cuántos puntos más en la prueba?). Para eso, los métodos cuantitativos siguen siendo la herramienta de elección.
+
+## Los métodos en esta parte
+
+| Método | Estrategia | Mejor para |
+|--------|-----------|-----------|
+| **Participatory Systems Mapping** | Mapeo causal participativo de variables y relaciones | Entender la estructura del sistema antes de diseñar la evaluación |
+| **Outcome Mapping** | Seguimiento de cambios de comportamiento en actores clave | Programas de cambio social, incidencia, fortalecimiento institucional |
+| **Outcome Harvesting** | Recolectar resultados ex-post sin definirlos a priori | Programas complejos con resultados emergentes e inesperados |
+| **Contribution Analysis** | Construir una historia de contribución plausible | Inferir causalidad cuando no hay contrafactual experimental |
+| **Process Tracing** | Someter cada eslabón causal a pruebas bayesianas | Probar o refutar mecanismos causales específicos dentro de un caso |
+| **QCA** | Identificar combinaciones necesarias/suficientes de condiciones | Comparar patrones causales entre un número mediano de casos |
+| **QuIP** | Testimonios bajo doble ciego para atribución auto-reportada | Validar si los cambios reportados se atribuyen al programa |
+
+: Métodos cualitativos y participativos cubiertos en esta parte {#tbl-metodos-cualitativos}
+
+::: {.callout-warning}
+## No son métodos "fáciles"
+Una confusión común es asumir que los métodos cualitativos son más simples o menos rigurosos que los cuantitativos. Lo cierto es lo contrario: requieren disciplina metodológica, transparencia analítica y defensa explícita de hipótesis rivales. Como advierte @befani2014, un Process Tracing mal hecho es "narrativa glorificada"; un QCA mal hecho es clasificación arbitraria. La exigencia de rigor no desaparece; cambia de forma.
+:::
+
+## Validez y triangulación
+
+En métodos cualitativos, la validez no se mide con intervalos de confianza. Se construye mediante:
+
+1. **Transparencia procedimental**: documentar cómo se seleccionaron casos, testimonios y códigos.
+2. **Triangulación**: contrastar evidencia de múltiples fuentes (entrevistas, documentos, observación, datos secundarios).
+3. **Confrontación con hipótesis rivales**: no basta con que los datos sean consistentes con la teoría del programa; deben ser **inconsistentes** con explicaciones alternativas.
+4. **Auditabilidad**: que otro investigador pueda rastrear las conclusiones hasta los datos originales.
+
+Esta lógica se complementa naturalmente con los métodos cuantitativos. La Parte 5 del Toolkit desarrolla cómo combinar ambos paradigmas en diseños mixtos.
+
+::: {.callout-tip}
+## Lecturas recomendadas
+
+- @befani2014 — Artículo seminal que articula Process Tracing y Contribution Analysis como enfoques generativos de inferencia causal.
+- @collier2011 — Introducción accesible a Process Tracing y la lógica bayesiana de la evidencia cualitativa.
+- @white2012 — Marco integrado para evaluación de impacto con muestras pequeñas (small-N), discutiendo cuándo conviene cada enfoque cualitativo.
+- @mayne2012 — Balance crítico de dos décadas de Contribution Analysis en evaluación.
+:::

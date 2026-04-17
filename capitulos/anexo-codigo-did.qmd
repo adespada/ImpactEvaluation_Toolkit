@@ -1,0 +1,238 @@
+# Código R: Diferencias en diferencias {#sec-anexo-codigo-did}
+
+::: {.callout-note}
+## Sobre este anexo
+Este anexo contiene el código R completo para el taller práctico del método de diferencias en diferencias (DiD). Para la teoría y explicación del método, consulte el [capítulo correspondiente](03-did.qmd).
+:::
+
+## Taller práctico
+
+::: {.callout-note}
+## Sobre este taller
+Se trabajará con datos **simulados** de un programa de capacitación agrícola. El programa ofreció formación en técnicas de cultivo a 50 fincas de un municipio. Otras 50 fincas del municipio vecino no recibieron el programa. Se cuenta con datos de producción (toneladas por hectárea) de los años 2020 a 2024. El programa comenzó en 2022.
+:::
+
+### Paso 1: Crear los datos simulados
+
+```{r}
+#| label: did-datos-simulados
+#| code-fold: false
+
+set.seed(42)
+
+n_fincas <- 100  # 50 tratamiento + 50 control
+anios <- 2020:2024
+n_periodos <- length(anios)
+
+# Crear panel de datos
+datos <- expand.grid(
+  finca_id = 1:n_fincas,
+  anio = anios
+)
+
+# Asignar tratamiento (primeras 50 fincas)
+datos$tratamiento <- ifelse(datos$finca_id <= 50, 1, 0)
+
+# Variable post (programa empieza en 2022)
+datos$post <- ifelse(datos$anio >= 2022, 1, 0)
+
+# Efecto fijo de finca (productividad base de cada finca)
+set.seed(123)
+efecto_finca <- rnorm(n_fincas, mean = 0, sd = 2)
+datos$efecto_finca <- efecto_finca[datos$finca_id]
+
+# Tendencia temporal común (ambos grupos mejoran con el tiempo)
+datos$tendencia <- (datos$anio - 2020) * 0.5
+
+# Efecto del programa: 1.8 toneladas/hectárea adicionales
+efecto_programa <- 1.8
+
+# Variable de resultado: producción (toneladas/hectárea)
+datos$produccion <- 8 +                                    # base
+  datos$efecto_finca +                                      # heterogeneidad
+  datos$tendencia +                                         # tendencia común
+  efecto_programa * datos$tratamiento * datos$post +        # efecto DiD
+  rnorm(nrow(datos), sd = 1.5)                             # ruido
+
+# Limpiar
+datos$efecto_finca <- NULL
+datos$tendencia <- NULL
+
+# Vista previa
+head(datos, 10)
+```
+
+### Paso 2: Explorar los datos
+
+```{r}
+#| label: fig-did-tendencias
+#| fig-cap: "Producción promedio por grupo y año"
+#| code-fold: false
+
+library(ggplot2)
+library(dplyr)
+
+# Calcular promedios por grupo y año
+promedios <- datos |>
+  group_by(anio, tratamiento) |>
+  summarise(produccion_media = mean(produccion), .groups = "drop") |>
+  mutate(grupo = ifelse(tratamiento == 1, "Con programa", "Sin programa"))
+
+ggplot(promedios, aes(x = anio, y = produccion_media,
+                       color = grupo, group = grupo)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2.5) +
+  geom_vline(xintercept = 2021.5, linetype = "dashed", color = "gray40") +
+  annotate("text", x = 2021.3, y = max(promedios$produccion_media),
+           label = "Inicio\nprograma", hjust = 1, size = 3, color = "gray40") +
+  scale_color_manual(values = c("Con programa" = "#D85A30",
+                                 "Sin programa" = "#185FA5")) +
+  labs(x = "Año", y = "Producción (ton/ha)", color = NULL,
+       title = "Evolución de la producción por grupo") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom")
+```
+
+::: {.callout-tip}
+## ¿Qué observa?
+Antes del programa (2020-2021), ambos grupos siguen tendencias similares. Después de 2022, el grupo con programa se despega. Esto es exactamente lo que se espera ver si el programa funcionó y el supuesto de tendencias paralelas se cumple.
+:::
+
+### Paso 3: Estimar el modelo
+
+```{r}
+#| label: did-estimacion
+#| code-fold: false
+
+# Modelo DiD básico
+modelo_did <- lm(produccion ~ tratamiento + post + tratamiento:post, data = datos)
+summary(modelo_did)
+```
+
+```{r}
+#| label: tbl-did-resultados
+#| tbl-cap: "Resultados de la estimación DiD con efectos fijos"
+#| code-fold: false
+
+# Versión con efectos fijos y errores clusterizados (más rigurosa)
+library(fixest)
+
+modelo_fe <- feols(produccion ~ tratamiento:post | finca_id + anio,
+                    data = datos,
+                    cluster = ~finca_id)
+
+# Tabla de resultados
+summary(modelo_fe)
+```
+
+::: {.callout-note}
+## ¿Cómo leer estos resultados?
+El coeficiente de `tratamiento:post` es el efecto del programa. En nuestro ejemplo simulado, debería estar cercano a **1.8 toneladas/hectárea** (el efecto real que programamos). Si el valor p es menor a 0.05 (o las estrellas aparecen), el efecto es estadísticamente significativo.
+:::
+
+### Paso 4: Event study
+
+```{r}
+#| label: fig-did-eventstudy
+#| fig-cap: "Event study: efectos por año relativo al programa"
+#| code-fold: false
+
+library(fixest)
+
+# Crear variable de año relativo al tratamiento
+datos$anio_relativo <- datos$anio - 2022
+
+# Event study con fixest
+es <- feols(produccion ~ i(anio_relativo, tratamiento, ref = -1) |
+              finca_id + anio,
+            data = datos,
+            cluster = ~finca_id)
+
+# Graficar
+iplot(es,
+      xlab = "Año relativo al programa",
+      ylab = "Efecto estimado (ton/ha)",
+      main = "Event study: efectos dinámicos del programa")
+```
+
+::: {.callout-note}
+## ¿Cómo interpretar el event study?
+Los puntos antes del año 0 (periodo pre-programa) deberían estar **cerca de cero** y sus intervalos de confianza deberían cruzar la línea del cero. Esto confirma que no había diferencias previas. Los puntos después del año 0 muestran el efecto del programa en cada año — si son positivos y significativos, el programa tuvo impacto.
+:::
+
+## Guía de recolección de datos
+
+::: {.callout-important}
+## ¿Cuándo leer esta sección?
+Lea esto **antes** de implementar el programa, cuando aún se encuentra en fase de planificación. La calidad de su evaluación DiD depende completamente de los datos que recolecte.
+:::
+
+### ¿Qué datos necesita para un DiD?
+
+Para llevar a cabo un análisis de diferencias en diferencias necesita como mínimo:
+
+1. **Datos de resultado** medidos en **al menos dos momentos**: antes y después de la intervención, idealmente en varios periodos para poder verificar tendencias paralelas.
+
+2. **Identificación clara** de quién recibió el programa y quién no.
+
+3. **Las mismas variables** medidas de la misma forma en ambos momentos y para ambos grupos.
+
+### Estructura de su base de datos
+
+Su base de datos debe verse así (formato de **panel** o datos longitudinales):
+
+```{r}
+#| label: tbl-did-estructura-anexo
+#| tbl-cap: "Estructura mínima de base de datos para DiD"
+#| code-fold: true
+#| echo: false
+
+ejemplo <- data.frame(
+  id = c("ID_001", "ID_001", "ID_001", "ID_002", "ID_002", "ID_002"),
+  anio = c(2021, 2022, 2023, 2021, 2022, 2023),
+  tratamiento = c(1, 1, 1, 0, 0, 0),
+  resultado = c(45, 52, 58, 42, 44, 47),
+  covariable_1 = c("urbano", "urbano", "urbano", "rural", "rural", "rural"),
+  covariable_2 = c(35, 35, 35, 28, 28, 28)
+)
+
+knitr::kable(ejemplo,
+             col.names = c("ID", "Año", "Tratamiento", "Resultado",
+                           "Zona", "Tamaño (ha)"))
+```
+
+### Checklist de recolección
+
+Antes de iniciar la recolección, verifique que puede responder "sí" a cada pregunta:
+
+- [ ] ¿Tiene datos de **al menos un periodo antes** del inicio del programa?
+- [ ] ¿Puede medir el mismo indicador de resultado **antes y después** con el mismo instrumento?
+- [ ] ¿Tiene un grupo de comparación que **no** recibirá el programa?
+- [ ] ¿Puede argumentar que la razón por la que unos recibieron el programa y otros no **no está relacionada** con el indicador de resultado?
+- [ ] ¿Puede recolectar datos para **ambos grupos** (tratamiento y control)?
+- [ ] ¿Tiene un identificador único para hacer seguimiento a cada unidad a lo largo del tiempo?
+- [ ] ¿Tiene información sobre **covariables** que podrían afectar el resultado?
+
+### Prompt para planificar la recolección con IA
+
+::: {.prompt-block}
+Estoy diseñando la recolección de datos para una evaluación de impacto con diferencias en diferencias. Mi programa es:
+
+- Tipo de programa: [describir brevemente]
+- Beneficiarios: [tipo y número aproximado]
+- Indicador de resultado principal: [describir]
+- El programa comenzará en: [fecha]
+- Grupo de comparación potencial: [describir]
+
+¿Puede ayudarme a:
+1. Definir qué variables necesito recolectar (resultado, covariables clave, identificadores)
+2. Sugerir cuántos periodos de línea base necesito antes del programa
+3. Diseñar un cronograma de recolección de datos
+4. Identificar riesgos para el supuesto de tendencias paralelas en mi contexto
+5. Estimar el tamaño de muestra mínimo que necesito
+:::
+
+::: {.callout-warning}
+## El error más común
+Muchos programas empiezan a recolectar datos **después** de que el programa ya comenzó. Si no tiene datos de antes, no puede verificar tendencias paralelas y su evaluación DiD será mucho más débil. **Planifique la recolección antes de implementar.**
+:::

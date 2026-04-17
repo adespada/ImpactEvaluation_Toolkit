@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.35">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>15&nbsp; Poder estadístico y tamaño de muestra – Toolkit de Evaluación de Impacto</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/04-intro-cualitativa.html" rel="next">
+<link href="../capitulos/03-rdd.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-22b4aaf4c2978829df3684e8f2c068db.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-18c4648ec6b711cbdcb06aa220cd8088.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-6f8e7d7ac6489dfa4e33f32d5ebc9ead.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-18c4648ec6b711cbdcb06aa220cd8088.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/03-intro-cuantitativa.html">PARTE 3 — Métodos cuantitativos</a></li><li class="breadcrumb-item"><a href="../capitulos/03-poder-muestra.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poder estadístico y tamaño de muestra</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Toolkit de Evaluación de Impacto</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/adespada/ImpactEvaluation_Toolkit" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenido al Toolkit</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 0 — Contexto y fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-bienvenida.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bienvenida y cómo usar esta guía</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-que-es-evaluacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">¿Qué es evaluación de impacto?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-teoria-de-cambio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Teoría de cambio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 1 — Sistemas de monitoreo</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-marco-logico.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Marco lógico e indicadores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-recoleccion-datos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diseño de sistemas de recolección de datos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-linea-base.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Línea base y datos de seguimiento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-monitoreo-a-evaluacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">De monitoreo a evaluación</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 2 — Herramienta de autodiagnóstico</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/02-autodiagnostico.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Herramienta de autodiagnóstico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 3 — Métodos cuantitativos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-intro-cuantitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introducción a los métodos cuantitativos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-rct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Experimentos aleatorizados (RCT)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-did.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Diferencias en diferencias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Matching y Propensity Score</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Variables instrumentales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Regresión discontinua</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-poder-muestra.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poder estadístico y tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 4 — Métodos cualitativos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-intro-cualitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Introducción a métodos cualitativos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-systems-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Participatory Systems Mapping (PSM)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-outcome-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Outcome Mapping (OM)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-outcome-harvesting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Outcome Harvesting (OH)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-contribution-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Contribution Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-process-tracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Process Tracing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-qca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Qualitative Comparative Analysis (QCA)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-quip.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Qualitative Impact Protocol (QuIP)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 5 — Métodos mixtos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-por-que-combinar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">¿Cuándo y por qué combinar métodos?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-disenos-mixtos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Diseños mixtos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-casos-estudio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Casos de estudio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 6 — Cómo hablar con la IA</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/06-guia-ia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Cómo hablar con la IA para hacer una evaluación de impacto</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 7 — Anexos de código</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-rct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Código R: Experimentos aleatorizados (RCT)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-did.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Código R: Diferencias en diferencias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Código R: Variables instrumentales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Código R: Regresión discontinua</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-poder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Código R: Poder estadístico y tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 8 — Recursos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-glosario.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Glosario</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-plantillas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Plantillas descargables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-etica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Checklist ético</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-bibliografia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Bibliografía anotada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-tabla-resumen-metodos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Tabla resumen de métodos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#qué-es-el-poder-estadístico" id="toc-qué-es-el-poder-estadístico" class="nav-link active" data-scroll-target="#qué-es-el-poder-estadístico"><span class="header-section-number">15.1</span> ¿Qué es el poder estadístico?</a>
+  <ul class="collapse">
+  <li><a href="#errores-tipo-i-y-tipo-ii" id="toc-errores-tipo-i-y-tipo-ii" class="nav-link" data-scroll-target="#errores-tipo-i-y-tipo-ii"><span class="header-section-number">15.1.1</span> Errores tipo I y tipo II</a></li>
+  </ul></li>
+  <li><a href="#por-qué-importa-calcular-el-tamaño-de-muestra" id="toc-por-qué-importa-calcular-el-tamaño-de-muestra" class="nav-link" data-scroll-target="#por-qué-importa-calcular-el-tamaño-de-muestra"><span class="header-section-number">15.2</span> ¿Por qué importa calcular el tamaño de muestra?</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-para-guiar-el-cálculo-de-poder" id="toc-preguntas-para-guiar-el-cálculo-de-poder" class="nav-link" data-scroll-target="#preguntas-para-guiar-el-cálculo-de-poder"><span class="header-section-number">15.2.1</span> Preguntas para guiar el cálculo de poder</a></li>
+  <li><a href="#efecto-mínimo-detectable-mde" id="toc-efecto-mínimo-detectable-mde" class="nav-link" data-scroll-target="#efecto-mínimo-detectable-mde"><span class="header-section-number">15.2.2</span> Efecto mínimo detectable (MDE)</a></li>
+  </ul></li>
+  <li><a href="#cálculo-básico-de-poder" id="toc-cálculo-básico-de-poder" class="nav-link" data-scroll-target="#cálculo-básico-de-poder"><span class="header-section-number">15.3</span> Cálculo básico de poder</a></li>
+  <li><a href="#consideraciones-especiales-por-método" id="toc-consideraciones-especiales-por-método" class="nav-link" data-scroll-target="#consideraciones-especiales-por-método"><span class="header-section-number">15.4</span> Consideraciones especiales por método</a></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering"><span class="header-section-number">15.5</span> Clustering</a>
+  <ul class="collapse">
+  <li><a href="#icc-y-efecto-de-diseño" id="toc-icc-y-efecto-de-diseño" class="nav-link" data-scroll-target="#icc-y-efecto-de-diseño"><span class="header-section-number">15.5.1</span> ICC y efecto de diseño</a></li>
+  </ul></li>
+  <li><a href="#sec-poder-errores" id="toc-sec-poder-errores" class="nav-link" data-scroll-target="#sec-poder-errores"><span class="header-section-number">15.6</span> Errores comunes</a></li>
+  <li><a href="#sec-poder-referencias" id="toc-sec-poder-referencias" class="nav-link" data-scroll-target="#sec-poder-referencias"><span class="header-section-number">15.7</span> Para profundizar</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/edit/main/capitulos/03-poder-muestra.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/03-intro-cuantitativa.html">PARTE 3 — Métodos cuantitativos</a></li><li class="breadcrumb-item"><a href="../capitulos/03-poder-muestra.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poder estadístico y tamaño de muestra</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-poder-muestra" class="quarto-section-identifier"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poder estadístico y tamaño de muestra</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Código</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="qué-es-el-poder-estadístico" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="qué-es-el-poder-estadístico"><span class="header-section-number">15.1</span> ¿Qué es el poder estadístico?</h2>
+<p>Antes de implementar cualquier evaluación de impacto, usted necesita responder una pregunta fundamental: <strong>¿tengo suficientes datos para detectar el efecto de mi programa, si este realmente funciona?</strong></p>
+<p>El <strong>poder estadístico</strong> es la probabilidad de detectar un efecto real cuando este existe. En términos técnicos, es la probabilidad de rechazar correctamente la hipótesis nula (<span class="math inline">\(H_0\)</span>: “el programa no tiene efecto”) cuando la alternativa (<span class="math inline">\(H_1\)</span>: “el programa sí tiene efecto”) es verdadera. <span class="citation" data-cites="gertler2016impact">@gertler2016impact [Cap. 11]</span> lo definen como la probabilidad de detectar una diferencia entre los grupos de tratamiento y comparación cuando esta realmente existe, y advierten que realizar una evaluación con poder insuficiente es <strong>muy costoso</strong>: puede llevar a concluir erróneamente que un programa beneficioso no funciona y recomendar su cierre, con pérdidas sociales significativas.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Analogía: el detector de metales
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Piense en el poder estadístico como un detector de metales. Su capacidad para encontrar algo depende de qué tan grande es el objeto enterrado (tamaño del efecto), qué tan profundo está (variabilidad) y qué tan sensible es el detector (tamaño de muestra).</p>
+</div>
+</div>
+<p>El poder depende de <strong>cuatro parámetros</strong> interconectados:</p>
+<div id="tbl-parametros-poder" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-parametros-poder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;15.1: Parámetros clave del análisis de poder
+</figcaption>
+<div aria-describedby="tbl-parametros-poder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 19%">
+<col style="width: 27%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parámetro</th>
+<th>Símbolo</th>
+<th>Descripción</th>
+<th>Valor típico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Nivel de significancia</td>
+<td><span class="math inline">\(\alpha\)</span></td>
+<td>Probabilidad de falso positivo</td>
+<td>0.05</td>
+</tr>
+<tr class="even">
+<td>Poder estadístico</td>
+<td><span class="math inline">\(1 - \beta\)</span></td>
+<td>Probabilidad de detectar un efecto real</td>
+<td>0.80</td>
+</tr>
+<tr class="odd">
+<td>Tamaño del efecto</td>
+<td><span class="math inline">\(\delta\)</span></td>
+<td>Magnitud del impacto del programa</td>
+<td>Depende del contexto</td>
+</tr>
+<tr class="even">
+<td>Tamaño de muestra</td>
+<td><span class="math inline">\(n\)</span></td>
+<td>Observaciones por grupo</td>
+<td>Lo que calculamos</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<section id="errores-tipo-i-y-tipo-ii" class="level3" data-number="15.1.1">
+<h3 data-number="15.1.1" class="anchored" data-anchor-id="errores-tipo-i-y-tipo-ii"><span class="header-section-number">15.1.1</span> Errores tipo I y tipo II</h3>
+<div id="tbl-errores" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-errores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;15.2: Errores tipo I y tipo II en evaluación de impacto
+</figcaption>
+<div aria-describedby="tbl-errores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(H_1\)</span> verdadera (sí funciona)</th>
+<th><span class="math inline">\(H_0\)</span> verdadera (no funciona)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Rechazamos</strong> <span class="math inline">\(H_0\)</span></td>
+<td>Decisión correcta (Poder = <span class="math inline">\(1 - \beta\)</span>)</td>
+<td>Error tipo I (<span class="math inline">\(\alpha\)</span>)</td>
+</tr>
+<tr class="even">
+<td><strong>No rechazamos</strong> <span class="math inline">\(H_0\)</span></td>
+<td>Error tipo II (<span class="math inline">\(\beta\)</span>)</td>
+<td>Decisión correcta</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-poder-distribuciones" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-poder-distribuciones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-poder-muestra_files/figure-html/fig-poder-distribuciones-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poder-distribuciones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;15.1: Visualización del poder estadístico: distribuciones bajo H0 y H1
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="por-qué-importa-calcular-el-tamaño-de-muestra" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="por-qué-importa-calcular-el-tamaño-de-muestra"><span class="header-section-number">15.2</span> ¿Por qué importa calcular el tamaño de muestra?</h2>
+<ul>
+<li><strong>Muestra demasiado pequeña:</strong> no detectará el efecto aunque el programa funcione. Habrá gastado recursos en una evaluación que no puede concluir nada.</li>
+<li><strong>Muestra demasiado grande:</strong> gastará recursos innecesarios en recolectar datos que no aportan precisión adicional.</li>
+</ul>
+<p><span class="citation" data-cites="gertler2016impact">@gertler2016impact</span> ilustran este dilema con un ejemplo extremo: un programa de nutrición evaluado con 50.000 niños detectará incluso efectos minúsculos, mientras que una evaluación con solo 2 niños no podrá distinguir el efecto del programa del ruido estadístico. El tamaño de muestra adecuado se encuentra entre ambos extremos, y depende de las características del programa y del contexto.</p>
+<section id="preguntas-para-guiar-el-cálculo-de-poder" class="level3" data-number="15.2.1">
+<h3 data-number="15.2.1" class="anchored" data-anchor-id="preguntas-para-guiar-el-cálculo-de-poder"><span class="header-section-number">15.2.1</span> Preguntas para guiar el cálculo de poder</h3>
+<p><span class="citation" data-cites="gertler2016impact">@gertler2016impact [Cap. 11]</span> proponen seis preguntas clave antes de realizar un cálculo de poder:</p>
+<ol type="1">
+<li>¿La evaluación estima efectos promedio o también efectos para subgrupos específicos?</li>
+<li>¿Cuál es la unidad de asignación (individuo, hogar, escuela, comunidad)?</li>
+<li>¿Cuál es el efecto mínimo que justificaría la existencia del programa desde un punto de vista de política?</li>
+<li>¿Cuál es la media y la varianza del resultado de interés en la línea base?</li>
+<li>¿Qué nivel de poder se considera aceptable (típicamente 0.80 o 0.90)?</li>
+<li>Si el programa se asigna por conglomerados, ¿cuál es la correlación intra-cluster esperada?</li>
+</ol>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>El error más común
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Evaluamos a quienes tenemos disponibles” sin verificar si ese número es suficiente. Saberlo de antemano le permite ajustar expectativas o buscar más datos.</p>
+</div>
+</div>
+</section>
+<section id="efecto-mínimo-detectable-mde" class="level3" data-number="15.2.2">
+<h3 data-number="15.2.2" class="anchored" data-anchor-id="efecto-mínimo-detectable-mde"><span class="header-section-number">15.2.2</span> Efecto mínimo detectable (MDE)</h3>
+<p>El MDE es el efecto más pequeño que su diseño puede identificar con el poder y significancia establecidos:</p>
+<p><span class="math display">\[
+MDE = (z_{\alpha/2} + z_{\beta}) \cdot \sqrt{\frac{2\sigma^2}{n}}
+\]</span></p>
+<p>Si el MDE es mayor que el efecto que usted espera del programa, su evaluación está <strong>condenada al fracaso</strong> antes de empezar. <span class="citation" data-cites="gertler2016impact">@gertler2016impact</span> recomiendan ser <strong>conservadores</strong> al fijar el MDE: es preferible diseñar la evaluación con un efecto esperado menor al que sugiere la literatura, pues si el efecto real resulta ser mayor, la evaluación tendrá poder suficiente de todas formas. Cuando hay múltiples resultados de interés, el tamaño de muestra debe calcularse para el resultado con mayor varianza o menor efecto esperado, pues ese será el caso más exigente <span class="citation" data-cites="bernal2011">[@bernal2011]</span>.</p>
+</section>
+</section>
+<section id="cálculo-básico-de-poder" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="cálculo-básico-de-poder"><span class="header-section-number">15.3</span> Cálculo básico de poder</h2>
+<p>Para una comparación de dos grupos, el tamaño de muestra <strong>por grupo</strong> es:</p>
+<p><span id="eq-poder-basico"><span class="math display">\[
+n = \frac{(z_{\alpha/2} + z_{\beta})^2 \cdot 2\sigma^2}{\delta^2}
+\tag{15.1}\]</span></span></p>
+<p>Donde <span class="math inline">\(z_{\alpha/2} = 1.96\)</span> para <span class="math inline">\(\alpha = 0.05\)</span>, <span class="math inline">\(z_{\beta} = 0.84\)</span> para poder = 0.80, <span class="math inline">\(\sigma^2\)</span> es la varianza del resultado y <span class="math inline">\(\delta\)</span> es el efecto esperado.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-poder-parametros" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-poder-parametros-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-poder-muestra_files/figure-html/fig-poder-parametros-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poder-parametros-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;15.2: Cómo cambia el tamaño de muestra requerido al variar cada parámetro
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>¿Qué es la d de Cohen?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La d de Cohen estandariza el tamaño del efecto: <span class="math inline">\(d = \delta / \sigma\)</span>. Convenciones: <strong>0.2</strong> = pequeño, <strong>0.5</strong> = mediano, <strong>0.8</strong> = grande. En evaluación de impacto, efectos de 0.1–0.3 DE son frecuentes.</p>
+</div>
+</div>
+</section>
+<section id="consideraciones-especiales-por-método" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="consideraciones-especiales-por-método"><span class="header-section-number">15.4</span> Consideraciones especiales por método</h2>
+<div id="tbl-poder-metodos" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-poder-metodos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;15.3: Consideraciones de poder por método de evaluación
+</figcaption>
+<div aria-describedby="tbl-poder-metodos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 82%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Método</th>
+<th>Particularidades del cálculo de poder</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>RCT</strong></td>
+<td>Cálculo estándar. Si la asignación es por conglomerados, ajuste por clustering.</td>
+</tr>
+<tr class="even">
+<td><strong>DiD</strong></td>
+<td>Considere correlación serial y correlación pre-post. Más periodos pre aportan precisión.</td>
+</tr>
+<tr class="odd">
+<td><strong>Matching</strong></td>
+<td>El tamaño de muestra <strong>efectivo</strong> después del emparejamiento es menor.</td>
+</tr>
+<tr class="even">
+<td><strong>Variables instrumentales</strong></td>
+<td>Instrumentos débiles reducen el poder. Regla práctica: F &gt; 10 en primera etapa.</td>
+</tr>
+<tr class="odd">
+<td><strong>RDD</strong></td>
+<td>Solo observaciones cercanas al corte contribuyen. Se necesita muestra mucho mayor.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><span class="citation" data-cites="gertler2016impact">@gertler2016impact</span> advierten que los métodos <strong>cuasi-experimentales</strong> (DiD, Matching, IV, RDD) típicamente requieren muestras mayores que un RCT para alcanzar el mismo poder estadístico, porque parte de la varianza se consume en los ajustes necesarios para aproximar el contrafactual. Al planear una evaluación cuasi-experimental, use el cálculo para RCT como punto de partida y <strong>aumente la muestra</strong> proporcionalmente según el método <span class="citation" data-cites="khandker2009">[@khandker2009]</span>.</p>
+</section>
+<section id="clustering" class="level2" data-number="15.5">
+<h2 data-number="15.5" class="anchored" data-anchor-id="clustering"><span class="header-section-number">15.5</span> Clustering</h2>
+<p>Cuando el programa se asigna a nivel de <strong>conglomerados</strong> (escuelas, comunidades, clínicas), las personas dentro de un mismo cluster tienden a parecerse entre sí. Esto reduce la información independiente que cada observación aporta.</p>
+<section id="icc-y-efecto-de-diseño" class="level3" data-number="15.5.1">
+<h3 data-number="15.5.1" class="anchored" data-anchor-id="icc-y-efecto-de-diseño"><span class="header-section-number">15.5.1</span> ICC y efecto de diseño</h3>
+<p>El <strong>ICC</strong> (<span class="math inline">\(\rho\)</span>) mide qué proporción de la varianza se explica por diferencias entre conglomerados. El <strong>efecto de diseño</strong> (DEFF) indica cuántas veces más grande debe ser la muestra:</p>
+<p><span id="eq-deff"><span class="math display">\[
+DEFF = 1 + (m - 1) \cdot \rho
+\tag{15.2}\]</span></span></p>
+<p>donde <span class="math inline">\(m\)</span> es el número de individuos por conglomerado. Valores típicos del ICC en ciencias sociales: 0.01 a 0.20.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-poder-clustering" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-poder-clustering-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-poder-muestra_files/figure-html/fig-poder-clustering-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poder-clustering-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;15.3: Cómo el clustering multiplica el tamaño de muestra requerido
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Ejemplo concreto
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sin clustering necesita 200 personas por grupo. Con 20 escuelas de 20 estudiantes e ICC = 0.10, el DEFF = 1 + 19 × 0.10 = <strong>2.9</strong>. Necesitaría 580 por grupo. Ignorar el clustering le haría creer que tiene <strong>3 veces más poder</strong> del real.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>El número de clusters importa más que el tamaño de cada cluster
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="citation" data-cites="gertler2016impact">@gertler2016impact [Cap. 11]</span> enfatizan un resultado contraintuitivo: en evaluaciones con asignación por conglomerados, <strong>el número de clusters importa mucho más que el número de individuos dentro de cada cluster</strong>. En el ejemplo HISP+ del libro, una evaluación con 100 clusters de 9 unidades cada uno (900 unidades totales) tiene más poder que una con 10 clusters de 67 unidades (670 unidades), aunque la segunda tenga casi el mismo tamaño total.</p>
+<p>La recomendación práctica es tener <strong>al menos 30 a 50 clusters por grupo</strong> (tratamiento y comparación). Por debajo de ese umbral, los errores estándar se vuelven poco confiables incluso con muchos individuos por cluster.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-poder-errores" class="level2" data-number="15.6">
+<h2 data-number="15.6" class="anchored" data-anchor-id="sec-poder-errores"><span class="header-section-number">15.6</span> Errores comunes</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>El poder post-hoc no es informativo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si ya obtuvo resultados sin significancia, <strong>no</strong> calcule el poder con su efecto estimado. Esto es circular: un resultado no significativo siempre produce poder bajo. Reporte el MDE en su lugar.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>“No encontramos efecto” ≠ “no hay efecto”
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un resultado no significativo con poco poder no demuestra que el programa no funciona. Solo demuestra que no pudo detectar un efecto con esos datos. Distinga entre “evidencia de ausencia” y “ausencia de evidencia”.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Ignorar el clustering infla su poder
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si el programa se asigna por conglomerados y calcula poder como si cada individuo fuera independiente, puede creer que tiene <strong>2 a 5 veces más poder</strong> del real. Siempre ajuste por ICC.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>No considerar la deserción
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si espera 20% de deserción, reclute al menos 25% más: <span class="math inline">\(n_{reclutamiento} = n_{requerido} / (1 - tasa\_desercion)\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Código y práctica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para el taller práctico con código R de este método, consulte el <a href="../capitulos/anexo-codigo-poder.html">Anexo de código: Poder estadístico</a>. Para una guía paso a paso de cómo usar IA para ejecutar este análisis, consulte la <a href="../capitulos/06-guia-ia.html">Parte 6: Cómo hablar con la IA</a>.</p>
+</div>
+</div>
+</section>
+<section id="sec-poder-referencias" class="level2" data-number="15.7">
+<h2 data-number="15.7" class="anchored" data-anchor-id="sec-poder-referencias"><span class="header-section-number">15.7</span> Para profundizar</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Recursos recomendados
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong><span class="citation" data-cites="gertler2016impact">@gertler2016impact</span></strong>, Capítulo 11 (“Choosing the Sample”): guía práctica completa sobre cálculo de poder en evaluación de impacto, con el ejemplo HISP+ como hilo conductor y discusión detallada del papel de los conglomerados.</li>
+<li><strong><span class="citation" data-cites="bernal2011">@bernal2011</span></strong>, Capítulo 8: tratamiento formal del cálculo de poder, efecto mínimo detectable y consideraciones de diseño muestral con ejemplos colombianos.</li>
+<li><strong><span class="citation" data-cites="khandker2009">@khandker2009</span></strong>: manual del Banco Mundial con énfasis en implementación práctica de cálculos de muestra para evaluaciones en países en desarrollo.</li>
+<li>Huntington-Klein, N. (2021). <em>The Effect: An Introduction to Research Design and Causality</em>. Capítulo sobre poder estadístico, disponible en <a href="https://theeffectbook.net">theeffectbook.net</a>.</li>
+<li>Cohen, J. (1988). <em>Statistical Power Analysis for the Behavioral Sciences</em> (2da ed.): referencia clásica sobre tamaños de efecto estandarizados.</li>
+<li>Documentación del paquete <code>pwr</code> en R: <code>?pwr.t.test</code>.</li>
+</ul>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/03-rdd.html" class="pagination-link" aria-label="Regresión discontinua">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Regresión discontinua</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../capitulos/04-intro-cualitativa.html" class="pagination-link" aria-label="Introducción a métodos cualitativos">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Introducción a métodos cualitativos</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Ejecutar el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu"># Poder estadístico y tamaño de muestra {#sec-poder-muestra}</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">## ¿Qué es el poder estadístico?</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>Antes de implementar cualquier evaluación de impacto, usted necesita responder una pregunta fundamental: **¿tengo suficientes datos para detectar el efecto de mi programa, si este realmente funciona?**</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>El **poder estadístico** es la probabilidad de detectar un efecto real cuando este existe. En términos técnicos, es la probabilidad de rechazar correctamente la hipótesis nula ($H_0$: "el programa no tiene efecto") cuando la alternativa ($H_1$: "el programa sí tiene efecto") es verdadera. @gertler2016impact [Cap. 11] lo definen como la probabilidad de detectar una diferencia entre los grupos de tratamiento y comparación cuando esta realmente existe, y advierten que realizar una evaluación con poder insuficiente es **muy costoso**: puede llevar a concluir erróneamente que un programa beneficioso no funciona y recomendar su cierre, con pérdidas sociales significativas.</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a>::: {.callout-tip}</span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="fu">## Analogía: el detector de metales</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>Piense en el poder estadístico como un detector de metales. Su capacidad para encontrar algo depende de qué tan grande es el objeto enterrado (tamaño del efecto), qué tan profundo está (variabilidad) y qué tan sensible es el detector (tamaño de muestra).</span>
+<span id="cb1-12"><a href="#cb1-12"></a>:::</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a>El poder depende de **cuatro parámetros** interconectados:</span>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="pp">|</span> Parámetro <span class="pp">|</span> Símbolo <span class="pp">|</span> Descripción <span class="pp">|</span> Valor típico <span class="pp">|</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="pp">|-----------|---------|-------------|--------------|</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="pp">|</span> Nivel de significancia <span class="pp">|</span> $\alpha$ <span class="pp">|</span> Probabilidad de falso positivo <span class="pp">|</span> 0.05 <span class="pp">|</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="pp">|</span> Poder estadístico <span class="pp">|</span> $1 - \beta$ <span class="pp">|</span> Probabilidad de detectar un efecto real <span class="pp">|</span> 0.80 <span class="pp">|</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="pp">|</span> Tamaño del efecto <span class="pp">|</span> $\delta$ <span class="pp">|</span> Magnitud del impacto del programa <span class="pp">|</span> Depende del contexto <span class="pp">|</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="pp">|</span> Tamaño de muestra <span class="pp">|</span> $n$ <span class="pp">|</span> Observaciones por grupo <span class="pp">|</span> Lo que calculamos <span class="pp">|</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a></span>
+<span id="cb1-23"><a href="#cb1-23"></a>: Parámetros clave del análisis de poder {#tbl-parametros-poder}</span>
+<span id="cb1-24"><a href="#cb1-24"></a></span>
+<span id="cb1-25"><a href="#cb1-25"></a><span class="fu">### Errores tipo I y tipo II</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a></span>
+<span id="cb1-27"><a href="#cb1-27"></a><span class="pp">|</span> <span class="pp">|</span> $H_1$ verdadera (sí funciona) <span class="pp">|</span> $H_0$ verdadera (no funciona) <span class="pp">|</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a><span class="pp">|</span> **Rechazamos** $H_0$ <span class="pp">|</span> Decisión correcta (Poder = $1 - \beta$) <span class="pp">|</span> Error tipo I ($\alpha$) <span class="pp">|</span></span>
+<span id="cb1-30"><a href="#cb1-30"></a><span class="pp">|</span> **No rechazamos** $H_0$ <span class="pp">|</span> Error tipo II ($\beta$) <span class="pp">|</span> Decisión correcta <span class="pp">|</span></span>
+<span id="cb1-31"><a href="#cb1-31"></a></span>
+<span id="cb1-32"><a href="#cb1-32"></a>: Errores tipo I y tipo II en evaluación de impacto {#tbl-errores}</span>
+<span id="cb1-33"><a href="#cb1-33"></a></span>
+<span id="cb1-36"><a href="#cb1-36"></a><span class="in">```{r}</span></span>
+<span id="cb1-37"><a href="#cb1-37"></a><span class="co">#| label: fig-poder-distribuciones</span></span>
+<span id="cb1-38"><a href="#cb1-38"></a><span class="co">#| fig-cap: "Visualización del poder estadístico: distribuciones bajo H0 y H1"</span></span>
+<span id="cb1-39"><a href="#cb1-39"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-40"><a href="#cb1-40"></a></span>
+<span id="cb1-41"><a href="#cb1-41"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-42"><a href="#cb1-42"></a></span>
+<span id="cb1-43"><a href="#cb1-43"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">0</span>; mu1 <span class="ot">&lt;-</span> <span class="fl">2.5</span>; sigma <span class="ot">&lt;-</span> <span class="dv">1</span>; alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb1-44"><a href="#cb1-44"></a>z_crit <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> sigma</span>
+<span id="cb1-45"><a href="#cb1-45"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="fl">6.5</span>, <span class="at">length.out =</span> <span class="dv">500</span>)</span>
+<span id="cb1-46"><a href="#cb1-46"></a>y_h0 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> mu0, <span class="at">sd =</span> sigma)</span>
+<span id="cb1-47"><a href="#cb1-47"></a>y_h1 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> mu1, <span class="at">sd =</span> sigma)</span>
+<span id="cb1-48"><a href="#cb1-48"></a></span>
+<span id="cb1-49"><a href="#cb1-49"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb1-50"><a href="#cb1-50"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(x, <span class="at">y =</span> y_h0), <span class="fu">aes</span>(x, y),</span>
+<span id="cb1-51"><a href="#cb1-51"></a>            <span class="at">color =</span> <span class="st">"#185FA5"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-52"><a href="#cb1-52"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(x, <span class="at">y =</span> y_h1), <span class="fu">aes</span>(x, y),</span>
+<span id="cb1-53"><a href="#cb1-53"></a>            <span class="at">color =</span> <span class="st">"#BA7517"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-54"><a href="#cb1-54"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x[x <span class="sc">&gt;=</span> z_crit], <span class="at">y =</span> y_h0[x <span class="sc">&gt;=</span> z_crit]),</span>
+<span id="cb1-55"><a href="#cb1-55"></a>              <span class="fu">aes</span>(x, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> y), <span class="at">fill =</span> <span class="st">"#D85A30"</span>, <span class="at">alpha =</span> <span class="fl">0.35</span>) <span class="sc">+</span></span>
+<span id="cb1-56"><a href="#cb1-56"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x[x <span class="sc">&gt;=</span> z_crit], <span class="at">y =</span> y_h1[x <span class="sc">&gt;=</span> z_crit]),</span>
+<span id="cb1-57"><a href="#cb1-57"></a>              <span class="fu">aes</span>(x, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> y), <span class="at">fill =</span> <span class="st">"#BA7517"</span>, <span class="at">alpha =</span> <span class="fl">0.35</span>) <span class="sc">+</span></span>
+<span id="cb1-58"><a href="#cb1-58"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> z_crit, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray30"</span>) <span class="sc">+</span></span>
+<span id="cb1-59"><a href="#cb1-59"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> mu0, <span class="at">y =</span> <span class="fu">max</span>(y_h0) <span class="sc">+</span> <span class="fl">0.02</span>, <span class="at">label =</span> <span class="st">"H0: sin efecto"</span>,</span>
+<span id="cb1-60"><a href="#cb1-60"></a>           <span class="at">color =</span> <span class="st">"#185FA5"</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb1-61"><a href="#cb1-61"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> mu1, <span class="at">y =</span> <span class="fu">max</span>(y_h1) <span class="sc">+</span> <span class="fl">0.02</span>, <span class="at">label =</span> <span class="st">"H1: efecto real"</span>,</span>
+<span id="cb1-62"><a href="#cb1-62"></a>           <span class="at">color =</span> <span class="st">"#BA7517"</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb1-63"><a href="#cb1-63"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> z_crit <span class="sc">+</span> <span class="fl">0.8</span>, <span class="at">y =</span> <span class="fl">0.12</span>, <span class="at">label =</span> <span class="st">"Región de</span><span class="sc">\n</span><span class="st">rechazo (α)"</span>,</span>
+<span id="cb1-64"><a href="#cb1-64"></a>           <span class="at">color =</span> <span class="st">"#D85A30"</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb1-65"><a href="#cb1-65"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">3.2</span>, <span class="at">y =</span> <span class="fl">0.22</span>, <span class="at">label =</span> <span class="st">"Poder</span><span class="sc">\n</span><span class="st">(1 − β)"</span>,</span>
+<span id="cb1-66"><a href="#cb1-66"></a>           <span class="at">color =</span> <span class="st">"#BA7517"</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb1-67"><a href="#cb1-67"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Valor del estadístico de prueba"</span>, <span class="at">y =</span> <span class="st">"Densidad"</span>,</span>
+<span id="cb1-68"><a href="#cb1-68"></a>       <span class="at">title =</span> <span class="st">"Poder estadístico: la probabilidad de detectar un efecto real"</span>) <span class="sc">+</span></span>
+<span id="cb1-69"><a href="#cb1-69"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb1-70"><a href="#cb1-70"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb1-71"><a href="#cb1-71"></a><span class="in">```</span></span>
+<span id="cb1-72"><a href="#cb1-72"></a></span>
+<span id="cb1-73"><a href="#cb1-73"></a><span class="fu">## ¿Por qué importa calcular el tamaño de muestra?</span></span>
+<span id="cb1-74"><a href="#cb1-74"></a></span>
+<span id="cb1-75"><a href="#cb1-75"></a><span class="ss">- </span>**Muestra demasiado pequeña:** no detectará el efecto aunque el programa funcione. Habrá gastado recursos en una evaluación que no puede concluir nada.</span>
+<span id="cb1-76"><a href="#cb1-76"></a><span class="ss">- </span>**Muestra demasiado grande:** gastará recursos innecesarios en recolectar datos que no aportan precisión adicional.</span>
+<span id="cb1-77"><a href="#cb1-77"></a></span>
+<span id="cb1-78"><a href="#cb1-78"></a>@gertler2016impact ilustran este dilema con un ejemplo extremo: un programa de nutrición evaluado con 50.000 niños detectará incluso efectos minúsculos, mientras que una evaluación con solo 2 niños no podrá distinguir el efecto del programa del ruido estadístico. El tamaño de muestra adecuado se encuentra entre ambos extremos, y depende de las características del programa y del contexto.</span>
+<span id="cb1-79"><a href="#cb1-79"></a></span>
+<span id="cb1-80"><a href="#cb1-80"></a><span class="fu">### Preguntas para guiar el cálculo de poder</span></span>
+<span id="cb1-81"><a href="#cb1-81"></a></span>
+<span id="cb1-82"><a href="#cb1-82"></a>@gertler2016impact <span class="co">[</span><span class="ot">Cap. 11</span><span class="co">]</span> proponen seis preguntas clave antes de realizar un cálculo de poder:</span>
+<span id="cb1-83"><a href="#cb1-83"></a></span>
+<span id="cb1-84"><a href="#cb1-84"></a><span class="ss">1. </span>¿La evaluación estima efectos promedio o también efectos para subgrupos específicos?</span>
+<span id="cb1-85"><a href="#cb1-85"></a><span class="ss">2. </span>¿Cuál es la unidad de asignación (individuo, hogar, escuela, comunidad)?</span>
+<span id="cb1-86"><a href="#cb1-86"></a><span class="ss">3. </span>¿Cuál es el efecto mínimo que justificaría la existencia del programa desde un punto de vista de política?</span>
+<span id="cb1-87"><a href="#cb1-87"></a><span class="ss">4. </span>¿Cuál es la media y la varianza del resultado de interés en la línea base?</span>
+<span id="cb1-88"><a href="#cb1-88"></a><span class="ss">5. </span>¿Qué nivel de poder se considera aceptable (típicamente 0.80 o 0.90)?</span>
+<span id="cb1-89"><a href="#cb1-89"></a><span class="ss">6. </span>Si el programa se asigna por conglomerados, ¿cuál es la correlación intra-cluster esperada?</span>
+<span id="cb1-90"><a href="#cb1-90"></a></span>
+<span id="cb1-91"><a href="#cb1-91"></a>::: {.callout-warning}</span>
+<span id="cb1-92"><a href="#cb1-92"></a><span class="fu">## El error más común</span></span>
+<span id="cb1-93"><a href="#cb1-93"></a>"Evaluamos a quienes tenemos disponibles" sin verificar si ese número es suficiente. Saberlo de antemano le permite ajustar expectativas o buscar más datos.</span>
+<span id="cb1-94"><a href="#cb1-94"></a>:::</span>
+<span id="cb1-95"><a href="#cb1-95"></a></span>
+<span id="cb1-96"><a href="#cb1-96"></a><span class="fu">### Efecto mínimo detectable (MDE)</span></span>
+<span id="cb1-97"><a href="#cb1-97"></a></span>
+<span id="cb1-98"><a href="#cb1-98"></a>El MDE es el efecto más pequeño que su diseño puede identificar con el poder y significancia establecidos:</span>
+<span id="cb1-99"><a href="#cb1-99"></a></span>
+<span id="cb1-100"><a href="#cb1-100"></a>$$</span>
+<span id="cb1-101"><a href="#cb1-101"></a>MDE = (z_{\alpha/2} + z_{\beta}) \cdot \sqrt{\frac{2\sigma^2}{n}}</span>
+<span id="cb1-102"><a href="#cb1-102"></a>$$</span>
+<span id="cb1-103"><a href="#cb1-103"></a></span>
+<span id="cb1-104"><a href="#cb1-104"></a>Si el MDE es mayor que el efecto que usted espera del programa, su evaluación está **condenada al fracaso** antes de empezar. @gertler2016impact recomiendan ser **conservadores** al fijar el MDE: es preferible diseñar la evaluación con un efecto esperado menor al que sugiere la literatura, pues si el efecto real resulta ser mayor, la evaluación tendrá poder suficiente de todas formas. Cuando hay múltiples resultados de interés, el tamaño de muestra debe calcularse para el resultado con mayor varianza o menor efecto esperado, pues ese será el caso más exigente <span class="co">[</span><span class="ot">@bernal2011</span><span class="co">]</span>.</span>
+<span id="cb1-105"><a href="#cb1-105"></a></span>
+<span id="cb1-106"><a href="#cb1-106"></a><span class="fu">## Cálculo básico de poder</span></span>
+<span id="cb1-107"><a href="#cb1-107"></a></span>
+<span id="cb1-108"><a href="#cb1-108"></a>Para una comparación de dos grupos, el tamaño de muestra **por grupo** es:</span>
+<span id="cb1-109"><a href="#cb1-109"></a></span>
+<span id="cb1-110"><a href="#cb1-110"></a>$$</span>
+<span id="cb1-111"><a href="#cb1-111"></a>n = \frac{(z_{\alpha/2} + z_{\beta})^2 \cdot 2\sigma^2}{\delta^2}</span>
+<span id="cb1-112"><a href="#cb1-112"></a>$$ {#eq-poder-basico}</span>
+<span id="cb1-113"><a href="#cb1-113"></a></span>
+<span id="cb1-114"><a href="#cb1-114"></a>Donde $z_{\alpha/2} = 1.96$ para $\alpha = 0.05$, $z_{\beta} = 0.84$ para poder = 0.80, $\sigma^2$ es la varianza del resultado y $\delta$ es el efecto esperado.</span>
+<span id="cb1-115"><a href="#cb1-115"></a></span>
+<span id="cb1-118"><a href="#cb1-118"></a><span class="in">```{r}</span></span>
+<span id="cb1-119"><a href="#cb1-119"></a><span class="co">#| label: fig-poder-parametros</span></span>
+<span id="cb1-120"><a href="#cb1-120"></a><span class="co">#| fig-cap: "Cómo cambia el tamaño de muestra requerido al variar cada parámetro"</span></span>
+<span id="cb1-121"><a href="#cb1-121"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-122"><a href="#cb1-122"></a></span>
+<span id="cb1-123"><a href="#cb1-123"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-124"><a href="#cb1-124"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb1-125"><a href="#cb1-125"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-126"><a href="#cb1-126"></a></span>
+<span id="cb1-127"><a href="#cb1-127"></a>d_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">1.0</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb1-128"><a href="#cb1-128"></a>n_por_d <span class="ot">&lt;-</span> <span class="fu">sapply</span>(d_vals, <span class="cf">function</span>(d)</span>
+<span id="cb1-129"><a href="#cb1-129"></a>  <span class="fu">pwr.t.test</span>(<span class="at">d =</span> d, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> <span class="fl">0.80</span>, <span class="at">type =</span> <span class="st">"two.sample"</span>)<span class="sc">$</span>n)</span>
+<span id="cb1-130"><a href="#cb1-130"></a></span>
+<span id="cb1-131"><a href="#cb1-131"></a>poder_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.50</span>, <span class="fl">0.95</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb1-132"><a href="#cb1-132"></a>n_por_poder <span class="ot">&lt;-</span> <span class="fu">sapply</span>(poder_vals, <span class="cf">function</span>(pw)</span>
+<span id="cb1-133"><a href="#cb1-133"></a>  <span class="fu">pwr.t.test</span>(<span class="at">d =</span> <span class="fl">0.3</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">power =</span> pw, <span class="at">type =</span> <span class="st">"two.sample"</span>)<span class="sc">$</span>n)</span>
+<span id="cb1-134"><a href="#cb1-134"></a></span>
+<span id="cb1-135"><a href="#cb1-135"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> d_vals, <span class="at">y =</span> <span class="fu">ceiling</span>(n_por_d)), <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb1-136"><a href="#cb1-136"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#185FA5"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-137"><a href="#cb1-137"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Tamaño de efecto (d de Cohen)"</span>, <span class="at">y =</span> <span class="st">"n por grupo"</span>,</span>
+<span id="cb1-138"><a href="#cb1-138"></a>       <span class="at">title =</span> <span class="st">"A menor efecto, más muestra"</span>) <span class="sc">+</span></span>
+<span id="cb1-139"><a href="#cb1-139"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb1-140"><a href="#cb1-140"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">11</span>))</span>
+<span id="cb1-141"><a href="#cb1-141"></a></span>
+<span id="cb1-142"><a href="#cb1-142"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> poder_vals, <span class="at">y =</span> <span class="fu">ceiling</span>(n_por_poder)), <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb1-143"><a href="#cb1-143"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#BA7517"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-144"><a href="#cb1-144"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Poder estadístico"</span>, <span class="at">y =</span> <span class="st">"n por grupo"</span>,</span>
+<span id="cb1-145"><a href="#cb1-145"></a>       <span class="at">title =</span> <span class="st">"A mayor poder, más muestra"</span>) <span class="sc">+</span></span>
+<span id="cb1-146"><a href="#cb1-146"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb1-147"><a href="#cb1-147"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">11</span>))</span>
+<span id="cb1-148"><a href="#cb1-148"></a></span>
+<span id="cb1-149"><a href="#cb1-149"></a>p1 <span class="sc">+</span> p2</span>
+<span id="cb1-150"><a href="#cb1-150"></a><span class="in">```</span></span>
+<span id="cb1-151"><a href="#cb1-151"></a></span>
+<span id="cb1-152"><a href="#cb1-152"></a>::: {.callout-note}</span>
+<span id="cb1-153"><a href="#cb1-153"></a><span class="fu">## ¿Qué es la d de Cohen?</span></span>
+<span id="cb1-154"><a href="#cb1-154"></a>La d de Cohen estandariza el tamaño del efecto: $d = \delta / \sigma$. Convenciones: **0.2** = pequeño, **0.5** = mediano, **0.8** = grande. En evaluación de impacto, efectos de 0.1--0.3 DE son frecuentes.</span>
+<span id="cb1-155"><a href="#cb1-155"></a>:::</span>
+<span id="cb1-156"><a href="#cb1-156"></a></span>
+<span id="cb1-157"><a href="#cb1-157"></a><span class="fu">## Consideraciones especiales por método</span></span>
+<span id="cb1-158"><a href="#cb1-158"></a></span>
+<span id="cb1-159"><a href="#cb1-159"></a><span class="pp">|</span> Método <span class="pp">|</span> Particularidades del cálculo de poder <span class="pp">|</span></span>
+<span id="cb1-160"><a href="#cb1-160"></a><span class="pp">|--------|--------------------------------------|</span></span>
+<span id="cb1-161"><a href="#cb1-161"></a><span class="pp">|</span> **RCT** <span class="pp">|</span> Cálculo estándar. Si la asignación es por conglomerados, ajuste por clustering. <span class="pp">|</span></span>
+<span id="cb1-162"><a href="#cb1-162"></a><span class="pp">|</span> **DiD** <span class="pp">|</span> Considere correlación serial y correlación pre-post. Más periodos pre aportan precisión. <span class="pp">|</span></span>
+<span id="cb1-163"><a href="#cb1-163"></a><span class="pp">|</span> **Matching** | El tamaño de muestra **efectivo** después del emparejamiento es menor. <span class="pp">|</span></span>
+<span id="cb1-164"><a href="#cb1-164"></a><span class="pp">|</span> **Variables instrumentales** <span class="pp">|</span> Instrumentos débiles reducen el poder. Regla práctica: F &gt; 10 en primera etapa. <span class="pp">|</span></span>
+<span id="cb1-165"><a href="#cb1-165"></a><span class="pp">|</span> **RDD** <span class="pp">|</span> Solo observaciones cercanas al corte contribuyen. Se necesita muestra mucho mayor. <span class="pp">|</span></span>
+<span id="cb1-166"><a href="#cb1-166"></a></span>
+<span id="cb1-167"><a href="#cb1-167"></a>: Consideraciones de poder por método de evaluación {#tbl-poder-metodos}</span>
+<span id="cb1-168"><a href="#cb1-168"></a></span>
+<span id="cb1-169"><a href="#cb1-169"></a>@gertler2016impact advierten que los métodos **cuasi-experimentales** (DiD, Matching, IV, RDD) típicamente requieren muestras mayores que un RCT para alcanzar el mismo poder estadístico, porque parte de la varianza se consume en los ajustes necesarios para aproximar el contrafactual. Al planear una evaluación cuasi-experimental, use el cálculo para RCT como punto de partida y **aumente la muestra** proporcionalmente según el método <span class="co">[</span><span class="ot">@khandker2009</span><span class="co">]</span>.</span>
+<span id="cb1-170"><a href="#cb1-170"></a></span>
+<span id="cb1-171"><a href="#cb1-171"></a><span class="fu">## Clustering</span></span>
+<span id="cb1-172"><a href="#cb1-172"></a></span>
+<span id="cb1-173"><a href="#cb1-173"></a>Cuando el programa se asigna a nivel de **conglomerados** (escuelas, comunidades, clínicas), las personas dentro de un mismo cluster tienden a parecerse entre sí. Esto reduce la información independiente que cada observación aporta.</span>
+<span id="cb1-174"><a href="#cb1-174"></a></span>
+<span id="cb1-175"><a href="#cb1-175"></a><span class="fu">### ICC y efecto de diseño</span></span>
+<span id="cb1-176"><a href="#cb1-176"></a></span>
+<span id="cb1-177"><a href="#cb1-177"></a>El **ICC** ($\rho$) mide qué proporción de la varianza se explica por diferencias entre conglomerados. El **efecto de diseño** (DEFF) indica cuántas veces más grande debe ser la muestra:</span>
+<span id="cb1-178"><a href="#cb1-178"></a></span>
+<span id="cb1-179"><a href="#cb1-179"></a>$$</span>
+<span id="cb1-180"><a href="#cb1-180"></a>DEFF = 1 + (m - 1) \cdot \rho</span>
+<span id="cb1-181"><a href="#cb1-181"></a>$$ {#eq-deff}</span>
+<span id="cb1-182"><a href="#cb1-182"></a></span>
+<span id="cb1-183"><a href="#cb1-183"></a>donde $m$ es el número de individuos por conglomerado. Valores típicos del ICC en ciencias sociales: 0.01 a 0.20.</span>
+<span id="cb1-184"><a href="#cb1-184"></a></span>
+<span id="cb1-187"><a href="#cb1-187"></a><span class="in">```{r}</span></span>
+<span id="cb1-188"><a href="#cb1-188"></a><span class="co">#| label: fig-poder-clustering</span></span>
+<span id="cb1-189"><a href="#cb1-189"></a><span class="co">#| fig-cap: "Cómo el clustering multiplica el tamaño de muestra requerido"</span></span>
+<span id="cb1-190"><a href="#cb1-190"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-191"><a href="#cb1-191"></a></span>
+<span id="cb1-192"><a href="#cb1-192"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-193"><a href="#cb1-193"></a></span>
+<span id="cb1-194"><a href="#cb1-194"></a>m_vals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">50</span>)</span>
+<span id="cb1-195"><a href="#cb1-195"></a>icc_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="fl">0.20</span>, <span class="at">by =</span> <span class="fl">0.005</span>)</span>
+<span id="cb1-196"><a href="#cb1-196"></a>df_deff <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">m =</span> m_vals, <span class="at">icc =</span> icc_vals)</span>
+<span id="cb1-197"><a href="#cb1-197"></a>df_deff<span class="sc">$</span>deff <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> (df_deff<span class="sc">$</span>m <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> df_deff<span class="sc">$</span>icc</span>
+<span id="cb1-198"><a href="#cb1-198"></a>df_deff<span class="sc">$</span>m_label <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"m = "</span>, df_deff<span class="sc">$</span>m, <span class="st">" por cluster"</span>)</span>
+<span id="cb1-199"><a href="#cb1-199"></a></span>
+<span id="cb1-200"><a href="#cb1-200"></a><span class="fu">ggplot</span>(df_deff, <span class="fu">aes</span>(<span class="at">x =</span> icc, <span class="at">y =</span> deff, <span class="at">color =</span> <span class="fu">factor</span>(m_label))) <span class="sc">+</span></span>
+<span id="cb1-201"><a href="#cb1-201"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-202"><a href="#cb1-202"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#185FA5"</span>, <span class="st">"#BA7517"</span>, <span class="st">"#D85A30"</span>, <span class="st">"#4A9C6D"</span>)) <span class="sc">+</span></span>
+<span id="cb1-203"><a href="#cb1-203"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"ICC (ρ)"</span>, <span class="at">y =</span> <span class="st">"Efecto de diseño (DEFF)"</span>,</span>
+<span id="cb1-204"><a href="#cb1-204"></a>       <span class="at">color =</span> <span class="st">"Individuos por cluster"</span>,</span>
+<span id="cb1-205"><a href="#cb1-205"></a>       <span class="at">title =</span> <span class="st">"El clustering puede multiplicar varias veces la muestra requerida"</span>) <span class="sc">+</span></span>
+<span id="cb1-206"><a href="#cb1-206"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb1-207"><a href="#cb1-207"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb1-208"><a href="#cb1-208"></a><span class="in">```</span></span>
+<span id="cb1-209"><a href="#cb1-209"></a></span>
+<span id="cb1-210"><a href="#cb1-210"></a>::: {.callout-warning}</span>
+<span id="cb1-211"><a href="#cb1-211"></a><span class="fu">## Ejemplo concreto</span></span>
+<span id="cb1-212"><a href="#cb1-212"></a>Sin clustering necesita 200 personas por grupo. Con 20 escuelas de 20 estudiantes e ICC = 0.10, el DEFF = 1 + 19 × 0.10 = **2.9**. Necesitaría 580 por grupo. Ignorar el clustering le haría creer que tiene **3 veces más poder** del real.</span>
+<span id="cb1-213"><a href="#cb1-213"></a>:::</span>
+<span id="cb1-214"><a href="#cb1-214"></a></span>
+<span id="cb1-215"><a href="#cb1-215"></a>::: {.callout-important}</span>
+<span id="cb1-216"><a href="#cb1-216"></a><span class="fu">## El número de clusters importa más que el tamaño de cada cluster</span></span>
+<span id="cb1-217"><a href="#cb1-217"></a>@gertler2016impact <span class="co">[</span><span class="ot">Cap. 11</span><span class="co">]</span> enfatizan un resultado contraintuitivo: en evaluaciones con asignación por conglomerados, **el número de clusters importa mucho más que el número de individuos dentro de cada cluster**. En el ejemplo HISP+ del libro, una evaluación con 100 clusters de 9 unidades cada uno (900 unidades totales) tiene más poder que una con 10 clusters de 67 unidades (670 unidades), aunque la segunda tenga casi el mismo tamaño total.</span>
+<span id="cb1-218"><a href="#cb1-218"></a></span>
+<span id="cb1-219"><a href="#cb1-219"></a>La recomendación práctica es tener **al menos 30 a 50 clusters por grupo** (tratamiento y comparación). Por debajo de ese umbral, los errores estándar se vuelven poco confiables incluso con muchos individuos por cluster.</span>
+<span id="cb1-220"><a href="#cb1-220"></a>:::</span>
+<span id="cb1-221"><a href="#cb1-221"></a></span>
+<span id="cb1-222"><a href="#cb1-222"></a><span class="fu">## Errores comunes {#sec-poder-errores}</span></span>
+<span id="cb1-223"><a href="#cb1-223"></a></span>
+<span id="cb1-224"><a href="#cb1-224"></a>::: {.callout-warning}</span>
+<span id="cb1-225"><a href="#cb1-225"></a><span class="fu">## El poder post-hoc no es informativo</span></span>
+<span id="cb1-226"><a href="#cb1-226"></a>Si ya obtuvo resultados sin significancia, **no** calcule el poder con su efecto estimado. Esto es circular: un resultado no significativo siempre produce poder bajo. Reporte el MDE en su lugar.</span>
+<span id="cb1-227"><a href="#cb1-227"></a>:::</span>
+<span id="cb1-228"><a href="#cb1-228"></a></span>
+<span id="cb1-229"><a href="#cb1-229"></a>::: {.callout-warning}</span>
+<span id="cb1-230"><a href="#cb1-230"></a><span class="fu">## "No encontramos efecto" ≠ "no hay efecto"</span></span>
+<span id="cb1-231"><a href="#cb1-231"></a>Un resultado no significativo con poco poder no demuestra que el programa no funciona. Solo demuestra que no pudo detectar un efecto con esos datos. Distinga entre "evidencia de ausencia" y "ausencia de evidencia".</span>
+<span id="cb1-232"><a href="#cb1-232"></a>:::</span>
+<span id="cb1-233"><a href="#cb1-233"></a></span>
+<span id="cb1-234"><a href="#cb1-234"></a>::: {.callout-warning}</span>
+<span id="cb1-235"><a href="#cb1-235"></a><span class="fu">## Ignorar el clustering infla su poder</span></span>
+<span id="cb1-236"><a href="#cb1-236"></a>Si el programa se asigna por conglomerados y calcula poder como si cada individuo fuera independiente, puede creer que tiene **2 a 5 veces más poder** del real. Siempre ajuste por ICC.</span>
+<span id="cb1-237"><a href="#cb1-237"></a>:::</span>
+<span id="cb1-238"><a href="#cb1-238"></a></span>
+<span id="cb1-239"><a href="#cb1-239"></a>::: {.callout-warning}</span>
+<span id="cb1-240"><a href="#cb1-240"></a><span class="fu">## No considerar la deserción</span></span>
+<span id="cb1-241"><a href="#cb1-241"></a>Si espera 20% de deserción, reclute al menos 25% más: $n_{reclutamiento} = n_{requerido} / (1 - tasa<span class="sc">\_</span>desercion)$.</span>
+<span id="cb1-242"><a href="#cb1-242"></a>:::</span>
+<span id="cb1-243"><a href="#cb1-243"></a></span>
+<span id="cb1-244"><a href="#cb1-244"></a>::: {.callout-tip}</span>
+<span id="cb1-245"><a href="#cb1-245"></a><span class="fu">## Código y práctica</span></span>
+<span id="cb1-246"><a href="#cb1-246"></a>Para el taller práctico con código R de este método, consulte el <span class="co">[</span><span class="ot">Anexo de código: Poder estadístico</span><span class="co">](anexo-codigo-poder.qmd)</span>. Para una guía paso a paso de cómo usar IA para ejecutar este análisis, consulte la <span class="co">[</span><span class="ot">Parte 6: Cómo hablar con la IA</span><span class="co">](06-guia-ia.qmd)</span>.</span>
+<span id="cb1-247"><a href="#cb1-247"></a>:::</span>
+<span id="cb1-248"><a href="#cb1-248"></a></span>
+<span id="cb1-249"><a href="#cb1-249"></a><span class="fu">## Para profundizar {#sec-poder-referencias}</span></span>
+<span id="cb1-250"><a href="#cb1-250"></a></span>
+<span id="cb1-251"><a href="#cb1-251"></a>::: {.callout-tip}</span>
+<span id="cb1-252"><a href="#cb1-252"></a><span class="fu">## Recursos recomendados</span></span>
+<span id="cb1-253"><a href="#cb1-253"></a></span>
+<span id="cb1-254"><a href="#cb1-254"></a><span class="ss">- </span>**@gertler2016impact**, Capítulo 11 ("Choosing the Sample"): guía práctica completa sobre cálculo de poder en evaluación de impacto, con el ejemplo HISP+ como hilo conductor y discusión detallada del papel de los conglomerados.</span>
+<span id="cb1-255"><a href="#cb1-255"></a><span class="ss">- </span>**@bernal2011**, Capítulo 8: tratamiento formal del cálculo de poder, efecto mínimo detectable y consideraciones de diseño muestral con ejemplos colombianos.</span>
+<span id="cb1-256"><a href="#cb1-256"></a><span class="ss">- </span>**@khandker2009**: manual del Banco Mundial con énfasis en implementación práctica de cálculos de muestra para evaluaciones en países en desarrollo.</span>
+<span id="cb1-257"><a href="#cb1-257"></a><span class="ss">- </span>Huntington-Klein, N. (2021). *The Effect: An Introduction to Research Design and Causality*. Capítulo sobre poder estadístico, disponible en <span class="co">[</span><span class="ot">theeffectbook.net</span><span class="co">](https://theeffectbook.net)</span>.</span>
+<span id="cb1-258"><a href="#cb1-258"></a><span class="ss">- </span>Cohen, J. (1988). *Statistical Power Analysis for the Behavioral Sciences* (2da ed.): referencia clásica sobre tamaños de efecto estandarizados.</span>
+<span id="cb1-259"><a href="#cb1-259"></a><span class="ss">- </span>Documentación del paquete <span class="in">`pwr`</span> en R: <span class="in">`?pwr.t.test`</span>.</span>
+<span id="cb1-260"><a href="#cb1-260"></a>:::</span>
+</code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/edit/main/capitulos/03-poder-muestra.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

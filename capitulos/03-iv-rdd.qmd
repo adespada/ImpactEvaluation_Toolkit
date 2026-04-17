@@ -1,0 +1,293 @@
+# Variables instrumentales y regresion discontinua {#sec-iv-rdd}
+
+## A. Variables instrumentales (IV) {#sec-iv-teoria}
+
+### ¿Que son las variables instrumentales?
+
+En muchas evaluaciones de impacto, el tratamiento no se asigna aleatoriamente. Las personas que participan en un programa pueden ser diferentes de quienes no participan, y esas diferencias pueden estar relacionadas con el resultado que se quiere medir. Esto genera un **sesgo de seleccion** que invalida las comparaciones simples.
+
+Las variables instrumentales (IV) ofrecen una solucion elegante: en lugar de comparar directamente a quienes participan y quienes no, se busca una variable externa --- el **instrumento** --- que *empuje* a algunas personas hacia el tratamiento de forma cuasi-aleatoria, sin afectar directamente el resultado.
+
+::: {.callout-note}
+## La idea clave
+Un instrumento es algo que cambia la probabilidad de recibir el tratamiento, pero que **no** afecta el resultado por ninguna otra via. Es como encontrar un "empujon" aleatorio hacia el programa en medio de datos observacionales.
+:::
+
+**Ejemplo clasico:** Suponga que usted quiere estimar el efecto de los anos de educacion sobre el ingreso laboral. Las personas que estudian mas pueden ser inherentemente mas motivadas o talentosas, lo cual tambien afecta sus ingresos. La **distancia al colegio mas cercano** puede servir como instrumento: quienes viven mas cerca tienden a estudiar mas, pero la distancia en si misma no deberia afectar los ingresos por otra via.
+
+**Ejemplo latinoamericano:** En Colombia, los programas de becas como Ser Pilo Paga asignaron beneficios mediante una **loteria** entre candidatos elegibles. La loteria es un instrumento perfecto: determina quien recibe la beca (tratamiento), pero al ser aleatoria, no esta correlacionada con las caracteristicas de los estudiantes.
+
+### Las tres condiciones para un instrumento valido
+
+Para que un instrumento $Z$ sea valido, debe cumplir tres condiciones:
+
+1. **Relevancia**: $Z$ debe estar correlacionado con el tratamiento $T$. La loteria efectivamente determina quien recibe la beca.
+
+2. **Independencia**: $Z$ no debe estar correlacionado con factores no observados que afectan $Y$. La loteria es aleatoria, asi que cumple esta condicion.
+
+3. **Restriccion de exclusion**: $Z$ solo afecta a $Y$ a traves de $T$. Ganar la loteria solo afecta el ingreso futuro porque permite acceder a la universidad, no por otra razon.
+
+```{r}
+#| label: fig-iv-cadena-causal
+#| fig-cap: "Cadena causal de las variables instrumentales: el instrumento Z afecta al resultado Y unicamente a traves del tratamiento T"
+#| echo: false
+
+library(ggplot2)
+
+# Diagrama de la cadena causal Z -> T -> Y
+nodos <- data.frame(
+  x = c(1, 3, 5),
+  y = c(0, 0, 0),
+  etiqueta = c("Z\n(Instrumento)", "T\n(Tratamiento)", "Y\n(Resultado)"),
+  ejemplo = c("Loteria de beca", "Asistencia a\nuniversidad", "Ingreso\nlaboral")
+)
+
+flechas <- data.frame(
+  x_ini = c(1.45, 3.45),
+  x_fin = c(2.55, 4.55),
+  y_ini = c(0, 0),
+  y_fin = c(0, 0)
+)
+
+# Flecha prohibida Z -> Y directa
+flecha_prohibida <- data.frame(
+  x_ini = 1.3, x_fin = 4.7,
+  y_ini = 0.5, y_fin = 0.5
+)
+
+ggplot() +
+  # Flechas validas
+
+  geom_segment(data = flechas,
+               aes(x = x_ini, xend = x_fin, y = y_ini, yend = y_fin),
+               arrow = arrow(length = unit(0.3, "cm"), type = "closed"),
+               linewidth = 1.2, color = "#185FA5") +
+  # Flecha prohibida
+
+  geom_curve(data = flecha_prohibida,
+             aes(x = x_ini, xend = x_fin, y = y_ini, yend = y_fin),
+             arrow = arrow(length = unit(0.25, "cm"), type = "closed"),
+             linewidth = 0.9, color = "#D85A30", linetype = "dashed",
+             curvature = 0.4) +
+  annotate("text", x = 3, y = 0.85, label = "Restriccion de exclusion:\nesta via NO debe existir",
+           color = "#D85A30", size = 3, fontface = "italic") +
+  # Nodos
+
+  geom_point(data = nodos, aes(x = x, y = y), size = 18,
+             color = "#185FA5", fill = "white", shape = 21, stroke = 1.5) +
+  geom_text(data = nodos, aes(x = x, y = y, label = etiqueta),
+            size = 3, fontface = "bold", lineheight = 0.9) +
+  geom_text(data = nodos, aes(x = x, y = y - 0.55, label = ejemplo),
+            size = 2.5, color = "gray40", lineheight = 0.85) +
+  coord_cartesian(xlim = c(0.2, 5.8), ylim = c(-1.1, 1.2)) +
+  labs(title = "Cadena causal: variable instrumental") +
+  theme_void(base_size = 13) +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+```
+
+### La formula
+
+El metodo de variables instrumentales se estima mediante **Minimos Cuadrados en Dos Etapas** (2SLS, por sus siglas en ingles):
+
+**Primera etapa** --- se predice el tratamiento a partir del instrumento:
+
+$$
+T_i = \alpha_0 + \alpha_1 \cdot Z_i + v_i
+$$ {#eq-iv-primera}
+
+**Segunda etapa** --- se usa el tratamiento predicho ($\hat{T}$) para estimar el efecto sobre el resultado:
+
+$$
+Y_i = \beta_0 + \beta_1 \cdot \hat{T}_i + \epsilon_i
+$$ {#eq-iv-segunda}
+
+El coeficiente $\beta_1$ es el efecto causal estimado del tratamiento sobre el resultado.
+
+::: {.callout-note}
+## LATE: el efecto local
+El estimador IV no recupera el efecto promedio del tratamiento (ATE) para toda la poblacion. Lo que estima es el **Efecto Promedio Local del Tratamiento** (LATE): el efecto para las personas cuyo comportamiento cambio gracias al instrumento --- los llamados **cumplidores** (*compliers*).
+:::
+
+### Tipos de individuos en IV
+
+Cuando el instrumento es binario (por ejemplo, ganar o no la loteria), podemos clasificar a las personas en cuatro tipos:
+
+```{r}
+#| label: tbl-iv-tipos
+#| tbl-cap: "Tipos de individuos segun su respuesta al instrumento"
+#| echo: false
+
+tipos <- data.frame(
+  Tipo = c("Cumplidores (compliers)",
+           "Siempre-tratados (always-takers)",
+           "Nunca-tratados (never-takers)",
+           "Desafiantes (defiers)"),
+  Comportamiento = c(
+    "Participan si ganan la loteria, no participan si no la ganan",
+    "Participan sin importar si ganan o no la loteria",
+    "No participan sin importar si ganan o no la loteria",
+    "Participan solo si NO ganan la loteria (caso raro)"
+  ),
+  Relevancia = c(
+    "El LATE estima el efecto para este grupo",
+    "IV no identifica su efecto",
+    "IV no identifica su efecto",
+    "Se asume que no existen (supuesto de monotonicidad)"
+  )
+)
+
+knitr::kable(tipos, col.names = c("Tipo", "Comportamiento", "Relevancia para IV"))
+```
+
+### Supuestos y limitaciones
+
+::: {.callout-warning}
+## Instrumentos debiles
+Si el instrumento esta solo debilmente correlacionado con el tratamiento, los estimadores IV se vuelven inestables y sesgados. La regla practica es que el **estadistico F de la primera etapa** debe ser mayor a 10. Si no lo es, el instrumento es demasiado debil y los resultados no son confiables.
+:::
+
+**Cuando IV es una buena opcion:**
+
+- Usted tiene un instrumento creible (loteria, distancia, regulacion exogena)
+- El tratamiento no es aleatorio pero el instrumento si lo es (o casi)
+- Puede argumentar de forma convincente que se cumple la restriccion de exclusion
+- El estadistico F de la primera etapa es alto (mayor a 10)
+
+**Cuando IV NO es buena opcion:**
+
+- No tiene un instrumento creible (no invente uno por conveniencia)
+- El instrumento tiene canales directos hacia el resultado
+- El estadistico F de la primera etapa es bajo
+- Necesita estimar el efecto para toda la poblacion (ATE) y no solo para los cumplidores (LATE)
+
+## B. Regresion discontinua (RDD) {#sec-rdd-teoria}
+
+### ¿Que es la regresion discontinua?
+
+Muchos programas sociales determinan la elegibilidad con base en un **puntaje**: quienes estan por debajo de cierto umbral reciben el beneficio, quienes estan por encima no. La regresion discontinua aprovecha esta regla para estimar el efecto causal del programa.
+
+La idea central es que las personas que estan **justo por debajo** y **justo por encima** del punto de corte son practicamente identicas en todo, excepto en que unas recibieron el programa y otras no. Es como tener un mini-experimento natural alrededor del umbral.
+
+::: {.callout-note}
+## La idea clave
+Si el puntaje de elegibilidad es 50, una persona con 49.5 puntos y otra con 50.5 son casi iguales. Pero una recibe el subsidio y la otra no. Comparando sus resultados, podemos estimar el efecto del programa en la vecindad del punto de corte.
+:::
+
+**Ejemplo colombiano:** El puntaje **SISBEN** clasifica a los hogares por nivel socioeconomico. Los hogares con puntaje por debajo de cierto umbral acceden a subsidios de salud, educacion o vivienda. La regresion discontinua compara hogares que quedaron justo por debajo versus justo por encima del corte.
+
+```{r}
+#| label: fig-rdd-concepto
+#| fig-cap: "Concepto de regresion discontinua: la discontinuidad en el punto de corte revela el efecto del programa"
+#| echo: false
+
+library(ggplot2)
+
+set.seed(2024)
+n <- 300
+
+# Variable de asignacion (running variable)
+puntaje <- runif(n, 20, 80)
+# Tratamiento: puntaje < 50 recibe subsidio
+tratamiento <- ifelse(puntaje < 50, 1, 0)
+# Resultado: calidad de vivienda
+calidad <- 40 + 0.5 * puntaje + 8 * tratamiento + rnorm(n, sd = 4)
+
+datos_rdd <- data.frame(puntaje, tratamiento, calidad,
+                         grupo = ifelse(tratamiento == 1,
+                                        "Con subsidio", "Sin subsidio"))
+
+ggplot(datos_rdd, aes(x = puntaje, y = calidad, color = grupo)) +
+  geom_point(alpha = 0.4, size = 1.5) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 1.2) +
+  geom_vline(xintercept = 50, linetype = "dashed", color = "#BA7517",
+             linewidth = 0.9) +
+  annotate("text", x = 50.5, y = max(calidad) - 2,
+           label = "Punto de corte\n(SISBEN = 50)", hjust = 0,
+           color = "#BA7517", fontface = "bold", size = 3) +
+  annotate("segment", x = 44, xend = 44, y = 60, yend = 68,
+           arrow = arrow(length = unit(0.2, "cm"), ends = "both"),
+           color = "#BA7517", linewidth = 0.8) +
+  annotate("text", x = 43.5, y = 64, label = "Efecto\nestimado",
+           color = "#BA7517", size = 3, fontface = "bold", hjust = 1) +
+  scale_color_manual(values = c("Con subsidio" = "#D85A30",
+                                 "Sin subsidio" = "#185FA5")) +
+  labs(x = "Puntaje SISBEN", y = "Indice de calidad de vivienda",
+       color = NULL,
+       title = "Regresion discontinua: efecto del subsidio de vivienda") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold"))
+```
+
+### Sharp vs. Fuzzy RDD
+
+Existen dos variantes del diseno de regresion discontinua:
+
+**Sharp RDD** (nitida): el tratamiento cambia de 0 a 1 exactamente en el punto de corte. Si su puntaje SISBEN es menor a 50, usted **siempre** recibe el subsidio; si es mayor, **nunca** lo recibe.
+
+**Fuzzy RDD** (difusa): el punto de corte cambia la *probabilidad* de recibir el tratamiento, pero no de forma perfecta. Algunos elegibles no se inscriben y algunos no elegibles logran acceder. En este caso, la RDD difusa es conceptualmente equivalente a un diseno de **variables instrumentales**, donde el instrumento es estar por encima o por debajo del corte.
+
+::: {.callout-tip}
+## Conexion entre IV y RDD
+La RDD difusa es un caso especial de variables instrumentales. El instrumento es la variable indicadora $\mathbb{1}(X_i \geq c)$, es decir, si el individuo esta por encima o por debajo del punto de corte. Por eso estos dos metodos comparten este capitulo: estan emparentados conceptualmente.
+:::
+
+### La formula
+
+**RDD Sharp:** el efecto del programa en el punto de corte se estima como:
+
+$$
+\tau_{RDD} = \lim_{x \to c^{+}} E[Y_i | X_i = x] \;-\; \lim_{x \to c^{-}} E[Y_i | X_i = x]
+$$ {#eq-rdd-sharp}
+
+Es decir, la diferencia entre el limite del resultado esperado cuando el puntaje se acerca al corte desde arriba y desde abajo. Si hay un "salto" en el resultado en el punto de corte, ese salto es el efecto del programa.
+
+**RDD Fuzzy:** cuando la asignacion no es perfecta, se estima como un cociente (equivalente a IV):
+
+$$
+\tau_{Fuzzy} = \frac{\lim_{x \to c^{+}} E[Y_i | X_i = x] - \lim_{x \to c^{-}} E[Y_i | X_i = x]}{\lim_{x \to c^{+}} E[T_i | X_i = x] - \lim_{x \to c^{-}} E[T_i | X_i = x]}
+$$ {#eq-rdd-fuzzy}
+
+::: {.callout-note}
+## Seleccion del ancho de banda (bandwidth)
+La estimacion de RDD solo utiliza observaciones **cerca** del punto de corte. El **ancho de banda** determina que tan cerca. Un ancho de banda muy grande incluye observaciones lejanas (mas precision pero mayor sesgo); uno muy pequeno usa pocas observaciones (menos sesgo pero mas varianza). Paquetes como `rdrobust` seleccionan el ancho de banda optimo de forma automatica.
+:::
+
+### Supuestos y limitaciones
+
+::: {.callout-warning}
+## No manipulacion de la variable de asignacion
+El supuesto mas critico de RDD es que las personas **no pueden manipular** su puntaje para quedar de un lado u otro del corte. Si los hogares pueden inflar o disminuir su puntaje SISBEN para acceder al subsidio, la comparacion alrededor del corte deja de ser valida. El **test de McCrary** verifica esto examinando si hay una acumulacion sospechosa de observaciones justo debajo del punto de corte.
+:::
+
+**Supuestos fundamentales:**
+
+1. **No manipulacion**: los individuos no pueden controlar con precision su posicion respecto al corte.
+2. **Continuidad**: en ausencia del programa, el resultado esperado seria una funcion continua del puntaje en el punto de corte.
+3. **Localidad**: el estimado es valido solo para individuos cerca del punto de corte, no para toda la poblacion.
+
+**Cuando RDD es una buena opcion:**
+
+- La elegibilidad se determina por un puntaje con un punto de corte claro
+- El puntaje no es facilmente manipulable por los beneficiarios
+- Hay suficientes observaciones cerca del corte
+- Usted necesita una estimacion creible del efecto local del programa
+
+**Cuando RDD NO es una buena opcion:**
+
+- No existe un punto de corte claro para la asignacion
+- Los beneficiarios pueden manipular el puntaje facilmente
+- Hay muy pocas observaciones cerca del corte
+- Necesita estimar el efecto para toda la poblacion, no solo para quienes estan cerca del umbral
+
+::: {.callout-tip}
+## Código y práctica
+Para el taller práctico con código R de este método, consulte el [Anexo de código: Variables instrumentales y RDD](anexo-codigo-iv-rdd.qmd). Para una guía paso a paso de cómo usar IA para ejecutar este análisis, consulte la [Parte 6: Cómo hablar con la IA](06-guia-ia.qmd).
+:::
+
+## Para profundizar {#sec-iv-rdd-referencias}
+
+::: {.callout-tip}
+## Recurso recomendado
+El libro *The Effect: An Introduction to Research Design and Causality* de Nick Huntington-Klein (disponible gratuitamente en [theeffectbook.net](https://theeffectbook.net)) dedica capitulos completos a variables instrumentales (Cap. 19) y regresion discontinua (Cap. 20). Es una excelente referencia complementaria con ejemplos en R.
+:::

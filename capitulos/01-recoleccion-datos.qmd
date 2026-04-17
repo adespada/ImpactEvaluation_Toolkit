@@ -1,0 +1,217 @@
+# Diseño de sistemas de recolección de datos {#sec-recoleccion-datos}
+
+## ¿Por qué planificar la recolección desde el inicio?
+
+La calidad de cualquier evaluación de impacto depende de la calidad de los datos. Un método estadístico sofisticado no puede compensar datos mal recolectados, incompletos o sesgados. Por eso, el sistema de recolección debe diseñarse **antes** de implementar el programa, no después.
+
+::: {.callout-warning}
+## El error más costoso
+El error más costoso en evaluación de impacto es empezar a pensar en los datos cuando el programa ya lleva meses o años funcionando. En ese momento, ya no se puede recolectar una línea base, ya se perdieron periodos de observación y probablemente no se registraron variables clave.
+:::
+
+## Tipos de instrumentos de recolección
+
+Existen tres grandes familias de instrumentos, cada una con ventajas y limitaciones:
+
+```{r}
+#| label: tbl-instrumentos
+#| tbl-cap: "Comparación de instrumentos de recolección de datos"
+#| echo: false
+
+instrumentos <- data.frame(
+  Instrumento = c(
+    "Encuestas (cuestionarios)",
+    "Registros administrativos",
+    "Observación directa"
+  ),
+  Ventajas = c(
+    "Flexibilidad para medir variables específicas; permiten obtener percepciones y comportamientos autorreportados; se pueden estandarizar",
+    "Bajo costo marginal (los datos ya se recolectan); alta cobertura; continuidad temporal; datos objetivos",
+    "Datos objetivos sobre comportamientos reales (no autorreportados); captura contexto y calidad"
+  ),
+  Limitaciones = c(
+    "Costosas; sesgo de deseabilidad social; dependen de la memoria y honestidad del respondente; requieren logística",
+    "No se diseñaron para evaluación; pueden tener errores de registro; cobertura irregular; variables limitadas",
+    "Costosa en tiempo; difícil de estandarizar; posible efecto Hawthorne (las personas cambian su comportamiento al ser observadas)"
+  ),
+  Ideal_para = c(
+    "Variables de resultado (ingresos, consumo, conocimientos, prácticas), covariables socioeconómicas",
+    "Variables de producto (asistencia, entregas, cobertura) y algunas variables de resultado (matrícula escolar, visitas médicas)",
+    "Verificar calidad de implementación, prácticas en el aula, condiciones de infraestructura"
+  )
+)
+
+knitr::kable(instrumentos,
+             col.names = c("Instrumento", "Ventajas", "Limitaciones", "Ideal para"))
+```
+
+::: {.callout-tip}
+## Combine instrumentos
+En la práctica, los mejores sistemas de monitoreo combinan dos o tres instrumentos. Por ejemplo: registros administrativos para el seguimiento rutinario de productos, encuestas periódicas para medir resultados, y observación directa para verificar la calidad.
+:::
+
+## Frecuencia de recolección
+
+No todos los indicadores requieren la misma frecuencia de medición:
+
+```{r}
+#| label: tbl-frecuencia
+#| tbl-cap: "Frecuencia de recolección según tipo de indicador"
+#| echo: false
+
+frecuencia <- data.frame(
+  Tipo = c("Actividades", "Productos", "Resultados intermedios", "Impacto"),
+  Frecuencia = c(
+    "Continua o semanal",
+    "Mensual o trimestral",
+    "Semestral o anual",
+    "Anual o al final del programa"
+  ),
+  Instrumento = c(
+    "Registros del equipo de campo, bitácoras, informes",
+    "Registros administrativos, listas de beneficiarios",
+    "Encuestas a beneficiarios, observación de aula",
+    "Encuestas de impacto (línea base + seguimiento)"
+  ),
+  Ejemplo = c(
+    "N.° de visitas domiciliarias realizadas esta semana",
+    "N.° de familias que recibieron el kit este mes",
+    "% de familias que adoptaron las prácticas enseñadas (medido cada 6 meses)",
+    "Cambio en tasa de desnutrición crónica (medido al inicio y al año 2)"
+  )
+)
+
+knitr::kable(frecuencia,
+             col.names = c("Tipo de indicador", "Frecuencia sugerida", "Instrumento típico", "Ejemplo"))
+```
+
+## Cómo organizar una base de datos desde el inicio
+
+La forma en que organice sus datos desde el primer día determinará qué tan fácil (o difícil) será analizarlos después. Siga estos principios:
+
+### Estructura "tidy" (ordenada)
+
+Una base de datos bien organizada sigue tres reglas simples:
+
+1. **Cada fila es una observación** (una persona en un momento del tiempo)
+2. **Cada columna es una variable** (una característica que se mide)
+3. **Cada celda contiene un solo valor**
+
+```{r}
+#| label: tbl-tidy-ejemplo
+#| tbl-cap: "Ejemplo de base de datos con estructura tidy"
+#| code-fold: true
+
+ejemplo_tidy <- data.frame(
+  id = c("BEN_001", "BEN_001", "BEN_002", "BEN_002", "BEN_003", "BEN_003"),
+  periodo = c("linea_base", "seguimiento_1", "linea_base", "seguimiento_1",
+              "linea_base", "seguimiento_1"),
+  fecha = c("2024-01", "2024-07", "2024-01", "2024-07", "2024-01", "2024-07"),
+  tratamiento = c(1, 1, 1, 1, 0, 0),
+  edad = c(34, 34, 28, 28, 41, 41),
+  sexo = c("F", "F", "M", "M", "F", "F"),
+  zona = c("rural", "rural", "urbano", "urbano", "rural", "rural"),
+  ingreso_mensual = c(850000, 920000, 1200000, 1350000, 780000, 810000),
+  horas_capacitacion = c(0, 40, 0, 36, 0, 0)
+)
+
+knitr::kable(ejemplo_tidy,
+             col.names = c("ID", "Periodo", "Fecha", "Tratamiento", "Edad",
+                           "Sexo", "Zona", "Ingreso mensual", "Horas capacitación"))
+```
+
+::: {.callout-note}
+## Elementos esenciales de su base de datos
+Toda base de datos para evaluación de impacto debe incluir como mínimo:
+
+- **Identificador único** (`id`): un código que permite hacer seguimiento a la misma persona/hogar/unidad a lo largo del tiempo.
+- **Periodo** (`periodo`, `fecha`): cuándo se recolectó la observación.
+- **Indicador de tratamiento** (`tratamiento`): si la unidad recibió (1) o no recibió (0) el programa.
+- **Variables de resultado**: lo que el programa busca cambiar.
+- **Covariables**: características que pueden afectar el resultado y que son importantes para el análisis.
+:::
+
+### Lo que NO debe hacer
+
+::: {.callout-warning}
+## Errores comunes en la organización de datos
+
+**1. Datos en formato ancho en lugar de largo.** No ponga "ingreso_enero", "ingreso_febrero", "ingreso_marzo" como columnas separadas. Use una columna "mes" y una columna "ingreso".
+
+**2. Mezclar datos en una celda.** No escriba "Bogotá, estrato 3" en una sola celda. Use columnas separadas para ciudad y estrato.
+
+**3. Usar nombres como identificadores.** Los nombres no son únicos y tienen variantes ("María García", "Maria Garcia", "M. García"). Use códigos numéricos o alfanuméricos.
+
+**4. Dejar celdas vacías sin explicación.** ¿La celda está vacía porque el dato es cero, porque no se recolectó, o porque no aplica? Use convenciones claras: `0` para cero, `NA` para dato faltante, `N/A` para no aplica.
+
+**5. No documentar las variables.** Cree un diccionario de datos que defina cada variable: nombre, descripción, tipo (numérica, categórica, fecha), unidades, valores válidos.
+:::
+
+## Diccionario de datos
+
+Todo sistema de recolección debe incluir un **diccionario de datos** — un documento que define cada variable en su base de datos:
+
+```{r}
+#| label: tbl-diccionario
+#| tbl-cap: "Ejemplo de diccionario de datos"
+#| echo: false
+
+diccionario <- data.frame(
+  Variable = c("id", "periodo", "fecha", "tratamiento", "edad", "sexo",
+               "zona", "ingreso_mensual", "horas_capacitacion"),
+  Tipo = c("Texto", "Texto", "Fecha", "Binaria", "Numérica", "Categórica",
+           "Categórica", "Numérica", "Numérica"),
+  Descripcion = c(
+    "Identificador único del beneficiario",
+    "Momento de la medición",
+    "Mes y año de la recolección",
+    "1 = recibió el programa, 0 = no lo recibió",
+    "Edad en años cumplidos al momento de la encuesta",
+    "Sexo biológico del beneficiario",
+    "Clasificación del área de residencia",
+    "Ingreso total del hogar en el último mes, en pesos colombianos",
+    "Horas acumuladas de capacitación recibida del programa"
+  ),
+  Valores = c(
+    "BEN_001, BEN_002, ...",
+    "linea_base, seguimiento_1, seguimiento_2",
+    "YYYY-MM",
+    "0, 1",
+    "18-99",
+    "F, M",
+    "rural, urbano",
+    "≥ 0",
+    "≥ 0"
+  )
+)
+
+knitr::kable(diccionario,
+             col.names = c("Variable", "Tipo", "Descripción", "Valores válidos"))
+```
+
+## Checklist de diseño del sistema de recolección
+
+Antes de comenzar a recolectar datos, verifique que puede responder "sí" a cada pregunta:
+
+- [ ] ¿Tiene un **identificador único** para cada beneficiario/unidad que permita hacer seguimiento en el tiempo?
+- [ ] ¿Definió **todas las variables** que necesita medir, incluyendo las de resultado, tratamiento y covariables?
+- [ ] ¿Tiene un **diccionario de datos** con la definición de cada variable?
+- [ ] ¿Definió la **frecuencia** de recolección para cada indicador?
+- [ ] ¿Identificó el **instrumento** apropiado para cada variable (encuesta, registro, observación)?
+- [ ] ¿Asignó **responsables** claros para la recolección de cada tipo de dato?
+- [ ] ¿Tiene un **protocolo de control de calidad** (verificación de rangos, doble digitación, supervisión)?
+- [ ] ¿Definió cómo se **almacenarán** los datos (plataforma, respaldos, seguridad)?
+- [ ] ¿Tiene un **protocolo de anonimización** para proteger la información personal de los beneficiarios?
+- [ ] ¿Piloteó los instrumentos con una **muestra pequeña** antes de aplicarlos a gran escala?
+
+## Resumen
+
+Un buen sistema de recolección de datos es invisible cuando funciona bien y devastador cuando falla. Los puntos clave:
+
+- Diseñe el sistema **antes** de implementar el programa.
+- Combine **varios instrumentos** (encuestas + registros + observación).
+- Organice los datos en formato **tidy** desde el inicio.
+- Documente todo en un **diccionario de datos**.
+- Incluya siempre un **identificador único** y un **indicador de tratamiento**.
+
+En el siguiente capítulo profundizaremos en un instrumento particularmente crítico: la [línea base](01-linea-base.qmd).

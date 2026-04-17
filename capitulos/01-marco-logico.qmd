@@ -1,0 +1,229 @@
+# Marco lógico e indicadores {#sec-marco-logico}
+
+## ¿Qué es un marco lógico?
+
+Un **marco lógico** es la traducción operativa de su teoría de cambio. Mientras la TdC describe la lógica causal de forma narrativa o visual, el marco lógico la organiza en una tabla estructurada que incluye **indicadores**, **medios de verificación** y **supuestos** para cada nivel de la cadena de resultados.
+
+::: {.callout-note}
+## De la teoría a la práctica
+Si la teoría de cambio responde *¿cómo se supone que funciona el programa?*, el marco lógico responde *¿cómo vamos a medir si funciona?*
+:::
+
+## Estructura del marco lógico
+
+Un marco lógico clásico tiene cuatro columnas:
+
+```{r}
+#| label: tbl-estructura-ml
+#| tbl-cap: "Estructura de un marco lógico"
+#| echo: false
+
+estructura <- data.frame(
+  Columna = c(
+    "Resumen narrativo",
+    "Indicadores",
+    "Medios de verificación",
+    "Supuestos"
+  ),
+  Contenido = c(
+    "Descripción de cada nivel de la cadena de resultados (impacto, resultados, productos, actividades)",
+    "Medidas cuantificables o cualitativas que permiten verificar si se logró lo esperado",
+    "Fuentes de datos y métodos para obtener la información de cada indicador",
+    "Condiciones externas que deben cumplirse para que la lógica causal funcione"
+  ),
+  Pregunta = c(
+    "¿Qué queremos lograr?",
+    "¿Cómo sabemos si lo logramos?",
+    "¿Dónde obtenemos la información?",
+    "¿Qué debe cumplirse para que funcione?"
+  )
+)
+
+knitr::kable(estructura,
+             col.names = c("Columna", "Contenido", "Pregunta que responde"))
+```
+
+## Indicadores SMART
+
+Un buen indicador cumple con los criterios **SMART**:
+
+```{r}
+#| label: tbl-smart
+#| tbl-cap: "Criterios SMART para indicadores"
+#| echo: false
+
+smart <- data.frame(
+  Letra = c("S", "M", "A", "R", "T"),
+  Criterio = c("Specific (Específico)", "Measurable (Medible)", "Achievable (Alcanzable)",
+               "Relevant (Relevante)", "Time-bound (Temporal)"),
+  Descripcion = c(
+    "Define con precisión qué se mide, en quién, y dónde",
+    "Se puede cuantificar o verificar con datos objetivos",
+    "Es realista dada la escala del programa y los recursos disponibles",
+    "Está directamente conectado con los objetivos del programa",
+    "Tiene un plazo definido para su medición"
+  ),
+  Ejemplo_bueno = c(
+    "Porcentaje de niños < 5 años con desnutrición crónica en el municipio X",
+    "Tasa medida con indicador talla/edad según estándares OMS",
+    "Reducción de 5 puntos porcentuales es factible en 3 años según evidencia regional",
+    "Mide directamente el objetivo de impacto del programa de nutrición",
+    "Medido al inicio y a los 24 meses de implementación"
+  )
+)
+
+knitr::kable(smart,
+             col.names = c("", "Criterio", "Descripción", "Ejemplo"))
+```
+
+### Buenos y malos indicadores
+
+```{r}
+#| label: tbl-indicadores-comparacion
+#| tbl-cap: "Ejemplos de indicadores buenos vs. malos"
+#| echo: false
+
+comparacion <- data.frame(
+  Nivel = c("Impacto", "Impacto", "Resultado", "Resultado", "Producto", "Producto"),
+  Malo = c(
+    "Mejorar la nutrición",
+    "Reducir la pobreza",
+    "Las familias comen mejor",
+    "Los agricultores producen más",
+    "Se hicieron capacitaciones",
+    "Se entregaron insumos"
+  ),
+  Bueno = c(
+    "% de niños < 5 años con talla/edad < -2 DE (OMS) en el municipio X, medido a los 24 meses",
+    "% de hogares con ingreso per cápita < línea de pobreza nacional, medido a los 36 meses",
+    "% de hogares que reportan consumir ≥ 4 grupos de alimentos diarios, medido a los 12 meses",
+    "Rendimiento promedio (ton/ha) de los cultivos principales, medido por temporada agrícola",
+    "Número de talleres de nutrición realizados por trimestre, según registro de asistencia",
+    "Número de kits agrícolas entregados a beneficiarios registrados, según actas de entrega"
+  ),
+  Problema = c(
+    "No dice qué, ni cómo, ni cuándo medir",
+    "Demasiado vago y amplio",
+    "No es medible de forma estandarizada",
+    "No especifica qué ni cuándo",
+    "No dice cuántos ni con qué frecuencia",
+    "No dice a quién ni cómo verificar"
+  )
+)
+
+knitr::kable(comparacion,
+             col.names = c("Nivel", "Indicador deficiente", "Indicador SMART", "Problema del deficiente"))
+```
+
+::: {.callout-tip}
+## Regla práctica
+Si alguien más no puede medir su indicador sin hacerle preguntas adicionales, el indicador no es suficientemente específico. Un buen indicador es autocontenido: cualquier evaluador debería poder medirlo con la misma definición.
+:::
+
+## Ejemplo completo: programa de educación rural
+
+Veamos un marco lógico completo para un programa ficticio de mejoramiento de la calidad educativa en escuelas rurales:
+
+```{r}
+#| label: tbl-ml-ejemplo
+#| tbl-cap: "Marco lógico: programa de calidad educativa rural"
+#| echo: false
+
+ml <- data.frame(
+  Nivel = c(
+    "Impacto",
+    "Resultado 1",
+    "Resultado 2",
+    "Producto 1",
+    "Producto 2",
+    "Producto 3",
+    "Actividad 1",
+    "Actividad 2",
+    "Actividad 3"
+  ),
+  Narrativo = c(
+    "Mejorar el rendimiento académico de estudiantes en escuelas rurales del departamento Y",
+    "Los docentes aplican metodologías activas de enseñanza en el aula",
+    "Los estudiantes aumentan su tiempo efectivo de aprendizaje",
+    "80 docentes capacitados en metodologías activas",
+    "40 escuelas equipadas con materiales didácticos",
+    "40 bibliotecas escolares funcionando con horario extendido",
+    "Taller intensivo de 5 días + acompañamiento mensual a docentes",
+    "Adquisición y distribución de kits de materiales por grado",
+    "Contratación de bibliotecarios y dotación de libros"
+  ),
+  Indicador = c(
+    "Puntaje promedio en pruebas estandarizadas nacionales, medido al año 3",
+    "% de docentes que usan ≥ 3 técnicas activas por semana, según observación de aula",
+    "Horas semanales de estudio reportadas por estudiantes, medidas por encuesta trimestral",
+    "N.° de docentes que completan el programa de formación con ≥ 80% de asistencia",
+    "N.° de escuelas que reciben el kit completo y reportan uso en planificación de clase",
+    "N.° de bibliotecas con ≥ 20 hrs/semana de operación y ≥ 30 visitantes/semana",
+    "N.° de talleres y sesiones de acompañamiento realizadas por trimestre",
+    "N.° de kits comprados, distribuidos y verificados en uso",
+    "N.° de bibliotecarios contratados y libros adquiridos"
+  ),
+  Verificacion = c(
+    "Resultados oficiales de pruebas nacionales (ICFES/SIMCE/etc.)",
+    "Rúbrica de observación de aula aplicada por supervisores",
+    "Encuesta a estudiantes (muestra aleatoria por escuela)",
+    "Registros de asistencia y certificados de formación",
+    "Actas de entrega + visita de verificación",
+    "Registro de visitantes + horario de operación",
+    "Informes trimestrales del equipo de formación",
+    "Órdenes de compra + actas de entrega",
+    "Contratos + inventario de libros"
+  ),
+  Supuesto = c(
+    "No hay cambios curriculares nacionales que alteren las pruebas",
+    "Los docentes tienen estabilidad laboral y permanecen en las escuelas",
+    "Las familias apoyan que los niños dediquen más tiempo al estudio",
+    "Los docentes asisten voluntariamente y la entidad territorial apoya",
+    "Los materiales son pertinentes para el contexto rural local",
+    "La comunidad valora y usa la biblioteca",
+    "El equipo de formación tiene acceso logístico a las escuelas rurales",
+    "Los proveedores cumplen con los plazos de entrega",
+    "Hay candidatos calificados disponibles en la zona"
+  )
+)
+
+knitr::kable(ml,
+             col.names = c("Nivel", "Resumen narrativo", "Indicador", "Medio de verificación", "Supuesto"))
+```
+
+## Errores comunes al construir un marco lógico
+
+::: {.callout-warning}
+## Cinco errores que debe evitar
+
+1. **Confundir productos con resultados.** "500 personas capacitadas" es un producto, no un resultado. El resultado es si esas personas *cambiaron* algo como consecuencia de la capacitación.
+
+2. **Indicadores sin línea base.** Un indicador que dice "aumentar en 20%" presupone que usted sabe cuál es el valor de partida. Sin línea base, no puede medir el cambio.
+
+3. **Demasiados indicadores.** Si tiene 50 indicadores, probablemente no va a recolectar datos de calidad para ninguno. Es mejor tener 10-15 indicadores bien medidos que 50 mal medidos.
+
+4. **Supuestos irrealistas.** Si su supuesto es "no habrá eventos climáticos extremos durante los 3 años del proyecto", en muchos contextos ese supuesto es inviable. Identifique supuestos realistas y tenga planes de contingencia.
+
+5. **No actualizar el marco lógico.** La TdC y el marco lógico son documentos vivos. Si las condiciones cambian, actualícelos. Un marco lógico desactualizado es peor que no tener uno, porque genera una falsa sensación de control.
+:::
+
+## Del marco lógico a la recolección de datos
+
+Una vez que tiene indicadores claros, el siguiente paso es diseñar **cómo** va a recolectar los datos para medirlos. Para cada indicador, debe definir:
+
+- **Instrumento:** ¿Encuesta, registro administrativo, observación directa?
+- **Frecuencia:** ¿Mensual, trimestral, anual?
+- **Responsable:** ¿Quién recolecta los datos?
+- **Muestra:** ¿Se mide en todos los beneficiarios o en una muestra?
+
+Estos temas se desarrollan en detalle en el siguiente capítulo: [Diseño de sistemas de recolección de datos](01-recoleccion-datos.qmd).
+
+## Resumen
+
+El marco lógico traduce su teoría de cambio en un instrumento operativo con indicadores medibles. Los puntos clave:
+
+- Use indicadores **SMART**: específicos, medibles, alcanzables, relevantes y temporales.
+- Distinga claramente entre **productos** (lo que el programa entrega) y **resultados** (lo que cambia en los beneficiarios).
+- No sobrecargue el marco con demasiados indicadores — priorice los más importantes.
+- Documente los **supuestos** y revíselos periódicamente.
+- Cada indicador debe tener una fuente de datos y un método de recolección definidos.

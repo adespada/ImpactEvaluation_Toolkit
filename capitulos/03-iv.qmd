@@ -1,0 +1,191 @@
+# Variables instrumentales {#sec-iv}
+
+## ¿Qué son las variables instrumentales?
+
+En muchas evaluaciones de impacto, el tratamiento no se asigna aleatoriamente. Las personas que participan en un programa pueden ser diferentes de quienes no participan, y esas diferencias pueden estar relacionadas con el resultado que se quiere medir. Esto genera un **sesgo de selección** que invalida las comparaciones simples.
+
+Las variables instrumentales (IV) ofrecen una solución elegante: en lugar de comparar directamente a quienes participan y quienes no, se busca una variable externa --- el **instrumento** --- que *empuje* a algunas personas hacia el tratamiento de forma cuasi-aleatoria, sin afectar directamente el resultado. Como señalan @gertler2016impact, el enfoque de IV surge naturalmente en el contexto de **cumplimiento imperfecto** (*imperfect compliance*): cuando el estatus de tratamiento previsto (la asignación) y el estatus de tratamiento efectivo (la participación real) divergen. En estas situaciones, la asignación al programa sirve como instrumento para la participación real.
+
+::: {.callout-note}
+## La idea clave
+Un instrumento es algo que cambia la probabilidad de recibir el tratamiento, pero que **no** afecta el resultado por ninguna otra vía. Es como encontrar un "empujón" aleatorio hacia el programa en medio de datos observacionales.
+:::
+
+**Ejemplo clásico:** Suponga que usted quiere estimar el efecto de los años de educación sobre el ingreso laboral. Las personas que estudian más pueden ser inherentemente más motivadas o talentosas, lo cual también afecta sus ingresos. La **distancia al colegio más cercano** puede servir como instrumento: quienes viven más cerca tienden a estudiar más, pero la distancia en sí misma no debería afectar los ingresos por otra vía.
+
+**Ejemplo latinoamericano:** En Colombia, los programas de becas como Ser Pilo Paga asignaron beneficios mediante una **lotería** entre candidatos elegibles. La lotería es un instrumento perfecto: determina quién recibe la beca (tratamiento), pero al ser aleatoria, no está correlacionada con las características de los estudiantes. Como muestran @gertler2016impact, en el contexto de una RDD difusa (*fuzzy RDD*), la variable que indica de qué lado del punto de corte de elegibilidad se encuentra una unidad sirve como variable instrumental para la participación efectiva en el programa.
+
+## Las tres condiciones para un instrumento válido
+
+Para que un instrumento $Z$ sea válido, debe cumplir tres condiciones, formalizadas por @angrist2009:
+
+1. **Relevancia**: $Z$ debe estar correlacionado con el tratamiento $T$. La lotería efectivamente determina quién recibe la beca. @bernal2011 presentan la notación formal de esta condición como $\text{Cov}(Z, T) \neq 0$.
+
+2. **Independencia**: $Z$ no debe estar correlacionado con factores no observados que afectan $Y$. La lotería es aleatoria, así que cumple esta condición.
+
+3. **Restricción de exclusión**: $Z$ solo afecta a $Y$ a través de $T$. Ganar la lotería solo afecta el ingreso futuro porque permite acceder a la universidad, no por otra razón. @bernal2011 formalizan esta condición exigiendo que el instrumento no aparezca directamente en la ecuación de resultado.
+
+```{r}
+#| label: fig-iv-cadena-causal
+#| fig-cap: "Cadena causal de las variables instrumentales: el instrumento Z afecta al resultado Y unicamente a traves del tratamiento T"
+#| echo: false
+
+library(ggplot2)
+
+# Diagrama de la cadena causal Z -> T -> Y
+nodos <- data.frame(
+  x = c(1, 3, 5),
+  y = c(0, 0, 0),
+  etiqueta = c("Z\n(Instrumento)", "T\n(Tratamiento)", "Y\n(Resultado)"),
+  ejemplo = c("Loteria de beca", "Asistencia a\nuniversidad", "Ingreso\nlaboral")
+)
+
+flechas <- data.frame(
+  x_ini = c(1.45, 3.45),
+  x_fin = c(2.55, 4.55),
+  y_ini = c(0, 0),
+  y_fin = c(0, 0)
+)
+
+# Flecha prohibida Z -> Y directa
+flecha_prohibida <- data.frame(
+  x_ini = 1.3, x_fin = 4.7,
+  y_ini = 0.5, y_fin = 0.5
+)
+
+ggplot() +
+  # Flechas validas
+
+  geom_segment(data = flechas,
+               aes(x = x_ini, xend = x_fin, y = y_ini, yend = y_fin),
+               arrow = arrow(length = unit(0.3, "cm"), type = "closed"),
+               linewidth = 1.2, color = "#185FA5") +
+  # Flecha prohibida
+
+  geom_curve(data = flecha_prohibida,
+             aes(x = x_ini, xend = x_fin, y = y_ini, yend = y_fin),
+             arrow = arrow(length = unit(0.25, "cm"), type = "closed"),
+             linewidth = 0.9, color = "#D85A30", linetype = "dashed",
+             curvature = 0.4) +
+  annotate("text", x = 3, y = 0.85, label = "Restricción de exclusión:\nesta vía NO debe existir",
+           color = "#D85A30", size = 3, fontface = "italic") +
+  # Nodos
+
+  geom_point(data = nodos, aes(x = x, y = y), size = 18,
+             color = "#185FA5", fill = "white", shape = 21, stroke = 1.5) +
+  geom_text(data = nodos, aes(x = x, y = y, label = etiqueta),
+            size = 3, fontface = "bold", lineheight = 0.9) +
+  geom_text(data = nodos, aes(x = x, y = y - 0.55, label = ejemplo),
+            size = 2.5, color = "gray40", lineheight = 0.85) +
+  coord_cartesian(xlim = c(0.2, 5.8), ylim = c(-1.1, 1.2)) +
+  labs(title = "Cadena causal: variable instrumental",
+       caption = "Fuente: elaboración propia") +
+  theme_void(base_size = 13) +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+```
+
+## La fórmula
+
+El método de variables instrumentales se estima mediante **Mínimos Cuadrados en Dos Etapas** (2SLS, por sus siglas en inglés):
+
+**Primera etapa** --- se predice el tratamiento a partir del instrumento:
+
+$$
+T_i = \alpha_0 + \alpha_1 \cdot Z_i + v_i
+$$ {#eq-iv-primera}
+
+**Segunda etapa** --- se usa el tratamiento predicho ($\hat{T}$) para estimar el efecto sobre el resultado:
+
+$$
+Y_i = \beta_0 + \beta_1 \cdot \hat{T}_i + \epsilon_i
+$$ {#eq-iv-segunda}
+
+El coeficiente $\beta_1$ es el efecto causal estimado del tratamiento sobre el resultado.
+
+::: {.callout-note}
+## LATE: el efecto local
+El estimador IV no recupera el efecto promedio del tratamiento (ATE) para toda la población. Lo que estima es el **Efecto Promedio Local del Tratamiento** (LATE): el efecto para las personas cuyo comportamiento cambió gracias al instrumento --- los llamados **cumplidores** (*compliers*) [@bernal2011].
+
+En general, en presencia de cumplimiento imperfecto, los métodos estándar de evaluación de impacto producen estimaciones de **intención de tratar** (*intention-to-treat*, ITT). Sin embargo, las estimaciones del **efecto del tratamiento sobre los tratados** (*treatment-on-the-treated*, TOT) pueden recuperarse mediante el enfoque de variables instrumentales [@gertler2016impact]. La relación es directa: el estimador IV equivale a dividir el efecto ITT por la tasa de cumplimiento, lo que permite aislar el efecto causal sobre quienes efectivamente participaron en el programa.
+:::
+
+## Tipos de individuos en IV
+
+Cuando el instrumento es binario (por ejemplo, ganar o no la lotería), podemos clasificar a las personas en cuatro tipos. Este marco de análisis, formalizado por @angrist2009 y @imbens2015, es fundamental para interpretar correctamente los resultados de IV:
+
+```{r}
+#| label: tbl-iv-tipos
+#| tbl-cap: "Tipos de individuos según su respuesta al instrumento"
+#| echo: false
+
+tipos <- data.frame(
+  Tipo = c("Cumplidores (compliers)",
+           "Siempre-tratados (always-takers)",
+           "Nunca-tratados (never-takers)",
+           "Desafiantes (defiers)"),
+  Comportamiento = c(
+    "Participan si ganan la lotería, no participan si no la ganan",
+    "Participan sin importar si ganan o no la lotería",
+    "No participan sin importar si ganan o no la lotería",
+    "Participan solo si NO ganan la lotería (caso raro)"
+  ),
+  Relevancia = c(
+    "El LATE estima el efecto para este grupo",
+    "IV no identifica su efecto",
+    "IV no identifica su efecto",
+    "Se asume que no existen (supuesto de monotonicidad, véase @angrist2009)"
+  )
+)
+
+knitr::kable(tipos, col.names = c("Tipo", "Comportamiento", "Relevancia para IV"))
+```
+
+## Supuestos y limitaciones
+
+::: {.callout-warning}
+## Instrumentos débiles
+Si el instrumento está solo débilmente correlacionado con el tratamiento, los estimadores IV se vuelven inestables y sesgados. La regla práctica es que el **estadístico F de la primera etapa** debe ser mayor a 10 [@angrist2009]. Si no lo es, el instrumento es demasiado débil y los resultados no son confiables.
+:::
+
+@gertler2016impact advierten dos limitaciones adicionales importantes: desde un punto de vista técnico, es indeseable que una gran proporción del grupo de comparación se inscriba en el programa, pues esto reduce la precisión de la estimación del efecto. Además, el método de variables instrumentales solo es válido bajo ciertas circunstancias — definitivamente no es una solución universal.
+
+**Cuándo IV es una buena opción:**
+
+- Usted tiene un instrumento creíble (lotería, distancia, regulación exógena)
+- El tratamiento no es aleatorio pero el instrumento sí lo es (o casi)
+- Puede argumentar de forma convincente que se cumple la restricción de exclusión
+- El estadístico F de la primera etapa es alto (mayor a 10)
+
+**Cuándo IV NO es buena opción:**
+
+- No tiene un instrumento creíble (no invente uno por conveniencia)
+- El instrumento tiene canales directos hacia el resultado
+- El estadístico F de la primera etapa es bajo
+- Necesita estimar el efecto para toda la población (ATE) y no solo para los cumplidores (LATE)
+
+### Conexión con otros métodos
+
+@gertler2016impact destacan que la lógica de IV se extiende a varios contextos de evaluación:
+
+- En la **regresión discontinua difusa** (*fuzzy RDD*), el instrumento es la variable indicadora de si la unidad está por encima o por debajo del punto de corte de elegibilidad.
+- En **diferencias en diferencias** con migración selectiva, una posible variable instrumental es la ubicación del individuo antes del anuncio del programa.
+- En un **RCT con incumplimiento**, la asignación aleatoria original sirve como instrumento para recuperar el efecto sobre los tratados a partir del ITT.
+
+Esta versatilidad convierte a IV en una herramienta de corrección transversal a múltiples diseños de evaluación.
+
+::: {.callout-tip}
+## Código y práctica
+Para el taller práctico con código R de este método, consulte el [Anexo de código: Variables instrumentales](anexo-codigo-iv.qmd). Para una guía paso a paso de cómo usar IA para ejecutar este análisis, consulte la [Parte 6: Cómo hablar con la IA](06-guia-ia.qmd).
+:::
+
+## Para profundizar {#sec-iv-referencias}
+
+::: {.callout-tip}
+## Recursos recomendados
+
+- **@gertler2016impact**, Capítulos 4 y 8: presentan IV en el contexto del incumplimiento imperfecto y la combinación de métodos, con el ejemplo HISP como hilo conductor.
+- **@bernal2011**, Capítulo 7: tratamiento formal de los parámetros LATE, ATE y MTE con ejemplos colombianos.
+- **@angrist2009**: referencia metodológica estándar para IV y el marco de cumplidores.
+- **@imbens2015**: tratamiento teórico riguroso del estimador IV y sus supuestos.
+- *The Effect* de Huntington-Klein, Cap. 19, disponible en [theeffectbook.net](https://theeffectbook.net).
+:::

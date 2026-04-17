@@ -1,0 +1,326 @@
+---
+format: html
+bibliography: referencias.bib
+---
+
+# Outcome Harvesting (OH)
+
+## A. Teoría y explicación
+
+### ¿Qué es Outcome Harvesting?
+
+El **Outcome Harvesting (OH)** es una metodología de monitoreo, evaluación y aprendizaje que permite identificar, formular, verificar y analizar cambios (outcomes) generados por una intervención, trabajando **de manera retrospectiva** (de los resultados hacia las causas).
+
+A diferencia de enfoques tradicionales, el OH no parte de indicadores predefinidos ni de una teoría de cambio completamente estructurada. En su lugar, se enfoca en responder:
+
+- ¿Qué cambió?
+- ¿Quién cambió?
+- ¿Cómo ocurrió ese cambio?
+- ¿Cómo contribuyó el programa?
+
+En este enfoque, un *outcome* se define como un cambio en el comportamiento, las relaciones, las acciones o las prácticas de actores clave dentro del sistema (@wilson2012).
+
+Esto lo hace especialmente útil en contextos complejos, donde los resultados son emergentes, no lineales y difíciles de anticipar. En lugar de intentar atribuir cambios directamente a una intervención, el Outcome Harvesting busca entender **cómo el programa contribuyó al cambio.**
+
+Al igual que el Outcome Mapping, el OH reconoce que los cambios de largo plazo dependen de múltiples actores. Sin embargo, mientras el OM se usa principalmente para planificar y monitorear cambios esperados, el OH se utiliza para **reconstruir cambios que ya ocurrieron**, incluyendo resultados no previstos.
+
+### ¿Para qué sirve en evaluación?
+
+El Outcome Harvesting es particularmente útil cuando el objetivo de la evaluación es entender **cómo ocurrió el cambio**, más que medir únicamente resultados finales.
+
+Es especialmente adecuado cuando:
+
+- Los resultados son **impredecibles**
+- Hay múltiples actores influyendo en el cambio
+- No es posible establecer causalidad directa
+- Se requiere capturar resultados no esperados
+- Se trabaja en contextos de cambio social o institucional
+
+En estos casos, el OH permite responder preguntas como:
+
+- ¿Qué cambios relevantes ocurrieron en el sistema?
+- ¿Qué actores modificaron su comportamiento?
+- ¿Qué papel jugó el programa en esos cambios?
+- ¿Qué resultados emergieron que no estaban previstos?
+
+En términos de complementariedad, el Outcome Harvesting se articula naturalmente con:
+
+- **Outcome Mapping** → define cambios esperados  
+- **PSM** → entiende la estructura del sistema  
+- **Métodos cuantitativos** → estiman efectos causales  
+
+El OH, en este ecosistema, permite capturar lo que los otros enfoques pueden dejar por fuera: los cambios que surgen en la práctica y que no se habían previsto.
+
+### ¿Cómo se usa en evaluación de impacto?
+
+El Outcome Harvesting no reemplaza la evaluación de impacto cuantitativa, pero cumple un rol clave en su fortalecimiento.
+
+En particular, permite:
+
+**1. Identificar resultados emergentes**  
+Muchos efectos de un programa no están en la teoría de cambio inicial. El OH permite capturarlos y analizarlos sistemáticamente.
+
+**2. Reconstruir mecanismos de cambio**  
+Al analizar cómo ocurrieron los outcomes, se pueden identificar posibles rutas de cambio que luego pueden analizarse con métodos cuantitativos.
+
+**3. Generar hipótesis evaluables**  
+Los outcomes identificados pueden convertirse en variables o hipótesis para análisis econométricos.
+
+**4. Entender contribución (no atribución)**  
+El enfoque se centra en cómo el programa contribuyó a los cambios, reconociendo la influencia de otros factores.
+
+En este sentido, el OH funciona como un puente entre evidencia cualitativa y análisis cuantitativo (@wilson2012; @betterevaluation2024).
+
+::: {.callout-note}
+## Conceptos clave
+
+**Outcome:** Cambio en comportamiento, relaciones, acciones o prácticas de actores.
+
+**Outcome statement:** Descripción estructurada del cambio observado, incluyendo quién cambió, qué cambió, cuándo y cómo contribuyó el programa.
+
+**Contribution:**Explicación de cómo el programa influyó en el cambio, sin asumir que fue la única causa.
+
+**Substantiation:** Proceso de verificación del outcome con fuentes independientes.
+:::
+
+---
+
+## B. Aplicación paso a paso
+
+### Ejemplo aplicado: Programa de monitorías 
+
+Vamos a aplicar Outcome Harvesting al programa de monitorías académicas, simulando que el programa **ya fue implementado** y queremos reconstruir sus resultados.
+
+### Paso 1: Definir el enfoque del harvest  
+
+::: {.callout-note}
+## Pregunta guía
+¿Qué cambios en el comportamiento de estudiantes, monitores y profesores ocurrieron como resultado del programa de monitorías?
+:::
+
+---
+
+### Paso 2: Identificar actores clave  
+
+Al igual que en Outcome Mapping:
+
+1. Estudiantes  
+2. Monitores  
+3. Profesores  
+
+---
+
+### Paso 3: Identificar outcomes (simulación)
+
+En lugar de definir cambios esperados, aquí **recolectamos cambios observados**.
+
+```{r outcomes}
+#| echo: false
+
+outcomes <- data.frame(
+  Actor = c("Estudiante", "Estudiante", "Monitor", "Profesor"),
+  Cambio = c(
+    "Asiste regularmente a monitorías",
+    "Empieza a ayudar a otros compañeros",
+    "Diseña materiales pedagógicos propios",
+    "Integra monitorías en su curso"
+  ),
+  Evidencia = c(
+    "Registro de asistencia",
+    "Observación en sesiones",
+    "Materiales creados",
+    "Plan de curso actualizado"
+  ),
+  stringsAsFactors = FALSE
+)
+
+outcomes
+```
+
+### Paso 4: Formular outcome statements
+
+Ahora estructuramos los cambios:
+
+```{r statements}
+#| echo: false
+
+statements <- data.frame(
+  Número = 1:4,
+  Actor = c("Estudiante", "Estudiante", "Monitor", "Profesor"),
+  Cambio = c(
+    "Asiste regularmente a monitorías",
+    "Empieza a ayudar a otros compañeros",
+    "Diseña materiales pedagógicos propios",
+    "Integra monitorías en su curso"
+  ),
+  Outcome = c(
+    "En 2024, estudiantes comenzaron a asistir regularmente a monitorías, influenciados por el programa, mejorando su participación académica",
+    "En 2024, algunos estudiantes empezaron a apoyar a sus pares, evidenciando mayor apropiación del aprendizaje",
+    "Monitores desarrollaron materiales pedagógicos propios, fortaleciendo su rol educativo",
+    "Profesores integraron las monitorías en sus cursos"
+  ),
+  stringsAsFactors = FALSE
+)
+
+statements
+```
+
+
+### Paso 5: Verificación (substantiation)
+
+Simulamos validación de outcomes:
+
+```{r substantiation}
+
+#| echo: false
+
+verificacion <- data.frame(
+  Outcome = 1:4,
+  Fuente = c(
+    "Coordinador académico",
+    "Observación externa",
+    "Revisión documental",
+    "Director de programa"
+  ),
+  Validado = c(TRUE, TRUE, TRUE, TRUE)
+)
+
+verificacion
+```
+
+### Paso 6: Análisis de outcomes
+
+```{r analisis}
+#| echo: false
+
+tabla_analisis <- data.frame(
+  Tipo = c("Esperado", "No esperado", "Fortalecimiento", "Institucional"),
+  Frecuencia = c(2, 1, 1, 1)
+)
+
+tabla_analisis
+```
+
+
+### Visualización
+
+```{r visualizacion}
+library(ggplot2)
+
+ggplot(tabla_analisis, aes(x = Tipo, y = Frecuencia)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Tipos de outcomes identificados",
+    x = "Tipo",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+
+```
+
+::: {.callout-note}
+Importante
+
+A diferencia del Outcome Mapping, aquí no definimos indicadores ex ante, sino que reconstruimos cambios reales a partir de evidencia.
+:::
+
+## C. ¿Cómo se usa en evaluación?
+
+El valor del Outcome Harvesting está en su capacidad de traducir cambios observados en insumos útiles para la evaluación.
+
+Podemos hacer tres conversiones clave:
+
+### 1. De outcomes → indicadores
+
+Los outcomes identificados pueden convertirse en variables observables:
+
+Asistencia → número de sesiones
+Participación → escala de participación
+Apoyo a pares → variable binaria
+
+Esto permite integrar el OH con análisis cuantitativos.
+
+### 2. De actores → unidades de análisis
+
+Estudiantes → nivel individual
+Monitores → nivel individual
+Profesores → nivel curso
+
+Esto facilita el diseño de encuestas, paneles o bases administrativas.
+
+### 3. De evidencia → datos
+
+El OH permite mapear fuentes de información:
+
+- Registros administrativos
+- Observación
+- Entrevistas
+- Documentos institucionales
+
+Esto fortalece la calidad de la evaluación.
+
+
+### 4. De outcomes → hipótesis
+
+Ejemplo:
+
+- Hipótesis: monitorías aumentan participación académica
+- Variable: nivel de participación
+- Método: DiD o regresión
+
+::: {.callout-note}
+Importante
+
+El Outcome Harvesting permite pasar de evidencia cualitativa a diseño cuantitativo, fortaleciendo la evaluación de impacto.
+:::
+
+## D. Limitaciones y riesgos
+
+1. No identifica causalidad
+El OH no permite estimar efectos causales.
+
+2. Riesgo de sesgo
+Depende de percepción y calidad de evidencia.
+
+3. Verificación exigente
+Requiere triangulación rigurosa.
+
+4. Intensivo en tiempo
+Recolectar outcomes puede ser costoso.
+
+5. Riesgo de desconexión cuantitativa
+Si no se traduce a indicadores, pierde valor analítico.
+
+
+## E. Conclusiones y recomendaciones
+
+El Outcome Harvesting permite entender cambios reales en contextos complejos, especialmente aquellos no previstos en el diseño inicial.
+
+Su mayor valor radica en:
+
+- Identificar resultados emergentes
+- Reconstruir mecanismos de cambio
+- Generar hipótesis evaluables
+
+*Recomendaciones:*
+
+- Usarlo después de la implementación
+- Integrarlo con OM y métodos cuantitativos
+- Priorizar outcomes relevantes
+- Traducir resultados a indicadores
+- Mantener rigor en la verificación
+
+
+::: {.callout-note}
+Idea final
+
+Si Outcome Mapping responde “qué debería cambiar”,
+Outcome Harvesting responde “qué cambió realmente”.
+
+Ambos enfoques, juntos, permiten una evaluación más completa.
+:::
+
+## Referencias
+
+::: {#refs}
+:::

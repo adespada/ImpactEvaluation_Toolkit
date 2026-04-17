@@ -1,0 +1,110 @@
+# Bienvenida y cómo usar esta guía {#sec-bienvenida}
+
+## ¿Para quién es este toolkit?
+
+Este toolkit está diseñado para profesionales que trabajan en **programas sociales** —en organizaciones no gubernamentales, agencias de cooperación, gobiernos locales o instituciones de investigación— y necesitan responder una pregunta fundamental: *¿está funcionando nuestro programa?*
+
+No se requiere ser economista, estadístico ni programador para usar esta guía. Si usted gestiona, coordina o financia programas de salud, educación, medios de vida, nutrición, protección social u otros ámbitos del desarrollo, este recurso le será útil.
+
+::: {.callout-note}
+## ¿Qué encontrará aquí?
+Una guía práctica que le acompaña desde la planificación de su sistema de monitoreo hasta la selección y aplicación de métodos de evaluación de impacto, con ejemplos concretos, herramientas interactivas y orientación para usar inteligencia artificial como asistente de análisis.
+:::
+
+## El ciclo de un programa social
+
+Todo programa social sigue un ciclo que conecta el diseño con el aprendizaje. La evaluación de impacto no es un ejercicio aislado al final: se prepara desde el diseño y se alimenta del monitoreo continuo.
+
+```{mermaid}
+%%| fig-cap: "Ciclo de vida de un programa social"
+%%| label: fig-ciclo-programa
+
+flowchart LR
+    A["🎯 Diseño\n(Teoría de cambio,\nindicadores)"] --> B["⚙️ Implementación\n(Ejecución del\nprograma)"]
+    B --> C["📊 Monitoreo\n(Recolección\nde datos)"]
+    C --> D["🔍 Evaluación\n(Análisis de\nimpacto)"]
+    D --> E["💡 Aprendizaje\n(Ajustes y\nmejoras)"]
+    E --> A
+
+    style A fill:#E8F4FD,stroke:#185FA5,color:#000
+    style B fill:#FFF3E0,stroke:#BA7517,color:#000
+    style C fill:#E8F5E9,stroke:#0F6E56,color:#000
+    style D fill:#FCE4EC,stroke:#993C1D,color:#000
+    style E fill:#F3E5F5,stroke:#6A1B9A,color:#000
+```
+
+Este toolkit le acompaña en cada etapa del ciclo, con énfasis en las fases de **monitoreo** y **evaluación**.
+
+## ¿Cómo está organizado?
+
+El toolkit se estructura en seis partes que siguen un flujo lógico. Puede leerlo de forma secuencial o saltar directamente a la sección que necesite.
+
+| Parte | Contenido | ¿Cuándo consultarla? |
+|:-----:|-----------|----------------------|
+| **0** | Contexto y fundamentos | Cuando necesite entender qué es evaluación de impacto y cómo construir una teoría de cambio |
+| **1** | Sistemas de monitoreo | Cuando esté diseñando su sistema de recolección de datos o su línea base |
+| **2** | Herramienta de autodiagnóstico | Cuando quiera saber qué método de evaluación le conviene |
+| **3** | Métodos cuantitativos | Cuando necesite aplicar RCT, DiD, Matching o Variables Instrumentales |
+| **4** | Métodos cualitativos | Cuando necesite Process Tracing, QCA, Outcome Mapping u otros métodos participativos |
+| **5** | Métodos mixtos | Cuando quiera combinar enfoques cuantitativos y cualitativos |
+| **6** | Anexos | Para consultar el glosario, plantillas, consideraciones éticas y bibliografía |
+
+: Estructura del toolkit {#tbl-estructura}
+
+::: {.callout-tip}
+## ¿Por dónde empezar?
+- **Si está diseñando un programa nuevo**, empiece por la [Parte 0](00-que-es-evaluacion.qmd) y lea secuencialmente.
+- **Si ya tiene un programa en marcha y datos recolectados**, vaya directo a la [Herramienta de autodiagnóstico](02-autodiagnostico.qmd) para identificar qué método le conviene.
+- **Si ya sabe qué método necesita**, busque el capítulo correspondiente en las Partes 3, 4 o 5.
+:::
+
+## Convenciones usadas en esta guía
+
+A lo largo del toolkit encontrará los siguientes elementos visuales:
+
+::: {.callout-note}
+## Concepto clave
+Explica una idea fundamental que es importante comprender antes de avanzar. Léalo con atención.
+:::
+
+::: {.callout-tip}
+## Consejo práctico
+Recomendaciones basadas en la experiencia de evaluadores en el campo. Le ahorrará tiempo y errores.
+:::
+
+::: {.callout-warning}
+## Error común
+Advertencias sobre errores frecuentes que se deben evitar. Si los ignora, su evaluación puede verse comprometida.
+:::
+
+::: {.callout-important}
+## Guía IA
+Secciones donde se proporcionan prompts estructurados para que una inteligencia artificial (como Claude, ChatGPT u otra) le ayude a ejecutar análisis paso a paso. Estas secciones aparecen en los capítulos de métodos (Partes 3-5).
+:::
+
+Además, en los capítulos de métodos encontrará:
+
+::: {.prompt-block}
+Bloques como este contienen **prompts sugeridos** que puede copiar y pegar directamente en una herramienta de IA para obtener ayuda con su análisis.
+:::
+
+::: {.respuesta-ia}
+Bloques como este muestran **ejemplos de respuestas** que debería esperar de la IA, para que pueda verificar que el resultado tiene sentido.
+:::
+
+## Código R
+
+Los capítulos de métodos incluyen código en **R** para ilustrar los análisis. Por defecto, el código aparece plegado — haga clic en "Mostrar código R" para verlo. Si no tiene experiencia con R, las secciones de Guía IA le enseñan a usar prompts para que la IA genere y explique el código por usted.
+
+## Requisitos técnicos
+
+Para aprovechar al máximo este toolkit:
+
+- **Mínimo:** Un navegador web moderno para leer la guía y usar la herramienta de autodiagnóstico interactiva.
+- **Recomendado:** [R](https://cran.r-project.org/) y [RStudio](https://posit.co/download/rstudio-desktop/) instalados para ejecutar los talleres prácticos.
+- **Opcional:** Acceso a una herramienta de IA (Claude, ChatGPT u otra) para usar las guías de prompts.
+
+::: {.callout-tip}
+## No se preocupe por el código
+Si no tiene experiencia con R, puede usar las Guías IA de cada capítulo de método. Allí le proporcionamos los prompts exactos para que la IA genere el código por usted, y le explicamos cómo interpretar los resultados.
+:::

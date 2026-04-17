@@ -1,0 +1,116 @@
+# Bienvenido al Toolkit {.unnumbered}
+
+```{=html}
+<div style="background: linear-gradient(135deg, #185FA5 0%, #0F6E56 100%); color: white; padding: 2.5rem; border-radius: 12px; margin-bottom: 2rem;">
+  <h2 style="color: white; margin-top: 0; font-size: 1.6rem;">Toolkit de Evaluación de Impacto</h2>
+  <p style="font-size: 1.1rem; opacity: 0.95; margin-bottom: 0.5rem;">Guía práctica para diseñar, ejecutar e interpretar evaluaciones de impacto en programas sociales.</p>
+  <p style="font-size: 0.95rem; opacity: 0.8; margin-bottom: 0;">11 métodos · Herramienta de autodiagnóstico interactiva · Talleres con código R · Guías de IA paso a paso</p>
+</div>
+```
+
+Este toolkit está diseñado para profesionales de programas sociales, investigadores y estudiantes que necesitan evaluar si una intervención está funcionando — y por qué. No requiere experiencia previa en econometría ni en programación.
+
+## ¿Para quién es esta guía?
+
+| Perfil | Cómo usar el toolkit |
+|--------|---------------------|
+| **Gerente de programa** que necesita evidencia para tomadores de decisión | Empiece por la [herramienta de autodiagnóstico](capitulos/02-autodiagnostico.qmd) para identificar qué método se ajusta a su contexto |
+| **Investigador o evaluador** que busca una referencia práctica | Vaya directamente al capítulo del método que le interesa (Partes 3–4) |
+| **Estudiante** que está aprendiendo evaluación de impacto | Siga el toolkit en orden, desde la [Parte 0](capitulos/00-bienvenida.qmd) |
+| **Equipo de M&E** diseñando su sistema de monitoreo | Comience por la [Parte 1](capitulos/01-marco-logico.qmd) y use las plantillas de los anexos |
+
+## Estructura del toolkit
+
+```{mermaid}
+%%| fig-width: 7
+flowchart LR
+  P0["<b>Parte 0</b><br>Fundamentos"]
+  P1["<b>Parte 1</b><br>Monitoreo"]
+  P2["<b>Parte 2</b><br>Autodiagnóstico"]
+  P3["<b>Parte 3</b><br>Cuantitativos"]
+  P4["<b>Parte 4</b><br>Cualitativos"]
+  P5["<b>Parte 5</b><br>Mixtos"]
+
+  P0 --> P1 --> P2
+  P2 --> P3
+  P2 --> P4
+  P3 --> P5
+  P4 --> P5
+
+  style P0 fill:#f0f7ff,stroke:#185FA5,color:#185FA5
+  style P1 fill:#f0f7ff,stroke:#185FA5,color:#185FA5
+  style P2 fill:#FFF8E1,stroke:#BA7517,color:#BA7517
+  style P3 fill:#E8F4FD,stroke:#185FA5,color:#185FA5
+  style P4 fill:#E8F5E9,stroke:#0F6E56,color:#0F6E56
+  style P5 fill:#F3E5F5,stroke:#7B1FA2,color:#7B1FA2
+```
+
+| Parte | Contenido | Capítulos |
+|-------|-----------|-----------|
+| **0 — Fundamentos** | Qué es evaluación de impacto, teoría de cambio, contrafactual | 3 capítulos |
+| **1 — Monitoreo** | Marco lógico, recolección de datos, línea base | 4 capítulos |
+| **2 — Autodiagnóstico** | Herramienta interactiva para elegir el método adecuado | 1 herramienta |
+| **3 — Cuantitativos** | RCT, Diferencias en diferencias, Matching, Variables instrumentales, RDD | 7 capítulos |
+| **4 — Cualitativos** | Mapeo de sistemas, Outcome Mapping, Outcome Harvesting, Contribution Analysis, Process Tracing, QCA, QuIP | 8 capítulos |
+| **5 — Mixtos** | Diseños combinados y casos de estudio | 3 capítulos |
+| **6 — Guía de IA** | Prompts paso a paso para hacer su evaluación con IA | 1 guía completa |
+| **7 — Anexos de código** | Talleres prácticos en R por método | 6 talleres |
+| **8 — Recursos** | Glosario, plantillas, ética, bibliografía | 4 anexos |
+
+## ¿Cómo están organizados los capítulos de métodos?
+
+Cada capítulo de las Partes 3–4 presenta la **teoría y explicación** del método: qué es, cuándo usarlo, sus supuestos, limitaciones y figuras conceptuales. No contienen código.
+
+El contenido práctico está separado en dos partes independientes:
+
+:::: {.columns}
+::: {.column width="50%"}
+**Parte 6: Guía de IA**
+
+- 10 pasos para hacer una evaluación completa usando IA
+- Desde anonimizar datos hasta redactar el informe
+- Diseñada para no-programadores
+:::
+
+::: {.column width="50%"}
+**Parte 7: Anexos de código**
+
+- Talleres prácticos con datos simulados en R
+- Código completo y comentado
+- Un anexo por método cuantitativo
+:::
+::::
+
+## Convenciones
+
+A lo largo del toolkit encontrará estos elementos:
+
+::: {.callout-note}
+## Concepto clave
+Explica una idea fundamental que necesita entender antes de avanzar.
+:::
+
+::: {.callout-tip}
+## Consejo práctico
+Recomendaciones basadas en la experiencia de evaluadores en el campo.
+:::
+
+::: {.callout-warning}
+## Error común
+Advertencias sobre errores frecuentes que debe evitar.
+:::
+
+::: {.callout-important}
+## Guía IA
+Secciones con prompts estructurados para que una inteligencia artificial le ayude a ejecutar análisis paso a paso.
+:::
+
+## Código R
+
+Todo el código en este toolkit está en **R**. Por defecto aparece plegado — haga clic en "Mostrar código R" para verlo. Si no tiene experiencia con R, las secciones de Guía IA le enseñan a usar prompts para que la IA genere y explique el código por usted.
+
+## ¿Por dónde empezar?
+
+- **Tiene un programa en marcha y datos recolectados:** vaya a la [Herramienta de autodiagnóstico](capitulos/02-autodiagnostico.qmd)
+- **Está comenzando desde cero:** empiece por la [Parte 0: Fundamentos](capitulos/00-bienvenida.qmd)
+- **Sabe qué método quiere usar:** vaya directamente al capítulo correspondiente en las Partes 3–4

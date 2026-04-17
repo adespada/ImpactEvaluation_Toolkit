@@ -1,0 +1,233 @@
+# Teoría de cambio {#sec-teoria-de-cambio}
+
+## ¿Qué es una teoría de cambio?
+
+Una **teoría de cambio** (TdC) es una descripción explícita de *cómo* se supone que un programa genera los resultados deseados. Es la historia causal que conecta lo que usted hace (actividades) con lo que espera lograr (impacto), pasando por todos los pasos intermedios.
+
+Piénselo así: si su programa fuera una receta de cocina, la teoría de cambio sería la explicación de *por qué* cada ingrediente y cada paso contribuyen al resultado final. Sin esa explicación, usted está cocinando a ciegas.
+
+::: {.callout-note}
+## ¿Por qué es importante para la evaluación?
+La teoría de cambio le ayuda a:
+
+1. **Identificar qué medir** — si no sabe cómo se supone que funciona su programa, no sabrá qué indicadores recolectar.
+2. **Elegir el método de evaluación** — diferentes mecanismos causales requieren diferentes enfoques de evaluación.
+3. **Interpretar resultados** — si el programa no tuvo el efecto esperado, la TdC le ayuda a entender en qué punto de la cadena causal falló.
+4. **Comunicar con claridad** — una TdC bien construida permite que todos los actores compartan la misma visión de lo que el programa busca lograr.
+:::
+
+## Los componentes de una teoría de cambio
+
+Una teoría de cambio tiene cinco niveles principales, organizados en una **cadena de resultados**:
+
+```{r}
+#| label: tbl-cadena-resultados
+#| tbl-cap: "Niveles de la cadena de resultados"
+#| echo: false
+
+cadena <- data.frame(
+  Nivel = c("Insumos", "Actividades", "Productos", "Resultados intermedios", "Impacto"),
+  Definicion = c(
+    "Recursos que se invierten en el programa",
+    "Acciones concretas que realiza el programa",
+    "Bienes o servicios entregados directamente",
+    "Cambios en comportamiento o condiciones de los beneficiarios",
+    "Cambios de largo plazo en bienestar o desarrollo"
+  ),
+  Ejemplo = c(
+    "Presupuesto, personal, materiales, infraestructura",
+    "Capacitaciones, distribución de insumos, visitas domiciliarias",
+    "50 talleres realizados, 1.000 kits entregados",
+    "Agricultores adoptan nuevas técnicas, familias diversifican su dieta",
+    "Reducción de la pobreza, mejora en nutrición infantil"
+  ),
+  Control = c(
+    "Alto — usted decide qué recursos asignar",
+    "Alto — usted decide qué hacer",
+    "Alto — depende de la ejecución",
+    "Medio — depende del comportamiento de los beneficiarios",
+    "Bajo — depende de muchos factores externos"
+  )
+)
+
+knitr::kable(cadena,
+             col.names = c("Nivel", "Definición", "Ejemplo", "Control del programa"))
+```
+
+::: {.callout-warning}
+## No confunda productos con resultados
+Un error muy común es reportar productos (talleres realizados, kits entregados) como si fueran resultados. Los productos miden lo que el programa **hizo**; los resultados miden lo que **cambió** en la vida de los beneficiarios. Entregar 1.000 kits de semillas no garantiza que los agricultores las usen ni que su producción mejore.
+:::
+
+## Los supuestos y los riesgos
+
+Entre cada nivel de la cadena hay **supuestos** — condiciones que deben cumplirse para que un nivel conduzca al siguiente. Identificar estos supuestos es una de las partes más valiosas de construir una teoría de cambio.
+
+Por ejemplo, entre "entregar semillas mejoradas" (producto) y "los agricultores aumentan su producción" (resultado intermedio), se asume que:
+
+- Los agricultores saben cómo usar las semillas
+- Tienen acceso a agua suficiente
+- Las condiciones climáticas son favorables
+- No hay plagas que destruyan los cultivos
+
+Si alguno de estos supuestos falla, el programa puede ejecutarse perfectamente (entregar todas las semillas) y aun así no generar resultados. La TdC le permite anticipar estos riesgos y planificar acciones para mitigarlos.
+
+## Ejemplo: programa de salud materno-infantil
+
+Veamos una teoría de cambio completa para un programa de salud materno-infantil en comunidades rurales:
+
+```{mermaid}
+%%| fig-cap: "Teoría de cambio: programa de salud materno-infantil"
+%%| label: fig-tdc-ejemplo
+
+flowchart TD
+    I1["💰 Insumos\nPresupuesto, promotoras\nde salud, materiales\neducativos, suplementos"] --> A1["📋 Actividades\nVisitas domiciliarias\nmensuales a madres\ngestantes y lactantes"]
+    I1 --> A2["📋 Actividades\nTalleres de nutrición\ny prácticas de\nhigiene"]
+    I1 --> A3["📋 Actividades\nDistribución de\nsuplementos de\nhierro y ácido fólico"]
+
+    A1 --> P1["📦 Productos\n500 madres reciben\nvisitas mensuales"]
+    A2 --> P2["📦 Productos\n40 talleres\nrealizados"]
+    A3 --> P3["📦 Productos\n500 kits de\nsuplementos\nentregados"]
+
+    P1 --> R1["📈 Resultados\nMadres conocen señales\nde alarma y asisten\na controles prenatales"]
+    P2 --> R1
+    P2 --> R2["📈 Resultados\nFamilias mejoran\nprácticas de\nalimentación infantil"]
+    P3 --> R3["📈 Resultados\nMadres consumen\nsuplementos durante\nel embarazo"]
+
+    R1 --> IM["🎯 Impacto\nReducción de la\nmortalidad materno-\ninfantil y la\ndesnutrición crónica"]
+    R2 --> IM
+    R3 --> IM
+
+    style I1 fill:#E8F4FD,stroke:#185FA5,color:#000
+    style A1 fill:#FFF3E0,stroke:#BA7517,color:#000
+    style A2 fill:#FFF3E0,stroke:#BA7517,color:#000
+    style A3 fill:#FFF3E0,stroke:#BA7517,color:#000
+    style P1 fill:#E8F5E9,stroke:#0F6E56,color:#000
+    style P2 fill:#E8F5E9,stroke:#0F6E56,color:#000
+    style P3 fill:#E8F5E9,stroke:#0F6E56,color:#000
+    style R1 fill:#F3E5F5,stroke:#6A1B9A,color:#000
+    style R2 fill:#F3E5F5,stroke:#6A1B9A,color:#000
+    style R3 fill:#F3E5F5,stroke:#6A1B9A,color:#000
+    style IM fill:#FCE4EC,stroke:#993C1D,color:#000
+```
+
+**Supuestos clave de esta teoría de cambio:**
+
+1. Las promotoras de salud están bien capacitadas y mantienen la frecuencia de visitas
+2. Las madres confían en las promotoras y están dispuestas a recibir las visitas
+3. Los suplementos están disponibles de forma continua (no hay quiebres de stock)
+4. Las familias tienen acceso a alimentos diversificados (no solo dependen de los talleres)
+5. No hay barreras culturales que impidan a las madres asistir a controles prenatales
+
+## Cómo construir su teoría de cambio paso a paso
+
+::: {.pasos-container}
+::: {.paso}
+**Comience por el final: defina el impacto deseado.** ¿Cuál es el cambio de largo plazo que su programa busca generar? Sea específico: "reducir la desnutrición crónica en niños menores de 5 años en el municipio X" es mejor que "mejorar la nutrición".
+:::
+
+::: {.paso}
+**Identifique los resultados intermedios.** ¿Qué cambios en el comportamiento, conocimiento o condiciones de los beneficiarios deben ocurrir para que se alcance el impacto? Estos son los cambios que usted puede observar a mediano plazo.
+:::
+
+::: {.paso}
+**Defina los productos.** ¿Qué bienes o servicios entrega su programa directamente? ¿Cuántos beneficiarios espera alcanzar? Los productos son lo que usted controla directamente.
+:::
+
+::: {.paso}
+**Describa las actividades.** ¿Qué acciones concretas realiza el programa para generar esos productos? Sea específico sobre frecuencia, duración e intensidad.
+:::
+
+::: {.paso}
+**Liste los insumos.** ¿Qué recursos necesita para ejecutar esas actividades? Incluya presupuesto, personal, equipamiento, alianzas institucionales.
+:::
+
+::: {.paso}
+**Explicite los supuestos.** Para cada conexión entre niveles, pregúntese: ¿qué debe ser cierto para que esto funcione? ¿Qué podría salir mal? Documente los supuestos y los riesgos asociados.
+:::
+
+::: {.paso}
+**Valide con los actores.** Comparta su TdC con el equipo del programa, los beneficiarios y otros actores clave. ¿Tiene sentido la lógica? ¿Falta algún paso? ¿Son realistas los supuestos?
+:::
+:::
+
+## Plantilla para construir su teoría de cambio
+
+Use la siguiente plantilla como punto de partida. Complete cada fila con la información de su programa:
+
+```{r}
+#| label: tbl-plantilla-tdc
+#| tbl-cap: "Plantilla de teoría de cambio"
+#| echo: false
+
+plantilla <- data.frame(
+  Nivel = c("Impacto", "Resultado intermedio 1", "Resultado intermedio 2",
+            "Producto 1", "Producto 2", "Actividad 1", "Actividad 2",
+            "Insumo 1", "Insumo 2"),
+  Descripcion = rep("[Describa aquí...]", 9),
+  Indicador = rep("[¿Cómo lo mediría?]", 9),
+  Supuesto = c(
+    "—",
+    "[¿Qué debe cumplirse para lograr el impacto?]",
+    "[¿Qué debe cumplirse para lograr el impacto?]",
+    "[¿Qué debe cumplirse para lograr el resultado?]",
+    "[¿Qué debe cumplirse para lograr el resultado?]",
+    "[¿Qué debe cumplirse para generar el producto?]",
+    "[¿Qué debe cumplirse para generar el producto?]",
+    "—",
+    "—"
+  )
+)
+
+knitr::kable(plantilla,
+             col.names = c("Nivel", "Descripción", "Indicador", "Supuesto clave"))
+```
+
+## La teoría de cambio y la elección de método
+
+La forma en que su programa genera cambio determina qué método de evaluación es más apropiado:
+
+```{r}
+#| label: tbl-tdc-metodo
+#| tbl-cap: "Relación entre la teoría de cambio y el método de evaluación"
+#| echo: false
+
+relacion <- data.frame(
+  Caracteristica = c(
+    "Su programa se asigna aleatoriamente o puede asignarse así",
+    "Su programa se implementa en un momento definido y hay datos antes y después",
+    "Puede identificar personas similares que recibieron y no recibieron el programa",
+    "Hay una regla de elegibilidad con un punto de corte claro",
+    "El mecanismo causal es complejo y necesita rastrear pasos intermedios",
+    "Quiere entender qué combinación de condiciones produce el resultado",
+    "Necesita una evaluación participativa que empodere a los beneficiarios"
+  ),
+  Metodo = c(
+    "Experimento aleatorio (RCT)",
+    "Diferencias en diferencias (DiD)",
+    "Matching / Propensity Score",
+    "Variables instrumentales / RDD",
+    "Process Tracing o Contribution Analysis",
+    "QCA (Análisis Comparativo Cualitativo)",
+    "Outcome Mapping, MSC o Systems Mapping"
+  )
+)
+
+knitr::kable(relacion,
+             col.names = c("Si su teoría de cambio tiene esta característica...", "Considere este método"))
+```
+
+::: {.callout-tip}
+## No se preocupe por elegir ahora
+Si aún no sabe qué método le conviene, no se preocupe. En la [Parte 2](02-autodiagnostico.qmd) encontrará una herramienta interactiva de autodiagnóstico que le guiará en la selección del método más apropiado para su contexto.
+:::
+
+## Resumen
+
+Una buena teoría de cambio es el cimiento de todo lo que sigue en este toolkit:
+
+- Le dice **qué medir** → lo cual guía su sistema de monitoreo (Parte 1)
+- Le dice **cómo se supone que funciona** → lo cual guía la selección de método (Parte 2)
+- Le dice **dónde pueden estar los problemas** → lo cual le ayuda a interpretar resultados (Partes 3-5)
+
+Construya su teoría de cambio antes de diseñar su sistema de monitoreo. En el siguiente capítulo aprenderá a traducir la TdC en un **marco lógico** con indicadores concretos y medibles.

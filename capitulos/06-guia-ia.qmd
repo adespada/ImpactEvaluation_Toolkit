@@ -1,0 +1,437 @@
+# Cómo hablar con la IA para hacer una evaluación de impacto {#sec-guia-ia}
+
+Esta guía está diseñada para profesionales que **no saben programar** pero tienen una base de datos y necesitan llevar a cabo una evaluación de impacto. Le mostraremos cómo usar una inteligencia artificial (Claude, ChatGPT u otra) como su asistente de análisis, paso a paso.
+
+::: {.callout-important}
+## ¿Qué necesita para empezar?
+1. Una **base de datos** en formato CSV o Excel con información de su programa
+2. Acceso a una **IA conversacional** (Claude, ChatGPT, Gemini, Copilot, etc.)
+3. Haber leído los capítulos teóricos de este toolkit para entender qué método le conviene
+4. Haber completado la [herramienta de autodiagnóstico](02-autodiagnostico.qmd)
+:::
+
+::: {.callout-warning}
+## Limitaciones importantes
+La IA es un **asistente**, no un reemplazo del juicio profesional. Puede cometer errores en el código, malinterpretar sus datos o sugerir análisis inadecuados. Siempre valide los resultados con un experto antes de tomar decisiones basadas en ellos. Nunca comparta datos confidenciales sin anonimizarlos primero.
+:::
+
+---
+
+## Paso 1: Anonimizar sus datos {#sec-ia-paso1}
+
+Antes de compartir cualquier dato con una IA, **debe eliminar toda información que permita identificar a las personas**. Esto es un requisito ético y, en muchos países, legal.
+
+### ¿Qué debe eliminar?
+
+| Eliminar siempre | Mantener |
+|-------------------|----------|
+| Nombres y apellidos | Variables de resultado (ingresos, puntajes, etc.) |
+| Números de identificación (cédula, DNI, RUT) | Indicador de tratamiento (1 = participó, 0 = no) |
+| Direcciones exactas | Periodo o fecha de medición |
+| Teléfonos y correos electrónicos | Covariables (edad, género, nivel educativo) |
+| Nombres de comunidades pequeñas | Identificadores anónimos (ID_001, ID_002...) |
+
+### Prompt sugerido
+
+::: {.prompt-block}
+**Copie y pegue este prompt en la IA:**
+
+Tengo una base de datos en formato [CSV / Excel] para una evaluación de impacto. Necesito anonimizarla antes de analizarla. La base tiene las siguientes columnas:
+
+[LISTE AQUÍ LOS NOMBRES DE SUS COLUMNAS]
+
+Por favor:
+
+1. Genera un script en R (o Python) que lea mi archivo, elimine las columnas con información personal identificable y reemplace el identificador original por un código secuencial (ID_001, ID_002...).
+2. Explícame qué columnas recomiendas eliminar y por qué.
+3. Guarda el resultado como un nuevo archivo "base_anonima.csv".
+4. Muéstrame las primeras 5 filas del resultado para verificar.
+:::
+
+::: {.callout-tip}
+## Consejo
+No necesita compartir los datos reales en este paso. Solo comparta los **nombres de las columnas** y la IA le dirá cuáles eliminar y generará el código para hacerlo. Ejecute el código en su computador.
+:::
+
+---
+
+## Paso 2: Compartir la estructura de sus datos {#sec-ia-paso2}
+
+Una vez que tenga la base anonimizada, comparta **solo las primeras 10 filas** con la IA para que entienda su estructura. Nunca comparta la base completa.
+
+### Prompt sugerido
+
+::: {.prompt-block}
+Estoy realizando una evaluación de impacto de un programa social. Voy a compartir las primeras 10 filas de mi base de datos anonimizada para que entiendas la estructura.
+
+**Contexto del programa:**
+- Tipo de programa: [ej: capacitación agrícola, microcrédito, alimentación escolar]
+- Beneficiarios: [ej: 200 hogares rurales en el departamento del Cauca]
+- Grupo de comparación: [ej: 150 hogares similares que no recibieron el programa]
+- El programa comenzó en: [ej: marzo 2023]
+- Datos disponibles: [ej: encuestas antes (2022) y después (2024) del programa]
+
+**Variable de resultado principal:** [ej: ingreso mensual del hogar]
+**Variable de tratamiento:** [ej: columna "programa" donde 1 = recibió, 0 = no recibió]
+
+Aquí están las primeras 10 filas:
+
+[PEGUE AQUÍ LAS 10 PRIMERAS FILAS DE SU BASE]
+
+Por favor:
+1. Confirma que entiendes la estructura
+2. Identifica qué tipo de variables tengo (continuas, categóricas, binarias)
+3. Señala si hay algo que deba corregir antes de continuar
+4. Sugiere qué método de evaluación de impacto podría usar dados mis datos
+:::
+
+::: {.callout-tip}
+## Cómo obtener las primeras 10 filas
+Abra su archivo CSV en Excel, seleccione las primeras 10 filas con encabezado, cópielas y péguelas directamente en el chat con la IA. O pida a la IA que le genere el código para extraerlas.
+:::
+
+---
+
+## Paso 3: Análisis exploratorio de variables {#sec-ia-paso3}
+
+Antes de cualquier análisis causal, necesita entender qué tiene en sus datos. Este paso le ayuda a detectar problemas como datos faltantes, valores atípicos o variables mal codificadas.
+
+### Prompt sugerido
+
+::: {.prompt-block}
+Con la base de datos que te compartí, necesito un análisis exploratorio completo. Por favor genera código que:
+
+1. **Resumen general:**
+   - Número total de observaciones y variables
+   - Cuántas observaciones hay por grupo (tratamiento vs. control)
+   - Cuántas observaciones hay por periodo (antes vs. después)
+
+2. **Estadísticas descriptivas:**
+   - Para variables numéricas: media, mediana, desviación estándar, mínimo, máximo
+   - Para variables categóricas: frecuencias y porcentajes
+   - Separado por grupo de tratamiento y control
+
+3. **Datos faltantes:**
+   - ¿Cuántos valores faltantes hay en cada variable?
+   - ¿Hay algún patrón? (¿se concentran en algún grupo?)
+
+4. **Visualizaciones:**
+   - Histograma de la variable de resultado, separado por grupo
+   - Gráfico de barras para variables categóricas importantes
+
+Explícame los resultados como si no supiera estadística. ¿Hay algo preocupante que deba resolver antes de continuar?
+:::
+
+---
+
+## Paso 4: Tabla de balance (comparabilidad de grupos) {#sec-ia-paso4}
+
+Este paso es crítico: necesita verificar si el grupo que recibió el programa y el grupo que no lo recibió son realmente comparables. Si los grupos son muy diferentes desde el inicio, su evaluación será más difícil.
+
+### Prompt sugerido
+
+::: {.prompt-block}
+Necesito verificar si mi grupo de tratamiento y mi grupo de control son comparables. Por favor:
+
+1. Genera una **tabla de balance** que compare las características ANTES del programa entre ambos grupos. Para cada variable incluye:
+   - Media del grupo tratamiento
+   - Media del grupo control
+   - Diferencia
+   - Valor p de la prueba de diferencia (t-test para continuas, chi-cuadrado para categóricas)
+   - Diferencia estandarizada (d de Cohen)
+
+2. Presenta la tabla de forma clara y ordenada.
+
+3. Interpreta los resultados:
+   - ¿Los grupos son estadísticamente similares?
+   - ¿Hay variables con diferencias preocupantes (diferencia estandarizada > 0.25)?
+   - ¿Qué implica esto para mi evaluación?
+
+4. Si hay desequilibrios, sugiere qué puedo hacer al respecto (incluir covariables, usar matching, etc.)
+:::
+
+::: {.callout-note}
+## ¿Por qué importa el balance?
+Si los grupos son similares antes del programa, cualquier diferencia después probablemente se deba al programa. Si son diferentes, necesitará métodos más sofisticados (como Matching o controles en la regresión) para aislar el efecto del programa.
+:::
+
+---
+
+## Paso 5: Verificar los supuestos del método {#sec-ia-paso5}
+
+Cada método tiene supuestos que deben cumplirse. Este paso depende del método que haya elegido con la herramienta de autodiagnóstico.
+
+### Si usa Diferencias en Diferencias (DiD)
+
+::: {.prompt-block}
+Voy a usar diferencias en diferencias para mi evaluación. Necesito verificar el supuesto de tendencias paralelas.
+
+Por favor:
+1. Filtra solo los datos del periodo ANTES del programa
+2. Grafica la evolución del indicador "[mi variable de resultado]" para el grupo de tratamiento y control a lo largo del tiempo
+3. Realiza una prueba formal: regresión con interacción entre grupo y tendencia temporal en el periodo pre-tratamiento
+4. Explícame en lenguaje simple: ¿las tendencias son paralelas? ¿Puedo usar DiD?
+
+Si las tendencias NO son paralelas, sugiere alternativas.
+:::
+
+### Si usa Matching / Propensity Score
+
+::: {.prompt-block}
+Voy a usar Propensity Score Matching para mi evaluación. Necesito:
+
+1. Estimar el propensity score con una regresión logística usando estas covariables: [LISTE SUS VARIABLES]
+2. Graficar la distribución del propensity score para tratados y controles
+3. Verificar que hay suficiente **soporte común** (superposición entre las distribuciones)
+4. Realizar el emparejamiento usando vecino más cercano
+5. Crear un Love Plot mostrando el balance de covariables antes y después del matching
+6. Decirme si el matching fue exitoso: ¿se lograron grupos comparables?
+:::
+
+### Si usa un Experimento Aleatorio (RCT)
+
+::: {.prompt-block}
+Tengo datos de un experimento aleatorio (RCT). Necesito verificar que la aleatorización funcionó correctamente.
+
+Por favor:
+1. Crea una tabla de balance comparando TODAS las características observables entre tratados y controles ANTES de la intervención
+2. Realiza un test conjunto (prueba F) de que todas las diferencias son simultáneamente cero
+3. Verifica si hay **atrición diferencial** (¿abandonaron más personas de un grupo que del otro?)
+4. Si hay atrición, analiza si los que abandonaron son diferentes a los que se quedaron
+
+Dime: ¿la aleatorización se sostiene? ¿Hay problemas que deba abordar?
+:::
+
+### Si usa Variables Instrumentales (IV)
+
+::: {.prompt-block}
+Voy a usar variables instrumentales. Mi instrumento es: [DESCRIBA SU INSTRUMENTO].
+
+Necesito verificar:
+1. **Relevancia:** Regresión de primera etapa. ¿El instrumento predice significativamente el tratamiento? ¿El F-estadístico es mayor a 10?
+2. **Exclusión:** Esto no se puede probar estadísticamente, pero ayúdame a argumentar por qué mi instrumento solo afecta el resultado a través del tratamiento
+3. Si tengo más de un instrumento: test de sobreidentificación (Hansen/Sargan)
+
+¿Mi instrumento es suficientemente fuerte?
+:::
+
+### Si usa Regresión Discontinua (RDD)
+
+::: {.prompt-block}
+Voy a usar regresión discontinua. La variable de asignación es "[NOMBRE]" y el punto de corte es [VALOR].
+
+Necesito verificar:
+1. **No manipulación:** Test de McCrary — ¿hay acumulación sospechosa de observaciones justo antes/después del corte?
+2. **Continuidad en covariables:** ¿Las características observables cambian suavemente alrededor del corte?
+3. Grafica la variable de resultado contra la variable de asignación, con líneas de ajuste a cada lado del corte
+
+¿Se cumplen los supuestos para RDD?
+:::
+
+---
+
+## Paso 6: Estimar el efecto del programa {#sec-ia-paso6}
+
+Este es el paso central. Pida a la IA que estime el efecto causal de su programa usando el método elegido.
+
+### Prompt sugerido (adapte según su método)
+
+::: {.prompt-block}
+Ya verifiqué los supuestos y estoy listo para estimar el efecto de mi programa. Voy a usar [DiD / Matching / RCT / IV / RDD].
+
+Por favor:
+1. Estima el efecto del programa sobre "[mi variable de resultado]" usando [el método elegido]
+2. Incluye **errores estándar robustos** (y clusterizados si tengo datos agrupados por [escuela / comunidad / municipio])
+3. Estima dos modelos:
+   - **Modelo básico:** solo tratamiento y periodo
+   - **Modelo con covariables:** agrega como controles [LISTE SUS COVARIABLES]
+4. Presenta los resultados en una **tabla limpia** con:
+   - Coeficiente del efecto
+   - Error estándar
+   - Valor p
+   - Intervalo de confianza al 95%
+   - Número de observaciones
+   - R²
+
+5. Interpreta los resultados para mí:
+   - ¿El programa tuvo un efecto estadísticamente significativo?
+   - ¿Qué tan grande es el efecto en términos prácticos?
+   - ¿El resultado cambia mucho entre el modelo básico y el modelo con covariables?
+:::
+
+---
+
+## Paso 7: Análisis de heterogeneidad {#sec-ia-paso7}
+
+¿El programa funcionó igual para todos, o tuvo efectos diferentes según el tipo de beneficiario?
+
+### Prompt sugerido
+
+::: {.prompt-block}
+Quiero saber si el efecto del programa varía según subgrupos de la población. Por favor:
+
+1. Estima el efecto del programa **por separado** para:
+   - Hombres vs. mujeres
+   - Zona urbana vs. rural
+   - [OTROS SUBGRUPOS RELEVANTES PARA SU PROGRAMA]
+
+2. Presenta los resultados en una tabla comparativa
+
+3. Realiza una prueba formal de interacción: ¿la diferencia entre subgrupos es estadísticamente significativa?
+
+4. Crea un gráfico de **coeficientes por subgrupo** con intervalos de confianza (forest plot)
+
+5. Interpreta: ¿para quién funcionó mejor el programa? ¿Hay grupos que no se beneficiaron?
+:::
+
+---
+
+## Paso 8: Análisis de robustez {#sec-ia-paso8}
+
+Antes de confiar en los resultados, necesita verificar que no dependen de decisiones arbitrarias en el análisis.
+
+### Prompt sugerido
+
+::: {.prompt-block}
+Necesito verificar que mis resultados son robustos. Por favor realiza estas pruebas:
+
+1. **Sensibilidad a covariables:** ¿Cambia mucho el resultado si agrego o quito variables de control? Muestra una tabla con 3-4 especificaciones diferentes.
+
+2. **Test placebo / falsificación:**
+   - Estima el efecto del programa sobre una variable que el programa NO debería haber afectado (ej: [una variable que no debería cambiar]). Si encuentras un efecto "significativo" ahí, algo anda mal.
+
+3. **Efectos por periodo (si tengo datos de panel):**
+   - Estima efectos separados para cada periodo post-tratamiento. ¿El efecto crece, se mantiene o desaparece con el tiempo?
+
+4. Para cada prueba, dime qué resultado esperamos si nuestro análisis es confiable vs. qué resultado sería una señal de alerta.
+
+Resumen final: ¿mis resultados principales se sostienen?
+:::
+
+---
+
+## Paso 9: Crear tablas y gráficos para el informe {#sec-ia-paso9}
+
+Ahora necesita presentar los resultados de forma clara para su audiencia.
+
+### Prompt sugerido
+
+::: {.prompt-block}
+Necesito crear las visualizaciones finales para mi informe de evaluación. Por favor genera:
+
+1. **Tabla principal de resultados** con formato de publicación:
+   - Modelos en columnas, variables en filas
+   - Estrellas de significancia (*** p<0.01, ** p<0.05, * p<0.10)
+   - Errores estándar entre paréntesis
+   - Estadísticos de ajuste al pie (N, R², F-test)
+
+2. **Gráfico del efecto principal:**
+   - [Para DiD]: gráfico de tendencias con línea contrafactual punteada
+   - [Para Matching]: gráfico de densidad del propensity score antes/después
+   - [Para RCT]: gráfico de barras comparando medias con intervalo de confianza
+   - [Para RDD]: gráfico de dispersión con líneas de ajuste a cada lado del corte
+
+3. **Gráfico de efectos heterogéneos:** forest plot con coeficientes por subgrupo
+
+4. **Tabla resumen ejecutivo** (1 página) con:
+   - Pregunta de evaluación
+   - Método utilizado
+   - Resultado principal en lenguaje simple
+   - Tamaño del efecto
+   - Nivel de confianza
+   - Principales limitaciones
+
+Haz que los gráficos sean profesionales, con colores azul (#185FA5) para control y naranja (#D85A30) para tratamiento.
+:::
+
+---
+
+## Paso 10: Redactar la sección de resultados {#sec-ia-paso10}
+
+Finalmente, pida ayuda para comunicar los hallazgos en lenguaje accesible.
+
+### Prompt sugerido
+
+::: {.prompt-block}
+Con los resultados de mi evaluación, necesito redactar la sección de resultados para un informe dirigido a [tomadores de decisión / donantes / gerentes de programa].
+
+Los resultados principales son:
+[PEGUE AQUÍ SU TABLA PRINCIPAL DE RESULTADOS]
+
+Por favor escribe:
+
+1. **Un párrafo de resultados principales** (3-4 oraciones) que:
+   - Indique si el programa tuvo un efecto significativo
+   - Cuantifique el tamaño del efecto en unidades comprensibles
+   - Mencione el nivel de confianza estadística
+   - Sea comprensible para alguien que no sabe estadística
+
+2. **Un párrafo de matices** que:
+   - Mencione para qué subgrupos el efecto fue mayor/menor
+   - Señale las principales limitaciones del análisis
+   - Indique qué tan generalizables son los resultados
+
+3. **Una recomendación** basada en la evidencia:
+   - ¿Se debería continuar/expandir/modificar el programa?
+   - ¿Qué información adicional ayudaría a tomar una mejor decisión?
+
+Usa un tono profesional pero accesible. Evita jerga estadística innecesaria.
+:::
+
+---
+
+## Flujo completo: ejemplo de una conversación
+
+Para ilustrar cómo funciona todo junto, aquí tiene un ejemplo del flujo de conversación para una evaluación con Diferencias en Diferencias:
+
+```{mermaid}
+%%| fig-width: 7
+%%| fig-cap: "Flujo de conversación con la IA para una evaluación DiD"
+flowchart TD
+  A["<b>Paso 1</b><br>Anonimizar datos"] --> B["<b>Paso 2</b><br>Compartir estructura<br>(10 filas)"]
+  B --> C["<b>Paso 3</b><br>Análisis exploratorio"]
+  C --> D["<b>Paso 4</b><br>Tabla de balance"]
+  D --> E["<b>Paso 5</b><br>Verificar tendencias<br>paralelas"]
+  E -->|"✅ Se cumplen"| F["<b>Paso 6</b><br>Estimar efecto DiD"]
+  E -->|"❌ No se cumplen"| G["Considerar otro<br>método"]
+  F --> H["<b>Paso 7</b><br>Efectos heterogéneos"]
+  H --> I["<b>Paso 8</b><br>Análisis de robustez"]
+  I --> J["<b>Paso 9</b><br>Tablas y gráficos"]
+  J --> K["<b>Paso 10</b><br>Redactar resultados"]
+
+  style A fill:#E8F4FD,stroke:#185FA5
+  style B fill:#E8F4FD,stroke:#185FA5
+  style C fill:#E8F4FD,stroke:#185FA5
+  style D fill:#E8F4FD,stroke:#185FA5
+  style E fill:#FFF8E1,stroke:#BA7517
+  style F fill:#E8F5E9,stroke:#0F6E56
+  style G fill:#FFEBEE,stroke:#D85A30
+  style H fill:#E8F5E9,stroke:#0F6E56
+  style I fill:#E8F5E9,stroke:#0F6E56
+  style J fill:#E8F5E9,stroke:#0F6E56
+  style K fill:#E8F5E9,stroke:#0F6E56
+```
+
+## Consejos generales para hablar con la IA
+
+::: {.callout-tip}
+## Buenas prácticas
+
+1. **Sea específico:** "Genera un gráfico de barras comparando ingresos por grupo" es mejor que "haz un gráfico".
+2. **Dé contexto:** siempre explique qué programa evalúa, qué método usa y qué pregunta quiere responder.
+3. **Pida explicaciones:** agregue "explícame el resultado como si no supiera estadística" a cualquier prompt.
+4. **Itere:** si el resultado no es lo que esperaba, no empiece de cero. Diga "el gráfico está bien pero cambia los colores a azul y naranja" o "la tabla necesita una columna adicional con intervalos de confianza".
+5. **Verifique:** siempre pregunte "¿qué supuestos estás asumiendo?" y "¿qué podría salir mal con este análisis?".
+6. **No comparta datos sensibles:** solo las primeras filas anonimizadas. Ejecute el código en su computador, no en la IA.
+7. **Guarde su conversación:** los prompts y respuestas son documentación valiosa de su proceso analítico.
+:::
+
+::: {.callout-warning}
+## Errores comunes al usar IA para evaluación
+
+- **Confiar ciegamente en el código:** la IA puede generar código con errores sutiles. Verifique que los resultados tengan sentido (¿el efecto del programa es 500%? Probablemente hay un error).
+- **No verificar supuestos:** la IA puede estimar un modelo DiD sin verificar tendencias paralelas. Siempre pida las verificaciones.
+- **Compartir datos completos:** nunca pegue toda su base de datos. Use solo las primeras filas anonimizadas.
+- **Usar un método inadecuado:** la IA ejecutará cualquier método que le pida, aunque no sea apropiado para sus datos. Use el [autodiagnóstico](02-autodiagnostico.qmd) primero.
+- **Ignorar las limitaciones:** siempre pida a la IA que liste las limitaciones de su análisis. Si no lo hace espontáneamente, algo anda mal.
+:::

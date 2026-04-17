@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.35">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; De monitoreo a evaluación – Toolkit de Evaluación de Impacto</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/02-autodiagnostico.html" rel="next">
+<link href="../capitulos/01-linea-base.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-22b4aaf4c2978829df3684e8f2c068db.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-18c4648ec6b711cbdcb06aa220cd8088.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-6f8e7d7ac6489dfa4e33f32d5ebc9ead.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-18c4648ec6b711cbdcb06aa220cd8088.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/01-marco-logico.html">PARTE 1 — Sistemas de monitoreo</a></li><li class="breadcrumb-item"><a href="../capitulos/01-monitoreo-a-evaluacion.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">De monitoreo a evaluación</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Toolkit de Evaluación de Impacto</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/adespada/ImpactEvaluation_Toolkit" title="Ejecutar el código" class="quarto-navigation-tool px-1" aria-label="Ejecutar el código"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenido al Toolkit</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 0 — Contexto y fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-bienvenida.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bienvenida y cómo usar esta guía</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-que-es-evaluacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">¿Qué es evaluación de impacto?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-teoria-de-cambio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Teoría de cambio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 1 — Sistemas de monitoreo</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-marco-logico.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Marco lógico e indicadores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-recoleccion-datos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Diseño de sistemas de recolección de datos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-linea-base.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Línea base y datos de seguimiento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-monitoreo-a-evaluacion.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">De monitoreo a evaluación</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 2 — Herramienta de autodiagnóstico</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/02-autodiagnostico.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Herramienta de autodiagnóstico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 3 — Métodos cuantitativos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-intro-cuantitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introducción a los métodos cuantitativos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-rct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Experimentos aleatorizados (RCT)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-did.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Diferencias en diferencias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Matching y Propensity Score</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Variables instrumentales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Regresión discontinua</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-poder-muestra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poder estadístico y tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 4 — Métodos cualitativos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-intro-cualitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Introducción a métodos cualitativos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-systems-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Participatory Systems Mapping (PSM)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-outcome-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Outcome Mapping (OM)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-outcome-harvesting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Outcome Harvesting (OH)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-contribution-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Contribution Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-process-tracing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Process Tracing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-qca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Qualitative Comparative Analysis (QCA)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-quip.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Qualitative Impact Protocol (QuIP)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 5 — Métodos mixtos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-por-que-combinar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">¿Cuándo y por qué combinar métodos?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-disenos-mixtos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Diseños mixtos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-casos-estudio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Casos de estudio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 6 — Cómo hablar con la IA</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/06-guia-ia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Cómo hablar con la IA para hacer una evaluación de impacto</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 7 — Anexos de código</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-rct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Código R: Experimentos aleatorizados (RCT)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-did.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Código R: Diferencias en diferencias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Código R: Variables instrumentales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Código R: Regresión discontinua</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/anexo-codigo-poder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Código R: Poder estadístico y tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">PARTE 8 — Recursos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-glosario.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Glosario</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-plantillas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Plantillas descargables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-etica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Checklist ético</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-bibliografia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Bibliografía anotada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-tabla-resumen-metodos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Tabla resumen de métodos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#el-monitoreo-como-cimiento-de-la-evaluación" id="toc-el-monitoreo-como-cimiento-de-la-evaluación" class="nav-link active" data-scroll-target="#el-monitoreo-como-cimiento-de-la-evaluación"><span class="header-section-number">7.1</span> El monitoreo como cimiento de la evaluación</a></li>
+  <li><a href="#qué-datos-de-monitoreo-sirven-para-la-evaluación" id="toc-qué-datos-de-monitoreo-sirven-para-la-evaluación" class="nav-link" data-scroll-target="#qué-datos-de-monitoreo-sirven-para-la-evaluación"><span class="header-section-number">7.2</span> ¿Qué datos de monitoreo sirven para la evaluación?</a></li>
+  <li><a href="#errores-comunes-que-comprometen-la-evaluación" id="toc-errores-comunes-que-comprometen-la-evaluación" class="nav-link" data-scroll-target="#errores-comunes-que-comprometen-la-evaluación"><span class="header-section-number">7.3</span> Errores comunes que comprometen la evaluación</a></li>
+  <li><a href="#checklist-está-listo-para-evaluar" id="toc-checklist-está-listo-para-evaluar" class="nav-link" data-scroll-target="#checklist-está-listo-para-evaluar"><span class="header-section-number">7.4</span> Checklist: ¿está listo para evaluar?</a>
+  <ul class="collapse">
+  <li><a href="#datos-básicos" id="toc-datos-básicos" class="nav-link" data-scroll-target="#datos-básicos"><span class="header-section-number">7.4.1</span> Datos básicos</a></li>
+  <li><a href="#calidad-de-los-datos" id="toc-calidad-de-los-datos" class="nav-link" data-scroll-target="#calidad-de-los-datos"><span class="header-section-number">7.4.2</span> Calidad de los datos</a></li>
+  <li><a href="#información-del-programa" id="toc-información-del-programa" class="nav-link" data-scroll-target="#información-del-programa"><span class="header-section-number">7.4.3</span> Información del programa</a></li>
+  </ul></li>
+  <li><a href="#qué-sigue" id="toc-qué-sigue" class="nav-link" data-scroll-target="#qué-sigue"><span class="header-section-number">7.5</span> ¿Qué sigue?</a></li>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen"><span class="header-section-number">7.6</span> Resumen</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/edit/main/capitulos/01-monitoreo-a-evaluacion.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/01-marco-logico.html">PARTE 1 — Sistemas de monitoreo</a></li><li class="breadcrumb-item"><a href="../capitulos/01-monitoreo-a-evaluacion.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">De monitoreo a evaluación</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-monitoreo-evaluacion" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">De monitoreo a evaluación</span></span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Código</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Mostrar todo el código</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Ocultar todo el código</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">Ver el código fuente</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="el-monitoreo-como-cimiento-de-la-evaluación" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="el-monitoreo-como-cimiento-de-la-evaluación"><span class="header-section-number">7.1</span> El monitoreo como cimiento de la evaluación</h2>
+<p>El monitoreo y la evaluación de impacto no son actividades independientes. Un buen sistema de monitoreo proporciona los datos que la evaluación necesita, y la evaluación le da sentido a los datos que el monitoreo recolecta.</p>
+<p>Sin embargo, hay una diferencia fundamental entre ambos:</p>
+<ul>
+<li>El <strong>monitoreo</strong> responde: <em>¿estamos haciendo lo que dijimos que haríamos?</em></li>
+<li>La <strong>evaluación de impacto</strong> responde: <em>¿lo que hicimos está generando el cambio que esperábamos?</em></li>
+</ul>
+<div class="cell" data-layout-align="default">
+<details class="code-fold">
+<summary>Mostrar código R</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1"></a>flowchart LR</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    subgraph MON["Sistema de monitoreo"]</span>
+<span id="cb1-3"><a href="#cb1-3"></a>        direction TB</span>
+<span id="cb1-4"><a href="#cb1-4"></a>        M1["Registros de\nactividades"] --&gt; M2["Seguimiento\nde productos"]</span>
+<span id="cb1-5"><a href="#cb1-5"></a>        M2 --&gt; M3["Indicadores de\ncobertura y calidad"]</span>
+<span id="cb1-6"><a href="#cb1-6"></a>    end</span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a>    subgraph EVAL["Evaluación de impacto"]</span>
+<span id="cb1-9"><a href="#cb1-9"></a>        direction TB</span>
+<span id="cb1-10"><a href="#cb1-10"></a>        E1["Línea base"] --&gt; E2["Datos de\nseguimiento"]</span>
+<span id="cb1-11"><a href="#cb1-11"></a>        E2 --&gt; E3["Análisis causal\ndel efecto"]</span>
+<span id="cb1-12"><a href="#cb1-12"></a>    end</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a>    MON -- "Datos de implementación,\ncovariables, fidelidad" --&gt; EVAL</span>
+<span id="cb1-15"><a href="#cb1-15"></a>    EVAL -- "Retroalimentación:\n¿qué ajustar?" --&gt; MON</span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a>    style MON fill:#E8F5E9,stroke:#0F6E56,color:#000</span>
+<span id="cb1-18"><a href="#cb1-18"></a>    style EVAL fill:#E8F4FD,stroke:#185FA5,color:#000</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-monitoreo-evaluacion" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-monitoreo-evaluacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-monitoreo-evaluacion">flowchart LR
+    subgraph MON["Sistema de monitoreo"]
+        direction TB
+        M1["Registros de\nactividades"] --&gt; M2["Seguimiento\nde productos"]
+        M2 --&gt; M3["Indicadores de\ncobertura y calidad"]
+    end
+
+    subgraph EVAL["Evaluación de impacto"]
+        direction TB
+        E1["Línea base"] --&gt; E2["Datos de\nseguimiento"]
+        E2 --&gt; E3["Análisis causal\ndel efecto"]
+    end
+
+    MON -- "Datos de implementación,\ncovariables, fidelidad" --&gt; EVAL
+    EVAL -- "Retroalimentación:\n¿qué ajustar?" --&gt; MON
+
+    style MON fill:#E8F5E9,stroke:#0F6E56,color:#000
+    style EVAL fill:#E8F4FD,stroke:#185FA5,color:#000
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-monitoreo-evaluacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.1: Cómo el monitoreo alimenta la evaluación de impacto
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="qué-datos-de-monitoreo-sirven-para-la-evaluación" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="qué-datos-de-monitoreo-sirven-para-la-evaluación"><span class="header-section-number">7.2</span> ¿Qué datos de monitoreo sirven para la evaluación?</h2>
+<p>No todos los datos de monitoreo son útiles para la evaluación de impacto, pero varios de ellos son indispensables:</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-datos-monitoreo-eval" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-datos-monitoreo-eval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;7.1: Datos de monitoreo que alimentan la evaluación de impacto
+</figcaption>
+<div aria-describedby="tbl-datos-monitoreo-eval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 46%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dato de monitoreo</th>
+<th style="text-align: left;">Uso en la evaluación</th>
+<th style="text-align: left;">Si falta este dato…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Registro de beneficiarios</td>
+<td style="text-align: left;">Definir el grupo de tratamiento e identificar el grupo de comparación</td>
+<td style="text-align: left;">No puede identificar quién recibió el programa</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dosis de tratamiento recibida</td>
+<td style="text-align: left;">Estimar efectos según la intensidad del programa (análisis de dosis-respuesta)</td>
+<td style="text-align: left;">Solo puede estimar un efecto promedio, no por intensidad</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fechas de implementación</td>
+<td style="text-align: left;">Determinar los periodos pre y post para el análisis</td>
+<td style="text-align: left;">No puede definir correctamente los periodos de análisis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cobertura geográfica</td>
+<td style="text-align: left;">Controlar por heterogeneidad geográfica y seleccionar comparaciones adecuadas</td>
+<td style="text-align: left;">Pierde precisión y puede confundir efectos regionales con efectos del programa</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Indicadores de calidad de implementación</td>
+<td style="text-align: left;">Distinguir entre falla del programa (mala implementación) y falla de la teoría (el programa no funciona)</td>
+<td style="text-align: left;">No puede distinguir por qué el programa no tuvo efecto</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Razones de abandono o exclusión</td>
+<td style="text-align: left;">Verificar si la atrición introduce sesgo de selección</td>
+<td style="text-align: left;">El análisis puede estar sesgado sin saberlo</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="errores-comunes-que-comprometen-la-evaluación" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="errores-comunes-que-comprometen-la-evaluación"><span class="header-section-number">7.3</span> Errores comunes que comprometen la evaluación</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Siete errores del monitoreo que arruinan una evaluación
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>1. No registrar quién NO recibió el programa.</strong> El monitoreo se enfoca naturalmente en los beneficiarios, pero la evaluación necesita también datos del grupo de comparación. Si solo tiene datos de los participantes, no puede construir un contrafactual.</p>
+<p><strong>2. No tener datos de antes del programa.</strong> Sin línea base, la mayoría de métodos de evaluación son imposibles o muy débiles. Recolecte datos <em>antes</em> de que el programa empiece.</p>
+<p><strong>3. Cambiar los indicadores a mitad de camino.</strong> Si en el año 1 midió “ingreso mensual” y en el año 2 cambió a “ingreso semanal”, no puede comparar las mediciones directamente.</p>
+<p><strong>4. Datos incompletos o con calidad deficiente.</strong> Registros con celdas vacías, errores de digitación, o formatos inconsistentes son difíciles de usar en un análisis riguroso.</p>
+<p><strong>5. No registrar la dosis de tratamiento.</strong> Si algunos beneficiarios asistieron a 2 de 10 talleres y otros a los 10, eso importa para la evaluación. Registre cuánto recibió cada persona.</p>
+<p><strong>6. Ausencia de grupo de comparación.</strong> Muchos programas solo recolectan datos de los beneficiarios. Sin un grupo de comparación, no hay contrafactual.</p>
+<p><strong>7. No documentar los cambios en la implementación.</strong> Si el programa cambió de estrategia a mitad de camino (por ejemplo, pasó de visitas domiciliarias a talleres grupales), eso debe estar documentado para interpretar los resultados.</p>
+</div>
+</div>
+</section>
+<section id="checklist-está-listo-para-evaluar" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="checklist-está-listo-para-evaluar"><span class="header-section-number">7.4</span> Checklist: ¿está listo para evaluar?</h2>
+<p>Use esta lista para determinar si sus datos de monitoreo son suficientes para realizar una evaluación de impacto:</p>
+<section id="datos-básicos" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="datos-básicos"><span class="header-section-number">7.4.1</span> Datos básicos</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">¿Tiene una <strong>lista completa de beneficiarios</strong> con identificador único?</label></li>
+<li><label><input type="checkbox">¿Tiene datos de un <strong>grupo de comparación</strong> (personas/unidades que no recibieron el programa)?</label></li>
+<li><label><input type="checkbox">¿Tiene datos de <strong>antes</strong> de que el programa comenzara (línea base)?</label></li>
+<li><label><input type="checkbox">¿Tiene datos de <strong>después</strong> de un tiempo razonable de implementación?</label></li>
+</ul>
+</section>
+<section id="calidad-de-los-datos" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="calidad-de-los-datos"><span class="header-section-number">7.4.2</span> Calidad de los datos</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">¿Los datos están en formato <strong>digital</strong> y organizado (no en cuadernos o archivos dispersos)?</label></li>
+<li><label><input type="checkbox">¿Las <strong>mismas variables</strong> se midieron de la misma forma en todos los periodos?</label></li>
+<li><label><input type="checkbox">¿Los datos están <strong>razonablemente completos</strong> (menos del 20% de valores faltantes en variables clave)?</label></li>
+<li><label><input type="checkbox">¿Se puede <strong>vincular</strong> a la misma persona/unidad entre la línea base y el seguimiento?</label></li>
+</ul>
+</section>
+<section id="información-del-programa" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="información-del-programa"><span class="header-section-number">7.4.3</span> Información del programa</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">¿Sabe <strong>cuándo</strong> comenzó el programa en cada ubicación o grupo?</label></li>
+<li><label><input type="checkbox">¿Sabe <strong>cuánto</strong> recibió cada beneficiario (dosis, duración, número de sesiones)?</label></li>
+<li><label><input type="checkbox">¿Conoce la <strong>razón</strong> por la que unas personas recibieron el programa y otras no?</label></li>
+<li><label><input type="checkbox">¿Están documentados los <strong>cambios</strong> que hubo en la implementación?</label></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Interprete su resultado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>12 de 12 casillas marcadas:</strong> Excelente — puede proceder con la evaluación con confianza.</li>
+<li><strong>9-11 casillas:</strong> Puede hacer una evaluación, pero con algunas limitaciones. Identifique las brechas.</li>
+<li><strong>6-8 casillas:</strong> La evaluación será difícil. Considere recolectar los datos faltantes antes de proceder.</li>
+<li><strong>Menos de 6:</strong> Probablemente necesita fortalecer primero su sistema de monitoreo antes de intentar una evaluación de impacto.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="qué-sigue" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="qué-sigue"><span class="header-section-number">7.5</span> ¿Qué sigue?</h2>
+<p>Si respondió afirmativamente a la mayoría de las preguntas del checklist, está listo para avanzar al siguiente paso: <strong>elegir el método de evaluación más apropiado para su contexto</strong>.</p>
+<p>La <a href="../capitulos/02-autodiagnostico.html">Herramienta de autodiagnóstico</a> en la Parte 2 le guiará a través de una serie de preguntas interactivas para identificar qué método se ajusta mejor a su programa, sus datos disponibles y las preguntas que quiere responder.</p>
+</section>
+<section id="resumen" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="resumen"><span class="header-section-number">7.6</span> Resumen</h2>
+<p>El monitoreo y la evaluación están íntimamente conectados:</p>
+<ul>
+<li>Los datos de monitoreo son <strong>insumos esenciales</strong> para la evaluación.</li>
+<li>La evaluación necesita datos que el monitoreo rutinario a menudo <strong>no recolecta</strong> (línea base, grupo de comparación).</li>
+<li>Planifique ambos de forma <strong>integrada</strong> desde el diseño del programa.</li>
+<li>Use el checklist para verificar si está listo para evaluar.</li>
+<li>Si tiene brechas, invierta en cerrarlas antes de comprometerse con un método de evaluación.</li>
+</ul>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/01-linea-base.html" class="pagination-link" aria-label="Línea base y datos de seguimiento">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Línea base y datos de seguimiento</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../capitulos/02-autodiagnostico.html" class="pagination-link" aria-label="Herramienta de autodiagnóstico">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Herramienta de autodiagnóstico</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Ejecutar el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu"># De monitoreo a evaluación {#sec-monitoreo-evaluacion}</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">## El monitoreo como cimiento de la evaluación</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a>El monitoreo y la evaluación de impacto no son actividades independientes. Un buen sistema de monitoreo proporciona los datos que la evaluación necesita, y la evaluación le da sentido a los datos que el monitoreo recolecta.</span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a>Sin embargo, hay una diferencia fundamental entre ambos:</span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="ss">- </span>El **monitoreo** responde: *¿estamos haciendo lo que dijimos que haríamos?*</span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="ss">- </span>La **evaluación de impacto** responde: *¿lo que hicimos está generando el cambio que esperábamos?*</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="in">```{mermaid}</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Cómo el monitoreo alimenta la evaluación de impacto</span><span class="ot">"</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a>%%| label: fig-monitoreo-evaluacion</span>
+<span id="cb2-17"><a href="#cb2-17"></a></span>
+<span id="cb2-18"><a href="#cb2-18"></a>flowchart LR</span>
+<span id="cb2-19"><a href="#cb2-19"></a>    subgraph MON[<span class="ot">"</span><span class="st">Sistema de monitoreo</span><span class="ot">"</span>]</span>
+<span id="cb2-20"><a href="#cb2-20"></a>        direction TB</span>
+<span id="cb2-21"><a href="#cb2-21"></a>        M1[<span class="ot">"</span><span class="st">Registros de</span><span class="ch">\n</span><span class="st">actividades</span><span class="ot">"</span>] --&gt; M2[<span class="ot">"</span><span class="st">Seguimiento</span><span class="ch">\n</span><span class="st">de productos</span><span class="ot">"</span>]</span>
+<span id="cb2-22"><a href="#cb2-22"></a>        M2 --&gt; M3[<span class="ot">"</span><span class="st">Indicadores de</span><span class="ch">\n</span><span class="st">cobertura y calidad</span><span class="ot">"</span>]</span>
+<span id="cb2-23"><a href="#cb2-23"></a>    end</span>
+<span id="cb2-24"><a href="#cb2-24"></a></span>
+<span id="cb2-25"><a href="#cb2-25"></a>    subgraph EVAL[<span class="ot">"</span><span class="st">Evaluación de impacto</span><span class="ot">"</span>]</span>
+<span id="cb2-26"><a href="#cb2-26"></a>        direction TB</span>
+<span id="cb2-27"><a href="#cb2-27"></a>        E1[<span class="ot">"</span><span class="st">Línea base</span><span class="ot">"</span>] --&gt; E2[<span class="ot">"</span><span class="st">Datos de</span><span class="ch">\n</span><span class="st">seguimiento</span><span class="ot">"</span>]</span>
+<span id="cb2-28"><a href="#cb2-28"></a>        E2 --&gt; E3[<span class="ot">"</span><span class="st">Análisis causal</span><span class="ch">\n</span><span class="st">del efecto</span><span class="ot">"</span>]</span>
+<span id="cb2-29"><a href="#cb2-29"></a>    end</span>
+<span id="cb2-30"><a href="#cb2-30"></a></span>
+<span id="cb2-31"><a href="#cb2-31"></a>    MON -- <span class="ot">"</span><span class="st">Datos de implementación,</span><span class="ch">\n</span><span class="st">covariables, fidelidad</span><span class="ot">"</span> --&gt; EVAL</span>
+<span id="cb2-32"><a href="#cb2-32"></a>    EVAL -- <span class="ot">"</span><span class="st">Retroalimentación:</span><span class="ch">\n</span><span class="st">¿qué ajustar?</span><span class="ot">"</span> --&gt; MON</span>
+<span id="cb2-33"><a href="#cb2-33"></a></span>
+<span id="cb2-34"><a href="#cb2-34"></a>    style MON fill:<span class="co">#E8F5E9,stroke:#0F6E56,color:#000</span></span>
+<span id="cb2-35"><a href="#cb2-35"></a>    style EVAL fill:<span class="co">#E8F4FD,stroke:#185FA5,color:#000</span></span>
+<span id="cb2-36"><a href="#cb2-36"></a><span class="in">```</span></span>
+<span id="cb2-37"><a href="#cb2-37"></a></span>
+<span id="cb2-38"><a href="#cb2-38"></a><span class="fu">## ¿Qué datos de monitoreo sirven para la evaluación?</span></span>
+<span id="cb2-39"><a href="#cb2-39"></a></span>
+<span id="cb2-40"><a href="#cb2-40"></a>No todos los datos de monitoreo son útiles para la evaluación de impacto, pero varios de ellos son indispensables:</span>
+<span id="cb2-41"><a href="#cb2-41"></a></span>
+<span id="cb2-44"><a href="#cb2-44"></a><span class="in">```{r}</span></span>
+<span id="cb2-45"><a href="#cb2-45"></a><span class="co">#| label: tbl-datos-monitoreo-eval</span></span>
+<span id="cb2-46"><a href="#cb2-46"></a><span class="co">#| tbl-cap: "Datos de monitoreo que alimentan la evaluación de impacto"</span></span>
+<span id="cb2-47"><a href="#cb2-47"></a><span class="co">#| echo: false</span></span>
+<span id="cb2-48"><a href="#cb2-48"></a></span>
+<span id="cb2-49"><a href="#cb2-49"></a>datos_me <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-50"><a href="#cb2-50"></a>  <span class="at">Dato_monitoreo =</span> <span class="fu">c</span>(</span>
+<span id="cb2-51"><a href="#cb2-51"></a>    <span class="st">"Registro de beneficiarios"</span>,</span>
+<span id="cb2-52"><a href="#cb2-52"></a>    <span class="st">"Dosis de tratamiento recibida"</span>,</span>
+<span id="cb2-53"><a href="#cb2-53"></a>    <span class="st">"Fechas de implementación"</span>,</span>
+<span id="cb2-54"><a href="#cb2-54"></a>    <span class="st">"Cobertura geográfica"</span>,</span>
+<span id="cb2-55"><a href="#cb2-55"></a>    <span class="st">"Indicadores de calidad de implementación"</span>,</span>
+<span id="cb2-56"><a href="#cb2-56"></a>    <span class="st">"Razones de abandono o exclusión"</span></span>
+<span id="cb2-57"><a href="#cb2-57"></a>  ),</span>
+<span id="cb2-58"><a href="#cb2-58"></a>  <span class="at">Uso_evaluacion =</span> <span class="fu">c</span>(</span>
+<span id="cb2-59"><a href="#cb2-59"></a>    <span class="st">"Definir el grupo de tratamiento e identificar el grupo de comparación"</span>,</span>
+<span id="cb2-60"><a href="#cb2-60"></a>    <span class="st">"Estimar efectos según la intensidad del programa (análisis de dosis-respuesta)"</span>,</span>
+<span id="cb2-61"><a href="#cb2-61"></a>    <span class="st">"Determinar los periodos pre y post para el análisis"</span>,</span>
+<span id="cb2-62"><a href="#cb2-62"></a>    <span class="st">"Controlar por heterogeneidad geográfica y seleccionar comparaciones adecuadas"</span>,</span>
+<span id="cb2-63"><a href="#cb2-63"></a>    <span class="st">"Distinguir entre falla del programa (mala implementación) y falla de la teoría (el programa no funciona)"</span>,</span>
+<span id="cb2-64"><a href="#cb2-64"></a>    <span class="st">"Verificar si la atrición introduce sesgo de selección"</span></span>
+<span id="cb2-65"><a href="#cb2-65"></a>  ),</span>
+<span id="cb2-66"><a href="#cb2-66"></a>  <span class="at">Si_falta =</span> <span class="fu">c</span>(</span>
+<span id="cb2-67"><a href="#cb2-67"></a>    <span class="st">"No puede identificar quién recibió el programa"</span>,</span>
+<span id="cb2-68"><a href="#cb2-68"></a>    <span class="st">"Solo puede estimar un efecto promedio, no por intensidad"</span>,</span>
+<span id="cb2-69"><a href="#cb2-69"></a>    <span class="st">"No puede definir correctamente los periodos de análisis"</span>,</span>
+<span id="cb2-70"><a href="#cb2-70"></a>    <span class="st">"Pierde precisión y puede confundir efectos regionales con efectos del programa"</span>,</span>
+<span id="cb2-71"><a href="#cb2-71"></a>    <span class="st">"No puede distinguir por qué el programa no tuvo efecto"</span>,</span>
+<span id="cb2-72"><a href="#cb2-72"></a>    <span class="st">"El análisis puede estar sesgado sin saberlo"</span></span>
+<span id="cb2-73"><a href="#cb2-73"></a>  )</span>
+<span id="cb2-74"><a href="#cb2-74"></a>)</span>
+<span id="cb2-75"><a href="#cb2-75"></a></span>
+<span id="cb2-76"><a href="#cb2-76"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(datos_me,</span>
+<span id="cb2-77"><a href="#cb2-77"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Dato de monitoreo"</span>, <span class="st">"Uso en la evaluación"</span>, <span class="st">"Si falta este dato..."</span>))</span>
+<span id="cb2-78"><a href="#cb2-78"></a><span class="in">```</span></span>
+<span id="cb2-79"><a href="#cb2-79"></a></span>
+<span id="cb2-80"><a href="#cb2-80"></a><span class="fu">## Errores comunes que comprometen la evaluación</span></span>
+<span id="cb2-81"><a href="#cb2-81"></a></span>
+<span id="cb2-82"><a href="#cb2-82"></a>::: {.callout-warning}</span>
+<span id="cb2-83"><a href="#cb2-83"></a><span class="fu">## Siete errores del monitoreo que arruinan una evaluación</span></span>
+<span id="cb2-84"><a href="#cb2-84"></a></span>
+<span id="cb2-85"><a href="#cb2-85"></a>**1. No registrar quién NO recibió el programa.** El monitoreo se enfoca naturalmente en los beneficiarios, pero la evaluación necesita también datos del grupo de comparación. Si solo tiene datos de los participantes, no puede construir un contrafactual.</span>
+<span id="cb2-86"><a href="#cb2-86"></a></span>
+<span id="cb2-87"><a href="#cb2-87"></a>**2. No tener datos de antes del programa.** Sin línea base, la mayoría de métodos de evaluación son imposibles o muy débiles. Recolecte datos *antes* de que el programa empiece.</span>
+<span id="cb2-88"><a href="#cb2-88"></a></span>
+<span id="cb2-89"><a href="#cb2-89"></a>**3. Cambiar los indicadores a mitad de camino.** Si en el año 1 midió "ingreso mensual" y en el año 2 cambió a "ingreso semanal", no puede comparar las mediciones directamente.</span>
+<span id="cb2-90"><a href="#cb2-90"></a></span>
+<span id="cb2-91"><a href="#cb2-91"></a>**4. Datos incompletos o con calidad deficiente.** Registros con celdas vacías, errores de digitación, o formatos inconsistentes son difíciles de usar en un análisis riguroso.</span>
+<span id="cb2-92"><a href="#cb2-92"></a></span>
+<span id="cb2-93"><a href="#cb2-93"></a>**5. No registrar la dosis de tratamiento.** Si algunos beneficiarios asistieron a 2 de 10 talleres y otros a los 10, eso importa para la evaluación. Registre cuánto recibió cada persona.</span>
+<span id="cb2-94"><a href="#cb2-94"></a></span>
+<span id="cb2-95"><a href="#cb2-95"></a>**6. Ausencia de grupo de comparación.** Muchos programas solo recolectan datos de los beneficiarios. Sin un grupo de comparación, no hay contrafactual.</span>
+<span id="cb2-96"><a href="#cb2-96"></a></span>
+<span id="cb2-97"><a href="#cb2-97"></a>**7. No documentar los cambios en la implementación.** Si el programa cambió de estrategia a mitad de camino (por ejemplo, pasó de visitas domiciliarias a talleres grupales), eso debe estar documentado para interpretar los resultados.</span>
+<span id="cb2-98"><a href="#cb2-98"></a>:::</span>
+<span id="cb2-99"><a href="#cb2-99"></a></span>
+<span id="cb2-100"><a href="#cb2-100"></a><span class="fu">## Checklist: ¿está listo para evaluar?</span></span>
+<span id="cb2-101"><a href="#cb2-101"></a></span>
+<span id="cb2-102"><a href="#cb2-102"></a>Use esta lista para determinar si sus datos de monitoreo son suficientes para realizar una evaluación de impacto:</span>
+<span id="cb2-103"><a href="#cb2-103"></a></span>
+<span id="cb2-104"><a href="#cb2-104"></a><span class="fu">### Datos básicos</span></span>
+<span id="cb2-105"><a href="#cb2-105"></a></span>
+<span id="cb2-106"><a href="#cb2-106"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Tiene una **lista completa de beneficiarios** con identificador único?</span>
+<span id="cb2-107"><a href="#cb2-107"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Tiene datos de un **grupo de comparación** (personas/unidades que no recibieron el programa)?</span>
+<span id="cb2-108"><a href="#cb2-108"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Tiene datos de **antes** de que el programa comenzara (línea base)?</span>
+<span id="cb2-109"><a href="#cb2-109"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Tiene datos de **después** de un tiempo razonable de implementación?</span>
+<span id="cb2-110"><a href="#cb2-110"></a></span>
+<span id="cb2-111"><a href="#cb2-111"></a><span class="fu">### Calidad de los datos</span></span>
+<span id="cb2-112"><a href="#cb2-112"></a></span>
+<span id="cb2-113"><a href="#cb2-113"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Los datos están en formato **digital** y organizado (no en cuadernos o archivos dispersos)?</span>
+<span id="cb2-114"><a href="#cb2-114"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Las **mismas variables** se midieron de la misma forma en todos los periodos?</span>
+<span id="cb2-115"><a href="#cb2-115"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Los datos están **razonablemente completos** (menos del 20% de valores faltantes en variables clave)?</span>
+<span id="cb2-116"><a href="#cb2-116"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se puede **vincular** a la misma persona/unidad entre la línea base y el seguimiento?</span>
+<span id="cb2-117"><a href="#cb2-117"></a></span>
+<span id="cb2-118"><a href="#cb2-118"></a><span class="fu">### Información del programa</span></span>
+<span id="cb2-119"><a href="#cb2-119"></a></span>
+<span id="cb2-120"><a href="#cb2-120"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Sabe **cuándo** comenzó el programa en cada ubicación o grupo?</span>
+<span id="cb2-121"><a href="#cb2-121"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Sabe **cuánto** recibió cada beneficiario (dosis, duración, número de sesiones)?</span>
+<span id="cb2-122"><a href="#cb2-122"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Conoce la **razón** por la que unas personas recibieron el programa y otras no?</span>
+<span id="cb2-123"><a href="#cb2-123"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Están documentados los **cambios** que hubo en la implementación?</span>
+<span id="cb2-124"><a href="#cb2-124"></a></span>
+<span id="cb2-125"><a href="#cb2-125"></a>::: {.callout-tip}</span>
+<span id="cb2-126"><a href="#cb2-126"></a><span class="fu">## Interprete su resultado</span></span>
+<span id="cb2-127"><a href="#cb2-127"></a><span class="ss">- </span>**12 de 12 casillas marcadas:** Excelente — puede proceder con la evaluación con confianza.</span>
+<span id="cb2-128"><a href="#cb2-128"></a><span class="ss">- </span>**9-11 casillas:** Puede hacer una evaluación, pero con algunas limitaciones. Identifique las brechas.</span>
+<span id="cb2-129"><a href="#cb2-129"></a><span class="ss">- </span>**6-8 casillas:** La evaluación será difícil. Considere recolectar los datos faltantes antes de proceder.</span>
+<span id="cb2-130"><a href="#cb2-130"></a><span class="ss">- </span>**Menos de 6:** Probablemente necesita fortalecer primero su sistema de monitoreo antes de intentar una evaluación de impacto.</span>
+<span id="cb2-131"><a href="#cb2-131"></a>:::</span>
+<span id="cb2-132"><a href="#cb2-132"></a></span>
+<span id="cb2-133"><a href="#cb2-133"></a><span class="fu">## ¿Qué sigue?</span></span>
+<span id="cb2-134"><a href="#cb2-134"></a></span>
+<span id="cb2-135"><a href="#cb2-135"></a>Si respondió afirmativamente a la mayoría de las preguntas del checklist, está listo para avanzar al siguiente paso: **elegir el método de evaluación más apropiado para su contexto**.</span>
+<span id="cb2-136"><a href="#cb2-136"></a></span>
+<span id="cb2-137"><a href="#cb2-137"></a>La <span class="co">[</span><span class="ot">Herramienta de autodiagnóstico</span><span class="co">](02-autodiagnostico.qmd)</span> en la Parte 2 le guiará a través de una serie de preguntas interactivas para identificar qué método se ajusta mejor a su programa, sus datos disponibles y las preguntas que quiere responder.</span>
+<span id="cb2-138"><a href="#cb2-138"></a></span>
+<span id="cb2-139"><a href="#cb2-139"></a><span class="fu">## Resumen</span></span>
+<span id="cb2-140"><a href="#cb2-140"></a></span>
+<span id="cb2-141"><a href="#cb2-141"></a>El monitoreo y la evaluación están íntimamente conectados:</span>
+<span id="cb2-142"><a href="#cb2-142"></a></span>
+<span id="cb2-143"><a href="#cb2-143"></a><span class="ss">- </span>Los datos de monitoreo son **insumos esenciales** para la evaluación.</span>
+<span id="cb2-144"><a href="#cb2-144"></a><span class="ss">- </span>La evaluación necesita datos que el monitoreo rutinario a menudo **no recolecta** (línea base, grupo de comparación).</span>
+<span id="cb2-145"><a href="#cb2-145"></a><span class="ss">- </span>Planifique ambos de forma **integrada** desde el diseño del programa.</span>
+<span id="cb2-146"><a href="#cb2-146"></a><span class="ss">- </span>Use el checklist para verificar si está listo para evaluar.</span>
+<span id="cb2-147"><a href="#cb2-147"></a><span class="ss">- </span>Si tiene brechas, invierta en cerrarlas antes de comprometerse con un método de evaluación.</span>
+</code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/edit/main/capitulos/01-monitoreo-a-evaluacion.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></div></div></footer><script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

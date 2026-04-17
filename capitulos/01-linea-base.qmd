@@ -1,0 +1,257 @@
+# Línea base y datos de seguimiento {#sec-linea-base}
+
+## ¿Qué es una línea base?
+
+Una **línea base** es la medición de los indicadores clave **antes** de que el programa comience. Es la "foto" del punto de partida que permite, después, calcular cuánto cambió la situación.
+
+Sin línea base, no es posible saber si las condiciones mejoraron, empeoraron o se mantuvieron igual. Es como querer saber cuánto peso perdió un paciente sin haberlo pesado antes de empezar la dieta.
+
+::: {.callout-note}
+## ¿Por qué la línea base es indispensable?
+La línea base cumple tres funciones:
+
+1. **Medir el punto de partida** de las variables de resultado.
+2. **Verificar que los grupos de tratamiento y comparación son similares** al inicio (balance de covariables).
+3. **Proporcionar datos para estimar el tamaño de muestra** necesario para detectar el efecto esperado.
+:::
+
+## ¿Qué medir en la línea base?
+
+Las variables que debe incluir en su línea base dependen de su teoría de cambio y del método de evaluación que planea usar. Sin embargo, hay categorías comunes a la mayoría de programas:
+
+```{r}
+#| label: tbl-variables-lb
+#| tbl-cap: "Variables a incluir en una encuesta de línea base"
+#| echo: false
+
+variables <- data.frame(
+  Categoria = c(
+    "Variables de resultado",
+    "Variables de resultado",
+    "Indicador de tratamiento",
+    "Características demográficas",
+    "Características socioeconómicas",
+    "Variables geográficas",
+    "Variables específicas del programa",
+    "Variables de contexto"
+  ),
+  Descripcion = c(
+    "El indicador principal que el programa busca cambiar",
+    "Indicadores secundarios relevantes",
+    "Quién recibe o recibirá el programa",
+    "Edad, sexo, nivel educativo, composición del hogar",
+    "Ingresos, empleo, acceso a servicios, activos",
+    "Ubicación, zona (rural/urbana), distancia a servicios",
+    "Variables relacionadas con el mecanismo causal del programa",
+    "Acceso a otros programas, eventos externos relevantes"
+  ),
+  Ejemplo = c(
+    "Tasa de desnutrición crónica, rendimiento escolar, ingreso per cápita",
+    "Diversidad de dieta, asistencia escolar, ahorro",
+    "1 = participante del programa, 0 = no participante",
+    "Edad del jefe de hogar, % de mujeres, años de educación",
+    "Ingreso mensual, tipo de empleo, acceso a crédito",
+    "Municipio, vereda, distancia al centro de salud más cercano",
+    "Prácticas agrícolas actuales, conocimientos previos, actitudes",
+    "Beneficiario de Familias en Acción, presencia de otros proyectos"
+  ),
+  Importancia = c(
+    "Esencial — sin esto no hay evaluación",
+    "Importante — fortalece el análisis",
+    "Esencial — define los grupos de comparación",
+    "Importante — necesarias como covariables de control",
+    "Importante — necesarias como covariables de control",
+    "Importante — permite análisis por subgrupos",
+    "Crítica — vinculada a la teoría de cambio",
+    "Importante — ayuda a controlar por factores externos"
+  )
+)
+
+knitr::kable(variables,
+             col.names = c("Categoría", "Descripción", "Ejemplo", "Importancia"))
+```
+
+### Variables según el método de evaluación planeado
+
+Algunos métodos de evaluación requieren variables específicas en la línea base:
+
+```{r}
+#| label: tbl-variables-por-metodo
+#| tbl-cap: "Variables adicionales según el método de evaluación"
+#| echo: false
+
+por_metodo <- data.frame(
+  Metodo = c(
+    "Experimento aleatorio (RCT)",
+    "Diferencias en diferencias (DiD)",
+    "Matching / Propensity Score",
+    "Variables instrumentales / RDD",
+    "Métodos cualitativos"
+  ),
+  Variable_extra = c(
+    "Variable de asignación al azar (número de sorteo, bloque de aleatorización)",
+    "Datos de varios periodos pre-tratamiento para verificar tendencias paralelas",
+    "El mayor número posible de covariables observables para construir el propensity score",
+    "La variable que determina la elegibilidad (puntaje, ingreso, distancia al umbral)",
+    "Información sobre actores clave, contexto institucional, relaciones de poder"
+  ),
+  Por_que = c(
+    "Permite verificar que la aleatorización funcionó correctamente",
+    "Sin datos pre-tratamiento no puede verificar el supuesto clave del DiD",
+    "La calidad del matching depende de cuántas variables observables se incluyan",
+    "Necesita observaciones cerca del punto de corte de elegibilidad",
+    "Los métodos cualitativos requieren comprensión profunda del contexto"
+  )
+)
+
+knitr::kable(por_metodo,
+             col.names = c("Método", "Variable adicional necesaria", "¿Por qué?"))
+```
+
+## Diseño del cuestionario de línea base
+
+### Principios generales
+
+::: {.pasos-container}
+::: {.paso}
+**Parta de su marco lógico.** Cada indicador del marco lógico que se mide con encuesta debe traducirse en una o más preguntas del cuestionario.
+:::
+
+::: {.paso}
+**Use instrumentos validados cuando existan.** Para muchas variables estándar (pobreza, seguridad alimentaria, salud) existen cuestionarios validados internacionalmente. Úselos en lugar de inventar preguntas nuevas.
+:::
+
+::: {.paso}
+**Sea preciso en las preguntas.** "¿Cuánto gana usted?" es muy diferente de "¿Cuál fue el ingreso total de su hogar en el último mes, incluyendo todos los miembros?". La segunda es mucho mejor.
+:::
+
+::: {.paso}
+**Incluya instrucciones claras para el encuestador.** Cada pregunta debe indicar cómo leerla, si se acepta respuesta múltiple, qué hacer si la persona no sabe o no quiere responder.
+:::
+
+::: {.paso}
+**Pilotee el cuestionario.** Aplíquelo a 10-20 personas antes de la recolección real. Identifique preguntas confusas, tiempos excesivos, y opciones de respuesta faltantes.
+:::
+:::
+
+### Ejemplo de cuestionario mínimo
+
+```{r}
+#| label: tbl-cuestionario-ejemplo
+#| tbl-cap: "Ejemplo de cuestionario de línea base para programa agrícola"
+#| echo: false
+
+cuestionario <- data.frame(
+  Seccion = c(
+    rep("A. Identificación", 4),
+    rep("B. Hogar", 3),
+    rep("C. Producción agrícola", 4),
+    rep("D. Programa", 2)
+  ),
+  Pregunta = c(
+    "A1. Código del beneficiario",
+    "A2. Municipio",
+    "A3. Vereda",
+    "A4. Fecha de la encuesta",
+    "B1. ¿Cuántas personas viven en este hogar?",
+    "B2. ¿Cuál es el nivel educativo más alto alcanzado por el jefe de hogar?",
+    "B3. ¿Cuál fue el ingreso total del hogar en el último mes?",
+    "C1. ¿Cuántas hectáreas cultiva actualmente?",
+    "C2. ¿Cuáles son los tres cultivos principales?",
+    "C3. ¿Cuántas toneladas cosechó del cultivo principal en la última temporada?",
+    "C4. ¿Usa actualmente alguna de estas técnicas? (lista de técnicas del programa)",
+    "D1. ¿Ha recibido capacitación agrícola en los últimos 12 meses? (Sí/No)",
+    "D2. Si sí, ¿de qué organización?"
+  ),
+  Tipo = c(
+    "Texto (código predefinido)",
+    "Selección de lista",
+    "Texto abierto",
+    "Fecha (DD/MM/AAAA)",
+    "Numérica (entero)",
+    "Selección: Ninguno / Primaria / Secundaria / Técnico / Universitario",
+    "Numérica (pesos colombianos)",
+    "Numérica (con decimales)",
+    "Texto (máximo 3 respuestas)",
+    "Numérica (con decimales)",
+    "Selección múltiple (marcar todas las que apliquen)",
+    "Binaria (Sí / No)",
+    "Texto abierto"
+  )
+)
+
+knitr::kable(cuestionario,
+             col.names = c("Sección", "Pregunta", "Tipo de respuesta"))
+```
+
+## Datos de seguimiento
+
+La línea base es solo la primera medición. Para una evaluación de impacto necesita al menos una medición posterior (**seguimiento** o *endline*). Algunos puntos clave:
+
+### Consistencia temporal
+
+::: {.callout-warning}
+## Use el mismo instrumento
+Las mediciones de seguimiento deben usar **exactamente las mismas preguntas** que la línea base. Si cambia la redacción, las opciones de respuesta o la forma de medir, no podrá comparar los datos de manera confiable.
+:::
+
+### ¿Cuántas mediciones de seguimiento?
+
+```{r}
+#| label: tbl-seguimientos
+#| tbl-cap: "Número de mediciones según el método de evaluación"
+#| echo: false
+
+seguimientos <- data.frame(
+  Metodo = c(
+    "RCT (experimento aleatorio)",
+    "Diferencias en diferencias",
+    "Matching",
+    "Métodos cualitativos"
+  ),
+  Minimo = c(
+    "1 (línea base + 1 seguimiento)",
+    "2-3 pre + 1-2 post (mínimo 3 periodos en total)",
+    "1 (línea base + 1 seguimiento, idealmente)",
+    "Depende del diseño — generalmente 2 rondas de recolección"
+  ),
+  Ideal = c(
+    "1 línea base + 2 seguimientos (corto y largo plazo)",
+    "3+ pre + 2+ post (para event study robusto)",
+    "Línea base + seguimiento, con datos administrativos complementarios",
+    "Rondas iterativas que permitan ajustar la indagación"
+  )
+)
+
+knitr::kable(seguimientos,
+             col.names = c("Método", "Mínimo necesario", "Ideal"))
+```
+
+### Atrición: el enemigo silencioso
+
+La **atrición** ocurre cuando personas que estaban en la línea base no se encuentran en el seguimiento — porque se mudaron, no quisieron responder, o no fue posible contactarlas. La atrición es un problema grave porque:
+
+- Reduce el tamaño de la muestra y el poder estadístico
+- Puede introducir sesgo si las personas que se pierden son sistemáticamente diferentes (por ejemplo, si los más pobres migran)
+
+::: {.callout-tip}
+## Cómo reducir la atrición
+
+- Recolecte **información de contacto completa**: teléfono, dirección, nombre de un vecino o familiar, coordenadas GPS.
+- **Explique a los participantes** que serán contactados en el futuro y por qué es importante.
+- Planifique **múltiples intentos de contacto** en diferentes horarios y días.
+- Registre las **razones** por las que no se pudo encuestar a alguien (migración, rechazo, fallecimiento, no localizado).
+- Presupueste un **sobre-muestreo** del 10-20% para compensar pérdidas esperadas.
+:::
+
+## Resumen
+
+La línea base y los datos de seguimiento son el insumo fundamental de cualquier evaluación de impacto:
+
+- Recolecte la línea base **antes** de que el programa comience.
+- Incluya variables de **resultado, tratamiento, covariables y contexto**.
+- Use el **mismo instrumento** en todas las mediciones.
+- Planifique contra la **atrición** desde el inicio.
+- Adapte las variables a las necesidades del **método de evaluación** que planea usar.
+
+En el siguiente capítulo veremos cómo los datos de monitoreo se conectan con la evaluación de impacto: [De monitoreo a evaluación](01-monitoreo-a-evaluacion.qmd).

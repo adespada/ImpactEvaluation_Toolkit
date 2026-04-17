@@ -1,0 +1,183 @@
+---
+format: html
+bibliography: ../referencias.bib
+---
+
+# Qualitative Impact Protocol (QuIP) {#sec-quip}
+
+## ¿Qué es el QuIP?
+
+El **Qualitative Impact Protocol (QuIP)** es un protocolo cualitativo, sistemático y costo-efectivo para la evaluación de impacto, desarrollado originalmente en la Universidad de Bath por James Copestake y colegas [@copestake2019]. Su propósito es proveer una **verificación de realidad** (*reality check*) sobre la teoría del cambio de una intervención, basada en el análisis riguroso del testimonio directo de los beneficiarios.
+
+El QuIP ocupa un lugar intermedio en el ecosistema evaluativo: entre el monitoreo de rutina —que suele centrarse en indicadores de desempeño internos— y la investigación longitudinal costosa. Actúa como un **mecanismo de retroalimentación de alto valor** que busca reparar el "bucle roto" (*broken feedback loop*) del desarrollo internacional: a diferencia de los consumidores comerciales o los votantes, los beneficiarios de programas sociales carecen de canales directos para expresar su experiencia o retirar apoyo a intervenciones ineficaces [@copestake2014].
+
+::: {.callout-note}
+## La idea clave
+El QuIP responde a la pregunta **"¿por qué ocurrieron los cambios?"** desde la perspectiva de quienes los vivieron. Su innovación central es el **doble ciego** (*double blindfolding*): ni los entrevistadores ni los beneficiarios saben qué programa se está evaluando, de modo que si el programa aparece mencionado en un testimonio, aparece **espontáneamente** y no por sugestión.
+:::
+
+### Los cuatro retos que aborda el QuIP
+
+| Reto | Rol del QuIP |
+|------|--------------|
+| **Especificación de objetivos** | Valida si los beneficiarios reconocen y valoran los cambios tal como los especifica la teoría del programa. |
+| **Monitoreo del cambio** | Complementa el seguimiento cuantitativo ofreciendo una lectura independiente de la dirección y significancia percibida del cambio. |
+| **Atribución causal** | Determina si los cambios observados fueron contribuidos por las acciones de la agencia o impulsados por factores externos incidentales. |
+| **Gestión adaptativa** | Entrega evidencia oportuna y accionable que permite a las agencias pivotar, ampliar o refinar actividades con base en retroalimentación matizada. |
+
+: Los cuatro retos de acción efectiva que aborda el QuIP {#tbl-quip-retos}
+
+## Marco teórico: negociando la interfaz cuali/cuanti
+
+La relación entre datos cualitativos y cuantitativos suele presentarse como un "Yin y Yang": un equilibrio necesario entre **magnitud** y **significado**. Definir esta interfaz es crítico para establecer evidencia creíble, pues la distinción se usa a menudo de forma simplista para descartar hallazgos cualitativos como no científicos. El QuIP demuestra que la credibilidad no reside en el tipo de dato, sino en **el rigor de los procesos granulares** con que se maneja ese dato [@copestake2014].
+
+Esta interfaz se negocia a través de tres lentes analíticos:
+
+- **Paradigmas**: el contraste entre mentalidades enfocadas en generar "hechos" (cuanti) y aquellas que persiguen "significado" (cuali).
+- **Herramientas**: la clasificación de instrumentos específicos, donde el QuIP se inscribe como una herramienta cualitativa que puede complementar o triangular con métodos cuantitativos.
+- **Procesos granulares**: el foco en **cómo** se maneja el dato —ya sea simplificándolo mediante codificación o reconstruyéndolo mediante síntesis.
+
+El QuIP sintetiza estos procesos a través del **Ciclo de Actividad de Investigación**, que se mueve entre la realidad infinitamente compleja y la evidencia simplificada en tres dimensiones críticas: tiempo, espacio y ontología.
+
+- **Encuadre y codificación**: selección de aspectos de la realidad y abstracción. Esta simplificación —la fase "cuanti" del ciclo— es necesaria para facilitar el análisis, pero introduce supuestos restrictivos.
+- **Re-encuadre y de-codificación**: reconstrucción de la complejidad. Mediante síntesis y triangulación, los investigadores contextualizan los hallazgos, regresando hacia la realidad compleja para entender el *por qué* detrás del dato codificado.
+
+## El reto de la atribución: auto-reportada vs. inferida estadísticamente
+
+La **atribución causal** —determinar si las acciones específicas de una agencia realmente contribuyeron al cambio observado— sigue siendo el obstáculo más persistente en evaluación de impacto. El QuIP aborda este reto mediante la **Atribución Auto-Reportada**, que se apoya en los contrafactuales incrustados en el lenguaje humano. Este enfoque ofrece una alternativa estratégica a la **Atribución Inferida Estadísticamente** de los diseños experimentales.
+
+| Característica | Atribución Auto-Reportada (QuIP) | Atribución Inferida (RCT) |
+|----------------|----------------------------------|---------------------------|
+| **Lógica** | Capacidad del respondiente de identificar y explicar motores causales en su propia narrativa. | Comparación de grupos tratamiento y control para estimar magnitudes promedio. |
+| **Contrafactual** | Incrustado en la narrativa (respondientes explicando qué habría pasado de otra forma). | Contrafactual independiente creado mediante diseño experimental o cuasi-experimental. |
+| **Mejor uso** | Contextos complejos, cambiantes o exploratorios donde son probables los efectos inesperados. | Entornos estables con resultados claramente especificados, fácilmente cuantificables y acotados. |
+| **Entregables** | Insight profundo sobre mecanismos causales y "efectos colaterales" positivos/negativos inesperados. | Estimaciones precisas de magnitud y significancia estadística para impactos típicos. |
+
+: Atribución auto-reportada vs. inferida estadísticamente {#tbl-quip-atribucion}
+
+Una función estratégica primaria del QuIP es servir como **verificación contra el solipsismo** en desarrollo. El solipsismo es un sesgo de confirmación cognitivo por el cual las agencias sobre-atribuyen los cambios positivos a sus propias acciones, ignorando factores externos o incidentales. El QuIP actúa como antídoto: al trabajar hacia atrás —desde los resultados hacia las causas— en formato "vendado", fuerza a las agencias a confrontar si sus actividades son citadas **voluntariamente** por los beneficiarios como motores significativos del cambio, o si son meramente incidentales frente a fuerzas económicas o ambientales mayores [@copestake2019].
+
+## Metodología: diseño, muestreo y "doble ciego"
+
+### La técnica del doble ciego
+
+Para neutralizar el sesgo pro-proyecto, el QuIP emplea **doble ciego**. Los investigadores de campo **no son informados** sobre el proyecto específico ni la identidad de la agencia comisionante; consecuentemente, los respondientes también quedan "vendados" frente a la intervención evaluada. Esto asegura que si una actividad del proyecto aparece mencionada, haya sido planteada por el respondiente **voluntariamente y sin inducción**. La técnica incrementa la credibilidad de la evidencia, pues la atribución resultante no está contaminada por el deseo de "agradar" al investigador.
+
+::: {.callout-tip}
+## ¿Por qué importa el doble ciego?
+En evaluación tradicional, cuando un investigador identificado con el programa pregunta "¿le ayudó el programa X?", los respondientes suelen responder afirmativamente por cortesía, gratitud o expectativa de beneficios futuros. El doble ciego elimina esta fuente de sesgo: si el respondiente menciona el programa espontáneamente al explicar por qué cambió su situación, esa mención tiene **peso evidencial genuino**.
+:::
+
+### Lógica de muestreo "small N"
+
+El QuIP utiliza muestreo **intencional de pequeño N** (*purposive small-N sampling*), típicamente entre **24 entrevistas de hogar y 4 grupos focales**. La lógica es de **profundidad y saturación**, no de representatividad estadística. El muestreo se guía por tres estrategias:
+
+1. **Variación contextual**: estratificar la muestra según diferencias conocidas como geografía o estatus socioeconómico.
+2. **Variación de exposición**: seleccionar respondientes según sus niveles diferenciales de interacción con las actividades del proyecto, para observar si los resultados varían en consecuencia.
+3. **Agrupamiento geográfico**: reducir costos logísticos mientras se permiten comparaciones locales profundas entre respondientes de la misma comunidad.
+
+### Instrumentos de recolección
+
+Los instrumentos QuIP usan una estructura secuenciada para mantener el "ciego" mientras se obtiene narrativa rica:
+
+- **Preguntas generativas**: prompts amplios y abiertos (p. ej., *"¿Cómo ha cambiado su capacidad para generar ingresos?"*) que permiten al respondiente establecer la agenda.
+- **Preguntas complementarias**: sondeos del *por qué* y el *cómo* para descubrir eslabones causales profundos y fuentes raíz del cambio.
+- **Preguntas cerradas**: chequeos perceptuales cuantificables al cierre de cada sección (p. ej., *"¿Su ingreso está mejor o peor?"*) que ofrecen una instantánea del juicio definitivo del respondiente.
+
+## Análisis y visualización: de los textos a las cadenas causales
+
+La fase de análisis transforma los datos narrativos en una "caja negra" transparente de evidencia mediante **codificación temática sistemática**. Este proceso desagrega motores de efectos, permitiendo insights tanto exploratorios como confirmatorios.
+
+### Códigos estándar de atribución
+
+A cada afirmación causal se le asigna un código que categoriza el peso de la evidencia:
+
+| Código | Tipo | Significado / "¿Y qué?" |
+|--------|------|-------------------------|
+| **Explícita** | Vinculada al proyecto | El respondiente nombró directamente el proyecto/actividad como causa del cambio. |
+| **Implícita** | Consistente con la teoría | El respondiente describió un mecanismo que coincide con la teoría del proyecto sin nombrarlo. |
+| **Incidental** | Externa | El cambio fue atribuido a fuerzas externas (clima, mercados) no relacionadas con el proyecto. |
+| **No atribuida** | Desconocida | Se notó un cambio, pero el respondiente no pudo o no quiso especificar una causa. |
+| **Neutral** | Ambigua | Cambio ambiguo, ambivalente o neutral en sus efectos; no puede codificarse positivo ni negativo. |
+
+: Códigos estándar de atribución en QuIP {#tbl-quip-codigos}
+
+### Métricas cuantitativas en QuIP
+
+Para visualizar el peso de la evidencia, el QuIP utiliza métricas interpretadas mediante **razonamiento bayesiano**. En lugar de buscar significancia estadística, estos conteos ayudan al evaluador a decidir **cuánto modificar sus creencias previas** [@copestake2019]:
+
+- **Conteo de respondientes (R)**: número de respondientes únicos que hacen una afirmación. En términos bayesianos: *"¿cuánto modificaría mi creencia previa si el proyecto no fuera mencionado en absoluto?"*.
+- **Conteo de citaciones (C)**: número total de veces que una afirmación es codificada a lo largo de todos los dominios.
+- **Intensidad de citación (I)**: repeticiones medias por respondiente, $I = C/R$. Mide la profundidad y saliencia de un tema específico para quienes lo mencionaron.
+
+### Construcción de cadenas causales
+
+El análisis produce **cadenas causales** que mapean la ruta del impacto, desde los motores hasta los resultados terciarios. Por ejemplo:
+
+$$
+\text{Semilla mejorada (motor)} \rightarrow \text{Mayor rendimiento (primario)} \rightarrow \text{Mayor ingreso (secundario)} \rightarrow \text{Mejor salud (terciario)}
+$$
+
+Estas cadenas permiten a los evaluadores **ver exactamente dónde la lógica del proyecto se mantiene firme y dónde se rompe** en la experiencia vivida del beneficiario.
+
+## Aplicaciones prácticas: el proyecto ART
+
+El QuIP se refinó a través del proyecto **Assessing Rural Transformations (ART)**, una colaboración entre la Universidad de Bath, Self Help Africa y Farm Africa. Estos pilotos demostraron la capacidad del protocolo para descubrir matices que el monitoreo rutinario suele pasar por alto [@copestake2019].
+
+| Ubicación | Actividad principal | Hallazgos clave |
+|-----------|---------------------|-----------------|
+| **Masumbankhunda, Malawi** | Producción de maní (semilla/crédito mejorados) | Modestas ganancias de ingreso para los pobres, pero alta vulnerabilidad a choques de precios maíz-fertilizante persiste. |
+| **Karonga, Malawi** | Resiliencia climática y adaptación | Los ingresos permanecieron estancados por clima severo; el QuIP reveló un giro crítico hacia actividades orientadas al mercado. |
+| **Assela, Etiopía** | Cadena de valor de cebada (semilla/asesoría) | Mejoras sustanciales claramente atribuidas al proyecto; se observó que los productores ya eran seguros alimentariamente antes de iniciar. |
+| **Ahferom, Etiopía** | Diversificación de medios de vida (mujeres/jóvenes) | Resultados positivos pero de alta varianza; reveló extrema vulnerabilidad a choques climáticos pese a nuevas actividades. |
+
+: Aplicaciones del QuIP en el proyecto ART {#tbl-quip-art}
+
+### Lecciones aprendidas
+
+El proyecto ART evidenció que las intervenciones en resiliencia climática y cadenas de valor **nunca actúan aisladamente**. El QuIP reveló que motores "incidentales" como la lluvia y las fluctuaciones de precios suelen **dominar** sobre las actividades del proyecto. En Assela, la "seguridad alimentaria preexistente" de los productores fue un detalle evaluativo crítico: no partían de cero, lo que permitió al proyecto alcanzar mejoras "sustanciales" en lugar de solo "modestas".
+
+## Supuestos y limitaciones
+
+::: {.callout-warning}
+## Riesgos metodológicos del QuIP
+- **Sesgo de memoria**: los respondientes pueden recordar selectivamente eventos recientes o emocionalmente salientes.
+- **Ruptura del doble ciego**: si entrevistadores o respondientes identifican el programa por pistas contextuales, la técnica pierde su valor.
+- **Interpretación subjetiva**: la codificación temática requiere criterio experto; sin auditoría cruzada, puede introducir sesgo del analista.
+- **Muestra no representativa**: al ser small-N intencional, los hallazgos **no se generalizan** estadísticamente; se interpretan como profundización de mecanismos.
+:::
+
+**Cuándo QuIP es una buena opción:**
+
+- Se busca entender **por qué ocurrieron** los cambios desde la perspectiva de los beneficiarios.
+- El contexto es complejo, dinámico o con efectos inesperados probables.
+- Se requiere una verificación independiente frente al solipsismo institucional.
+- Hay presupuesto para entrevistas en profundidad (~24 hogares + 4 grupos focales) pero no para un RCT.
+
+**Cuándo QuIP NO es una buena opción:**
+
+- Se necesita una estimación precisa de **magnitud** del efecto.
+- El resultado de interés es muy específico y fácilmente cuantificable (ej. mortalidad infantil).
+- No es posible mantener el doble ciego (programa muy visible o ya saturó el discurso local).
+- Los actores financiadores exigen evidencia estrictamente contrafactual.
+
+## Conexiones con otros métodos
+
+El QuIP fue concebido como el **complemento cualitativo del Individual Household Method (IHM)** de cuantificación de ingresos y seguridad alimentaria. Mientras el IHM responde *"¿cuánto cambió?"*, el QuIP explica *"¿por qué cambió?"* [@copestake2019].
+
+También se integra bien con **Contribution Analysis** (véase el [capítulo correspondiente](04-contribution-analysis.qmd)): los testimonios QuIP pueden servir como evidencia triangulada en el paso 5 del ciclo de Mayne (buscar evidencia adicional). Y con **Outcome Harvesting**, compartiendo la lógica de trabajar desde los resultados observados hacia las causas, aunque el QuIP mantiene el ciego estricto sobre el programa.
+
+## Conclusión estratégica
+
+El Qualitative Impact Protocol ocupa una posición única como una herramienta **estrictamente interpretativa y cualitativa**, pero con un rigor "de sabor cuantitativo". No busca presentar los "hechos definitivos" asociados con la inferencia estadística; ofrece una interpretación sistemática y transparente de **lo que los beneficiarios dicen** que está pasando en sus vidas.
+
+La fortaleza del protocolo radica en su **compromiso con la transparencia**. Al entregar transcripciones codificadas junto con reportes resumidos, el QuIP permite a los comisionantes auditar los hallazgos y escuchar directamente las voces crudas de aquellos a quienes sirven. A medida que el desarrollo global se desplaza hacia la gestión adaptativa y los sistemas complejos, la capacidad de fortalecer las afirmaciones de verdad mediante herramientas interpretativas sistemáticas será esencial. El QuIP asegura que las voces de los marginados no solo se escuchen, sino que se utilicen como **activo primario** para reparar los bucles rotos de retroalimentación de la ayuda internacional.
+
+::: {.callout-tip}
+## Para profundizar
+
+- **@copestake2019** — Libro de casos con la formulación definitiva del protocolo y ejemplos aplicados en agricultura, salud y medios de vida en África y Asia del Sur.
+- **@copestake2014** — Documento de la Universidad de Bath que expone el marco conceptual del QuIP y su posicionamiento frente a enfoques confirmatorios y exploratorios.
+- **@befani2014** — Ubica el QuIP dentro del ecosistema más amplio de métodos generativos de inferencia causal.
+- Sitio oficial del QuIP: [bathsdr.org](https://www.bathsdr.org/), con recursos, manuales de codificación y casos.
+:::

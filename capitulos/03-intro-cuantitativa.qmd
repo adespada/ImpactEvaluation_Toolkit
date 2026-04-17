@@ -1,0 +1,118 @@
+# Introducción a los métodos cuantitativos {#sec-intro-cuantitativa}
+
+Los métodos cuantitativos de evaluación de impacto buscan responder una pregunta aparentemente simple: **¿cuánto cambió el resultado gracias al programa?** Para responderla con rigor, necesitan resolver un problema fundamental: no podemos observar qué habría pasado si el programa no hubiera existido.
+
+## El problema fundamental de la evaluación
+
+Suponga que un programa de microcrédito aumentó los ingresos promedio de los beneficiarios de \$500 a \$700 al mes. ¿Significa que el programa causó un aumento de \$200?
+
+No necesariamente. Tal vez los ingresos de toda la región subieron por una mejora económica general. Tal vez las personas que solicitaron el crédito eran más emprendedoras desde el inicio. El cambio observado **no es lo mismo** que el efecto causal del programa.
+
+Como señala @gertler2016impact [Cap. 3], las dos comparaciones más intuitivas producen estimaciones sesgadas: comparar *antes vs. después* confunde el efecto del programa con tendencias temporales, y comparar *inscritos vs. no inscritos* confunde el efecto con las diferencias preexistentes entre quienes deciden participar y quienes no. Ambas son **contrafactuales falsos** que pueden llevar a conclusiones erróneas sobre la efectividad de un programa.
+
+::: {.callout-note}
+## El contrafactual
+El **contrafactual** es lo que habría ocurrido en ausencia del programa. Como no podemos observarlo directamente, cada método cuantitativo propone una estrategia diferente para **estimarlo**. La calidad de la evaluación depende de qué tan creíble sea esa estimación [@gertler2016impact; @bernal2011].
+:::
+
+## De la correlación a la causalidad
+
+Observar que los beneficiarios están mejor después del programa no prueba que el programa causó la mejora. Para establecer causalidad, necesitamos descartar **explicaciones alternativas**:
+
+| Amenaza | Descripción | Ejemplo |
+|---------|-------------|---------|
+| **Sesgo de selección** | Los participantes son diferentes a los no participantes desde el inicio | Las personas más motivadas se inscriben al programa |
+| **Tendencias temporales** | Los cambios habrían ocurrido de todas formas | La economía mejoró para todos, no solo para los beneficiarios |
+| **Eventos concurrentes** | Otro programa o evento afecta los resultados al mismo tiempo | El gobierno lanzó otro subsidio en la misma zona |
+| **Maduración** | Los participantes cambian naturalmente con el tiempo | Los niños aprenden más simplemente porque crecen |
+| **Regresión a la media** | Valores extremos tienden a normalizarse | Se seleccionó a los más pobres, que de todas formas habrían mejorado algo |
+
+@bernal2011 descompone formalmente el sesgo de selección en dos componentes: un componente debido a diferencias en características **observables** (como educación, edad o ingreso previo) y otro debido a diferencias en características **no observables** (como motivación, habilidad innata o información privada). Esta distinción es central para la elección del método: cuando el sesgo proviene principalmente de observables, métodos como Matching pueden ser apropiados; cuando dominan los no observables, se requieren estrategias como RCT, DiD o IV que no dependen de controlar directamente esas características.
+
+## La estrategia de identificación
+
+Cada método cuantitativo propone una **estrategia de identificación**: un argumento lógico y empírico para aislar el efecto causal del programa de todas las otras explicaciones posibles.
+
+```{mermaid}
+%%| fig-width: 7
+%%| fig-cap: "Estrategia de identificación de cada método cuantitativo"
+flowchart TD
+  Q["¿Puede controlar la asignación<br>al programa?"]
+
+  Q -->|"Sí, aleatoriamente"| RCT["<b>RCT</b><br>Experimento aleatorio"]
+  Q -->|"No, pero..."| NoRCT["Métodos cuasi-experimentales"]
+
+  NoRCT --> D1["¿Tiene datos antes<br>y después para<br>ambos grupos?"]
+  NoRCT --> D2["¿Tiene variables<br>observables para<br>emparejar?"]
+  NoRCT --> D3["¿Existe un punto de<br>corte o variable<br>exógena?"]
+
+  D1 -->|"Sí"| DID["<b>DiD</b><br>Diferencias en<br>diferencias"]
+  D2 -->|"Sí"| MATCH["<b>Matching</b><br>Propensity Score"]
+  D3 -->|"Punto de corte"| RDD["<b>RDD</b><br>Regresión<br>discontinua"]
+  D3 -->|"Variable exógena"| IV["<b>IV</b><br>Variables<br>instrumentales"]
+
+  style RCT fill:#E8F4FD,stroke:#185FA5,color:#185FA5
+  style DID fill:#E8F4FD,stroke:#185FA5,color:#185FA5
+  style MATCH fill:#E8F4FD,stroke:#185FA5,color:#185FA5
+  style RDD fill:#E8F4FD,stroke:#185FA5,color:#185FA5
+  style IV fill:#E8F4FD,stroke:#185FA5,color:#185FA5
+```
+
+## Los métodos en esta parte
+
+| Método | Estrategia | Supuesto clave | Cuándo usarlo |
+|--------|-----------|----------------|---------------|
+| **RCT** | Asignación aleatoria crea grupos idénticos en expectativa | La aleatorización se respetó | Puede controlar quién recibe el programa |
+| **DiD** | Compara cambios en el tiempo entre tratados y no tratados | Tendencias paralelas | Tiene datos pre y post para ambos grupos |
+| **Matching** | Empareja participantes con no participantes similares | Selección solo por observables | Tiene datos ricos sobre características |
+| **IV** | Usa una variable que afecta la participación pero no el resultado | Restricción de exclusión | Existe un instrumento válido |
+| **RDD** | Compara individuos justo arriba y abajo de un punto de corte | Continuidad en el punto de corte | La elegibilidad se define por un umbral |
+
+: Cada uno de estos métodos se desarrolla en detalle en los capítulos 4 a 7 de @gertler2016impact. {.sm}
+
+::: {.callout-tip}
+## ¿Cuál método elegir?
+No existe un método universalmente superior. El método adecuado depende de su **contexto**: cómo se asignó el programa, qué datos tiene disponibles y qué supuestos puede defender. Use la [herramienta de autodiagnóstico](02-autodiagnostico.qmd) para una recomendación personalizada.
+:::
+
+## Efecto promedio del tratamiento
+
+Todos estos métodos buscan estimar alguna versión del **efecto promedio del tratamiento** (ATE, por sus siglas en inglés). @bernal2011 define formalmente los principales parámetros de interés:
+
+$$
+\text{ATE} = E[Y_i(1) - Y_i(0)]
+$$
+
+Donde $Y_i(1)$ es el resultado del individuo $i$ con programa y $Y_i(0)$ sin programa. El problema es que para cada persona solo observamos **uno** de estos dos resultados — nunca ambos. A esto se le llama el **problema fundamental de la inferencia causal**.
+
+Variantes importantes:
+
+- **ATT** (*Average Treatment Effect on the Treated*): efecto promedio solo entre quienes recibieron el programa. Es lo que estiman DiD y Matching.
+- **LATE** (*Local Average Treatment Effect*): efecto promedio para quienes cambian su participación gracias al instrumento. Es lo que estima IV.
+- **MTE** (*Marginal Treatment Effect*): efecto para el individuo que es indiferente entre participar y no participar dado un nivel determinado del instrumento. Es un concepto más general del cual ATT y LATE pueden derivarse [@bernal2011].
+- **ATE local en el corte**: efecto para quienes están justo en el umbral de elegibilidad. Es lo que estima RDD.
+
+Como enfatiza @gertler2016impact, estos parámetros responden a preguntas de política diferentes: el ATE informa sobre el efecto de universalizar un programa, el ATT sobre el efecto en quienes efectivamente participan, y el LATE sobre el efecto en quienes podrían ser inducidos a participar mediante un cambio en el diseño del programa.
+
+::: {.callout-warning}
+## Diferentes métodos, diferentes efectos
+Un RCT bien ejecutado estima el ATE general. DiD estima el ATT. IV estima el LATE. Estos números pueden ser diferentes porque se refieren a poblaciones diferentes. Al comparar resultados de diferentes estudios, verifique que están estimando el mismo parámetro [@gertler2016impact, Cap. 3].
+:::
+
+## Validez interna vs. externa
+
+- **Validez interna**: ¿el efecto estimado es correcto para la población estudiada? Depende de los supuestos del método.
+- **Validez externa**: ¿el efecto se mantendría en otro contexto, con otra población o en otro momento? Ningún método la garantiza automáticamente.
+
+Un RCT tiene alta validez interna pero puede tener baja validez externa si se realizó en condiciones muy específicas. Un estudio con Matching puede ser más generalizable si usa datos representativos, aunque su validez interna depende de la calidad del emparejamiento. @gertler2016impact [Cap. 3] advierte además sobre el **sesgo de muestreo**: si la muestra del estudio no es representativa de la población objetivo, incluso un diseño con alta validez interna puede producir conclusiones que no son generalizables. La validez externa requiere considerar explícitamente las diferencias entre el contexto del estudio y el contexto donde se aplicarán los resultados.
+
+::: {.callout-tip}
+## Lecturas recomendadas
+
+Para profundizar en los conceptos presentados en este capítulo, se recomiendan las siguientes referencias:
+
+- @gertler2016impact — Texto introductorio del Banco Mundial que cubre el contrafactual, los métodos principales (Cap. 4--7) y aspectos prácticos de implementación. Disponible gratuitamente en el sitio del Banco Mundial.
+- @bernal2011 — Guía en español con un tratamiento formal pero accesible del marco de resultados potenciales, los parámetros de interés (ATE, ATT, LATE, MTE) y cada método cuantitativo.
+- @angrist2009 — Referencia avanzada sobre diseño de investigación y estrategias de identificación causal, con énfasis en variables instrumentales y experimentos naturales.
+- @khandker2009 — Manual práctico del Banco Mundial orientado a la implementación de evaluaciones de impacto en países en desarrollo.
+:::

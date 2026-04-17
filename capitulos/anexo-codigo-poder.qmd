@@ -1,0 +1,128 @@
+# Código R: Poder estadístico y tamaño de muestra {#sec-anexo-codigo-poder}
+
+::: {.callout-note}
+## Sobre este anexo
+Este anexo contiene el código R completo para el taller práctico de cálculo de poder estadístico y tamaño de muestra. Para la teoría y explicación, consulte el [capítulo correspondiente](03-poder-muestra.qmd).
+:::
+
+## Taller práctico
+
+::: {.callout-note}
+## Sobre este taller
+Usted calculará el tamaño de muestra para un programa ficticio de capacitación agrícola que busca aumentar la producción (ton/ha) en fincas beneficiarias.
+:::
+
+### Paso 1: Cálculo para un RCT simple
+
+```{r}
+#| label: taller-poder-paso1
+#| code-fold: false
+
+library(pwr)
+
+# Producción actual: 8 ton/ha, DE: 2.5, efecto esperado: 1 ton/ha
+d_cohen <- 1.0 / 2.5  # = 0.4
+
+resultado <- pwr.t.test(d = d_cohen, sig.level = 0.05,
+                         power = 0.80, type = "two.sample")
+cat("d de Cohen:", round(d_cohen, 2), "\n")
+cat("n por grupo:", ceiling(resultado$n), "\n")
+cat("Total:", ceiling(resultado$n) * 2, "\n")
+```
+
+### Paso 2: Curvas de poder
+
+```{r}
+#| label: fig-poder-curvas-taller
+#| fig-cap: "Curvas de poder para diferentes tamaños de efecto"
+#| code-fold: false
+
+library(ggplot2)
+library(pwr)
+
+n_vals <- seq(10, 500, by = 5)
+escenarios <- data.frame(
+  d = c(0.2, 0.3, 0.4, 0.6),
+  etiqueta = c("Pequeño (d=0.2)", "Moderado (d=0.3)",
+               "Esperado (d=0.4)", "Optimista (d=0.6)"))
+
+curvas <- do.call(rbind, lapply(1:nrow(escenarios), function(i) {
+  poder <- sapply(n_vals, function(n)
+    pwr.t.test(n = n, d = escenarios$d[i],
+               sig.level = 0.05, type = "two.sample")$power)
+  data.frame(n = n_vals, poder = poder, escenario = escenarios$etiqueta[i])
+}))
+
+ggplot(curvas, aes(x = n, y = poder, color = escenario)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "gray40") +
+  annotate("text", x = 480, y = 0.82, label = "Poder = 80%",
+           color = "gray40", size = 3, hjust = 1) +
+  scale_color_manual(values = c("#185FA5", "#BA7517", "#D85A30", "#4A9C6D")) +
+  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1)) +
+  labs(x = "Tamaño de muestra por grupo", y = "Poder estadístico",
+       color = "Escenario",
+       title = "¿Cuántas observaciones necesito según el efecto esperado?") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom", plot.title = element_text(face = "bold"))
+```
+
+### Paso 3: Agregar clustering
+
+```{r}
+#| label: taller-poder-paso3
+#| code-fold: false
+
+# Programa asignado por comunidades: 25 fincas/comunidad, ICC = 0.08
+icc <- 0.08; m <- 25
+deff <- 1 + (m - 1) * icc
+n_sin <- ceiling(resultado$n)
+n_con <- ceiling(n_sin * deff)
+
+cat("Sin clustering:", n_sin, "fincas por grupo\n")
+cat("DEFF:", deff, "\n")
+cat("Con clustering:", n_con, "fincas por grupo\n")
+cat("Comunidades por grupo:", ceiling(n_con / m), "\n")
+```
+
+### Paso 4: MDE con presupuesto fijo
+
+```{r}
+#| label: fig-poder-mde-taller
+#| fig-cap: "Efecto mínimo detectable con N = 200 por grupo"
+#| code-fold: false
+
+library(pwr)
+library(ggplot2)
+
+n_disponible <- 200
+mde <- pwr.t.test(n = n_disponible, sig.level = 0.05,
+                   power = 0.80, type = "two.sample")
+
+cat("MDE (d de Cohen):", round(mde$d, 3), "\n")
+cat("MDE en ton/ha:", round(mde$d * 2.5, 2), "\n")
+cat("Esto es", round(mde$d * 2.5 / 8 * 100, 1), "% de la producción promedio\n")
+
+d_rango <- seq(0.05, 0.8, by = 0.01)
+poder_rango <- sapply(d_rango, function(d)
+  pwr.t.test(n = n_disponible, d = d, sig.level = 0.05, type = "two.sample")$power)
+
+ggplot(data.frame(d = d_rango, poder = poder_rango), aes(d, poder)) +
+  geom_line(color = "#185FA5", linewidth = 1) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "gray40") +
+  geom_vline(xintercept = mde$d, linetype = "dashed", color = "#D85A30") +
+  annotate("text", x = mde$d + 0.02, y = 0.3,
+           label = paste0("MDE = ", round(mde$d, 2)),
+           color = "#D85A30", hjust = 0, fontface = "bold", size = 3.5) +
+  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1)) +
+  labs(x = "Tamaño de efecto (d de Cohen)", y = "Poder estadístico",
+       title = paste0("Con N = ", n_disponible,
+                      " por grupo, ¿qué efecto puedo detectar?")) +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(face = "bold"))
+```
+
+::: {.callout-tip}
+## ¿Cómo usar el MDE?
+Compare el MDE con el efecto esperado de su programa. Si el MDE es **mayor**, necesita más muestra o aceptar que podría no detectar el efecto. Si es **menor**, su diseño es adecuado.
+:::
