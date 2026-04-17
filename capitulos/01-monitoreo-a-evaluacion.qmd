@@ -20,23 +20,10 @@ library(DiagrammeR)
 
 grViz("
 digraph monitoreo_evaluacion {
-  graph [rankdir = LR, splines = true, nodesep = 0.5, ranksep = 0.8]
+  graph [rankdir = LR, compound = true, splines = spline,
+         nodesep = 0.6, ranksep = 1.2]
   node  [shape = box, style = 'filled,rounded', fontname = Helvetica, fontsize = 11]
   edge  [fontname = Helvetica, fontsize = 10]
-
-  subgraph cluster_eval {
-    label = 'Evaluación de impacto'
-    style = 'filled,rounded'
-    color = '#185FA5'
-    fillcolor = '#E8F4FD'
-    fontname = Helvetica
-    fontsize = 12
-
-    E1 [label = 'Línea base', fillcolor = '#D6E9F8', color = '#185FA5']
-    E2 [label = 'Datos de\\nseguimiento', fillcolor = '#D6E9F8', color = '#185FA5']
-    E3 [label = 'Análisis causal\\ndel efecto', fillcolor = '#D6E9F8', color = '#185FA5']
-    E1 -> E2 -> E3
-  }
 
   subgraph cluster_mon {
     label = 'Sistema de monitoreo'
@@ -44,16 +31,35 @@ digraph monitoreo_evaluacion {
     color = '#0F6E56'
     fillcolor = '#E8F5E9'
     fontname = Helvetica
-    fontsize = 12
+    fontsize = 13
+    labeljust = 'l'
 
-    M1 [label = 'Registros de\\nactividades', fillcolor = '#CDE9D6', color = '#0F6E56']
-    M2 [label = 'Seguimiento\\nde productos', fillcolor = '#CDE9D6', color = '#0F6E56']
+    M1 [label = 'Registros de\\nactividades',        fillcolor = '#CDE9D6', color = '#0F6E56']
+    M2 [label = 'Seguimiento\\nde productos',        fillcolor = '#CDE9D6', color = '#0F6E56']
     M3 [label = 'Indicadores de\\ncobertura y calidad', fillcolor = '#CDE9D6', color = '#0F6E56']
     M1 -> M2 -> M3
   }
 
-  E2 -> M2 [label = 'Retroalimentación:\\n¿qué ajustar?', constraint = false]
-  M2 -> E2 [label = 'Datos de implementación,\\ncovariables, fidelidad', constraint = false]
+  subgraph cluster_eval {
+    label = 'Evaluación de impacto'
+    style = 'filled,rounded'
+    color = '#185FA5'
+    fillcolor = '#E8F4FD'
+    fontname = Helvetica
+    fontsize = 13
+    labeljust = 'l'
+
+    E1 [label = 'Línea base',                fillcolor = '#D6E9F8', color = '#185FA5']
+    E2 [label = 'Datos de\\nseguimiento',     fillcolor = '#D6E9F8', color = '#185FA5']
+    E3 [label = 'Análisis causal\\ndel efecto', fillcolor = '#D6E9F8', color = '#185FA5']
+    E1 -> E2 -> E3
+  }
+
+  // Flechas entre clusters con trayectorias separadas para evitar solapamiento
+  M3 -> E1 [label = 'Datos de implementación,\\ncovariables, fidelidad',
+            constraint = false, color = '#0F6E56', fontcolor = '#0F6E56']
+  E3 -> M1 [label = 'Retroalimentación:\\n¿qué ajustar?',
+            constraint = false, color = '#185FA5', fontcolor = '#185FA5']
 }
 ")
 ```
