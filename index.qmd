@@ -17,7 +17,7 @@ Este toolkit está diseñado para profesionales de programas sociales, investiga
 | **Gerente de programa** que necesita evidencia para tomadores de decisión | Empiece por la [herramienta de autodiagnóstico](capitulos/02-autodiagnostico.qmd) para identificar qué método se ajusta a su contexto |
 | **Investigador o evaluador** que busca una referencia práctica | Vaya directamente al capítulo del método que le interesa (Partes 3–4) |
 | **Estudiante** que está aprendiendo evaluación de impacto | Siga el toolkit en orden, desde la [Parte 0](capitulos/00-bienvenida.qmd) |
-| **Equipo de M&E** diseñando su sistema de monitoreo | Comience por la [Parte 1](capitulos/01-marco-logico.qmd) y use las plantillas de los anexos |
+| **Equipo de M&E** diseñando su sistema de monitoreo | Comience por la [Parte 1](capitulos/01-marco-logico.qmd) y consulte los [anexos de código](capitulos/06-guia-ia.qmd) de la Parte 6 |
 
 ## Estructura del toolkit
 
@@ -53,19 +53,17 @@ flowchart LR
 | **3 — Cuantitativos** | RCT, Diferencias en diferencias, Matching, Variables instrumentales, RDD | 7 capítulos |
 | **4 — Cualitativos** | Mapeo de sistemas, Outcome Mapping, Outcome Harvesting, Contribution Analysis, Process Tracing, QCA, QuIP | 8 capítulos |
 | **5 — Mixtos** | Diseños combinados y casos de estudio | 3 capítulos |
-| **6 — Guía de IA** | Prompts paso a paso para hacer su evaluación con IA | 1 guía completa |
-| **7 — Anexos de código** | Talleres prácticos en R por método | 6 talleres |
-| **8 — Recursos** | Glosario, plantillas, ética, bibliografía | 4 anexos |
+| **6 — Cómo hablar con la IA y anexos de código** | Prompts paso a paso para hacer su evaluación con IA y talleres prácticos en R por método | 1 guía + 6 talleres |
 
 ## ¿Cómo están organizados los capítulos de métodos?
 
 Cada capítulo de las Partes 3–4 presenta la **teoría y explicación** del método: qué es, cuándo usarlo, sus supuestos, limitaciones y figuras conceptuales. No contienen código.
 
-El contenido práctico está separado en dos partes independientes:
+El contenido práctico se concentra en la **Parte 6: Cómo hablar con la IA y anexos de código**, que combina dos componentes complementarios:
 
 :::: {.columns}
 ::: {.column width="50%"}
-**Parte 6: Guía de IA**
+**Guía de IA**
 
 - 10 pasos para hacer una evaluación completa usando IA
 - Desde anonimizar datos hasta redactar el informe
@@ -73,7 +71,7 @@ El contenido práctico está separado en dos partes independientes:
 :::
 
 ::: {.column width="50%"}
-**Parte 7: Anexos de código**
+**Anexos de código**
 
 - Talleres prácticos con datos simulados en R
 - Código completo y comentado

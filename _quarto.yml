@@ -24,24 +24,24 @@ book:
   chapters:
     - index.qmd
 
-    - part: "PARTE 0 — Contexto y fundamentos"
+    - part: "Contexto y fundamentos"
       chapters:
         - capitulos/00-bienvenida.qmd
         - capitulos/00-que-es-evaluacion.qmd
         - capitulos/00-teoria-de-cambio.qmd
 
-    - part: "PARTE 1 — Sistemas de monitoreo"
+    - part: "Sistemas de monitoreo"
       chapters:
         - capitulos/01-marco-logico.qmd
         - capitulos/01-recoleccion-datos.qmd
         - capitulos/01-linea-base.qmd
         - capitulos/01-monitoreo-a-evaluacion.qmd
 
-    - part: "PARTE 2 — Herramienta de autodiagnóstico"
+    - part: "Herramienta de autodiagnóstico"
       chapters:
         - capitulos/02-autodiagnostico.qmd
 
-    - part: "PARTE 3 — Métodos cuantitativos"
+    - part: "Métodos cuantitativos"
       chapters:
         - capitulos/03-intro-cuantitativa.qmd
         - capitulos/03-rct.qmd
@@ -51,7 +51,7 @@ book:
         - capitulos/03-rdd.qmd
         - capitulos/03-poder-muestra.qmd
 
-    - part: "PARTE 4 — Métodos cualitativos"
+    - part: "Métodos cualitativos"
       chapters:
         - capitulos/04-intro-cualitativa.qmd
         - capitulos/04-systems-mapping.qmd
@@ -62,34 +62,21 @@ book:
         - capitulos/04-qca.qmd
         - capitulos/04-quip.qmd
 
-    - part: "PARTE 5 — Métodos mixtos"
+    - part: "Métodos mixtos"
       chapters:
         - capitulos/05-por-que-combinar.qmd
         - capitulos/05-disenos-mixtos.qmd
         - capitulos/05-casos-estudio.qmd
 
-    - part: "PARTE 6 — Cómo hablar con la IA"
+    - part: "Cómo hablar con la IA y anexos de código"
       chapters:
         - capitulos/06-guia-ia.qmd
-
-    - part: "PARTE 7 — Anexos de código"
-      chapters:
         - capitulos/anexo-codigo-rct.qmd
         - capitulos/anexo-codigo-did.qmd
         - capitulos/anexo-codigo-matching.qmd
         - capitulos/anexo-codigo-iv.qmd
         - capitulos/anexo-codigo-rdd.qmd
         - capitulos/anexo-codigo-poder.qmd
-
-    - part: "PARTE 8 — Recursos"
-      chapters:
-        - capitulos/08-glosario.qmd
-        - capitulos/08-plantillas.qmd
-        - capitulos/08-etica.qmd
-        - capitulos/08-bibliografia.qmd
-
-  appendices:
-    - capitulos/08-tabla-resumen-metodos.qmd
 
 format:
   html:

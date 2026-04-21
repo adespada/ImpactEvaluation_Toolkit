@@ -37,7 +37,7 @@ Este toolkit le acompaña en cada etapa del ciclo, con énfasis en las fases de 
 
 ## ¿Cómo está organizado?
 
-El toolkit se estructura en seis partes que siguen un flujo lógico. Puede leerlo de forma secuencial o saltar directamente a la sección que necesite.
+El toolkit se estructura en siete partes que siguen un flujo lógico. Puede leerlo de forma secuencial o saltar directamente a la sección que necesite.
 
 | Parte | Contenido | ¿Cuándo consultarla? |
 |:-----:|-----------|----------------------|
@@ -47,7 +47,7 @@ El toolkit se estructura en seis partes que siguen un flujo lógico. Puede leerl
 | **3** | Métodos cuantitativos | Cuando necesite aplicar RCT, DiD, Matching o Variables Instrumentales |
 | **4** | Métodos cualitativos | Cuando necesite Process Tracing, QCA, Outcome Mapping u otros métodos participativos |
 | **5** | Métodos mixtos | Cuando quiera combinar enfoques cuantitativos y cualitativos |
-| **6** | Anexos | Para consultar el glosario, plantillas, consideraciones éticas y bibliografía |
+| **6** | Cómo hablar con la IA y anexos de código | Cuando quiera plantillas de prompts para modelos de IA o código R reproducible de cada método |
 
 : Estructura del toolkit {#tbl-estructura}
 

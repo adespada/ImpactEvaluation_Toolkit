@@ -113,7 +113,7 @@
     "href": "index.html#para-quién-es-esta-guía",
     "title": "Toolkit de Evaluación de Impacto",
     "section": "¿Para quién es esta guía?",
-    "text": "¿Para quién es esta guía?\n\n\n\nPerfil\nCómo usar el toolkit\n\n\n\n\nGerente de programa que necesita evidencia para tomadores de decisión\nEmpiece por la herramienta de autodiagnóstico para identificar qué método se ajusta a su contexto\n\n\nInvestigador o evaluador que busca una referencia práctica\nVaya directamente al capítulo del método que le interesa (Partes 3–4)\n\n\nEstudiante que está aprendiendo evaluación de impacto\nSiga el toolkit en orden, desde la Parte 0\n\n\nEquipo de M&E diseñando su sistema de monitoreo\nComience por la Parte 1 y use las plantillas de los anexos",
+    "text": "¿Para quién es esta guía?\n\n\n\nPerfil\nCómo usar el toolkit\n\n\n\n\nGerente de programa que necesita evidencia para tomadores de decisión\nEmpiece por la herramienta de autodiagnóstico para identificar qué método se ajusta a su contexto\n\n\nInvestigador o evaluador que busca una referencia práctica\nVaya directamente al capítulo del método que le interesa (Partes 3–4)\n\n\nEstudiante que está aprendiendo evaluación de impacto\nSiga el toolkit en orden, desde la Parte 0\n\n\nEquipo de M&E diseñando su sistema de monitoreo\nComience por la Parte 1 y consulte los anexos de código de la Parte 6",
     "crumbs": [
       "Bienvenido al Toolkit"
     ]
@@ -123,7 +123,7 @@
     "href": "index.html#estructura-del-toolkit",
     "title": "Toolkit de Evaluación de Impacto",
     "section": "Estructura del toolkit",
-    "text": "Estructura del toolkit\n\n\nMostrar código R\nflowchart LR\n  P0[\"&lt;b&gt;Parte 0&lt;/b&gt;&lt;br&gt;Fundamentos\"]\n  P1[\"&lt;b&gt;Parte 1&lt;/b&gt;&lt;br&gt;Monitoreo\"]\n  P2[\"&lt;b&gt;Parte 2&lt;/b&gt;&lt;br&gt;Autodiagnóstico\"]\n  P3[\"&lt;b&gt;Parte 3&lt;/b&gt;&lt;br&gt;Cuantitativos\"]\n  P4[\"&lt;b&gt;Parte 4&lt;/b&gt;&lt;br&gt;Cualitativos\"]\n  P5[\"&lt;b&gt;Parte 5&lt;/b&gt;&lt;br&gt;Mixtos\"]\n\n  P0 --&gt; P1 --&gt; P2\n  P2 --&gt; P3\n  P2 --&gt; P4\n  P3 --&gt; P5\n  P4 --&gt; P5\n\n  style P0 fill:#f0f7ff,stroke:#185FA5,color:#185FA5\n  style P1 fill:#f0f7ff,stroke:#185FA5,color:#185FA5\n  style P2 fill:#FFF8E1,stroke:#BA7517,color:#BA7517\n  style P3 fill:#E8F4FD,stroke:#185FA5,color:#185FA5\n  style P4 fill:#E8F5E9,stroke:#0F6E56,color:#0F6E56\n  style P5 fill:#F3E5F5,stroke:#7B1FA2,color:#7B1FA2\n\n\n\n\n\nflowchart LR\n  P0[\"&lt;b&gt;Parte 0&lt;/b&gt;&lt;br&gt;Fundamentos\"]\n  P1[\"&lt;b&gt;Parte 1&lt;/b&gt;&lt;br&gt;Monitoreo\"]\n  P2[\"&lt;b&gt;Parte 2&lt;/b&gt;&lt;br&gt;Autodiagnóstico\"]\n  P3[\"&lt;b&gt;Parte 3&lt;/b&gt;&lt;br&gt;Cuantitativos\"]\n  P4[\"&lt;b&gt;Parte 4&lt;/b&gt;&lt;br&gt;Cualitativos\"]\n  P5[\"&lt;b&gt;Parte 5&lt;/b&gt;&lt;br&gt;Mixtos\"]\n\n  P0 --&gt; P1 --&gt; P2\n  P2 --&gt; P3\n  P2 --&gt; P4\n  P3 --&gt; P5\n  P4 --&gt; P5\n\n  style P0 fill:#f0f7ff,stroke:#185FA5,color:#185FA5\n  style P1 fill:#f0f7ff,stroke:#185FA5,color:#185FA5\n  style P2 fill:#FFF8E1,stroke:#BA7517,color:#BA7517\n  style P3 fill:#E8F4FD,stroke:#185FA5,color:#185FA5\n  style P4 fill:#E8F5E9,stroke:#0F6E56,color:#0F6E56\n  style P5 fill:#F3E5F5,stroke:#7B1FA2,color:#7B1FA2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nParte\nContenido\nCapítulos\n\n\n\n\n0 — Fundamentos\nQué es evaluación de impacto, teoría de cambio, contrafactual\n3 capítulos\n\n\n1 — Monitoreo\nMarco lógico, recolección de datos, línea base\n4 capítulos\n\n\n2 — Autodiagnóstico\nHerramienta interactiva para elegir el método adecuado\n1 herramienta\n\n\n3 — Cuantitativos\nRCT, Diferencias en diferencias, Matching, Variables instrumentales, RDD\n7 capítulos\n\n\n4 — Cualitativos\nMapeo de sistemas, Outcome Mapping, Outcome Harvesting, Contribution Analysis, Process Tracing, QCA, QuIP\n8 capítulos\n\n\n5 — Mixtos\nDiseños combinados y casos de estudio\n3 capítulos\n\n\n6 — Guía de IA\nPrompts paso a paso para hacer su evaluación con IA\n1 guía completa\n\n\n7 — Anexos de código\nTalleres prácticos en R por método\n6 talleres\n\n\n8 — Recursos\nGlosario, plantillas, ética, bibliografía\n4 anexos",
+    "text": "Estructura del toolkit\n\n\nMostrar código R\nflowchart LR\n  P0[\"&lt;b&gt;Parte 0&lt;/b&gt;&lt;br&gt;Fundamentos\"]\n  P1[\"&lt;b&gt;Parte 1&lt;/b&gt;&lt;br&gt;Monitoreo\"]\n  P2[\"&lt;b&gt;Parte 2&lt;/b&gt;&lt;br&gt;Autodiagnóstico\"]\n  P3[\"&lt;b&gt;Parte 3&lt;/b&gt;&lt;br&gt;Cuantitativos\"]\n  P4[\"&lt;b&gt;Parte 4&lt;/b&gt;&lt;br&gt;Cualitativos\"]\n  P5[\"&lt;b&gt;Parte 5&lt;/b&gt;&lt;br&gt;Mixtos\"]\n\n  P0 --&gt; P1 --&gt; P2\n  P2 --&gt; P3\n  P2 --&gt; P4\n  P3 --&gt; P5\n  P4 --&gt; P5\n\n  style P0 fill:#f0f7ff,stroke:#185FA5,color:#185FA5\n  style P1 fill:#f0f7ff,stroke:#185FA5,color:#185FA5\n  style P2 fill:#FFF8E1,stroke:#BA7517,color:#BA7517\n  style P3 fill:#E8F4FD,stroke:#185FA5,color:#185FA5\n  style P4 fill:#E8F5E9,stroke:#0F6E56,color:#0F6E56\n  style P5 fill:#F3E5F5,stroke:#7B1FA2,color:#7B1FA2\n\n\n\n\n\nflowchart LR\n  P0[\"&lt;b&gt;Parte 0&lt;/b&gt;&lt;br&gt;Fundamentos\"]\n  P1[\"&lt;b&gt;Parte 1&lt;/b&gt;&lt;br&gt;Monitoreo\"]\n  P2[\"&lt;b&gt;Parte 2&lt;/b&gt;&lt;br&gt;Autodiagnóstico\"]\n  P3[\"&lt;b&gt;Parte 3&lt;/b&gt;&lt;br&gt;Cuantitativos\"]\n  P4[\"&lt;b&gt;Parte 4&lt;/b&gt;&lt;br&gt;Cualitativos\"]\n  P5[\"&lt;b&gt;Parte 5&lt;/b&gt;&lt;br&gt;Mixtos\"]\n\n  P0 --&gt; P1 --&gt; P2\n  P2 --&gt; P3\n  P2 --&gt; P4\n  P3 --&gt; P5\n  P4 --&gt; P5\n\n  style P0 fill:#f0f7ff,stroke:#185FA5,color:#185FA5\n  style P1 fill:#f0f7ff,stroke:#185FA5,color:#185FA5\n  style P2 fill:#FFF8E1,stroke:#BA7517,color:#BA7517\n  style P3 fill:#E8F4FD,stroke:#185FA5,color:#185FA5\n  style P4 fill:#E8F5E9,stroke:#0F6E56,color:#0F6E56\n  style P5 fill:#F3E5F5,stroke:#7B1FA2,color:#7B1FA2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nParte\nContenido\nCapítulos\n\n\n\n\n0 — Fundamentos\nQué es evaluación de impacto, teoría de cambio, contrafactual\n3 capítulos\n\n\n1 — Monitoreo\nMarco lógico, recolección de datos, línea base\n4 capítulos\n\n\n2 — Autodiagnóstico\nHerramienta interactiva para elegir el método adecuado\n1 herramienta\n\n\n3 — Cuantitativos\nRCT, Diferencias en diferencias, Matching, Variables instrumentales, RDD\n7 capítulos\n\n\n4 — Cualitativos\nMapeo de sistemas, Outcome Mapping, Outcome Harvesting, Contribution Analysis, Process Tracing, QCA, QuIP\n8 capítulos\n\n\n5 — Mixtos\nDiseños combinados y casos de estudio\n3 capítulos\n\n\n6 — Cómo hablar con la IA y anexos de código\nPrompts paso a paso para hacer su evaluación con IA y talleres prácticos en R por método\n1 guía + 6 talleres",
     "crumbs": [
       "Bienvenido al Toolkit"
     ]
@@ -133,7 +133,7 @@
     "href": "index.html#cómo-están-organizados-los-capítulos-de-métodos",
     "title": "Toolkit de Evaluación de Impacto",
     "section": "¿Cómo están organizados los capítulos de métodos?",
-    "text": "¿Cómo están organizados los capítulos de métodos?\nCada capítulo de las Partes 3–4 presenta la teoría y explicación del método: qué es, cuándo usarlo, sus supuestos, limitaciones y figuras conceptuales. No contienen código.\nEl contenido práctico está separado en dos partes independientes:\n\n\nParte 6: Guía de IA\n\n10 pasos para hacer una evaluación completa usando IA\nDesde anonimizar datos hasta redactar el informe\nDiseñada para no-programadores\n\n\nParte 7: Anexos de código\n\nTalleres prácticos con datos simulados en R\nCódigo completo y comentado\nUn anexo por método cuantitativo",
+    "text": "¿Cómo están organizados los capítulos de métodos?\nCada capítulo de las Partes 3–4 presenta la teoría y explicación del método: qué es, cuándo usarlo, sus supuestos, limitaciones y figuras conceptuales. No contienen código.\nEl contenido práctico se concentra en la Parte 6: Cómo hablar con la IA y anexos de código, que combina dos componentes complementarios:\n\n\nGuía de IA\n\n10 pasos para hacer una evaluación completa usando IA\nDesde anonimizar datos hasta redactar el informe\nDiseñada para no-programadores\n\n\nAnexos de código\n\nTalleres prácticos con datos simulados en R\nCódigo completo y comentado\nUn anexo por método cuantitativo",
     "crumbs": [
       "Bienvenido al Toolkit"
     ]
@@ -514,9 +514,9 @@
     "href": "capitulos/01-monitoreo-a-evaluacion.html",
     "title": "7  De monitoreo a evaluación",
     "section": "",
-    "text": "7.1 El monitoreo como cimiento de la evaluación\nEl monitoreo y la evaluación de impacto no son actividades independientes. Un buen sistema de monitoreo proporciona los datos que la evaluación necesita, y la evaluación le da sentido a los datos que el monitoreo recolecta.\nSin embargo, hay una diferencia fundamental entre ambos:\nMostrar código R\nflowchart LR\n    subgraph MON[\"Sistema de monitoreo\"]\n        direction TB\n        M1[\"Registros de\\nactividades\"] --&gt; M2[\"Seguimiento\\nde productos\"]\n        M2 --&gt; M3[\"Indicadores de\\ncobertura y calidad\"]\n    end\n\n    subgraph EVAL[\"Evaluación de impacto\"]\n        direction TB\n        E1[\"Línea base\"] --&gt; E2[\"Datos de\\nseguimiento\"]\n        E2 --&gt; E3[\"Análisis causal\\ndel efecto\"]\n    end\n\n    MON -- \"Datos de implementación,\\ncovariables, fidelidad\" --&gt; EVAL\n    EVAL -- \"Retroalimentación:\\n¿qué ajustar?\" --&gt; MON\n\n    style MON fill:#E8F5E9,stroke:#0F6E56,color:#000\n    style EVAL fill:#E8F4FD,stroke:#185FA5,color:#000\n\n\n\n\n\n\nflowchart LR\n    subgraph MON[\"Sistema de monitoreo\"]\n        direction TB\n        M1[\"Registros de\\nactividades\"] --&gt; M2[\"Seguimiento\\nde productos\"]\n        M2 --&gt; M3[\"Indicadores de\\ncobertura y calidad\"]\n    end\n\n    subgraph EVAL[\"Evaluación de impacto\"]\n        direction TB\n        E1[\"Línea base\"] --&gt; E2[\"Datos de\\nseguimiento\"]\n        E2 --&gt; E3[\"Análisis causal\\ndel efecto\"]\n    end\n\n    MON -- \"Datos de implementación,\\ncovariables, fidelidad\" --&gt; EVAL\n    EVAL -- \"Retroalimentación:\\n¿qué ajustar?\" --&gt; MON\n\n    style MON fill:#E8F5E9,stroke:#0F6E56,color:#000\n    style EVAL fill:#E8F4FD,stroke:#185FA5,color:#000\n\n\n\n\nFigura 7.1: Cómo el monitoreo alimenta la evaluación de impacto",
+    "text": "7.1 El monitoreo como cimiento de la evaluación\nEl monitoreo y la evaluación de impacto no son actividades independientes. Un buen sistema de monitoreo proporciona los datos que la evaluación necesita, y la evaluación le da sentido a los datos que el monitoreo recolecta.\nSin embargo, hay una diferencia fundamental entre ambos:\nFigura 7.1: Cómo el monitoreo alimenta la evaluación de impacto",
     "crumbs": [
-      "PARTE 1 — Sistemas de monitoreo",
+      "Sistemas de monitoreo",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>De monitoreo a evaluación</span>"
     ]
   },
@@ -527,7 +527,7 @@
     "section": "",
     "text": "El monitoreo responde: ¿estamos haciendo lo que dijimos que haríamos?\nLa evaluación de impacto responde: ¿lo que hicimos está generando el cambio que esperábamos?",
     "crumbs": [
-      "PARTE 1 — Sistemas de monitoreo",
+      "Sistemas de monitoreo",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>De monitoreo a evaluación</span>"
     ]
   },
@@ -538,7 +538,7 @@
     "section": "7.2 ¿Qué datos de monitoreo sirven para la evaluación?",
     "text": "7.2 ¿Qué datos de monitoreo sirven para la evaluación?\nNo todos los datos de monitoreo son útiles para la evaluación de impacto, pero varios de ellos son indispensables:\n\n\n\n\nTabla 7.1: Datos de monitoreo que alimentan la evaluación de impacto\n\n\n\n\n\n\n\n\n\n\n\nDato de monitoreo\nUso en la evaluación\nSi falta este dato…\n\n\n\n\nRegistro de beneficiarios\nDefinir el grupo de tratamiento e identificar el grupo de comparación\nNo puede identificar quién recibió el programa\n\n\nDosis de tratamiento recibida\nEstimar efectos según la intensidad del programa (análisis de dosis-respuesta)\nSolo puede estimar un efecto promedio, no por intensidad\n\n\nFechas de implementación\nDeterminar los periodos pre y post para el análisis\nNo puede definir correctamente los periodos de análisis\n\n\nCobertura geográfica\nControlar por heterogeneidad geográfica y seleccionar comparaciones adecuadas\nPierde precisión y puede confundir efectos regionales con efectos del programa\n\n\nIndicadores de calidad de implementación\nDistinguir entre falla del programa (mala implementación) y falla de la teoría (el programa no funciona)\nNo puede distinguir por qué el programa no tuvo efecto\n\n\nRazones de abandono o exclusión\nVerificar si la atrición introduce sesgo de selección\nEl análisis puede estar sesgado sin saberlo",
     "crumbs": [
-      "PARTE 1 — Sistemas de monitoreo",
+      "Sistemas de monitoreo",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>De monitoreo a evaluación</span>"
     ]
   },
@@ -549,7 +549,7 @@
     "section": "7.3 Errores comunes que comprometen la evaluación",
     "text": "7.3 Errores comunes que comprometen la evaluación\n\n\n\n\n\n\nAdvertenciaSiete errores del monitoreo que arruinan una evaluación\n\n\n\n1. No registrar quién NO recibió el programa. El monitoreo se enfoca naturalmente en los beneficiarios, pero la evaluación necesita también datos del grupo de comparación. Si solo tiene datos de los participantes, no puede construir un contrafactual.\n2. No tener datos de antes del programa. Sin línea base, la mayoría de métodos de evaluación son imposibles o muy débiles. Recolecte datos antes de que el programa empiece.\n3. Cambiar los indicadores a mitad de camino. Si en el año 1 midió “ingreso mensual” y en el año 2 cambió a “ingreso semanal”, no puede comparar las mediciones directamente.\n4. Datos incompletos o con calidad deficiente. Registros con celdas vacías, errores de digitación, o formatos inconsistentes son difíciles de usar en un análisis riguroso.\n5. No registrar la dosis de tratamiento. Si algunos beneficiarios asistieron a 2 de 10 talleres y otros a los 10, eso importa para la evaluación. Registre cuánto recibió cada persona.\n6. Ausencia de grupo de comparación. Muchos programas solo recolectan datos de los beneficiarios. Sin un grupo de comparación, no hay contrafactual.\n7. No documentar los cambios en la implementación. Si el programa cambió de estrategia a mitad de camino (por ejemplo, pasó de visitas domiciliarias a talleres grupales), eso debe estar documentado para interpretar los resultados.",
     "crumbs": [
-      "PARTE 1 — Sistemas de monitoreo",
+      "Sistemas de monitoreo",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>De monitoreo a evaluación</span>"
     ]
   },
@@ -560,7 +560,7 @@
     "section": "7.4 Checklist: ¿está listo para evaluar?",
     "text": "7.4 Checklist: ¿está listo para evaluar?\nUse esta lista para determinar si sus datos de monitoreo son suficientes para realizar una evaluación de impacto:\n\n7.4.1 Datos básicos\n\n¿Tiene una lista completa de beneficiarios con identificador único?\n¿Tiene datos de un grupo de comparación (personas/unidades que no recibieron el programa)?\n¿Tiene datos de antes de que el programa comenzara (línea base)?\n¿Tiene datos de después de un tiempo razonable de implementación?\n\n\n\n7.4.2 Calidad de los datos\n\n¿Los datos están en formato digital y organizado (no en cuadernos o archivos dispersos)?\n¿Las mismas variables se midieron de la misma forma en todos los periodos?\n¿Los datos están razonablemente completos (menos del 20% de valores faltantes en variables clave)?\n¿Se puede vincular a la misma persona/unidad entre la línea base y el seguimiento?\n\n\n\n7.4.3 Información del programa\n\n¿Sabe cuándo comenzó el programa en cada ubicación o grupo?\n¿Sabe cuánto recibió cada beneficiario (dosis, duración, número de sesiones)?\n¿Conoce la razón por la que unas personas recibieron el programa y otras no?\n¿Están documentados los cambios que hubo en la implementación?\n\n\n\n\n\n\n\nTipInterprete su resultado\n\n\n\n\n12 de 12 casillas marcadas: Excelente — puede proceder con la evaluación con confianza.\n9-11 casillas: Puede hacer una evaluación, pero con algunas limitaciones. Identifique las brechas.\n6-8 casillas: La evaluación será difícil. Considere recolectar los datos faltantes antes de proceder.\nMenos de 6: Probablemente necesita fortalecer primero su sistema de monitoreo antes de intentar una evaluación de impacto.",
     "crumbs": [
-      "PARTE 1 — Sistemas de monitoreo",
+      "Sistemas de monitoreo",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>De monitoreo a evaluación</span>"
     ]
   },
@@ -571,7 +571,7 @@
     "section": "7.5 ¿Qué sigue?",
     "text": "7.5 ¿Qué sigue?\nSi respondió afirmativamente a la mayoría de las preguntas del checklist, está listo para avanzar al siguiente paso: elegir el método de evaluación más apropiado para su contexto.\nLa Herramienta de autodiagnóstico en la Parte 2 le guiará a través de una serie de preguntas interactivas para identificar qué método se ajusta mejor a su programa, sus datos disponibles y las preguntas que quiere responder.",
     "crumbs": [
-      "PARTE 1 — Sistemas de monitoreo",
+      "Sistemas de monitoreo",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>De monitoreo a evaluación</span>"
     ]
   },
@@ -582,7 +582,7 @@
     "section": "7.6 Resumen",
     "text": "7.6 Resumen\nEl monitoreo y la evaluación están íntimamente conectados:\n\nLos datos de monitoreo son insumos esenciales para la evaluación.\nLa evaluación necesita datos que el monitoreo rutinario a menudo no recolecta (línea base, grupo de comparación).\nPlanifique ambos de forma integrada desde el diseño del programa.\nUse el checklist para verificar si está listo para evaluar.\nSi tiene brechas, invierta en cerrarlas antes de comprometerse con un método de evaluación.",
     "crumbs": [
-      "PARTE 1 — Sistemas de monitoreo",
+      "Sistemas de monitoreo",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>De monitoreo a evaluación</span>"
     ]
   },
@@ -1508,6 +1508,149 @@
     "crumbs": [
       "PARTE 4 — Métodos cualitativos",
       "<span class='chapter-number'>23</span>  <span class='chapter-title'>Qualitative Impact Protocol (QuIP)</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html",
+    "href": "capitulos/06-guia-ia.html",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "",
+    "text": "27.1 Paso 1: Anonimizar sus datos\nEsta guía está diseñada para profesionales que no saben programar pero tienen una base de datos y necesitan llevar a cabo una evaluación de impacto. Le mostraremos cómo usar una inteligencia artificial (Claude, ChatGPT u otra) como su asistente de análisis, paso a paso.\nAntes de compartir cualquier dato con una IA, debe eliminar toda información que permita identificar a las personas. Esto es un requisito ético y, en muchos países, legal.",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#sec-ia-paso1",
+    "href": "capitulos/06-guia-ia.html#sec-ia-paso1",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "",
+    "text": "27.1.1 ¿Qué debe eliminar?\n\n\n\n\n\n\n\nEliminar siempre\nMantener\n\n\n\n\nNombres y apellidos\nVariables de resultado (ingresos, puntajes, etc.)\n\n\nNúmeros de identificación (cédula, DNI, RUT)\nIndicador de tratamiento (1 = participó, 0 = no)\n\n\nDirecciones exactas\nPeriodo o fecha de medición\n\n\nTeléfonos y correos electrónicos\nCovariables (edad, género, nivel educativo)\n\n\nNombres de comunidades pequeñas\nIdentificadores anónimos (ID_001, ID_002…)\n\n\n\n\n\n27.1.2 Prompt sugerido\n\nCopie y pegue este prompt en la IA:\nTengo una base de datos en formato [CSV / Excel] para una evaluación de impacto. Necesito anonimizarla antes de analizarla. La base tiene las siguientes columnas:\n[LISTE AQUÍ LOS NOMBRES DE SUS COLUMNAS]\nPor favor:\n\nGenera un script en R (o Python) que lea mi archivo, elimine las columnas con información personal identificable y reemplace el identificador original por un código secuencial (ID_001, ID_002…).\nExplícame qué columnas recomiendas eliminar y por qué.\nGuarda el resultado como un nuevo archivo “base_anonima.csv”.\nMuéstrame las primeras 5 filas del resultado para verificar.\n\n\n\n\n\n\n\n\nTipConsejo\n\n\n\nNo necesita compartir los datos reales en este paso. Solo comparta los nombres de las columnas y la IA le dirá cuáles eliminar y generará el código para hacerlo. Ejecute el código en su computador.",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#sec-ia-paso2",
+    "href": "capitulos/06-guia-ia.html#sec-ia-paso2",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "27.2 Paso 2: Compartir la estructura de sus datos",
+    "text": "27.2 Paso 2: Compartir la estructura de sus datos\nUna vez que tenga la base anonimizada, comparta solo las primeras 10 filas con la IA para que entienda su estructura. Nunca comparta la base completa.\n\n27.2.1 Prompt sugerido\n\nEstoy realizando una evaluación de impacto de un programa social. Voy a compartir las primeras 10 filas de mi base de datos anonimizada para que entiendas la estructura.\nContexto del programa: - Tipo de programa: [ej: capacitación agrícola, microcrédito, alimentación escolar] - Beneficiarios: [ej: 200 hogares rurales en el departamento del Cauca] - Grupo de comparación: [ej: 150 hogares similares que no recibieron el programa] - El programa comenzó en: [ej: marzo 2023] - Datos disponibles: [ej: encuestas antes (2022) y después (2024) del programa]\nVariable de resultado principal: [ej: ingreso mensual del hogar] Variable de tratamiento: [ej: columna “programa” donde 1 = recibió, 0 = no recibió]\nAquí están las primeras 10 filas:\n[PEGUE AQUÍ LAS 10 PRIMERAS FILAS DE SU BASE]\nPor favor: 1. Confirma que entiendes la estructura 2. Identifica qué tipo de variables tengo (continuas, categóricas, binarias) 3. Señala si hay algo que deba corregir antes de continuar 4. Sugiere qué método de evaluación de impacto podría usar dados mis datos\n\n\n\n\n\n\n\nTipCómo obtener las primeras 10 filas\n\n\n\nAbra su archivo CSV en Excel, seleccione las primeras 10 filas con encabezado, cópielas y péguelas directamente en el chat con la IA. O pida a la IA que le genere el código para extraerlas.",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#sec-ia-paso3",
+    "href": "capitulos/06-guia-ia.html#sec-ia-paso3",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "27.3 Paso 3: Análisis exploratorio de variables",
+    "text": "27.3 Paso 3: Análisis exploratorio de variables\nAntes de cualquier análisis causal, necesita entender qué tiene en sus datos. Este paso le ayuda a detectar problemas como datos faltantes, valores atípicos o variables mal codificadas.\n\n27.3.1 Prompt sugerido\n\nCon la base de datos que te compartí, necesito un análisis exploratorio completo. Por favor genera código que:\n\nResumen general:\n\nNúmero total de observaciones y variables\nCuántas observaciones hay por grupo (tratamiento vs. control)\nCuántas observaciones hay por periodo (antes vs. después)\n\nEstadísticas descriptivas:\n\nPara variables numéricas: media, mediana, desviación estándar, mínimo, máximo\nPara variables categóricas: frecuencias y porcentajes\nSeparado por grupo de tratamiento y control\n\nDatos faltantes:\n\n¿Cuántos valores faltantes hay en cada variable?\n¿Hay algún patrón? (¿se concentran en algún grupo?)\n\nVisualizaciones:\n\nHistograma de la variable de resultado, separado por grupo\nGráfico de barras para variables categóricas importantes\n\n\nExplícame los resultados como si no supiera estadística. ¿Hay algo preocupante que deba resolver antes de continuar?",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#sec-ia-paso4",
+    "href": "capitulos/06-guia-ia.html#sec-ia-paso4",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "27.4 Paso 4: Tabla de balance (comparabilidad de grupos)",
+    "text": "27.4 Paso 4: Tabla de balance (comparabilidad de grupos)\nEste paso es crítico: necesita verificar si el grupo que recibió el programa y el grupo que no lo recibió son realmente comparables. Si los grupos son muy diferentes desde el inicio, su evaluación será más difícil.\n\n27.4.1 Prompt sugerido\n\nNecesito verificar si mi grupo de tratamiento y mi grupo de control son comparables. Por favor:\n\nGenera una tabla de balance que compare las características ANTES del programa entre ambos grupos. Para cada variable incluye:\n\nMedia del grupo tratamiento\nMedia del grupo control\nDiferencia\nValor p de la prueba de diferencia (t-test para continuas, chi-cuadrado para categóricas)\nDiferencia estandarizada (d de Cohen)\n\nPresenta la tabla de forma clara y ordenada.\nInterpreta los resultados:\n\n¿Los grupos son estadísticamente similares?\n¿Hay variables con diferencias preocupantes (diferencia estandarizada &gt; 0.25)?\n¿Qué implica esto para mi evaluación?\n\nSi hay desequilibrios, sugiere qué puedo hacer al respecto (incluir covariables, usar matching, etc.)\n\n\n\n\n\n\n\n\nNota¿Por qué importa el balance?\n\n\n\nSi los grupos son similares antes del programa, cualquier diferencia después probablemente se deba al programa. Si son diferentes, necesitará métodos más sofisticados (como Matching o controles en la regresión) para aislar el efecto del programa.",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#sec-ia-paso5",
+    "href": "capitulos/06-guia-ia.html#sec-ia-paso5",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "27.5 Paso 5: Verificar los supuestos del método",
+    "text": "27.5 Paso 5: Verificar los supuestos del método\nCada método tiene supuestos que deben cumplirse. Este paso depende del método que haya elegido con la herramienta de autodiagnóstico.\n\n27.5.1 Si usa Diferencias en Diferencias (DiD)\n\nVoy a usar diferencias en diferencias para mi evaluación. Necesito verificar el supuesto de tendencias paralelas.\nPor favor: 1. Filtra solo los datos del periodo ANTES del programa 2. Grafica la evolución del indicador “[mi variable de resultado]” para el grupo de tratamiento y control a lo largo del tiempo 3. Realiza una prueba formal: regresión con interacción entre grupo y tendencia temporal en el periodo pre-tratamiento 4. Explícame en lenguaje simple: ¿las tendencias son paralelas? ¿Puedo usar DiD?\nSi las tendencias NO son paralelas, sugiere alternativas.\n\n\n\n27.5.2 Si usa Matching / Propensity Score\n\nVoy a usar Propensity Score Matching para mi evaluación. Necesito:\n\nEstimar el propensity score con una regresión logística usando estas covariables: [LISTE SUS VARIABLES]\nGraficar la distribución del propensity score para tratados y controles\nVerificar que hay suficiente soporte común (superposición entre las distribuciones)\nRealizar el emparejamiento usando vecino más cercano\nCrear un Love Plot mostrando el balance de covariables antes y después del matching\nDecirme si el matching fue exitoso: ¿se lograron grupos comparables?\n\n\n\n\n27.5.3 Si usa un Experimento Aleatorio (RCT)\n\nTengo datos de un experimento aleatorio (RCT). Necesito verificar que la aleatorización funcionó correctamente.\nPor favor: 1. Crea una tabla de balance comparando TODAS las características observables entre tratados y controles ANTES de la intervención 2. Realiza un test conjunto (prueba F) de que todas las diferencias son simultáneamente cero 3. Verifica si hay atrición diferencial (¿abandonaron más personas de un grupo que del otro?) 4. Si hay atrición, analiza si los que abandonaron son diferentes a los que se quedaron\nDime: ¿la aleatorización se sostiene? ¿Hay problemas que deba abordar?\n\n\n\n27.5.4 Si usa Variables Instrumentales (IV)\n\nVoy a usar variables instrumentales. Mi instrumento es: [DESCRIBA SU INSTRUMENTO].\nNecesito verificar: 1. Relevancia: Regresión de primera etapa. ¿El instrumento predice significativamente el tratamiento? ¿El F-estadístico es mayor a 10? 2. Exclusión: Esto no se puede probar estadísticamente, pero ayúdame a argumentar por qué mi instrumento solo afecta el resultado a través del tratamiento 3. Si tengo más de un instrumento: test de sobreidentificación (Hansen/Sargan)\n¿Mi instrumento es suficientemente fuerte?\n\n\n\n27.5.5 Si usa Regresión Discontinua (RDD)\n\nVoy a usar regresión discontinua. La variable de asignación es “[NOMBRE]” y el punto de corte es [VALOR].\nNecesito verificar: 1. No manipulación: Test de McCrary — ¿hay acumulación sospechosa de observaciones justo antes/después del corte? 2. Continuidad en covariables: ¿Las características observables cambian suavemente alrededor del corte? 3. Grafica la variable de resultado contra la variable de asignación, con líneas de ajuste a cada lado del corte\n¿Se cumplen los supuestos para RDD?",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#sec-ia-paso6",
+    "href": "capitulos/06-guia-ia.html#sec-ia-paso6",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "27.6 Paso 6: Estimar el efecto del programa",
+    "text": "27.6 Paso 6: Estimar el efecto del programa\nEste es el paso central. Pida a la IA que estime el efecto causal de su programa usando el método elegido.\n\n27.6.1 Prompt sugerido (adapte según su método)\n\nYa verifiqué los supuestos y estoy listo para estimar el efecto de mi programa. Voy a usar [DiD / Matching / RCT / IV / RDD].\nPor favor: 1. Estima el efecto del programa sobre “[mi variable de resultado]” usando [el método elegido] 2. Incluye errores estándar robustos (y clusterizados si tengo datos agrupados por [escuela / comunidad / municipio]) 3. Estima dos modelos: - Modelo básico: solo tratamiento y periodo - Modelo con covariables: agrega como controles [LISTE SUS COVARIABLES] 4. Presenta los resultados en una tabla limpia con: - Coeficiente del efecto - Error estándar - Valor p - Intervalo de confianza al 95% - Número de observaciones - R²\n\nInterpreta los resultados para mí:\n\n¿El programa tuvo un efecto estadísticamente significativo?\n¿Qué tan grande es el efecto en términos prácticos?\n¿El resultado cambia mucho entre el modelo básico y el modelo con covariables?",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#sec-ia-paso7",
+    "href": "capitulos/06-guia-ia.html#sec-ia-paso7",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "27.7 Paso 7: Análisis de heterogeneidad",
+    "text": "27.7 Paso 7: Análisis de heterogeneidad\n¿El programa funcionó igual para todos, o tuvo efectos diferentes según el tipo de beneficiario?\n\n27.7.1 Prompt sugerido\n\nQuiero saber si el efecto del programa varía según subgrupos de la población. Por favor:\n\nEstima el efecto del programa por separado para:\n\nHombres vs. mujeres\nZona urbana vs. rural\n[OTROS SUBGRUPOS RELEVANTES PARA SU PROGRAMA]\n\nPresenta los resultados en una tabla comparativa\nRealiza una prueba formal de interacción: ¿la diferencia entre subgrupos es estadísticamente significativa?\nCrea un gráfico de coeficientes por subgrupo con intervalos de confianza (forest plot)\nInterpreta: ¿para quién funcionó mejor el programa? ¿Hay grupos que no se beneficiaron?",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#sec-ia-paso8",
+    "href": "capitulos/06-guia-ia.html#sec-ia-paso8",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "27.8 Paso 8: Análisis de robustez",
+    "text": "27.8 Paso 8: Análisis de robustez\nAntes de confiar en los resultados, necesita verificar que no dependen de decisiones arbitrarias en el análisis.\n\n27.8.1 Prompt sugerido\n\nNecesito verificar que mis resultados son robustos. Por favor realiza estas pruebas:\n\nSensibilidad a covariables: ¿Cambia mucho el resultado si agrego o quito variables de control? Muestra una tabla con 3-4 especificaciones diferentes.\nTest placebo / falsificación:\n\nEstima el efecto del programa sobre una variable que el programa NO debería haber afectado (ej: [una variable que no debería cambiar]). Si encuentras un efecto “significativo” ahí, algo anda mal.\n\nEfectos por periodo (si tengo datos de panel):\n\nEstima efectos separados para cada periodo post-tratamiento. ¿El efecto crece, se mantiene o desaparece con el tiempo?\n\nPara cada prueba, dime qué resultado esperamos si nuestro análisis es confiable vs. qué resultado sería una señal de alerta.\n\nResumen final: ¿mis resultados principales se sostienen?",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#sec-ia-paso9",
+    "href": "capitulos/06-guia-ia.html#sec-ia-paso9",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "27.9 Paso 9: Crear tablas y gráficos para el informe",
+    "text": "27.9 Paso 9: Crear tablas y gráficos para el informe\nAhora necesita presentar los resultados de forma clara para su audiencia.\n\n27.9.1 Prompt sugerido\n\nNecesito crear las visualizaciones finales para mi informe de evaluación. Por favor genera:\n\nTabla principal de resultados con formato de publicación:\n\nModelos en columnas, variables en filas\nEstrellas de significancia (*** p&lt;0.01, ** p&lt;0.05, * p&lt;0.10)\nErrores estándar entre paréntesis\nEstadísticos de ajuste al pie (N, R², F-test)\n\nGráfico del efecto principal:\n\n\n\n\n\n\nGráfico de efectos heterogéneos: forest plot con coeficientes por subgrupo\nTabla resumen ejecutivo (1 página) con:\n\nPregunta de evaluación\nMétodo utilizado\nResultado principal en lenguaje simple\nTamaño del efecto\nNivel de confianza\nPrincipales limitaciones\n\n\nHaz que los gráficos sean profesionales, con colores azul (#185FA5) para control y naranja (#D85A30) para tratamiento.",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#sec-ia-paso10",
+    "href": "capitulos/06-guia-ia.html#sec-ia-paso10",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "27.10 Paso 10: Redactar la sección de resultados",
+    "text": "27.10 Paso 10: Redactar la sección de resultados\nFinalmente, pida ayuda para comunicar los hallazgos en lenguaje accesible.\n\n27.10.1 Prompt sugerido\n\nCon los resultados de mi evaluación, necesito redactar la sección de resultados para un informe dirigido a [tomadores de decisión / donantes / gerentes de programa].\nLos resultados principales son: [PEGUE AQUÍ SU TABLA PRINCIPAL DE RESULTADOS]\nPor favor escribe:\n\nUn párrafo de resultados principales (3-4 oraciones) que:\n\nIndique si el programa tuvo un efecto significativo\nCuantifique el tamaño del efecto en unidades comprensibles\nMencione el nivel de confianza estadística\nSea comprensible para alguien que no sabe estadística\n\nUn párrafo de matices que:\n\nMencione para qué subgrupos el efecto fue mayor/menor\nSeñale las principales limitaciones del análisis\nIndique qué tan generalizables son los resultados\n\nUna recomendación basada en la evidencia:\n\n¿Se debería continuar/expandir/modificar el programa?\n¿Qué información adicional ayudaría a tomar una mejor decisión?\n\n\nUsa un tono profesional pero accesible. Evita jerga estadística innecesaria.",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#flujo-completo-ejemplo-de-una-conversación",
+    "href": "capitulos/06-guia-ia.html#flujo-completo-ejemplo-de-una-conversación",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "27.11 Flujo completo: ejemplo de una conversación",
+    "text": "27.11 Flujo completo: ejemplo de una conversación\nPara ilustrar cómo funciona todo junto, aquí tiene un ejemplo del flujo de conversación para una evaluación con Diferencias en Diferencias:\n\n\nMostrar código R\nflowchart TD\n  A[\"&lt;b&gt;Paso 1&lt;/b&gt;&lt;br&gt;Anonimizar datos\"] --&gt; B[\"&lt;b&gt;Paso 2&lt;/b&gt;&lt;br&gt;Compartir estructura&lt;br&gt;(10 filas)\"]\n  B --&gt; C[\"&lt;b&gt;Paso 3&lt;/b&gt;&lt;br&gt;Análisis exploratorio\"]\n  C --&gt; D[\"&lt;b&gt;Paso 4&lt;/b&gt;&lt;br&gt;Tabla de balance\"]\n  D --&gt; E[\"&lt;b&gt;Paso 5&lt;/b&gt;&lt;br&gt;Verificar tendencias&lt;br&gt;paralelas\"]\n  E --&gt;|\"✅ Se cumplen\"| F[\"&lt;b&gt;Paso 6&lt;/b&gt;&lt;br&gt;Estimar efecto DiD\"]\n  E --&gt;|\"❌ No se cumplen\"| G[\"Considerar otro&lt;br&gt;método\"]\n  F --&gt; H[\"&lt;b&gt;Paso 7&lt;/b&gt;&lt;br&gt;Efectos heterogéneos\"]\n  H --&gt; I[\"&lt;b&gt;Paso 8&lt;/b&gt;&lt;br&gt;Análisis de robustez\"]\n  I --&gt; J[\"&lt;b&gt;Paso 9&lt;/b&gt;&lt;br&gt;Tablas y gráficos\"]\n  J --&gt; K[\"&lt;b&gt;Paso 10&lt;/b&gt;&lt;br&gt;Redactar resultados\"]\n\n  style A fill:#E8F4FD,stroke:#185FA5\n  style B fill:#E8F4FD,stroke:#185FA5\n  style C fill:#E8F4FD,stroke:#185FA5\n  style D fill:#E8F4FD,stroke:#185FA5\n  style E fill:#FFF8E1,stroke:#BA7517\n  style F fill:#E8F5E9,stroke:#0F6E56\n  style G fill:#FFEBEE,stroke:#D85A30\n  style H fill:#E8F5E9,stroke:#0F6E56\n  style I fill:#E8F5E9,stroke:#0F6E56\n  style J fill:#E8F5E9,stroke:#0F6E56\n  style K fill:#E8F5E9,stroke:#0F6E56\n\n\n\n\n\nflowchart TD\n  A[\"&lt;b&gt;Paso 1&lt;/b&gt;&lt;br&gt;Anonimizar datos\"] --&gt; B[\"&lt;b&gt;Paso 2&lt;/b&gt;&lt;br&gt;Compartir estructura&lt;br&gt;(10 filas)\"]\n  B --&gt; C[\"&lt;b&gt;Paso 3&lt;/b&gt;&lt;br&gt;Análisis exploratorio\"]\n  C --&gt; D[\"&lt;b&gt;Paso 4&lt;/b&gt;&lt;br&gt;Tabla de balance\"]\n  D --&gt; E[\"&lt;b&gt;Paso 5&lt;/b&gt;&lt;br&gt;Verificar tendencias&lt;br&gt;paralelas\"]\n  E --&gt;|\"✅ Se cumplen\"| F[\"&lt;b&gt;Paso 6&lt;/b&gt;&lt;br&gt;Estimar efecto DiD\"]\n  E --&gt;|\"❌ No se cumplen\"| G[\"Considerar otro&lt;br&gt;método\"]\n  F --&gt; H[\"&lt;b&gt;Paso 7&lt;/b&gt;&lt;br&gt;Efectos heterogéneos\"]\n  H --&gt; I[\"&lt;b&gt;Paso 8&lt;/b&gt;&lt;br&gt;Análisis de robustez\"]\n  I --&gt; J[\"&lt;b&gt;Paso 9&lt;/b&gt;&lt;br&gt;Tablas y gráficos\"]\n  J --&gt; K[\"&lt;b&gt;Paso 10&lt;/b&gt;&lt;br&gt;Redactar resultados\"]\n\n  style A fill:#E8F4FD,stroke:#185FA5\n  style B fill:#E8F4FD,stroke:#185FA5\n  style C fill:#E8F4FD,stroke:#185FA5\n  style D fill:#E8F4FD,stroke:#185FA5\n  style E fill:#FFF8E1,stroke:#BA7517\n  style F fill:#E8F5E9,stroke:#0F6E56\n  style G fill:#FFEBEE,stroke:#D85A30\n  style H fill:#E8F5E9,stroke:#0F6E56\n  style I fill:#E8F5E9,stroke:#0F6E56\n  style J fill:#E8F5E9,stroke:#0F6E56\n  style K fill:#E8F5E9,stroke:#0F6E56\n\n\n Flujo de conversación con la IA para una evaluación DiD",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-guia-ia.html#consejos-generales-para-hablar-con-la-ia",
+    "href": "capitulos/06-guia-ia.html#consejos-generales-para-hablar-con-la-ia",
+    "title": "27  Cómo hablar con la IA para hacer una evaluación de impacto",
+    "section": "27.12 Consejos generales para hablar con la IA",
+    "text": "27.12 Consejos generales para hablar con la IA\n\n\n\n\n\n\nTipBuenas prácticas\n\n\n\n\nSea específico: “Genera un gráfico de barras comparando ingresos por grupo” es mejor que “haz un gráfico”.\nDé contexto: siempre explique qué programa evalúa, qué método usa y qué pregunta quiere responder.\nPida explicaciones: agregue “explícame el resultado como si no supiera estadística” a cualquier prompt.\nItere: si el resultado no es lo que esperaba, no empiece de cero. Diga “el gráfico está bien pero cambia los colores a azul y naranja” o “la tabla necesita una columna adicional con intervalos de confianza”.\nVerifique: siempre pregunte “¿qué supuestos estás asumiendo?” y “¿qué podría salir mal con este análisis?”.\nNo comparta datos sensibles: solo las primeras filas anonimizadas. Ejecute el código en su computador, no en la IA.\nGuarde su conversación: los prompts y respuestas son documentación valiosa de su proceso analítico.\n\n\n\n\n\n\n\n\n\nAdvertenciaErrores comunes al usar IA para evaluación\n\n\n\n\nConfiar ciegamente en el código: la IA puede generar código con errores sutiles. Verifique que los resultados tengan sentido (¿el efecto del programa es 500%? Probablemente hay un error).\nNo verificar supuestos: la IA puede estimar un modelo DiD sin verificar tendencias paralelas. Siempre pida las verificaciones.\nCompartir datos completos: nunca pegue toda su base de datos. Use solo las primeras filas anonimizadas.\nUsar un método inadecuado: la IA ejecutará cualquier método que le pida, aunque no sea apropiado para sus datos. Use el autodiagnóstico primero.\nIgnorar las limitaciones: siempre pida a la IA que liste las limitaciones de su análisis. Si no lo hace espontáneamente, algo anda mal.",
+    "crumbs": [
+      "Cómo hablar con la IA y anexos de código",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Cómo hablar con la IA para hacer una evaluación de impacto</span>"
     ]
   }
 ]
