@@ -187,3 +187,96 @@ cat("========================================\n")
 ## Interpretación
 Compare el efecto estimado con el efecto real programado (150). El matching debería acercar la estimación al valor real, corrigiendo el sesgo de la comparación naive.
 :::
+
+## Trabajando con IA paso a paso
+
+::: {.callout-note}
+## Sobre esta sección
+Replica los pasos del [capítulo de uso de IA](06-guia-ia.qmd) con prompts **específicos para Propensity Score Matching** sobre el dataset simulado del programa de microfinanzas. Asume que ya construyó `covariables` y `subgrupos` siguiendo el Paso 4 del capítulo general.
+:::
+
+### Contexto simulado
+
+200 personas (≈100 tratadas, ≈100 control) con autoselección al programa de microcréditos. Variable de resultado: `ingreso` (mensual, USD). Covariables observables que predicen la participación: `educacion`, `edad`, `ingreso_previo`, `urbano`. Para los prompts asuma:
+
+```r
+covariables <- c("educacion", "edad", "ingreso_previo", "urbano")
+```
+
+### Prompt PSM.1 — Estimación del propensity score y soporte común
+
+::: {.prompt-block}
+Actúa como analista que escribe código en R. Tengo un data frame `datos` con: `tratamiento` (1/0), `ingreso`, y covariables en `covariables <- c("educacion","edad","ingreso_previo","urbano")`.
+
+Genera un script en R que:
+
+1. Estime el propensity score con `glm(tratamiento ~ educacion + edad + ingreso_previo + urbano, family = binomial, data = datos)` y guarde `datos$ps <- predict(modelo, type = "response")`.
+2. Grafique con `ggplot2` la **densidad** del PS por grupo (relleno con alpha=0.5), colores `#185FA5` para control y `#D85A30` para tratamiento, línea vertical en min y max del soporte común.
+3. Calcule el rango de soporte común: `c(max(min_trat, min_ctrl), min(max_trat, max_ctrl))` e imprima cuántos tratados quedan dentro y fuera.
+4. Cree `datos_sc <- subset(datos, ps >= li & ps <= ls)` con solo el soporte común.
+
+Solo código en un bloque. Al final, en una frase, dime qué % de tratados perdidos por soporte común sería preocupante.
+:::
+
+**Cómo interpretar:** si pierde más del 10–15% de tratados al imponer soporte común, los grupos son demasiado distintos y PSM puede no ser viable.
+
+### Prompt PSM.2 — Matching y verificación de balance
+
+::: {.prompt-block}
+Con `datos_sc` (ya filtrado por soporte común) y `covariables`, genera un script en R que:
+
+1. Use `MatchIt::matchit(tratamiento ~ educacion + edad + ingreso_previo + urbano, data = datos_sc, method = "nearest", caliper = 0.1)`.
+2. Imprima `summary(m.out)` y guarde el balance.
+3. Genere un **Love plot** con `cobalt::love.plot(m.out, thresholds = c(m = 0.10))` mostrando SMD antes y después.
+4. Imprima un mensaje claro `cat("Covariables con |SMD|>0.10 después del matching:", n_malas)`.
+
+Solo código. Al final, en una frase, indícame qué hacer si el balance falla.
+:::
+
+**Cómo interpretar:** después del matching, todas las |SMD| deben quedar por debajo de 0.10. Si alguna covariable persiste descompensada, considere agregar términos cuadráticos o interacciones al modelo de PS, o usar otro algoritmo.
+
+### Prompt PSM.3 — ATT con tres algoritmos (sensibilidad)
+
+::: {.prompt-block}
+Con `datos_sc` y `covariables`, estima el ATT con tres algoritmos distintos para análisis de sensibilidad:
+
+1. **Vecino más cercano sin reemplazo** con `caliper = 0.1`.
+2. **Vecino más cercano con reemplazo** y `ratio = 1`.
+3. **Kernel matching** (puede usar `Matching::Match(M=Inf, Weight=2)` o ponderación por PS con `WeightIt`).
+
+Para cada uno, ajusta `lm(ingreso ~ tratamiento + covariables, data = matched, weights = pesos)` con errores robustos. Reúne los tres efectos en una tabla con `modelsummary::modelsummary()` lado a lado.
+
+Solo código. Al final, en una frase, dime qué resultado haría más creíble el ATT.
+:::
+
+**Cómo interpretar:** si los tres efectos son similares y todos tienen p<0.05, el resultado es robusto. Diferencias grandes sugieren dependencia del algoritmo y debilidad del soporte común.
+
+### Prompt PSM.4 — Sensibilidad a confusores no observados (Rosenbaum bounds)
+
+::: {.prompt-block}
+Con el matched dataset del Prompt PSM.2, genera un script en R que ejecute un **test de sensibilidad de Rosenbaum** usando `rbounds::psens()` o `sensitivitymw`, sobre los pares emparejados.
+
+Reporte la **gamma crítica**: el nivel de confusor no observado (en términos de odds ratio sobre la probabilidad de tratamiento) que volvería el efecto no significativo.
+
+Solo código. Al final, en una frase, dime cómo se interpreta gamma=1.5 vs gamma=3.0.
+:::
+
+**Cómo interpretar:** gamma alto (≥ 2) significa que se necesitaría un confusor no observado muy fuerte para anular el resultado, lo que da credibilidad. Gamma bajo (≤ 1.3) sugiere que el resultado es frágil.
+
+### Prompt PSM.5 — Reporte ejecutivo
+
+::: {.prompt-block}
+Pegando esta tabla con los tres ATT estimados:
+
+```
+[pegar tabla del Prompt PSM.3]
+```
+
+Redacta para la junta directiva de la entidad de microfinanzas:
+
+1. **Párrafo de 4 líneas** sobre el efecto del programa en ingreso mensual, en USD comprensibles.
+2. **Frase** con la principal limitación: PSM no controla por factores no observables como motivación.
+3. **Recomendación accionable** en una oración.
+
+Sin jerga. Traduce "ATT" como "efecto promedio entre quienes tomaron el crédito".
+:::

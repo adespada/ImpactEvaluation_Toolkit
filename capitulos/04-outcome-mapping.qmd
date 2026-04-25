@@ -66,6 +66,53 @@ Finalmente, al conectarlo con herramientas como el Participatory Systems Mapping
 **Estrategias:** Acciones o intervenciones que implementa el programa para generar los cambios en los *boundary partners*, incluyendo actividades de capacitación, acompañamiento o incentivos.
 :::
 
+### Las 3 etapas y 12 pasos del Outcome Mapping
+
+En su formulación original de @earl2001, el OM se estructura en **3 etapas y 12 pasos**:
+
+**Etapa 1 — Diseño intencional** (pasos 1–7): Visión, Misión, Socios directos, Desafíos de alcance, Marcadores de progreso, Mapas de estrategias, Prácticas de la organización.
+
+**Etapa 2 — Monitoreo de alcances y desempeño** (pasos 8–11): Prioridades de monitoreo, Diario de alcances, Diario de estrategias, Diario de desempeño.
+
+**Etapa 3 — Planificación de la evaluación** (paso 12): Plan de evaluación.
+
+Una forma compacta de recordar la etapa de diseño es mediante **cuatro preguntas guía**: *¿Por qué?* (Visión), *¿Quién?* (Socios directos), *¿Qué?* (Desafíos y marcadores de progreso) y *¿Cómo?* (Misión, mapa estratégico y prácticas organizacionales).
+
+### Esferas de control, influencia e interés
+
+El OM parte de una distinción fundamental: los programas no **controlan** el impacto, pero sí pueden **influir** en los cambios de comportamiento de los actores con quienes trabajan directamente. Por eso el OM se sitúa en la **esfera de influencia**: aquello sobre lo que el programa incide aunque no determina, dejando la esfera de control (sus propias actividades) como insumo y la esfera de interés (impactos de largo plazo) como aspiración.
+
+### Niveles de los marcadores de progreso
+
+Los marcadores de progreso se organizan en tres niveles graduados, según la profundidad del cambio observado en cada socio directo:
+
+- **Espera ver (*expect to see*) — Reactivo:** cambios mínimos y tempranos; el socio responde a los estímulos del programa.
+- **Quisiera ver (*like to see*) — Compromiso activo:** el socio aprende, se apropia y toma iniciativa.
+- **Le encantaría ver (*love to see*) — Transformativo:** cambios profundos y sostenibles; el socio se convierte en agente de cambio autónomo.
+
+### Mapa de estrategias (matriz 2×3)
+
+El **mapa de estrategias** clasifica las acciones del programa según **a quién se dirigen** (al individuo/grupo o al entorno) y **qué tipo de influencia buscan** (causal, persuasiva o de apoyo). Resulta una matriz 2×3:
+
+| | Causal | Persuasiva | De apoyo |
+|---|---|---|---|
+| **Dirigida al individuo/grupo (I)** | I-1: producto directo (fondos, insumos) | I-2: estimula nuevas formas de pensar (talleres, capacitaciones) | I-3: redes de acompañamiento y mentoría |
+| **Dirigida al entorno (E)** | E-1: cambio en políticas o entorno físico | E-2: diseminación a audiencia amplia (radio, medios) | E-3: redes de aprendizaje/acción colectiva |
+
+No todas las celdas deben llenarse: la pertinencia de cada estrategia depende del tipo de cambio buscado en cada socio directo. Completar el mapa ayuda a identificar **vacíos estratégicos** o un exceso de dispersión.
+
+### Ideas avanzadas del OM
+
+Más allá de sus herramientas básicas (outcome challenges, progress markers, mapa de estrategias), el Outcome Mapping plantea varias tesis sustantivas que conviene tener presentes [@earl2001; @smutylo2001; @tsasis2013]:
+
+- **Paradoja de la atribución:** si el programa es verdaderamente exitoso, su influencia *disminuye* con el tiempo: los socios directos asumen el control y la agencia externa se vuelve irrelevante. Buscar atribución fuerte en el impacto final contradice la propia lógica del desarrollo sostenible [@smutylo2001].
+- **Marcadores como modelo de cambio:** un marcador de progreso aislado es solo un indicador; la **secuencia graduada** (“espera ver / quisiera ver / le encantaría ver”) actúa como un modelo sistémico de cambio que captura profundidad y no-linealidad — algo imposible para una métrica única [@earl2001].
+- **Socios directos anidados:** los *boundary partners* tienen sus propios socios directos. El programa opera en cascadas de influencia y debe planificar qué actor intermedio influirá al siguiente, no pretender llegar directo al beneficiario final [@earl2001].
+- **Capital colaborativo:** el proceso participativo del OM genera confianza y alineación estratégica entre actores, un activo organizacional más allá de los datos producidos [@tsasis2013].
+- **“Cuidado y alimentación” de la organización:** el OM exige monitorear las ocho prácticas organizacionales internas del programa; se asume que *la organización debe transformarse a sí misma* para poder influir efectivamente en otros [@earl2001].
+- **Lógica racional, no empírica:** la conexión entre los resultados del programa y el impacto final es **razonada** (el impacto funciona como faro orientador y test de relevancia), no una vara estadística para medir desempeño [@earl2001; @jones2009].
+- **Complementariedad con enfoque realista:** el OM se articula bien con evaluaciones que preguntan “qué funciona para quién, en qué contexto y por qué” [@nyangaga2010; @kristjanson2009].
+
 ---
 
 ## B. Aplicación paso a paso
@@ -124,7 +171,7 @@ Indicadores graduales del cambio.
 
  progress_markers <- data.frame(
   Actor = rep("Estudiantes", 3),
-  Nivel = c("Esperar ver", "Sería bueno ver", "Ideal ver"),
+  Nivel = c("Espera ver", "Quisiera ver", "Le encantaría ver"),
   Comportamiento = c(
     "Asisten regularmente a monitorías",
     "Participan activamente en sesiones",
@@ -251,9 +298,9 @@ Los progress markers ofrecen una forma natural de construir métricas graduales 
 
 Por ejemplo:
 
-- Esperar ver → asistencia a monitorías
-- Sería bueno ver → participación activa
-- Ideal ver → apoyo a otros estudiantes
+- Espera ver → asistencia a monitorías
+- Quisiera ver → participación activa
+- Le encantaría ver → apoyo a otros estudiantes
 
 Estos niveles pueden convertirse en:
 

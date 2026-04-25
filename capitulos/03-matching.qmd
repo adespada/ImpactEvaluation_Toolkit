@@ -134,6 +134,16 @@ knitr::kable(tabla_tipos,
 
 @gertler2016impact recomiendan verificar la robustez de los resultados utilizando diversos algoritmos de matching, ya que distintos métodos pueden producir estimaciones diferentes. Si los resultados son consistentes entre métodos, esto fortalece la credibilidad de las conclusiones.
 
+### Elementos clave de diseño
+
+Un PSM bien diseñado depende más de los datos disponibles que del algoritmo. Cinco decisiones críticas [@gertler2016impact; @huntingtonklein2022]:
+
+1. **Riqueza de covariables observables en línea base.** Todo el supuesto CIA descansa aquí: las variables deben capturar *todo* lo que simultáneamente afecta la participación y el resultado. @huntingtonklein2022 advierte que agregar covariables "por si acaso" no arregla el problema si falta la variable que realmente importa.
+2. **Especificación del modelo de propensión.** Logit o probit sobre las características pre-tratamiento; incluir interacciones y términos cuadráticos cuando la teoría lo sugiera; no incluir variables afectadas por el tratamiento.
+3. **Verificación del soporte común.** Graficar las densidades del *propensity score* por grupo y descartar tratados sin controles comparables (y viceversa). Reportar cuántas observaciones se pierden y si el ATT resultante es representativo.
+4. **Elección del algoritmo de emparejamiento.** Vecino más cercano (con o sin reemplazo), *caliper*, radio o kernel. Reportar resultados con al menos dos algoritmos como análisis de sensibilidad [@gertler2016impact].
+5. **Validación post-matching con pruebas de balance.** Tras emparejar, las diferencias estandarizadas en covariables deben ser pequeñas (regla común: |SMD| < 0.10). Si el balance falla, revisar el modelo de propensión o el soporte común antes de interpretar efectos.
+
 ### Supuestos y limitaciones
 
 ::: {.callout-warning}
@@ -173,4 +183,5 @@ Para profundizar en matching y propensity score, se recomiendan las siguientes r
 - @rosenbaum1983, el artículo fundacional que demuestra las propiedades del propensity score.
 - @khandker2009, para una guía práctica de métodos de evaluación de impacto incluyendo matching.
 - La documentación del paquete [MatchIt](https://kosukeimai.github.io/MatchIt/) para la implementación en R.
+- @huntingtonklein2022 (*The Effect*, Cap. 14): exposición intuitiva de matching y propensity score, con énfasis en las limitaciones del supuesto de selección en observables.
 :::

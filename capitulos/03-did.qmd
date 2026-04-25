@@ -128,6 +128,16 @@ El supuesto de tendencias paralelas no se puede demostrar formalmente, pero exis
 
 Estas pruebas no garantizan que el supuesto se cumpla, pero proporcionan evidencia que permite al evaluador —y a los lectores— juzgar la solidez del diseño [@angrist2009].
 
+### Elementos clave de diseño
+
+Un DiD creíble se juega en cinco decisiones de diseño, no en la regresión final [@gertler2016impact; @huntingtonklein2022]:
+
+1. **Línea de base para *ambos* grupos.** Sin datos pre-intervención para tratados y controles, DiD no es factible. Idealmente, dos o más períodos previos para poder inspeccionar la trayectoria.
+2. **Justificación del supuesto de tendencias paralelas.** Graficar las trayectorias pre-tratamiento y discutir qué política, shock o tendencia podría violarlo. @huntingtonklein2022 insiste en que este supuesto se defiende con argumento sustantivo, no solo con un gráfico.
+3. **Pruebas placebo previstas desde el diseño.** Declarar *ex ante* qué grupo o qué variable de resultado se usará como placebo, y qué resultado invalidaría la inferencia.
+4. **Control de confusores temporales diferenciales.** Identificar eventos concurrentes que afectan solo a un grupo (otra política, desastre, shock económico localizado). Si existen, se requieren efectos fijos adicionales o un grupo de comparación alternativo.
+5. **Múltiples grupos de comparación.** Replicar el DiD con controles distintos (geográficos, por sector, por elegibilidad) y reportar la sensibilidad del coeficiente. La robustez al grupo de control es un criterio de credibilidad [@gertler2016impact].
+
 ### Supuestos y limitaciones
 
 ::: {.callout-warning}
@@ -161,5 +171,5 @@ Un caso clásico de DiD es el estudio de la privatización de los servicios de a
 ## Código y práctica
 Para el taller práctico con código R de este método, consulte el [Anexo de código: Diferencias en diferencias](anexo-codigo-did.qmd). Para una guía paso a paso de cómo usar IA para ejecutar este análisis, consulte la [Parte 6: Cómo hablar con la IA](06-guia-ia.qmd).
 
-**Referencias clave:** @gertler2016impact (capítulos 6 y 8), @angrist2009, @khandker2009.
+**Referencias clave:** @gertler2016impact (capítulos 6 y 8), @huntingtonklein2022 (capítulo sobre DiD), @angrist2009, @khandker2009.
 :::

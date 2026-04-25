@@ -111,6 +111,16 @@ knitr::kable(tabla, col.names = c("Coeficiente", "Nombre", "Interpretación"))
 La regresión permite agregar **covariables** (características pre-tratamiento) que mejoran la precisión de la estimación al reducir la varianza residual, sin alterar el estimador del efecto. El modelo extendido es: $Y_i = \beta_0 + \beta_1 \cdot T_i + \mathbf{X}_i'\gamma + \epsilon_i$.
 :::
 
+### Elementos clave de diseño
+
+Más allá del estimador, lo que distingue a un RCT bien diseñado de uno débil son cinco decisiones que deben tomarse **antes** del trabajo de campo [@gertler2016impact; @huntingtonklein2022]:
+
+1. **Definir la unidad de aleatorización.** Individual si no hay riesgo de interferencia entre unidades; por conglomerados (escuelas, aldeas, clínicas) cuando el tratamiento se entrega colectivamente o hay *spillovers* probables. El costo es inflar la muestra necesaria.
+2. **Escoger un mecanismo de asignación transparente y público.** Loterías, sorteos en asamblea o algoritmos con semilla documentada. La credibilidad ante autoridades y beneficiarios es parte del diseño, no un detalle logístico [@huntingtonklein2022].
+3. **Planear las pruebas de balance en línea de base.** Definir *ex ante* qué covariables se compararán entre brazos y cómo se reportarán. Una aleatorización fallida o una atrición diferencial se detectan aquí.
+4. **Declarar desde el diseño si el análisis será por ITT o TOT.** Esta decisión determina el tamaño de muestra, la forma de manejar incumplimiento y si se necesitará una estrategia de variables instrumentales complementaria [@gertler2016impact].
+5. **Anticipar las amenazas: atrición, contaminación, spillovers y efecto Hawthorne.** @huntingtonklein2022 recomienda simular estos escenarios antes de salir al campo — qué tanto tendría que romperse cada supuesto para invalidar la conclusión.
+
 ### Supuestos y limitaciones
 
 ::: {.callout-warning}
@@ -159,5 +169,5 @@ Para el taller práctico con código R de este método, consulte el [Anexo de c�
 - @bernal2011, Capítulo 4: ofrece una exposición detallada de los RCT con ejemplos de América Latina, incluyendo PROGRESA y otros programas de la región.
 - @gerber2012: una guía completa sobre el diseño, análisis e interpretación de experimentos de campo en ciencias sociales.
 - @imbens2015: tratamiento riguroso de la inferencia causal con énfasis en diseños experimentales y cuasi-experimentales.
-- Para una explicación intuitiva y accesible, consulte también el capítulo correspondiente en [The Effect](https://theeffectbook.net) de Nick Huntington-Klein.
+- @huntingtonklein2022 (*The Effect: An Introduction to Research Design and Causality*): exposición accesible y orientada al diseño, con énfasis en las decisiones prácticas que debe tomar quien planea un experimento.
 :::

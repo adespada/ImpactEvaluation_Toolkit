@@ -99,6 +99,12 @@ Como enfatiza @gertler2016impact, estos parámetros responden a preguntas de pol
 Un RCT bien ejecutado estima el ATE general. DiD estima el ATT. IV estima el LATE. Estos números pueden ser diferentes porque se refieren a poblaciones diferentes. Al comparar resultados de diferentes estudios, verifique que están estimando el mismo parámetro [@gertler2016impact, Cap. 3].
 :::
 
+## El diseño como eje central
+
+La calidad de una evaluación cuantitativa se juega en el **diseño**, no en la sofisticación del estimador. @huntingtonklein2022 insiste en que la pregunta "¿cuál método usar?" debe reformularse como "¿qué diseño de investigación sustenta la inferencia causal en este contexto?". En la misma línea, @gertler2016impact organiza toda su exposición alrededor de las decisiones que se toman **antes** de los datos: unidad de aleatorización o asignación, definición de la línea base, grupos de comparación, instrumentos, puntos de corte, y tamaño de muestra calibrado al efecto mínimo que importa a la política.
+
+Cada uno de los capítulos siguientes dedica una sección específica a **"Elementos clave de diseño"** donde se resumen las cinco decisiones críticas para un estudio creíble con ese método. Esas decisiones —no el código ni el estimador— son las que distinguen una evaluación defendible de un ejercicio estadístico.
+
 ## Validez interna vs. externa
 
 - **Validez interna**: ¿el efecto estimado es correcto para la población estudiada? Depende de los supuestos del método.
@@ -115,4 +121,5 @@ Para profundizar en los conceptos presentados en este capítulo, se recomiendan 
 - @bernal2011 — Guía en español con un tratamiento formal pero accesible del marco de resultados potenciales, los parámetros de interés (ATE, ATT, LATE, MTE) y cada método cuantitativo.
 - @angrist2009 — Referencia avanzada sobre diseño de investigación y estrategias de identificación causal, con énfasis en variables instrumentales y experimentos naturales.
 - @khandker2009 — Manual práctico del Banco Mundial orientado a la implementación de evaluaciones de impacto en países en desarrollo.
+- @huntingtonklein2022 (*The Effect: An Introduction to Research Design and Causality*) — Texto contemporáneo centrado en el **diseño de investigación**: cómo elegir el método según la pregunta causal, los supuestos defendibles y los datos disponibles. Disponible gratuitamente en [theeffectbook.net](https://theeffectbook.net).
 :::

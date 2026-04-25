@@ -1,437 +1,511 @@
 # Cómo hablar con la IA para hacer una evaluación de impacto {#sec-guia-ia}
 
-Esta guía está diseñada para profesionales que **no saben programar** pero tienen una base de datos y necesitan llevar a cabo una evaluación de impacto. Le mostraremos cómo usar una inteligencia artificial (Claude, ChatGPT u otra) como su asistente de análisis, paso a paso.
+Esta guía está pensada para profesionales que **no saben programar** pero tienen una base de datos y necesitan llevar a cabo una evaluación de impacto. La idea es usar una IA conversacional (Claude, ChatGPT, Gemini, Copilot u otra) como un **asistente de análisis**: alguien que escribe código por usted, le explica resultados y le ayuda a iterar, mientras usted mantiene el juicio profesional sobre el diseño y las conclusiones.
 
-::: {.callout-important}
-## ¿Qué necesita para empezar?
-1. Una **base de datos** en formato CSV o Excel con información de su programa
-2. Acceso a una **IA conversacional** (Claude, ChatGPT, Gemini, Copilot, etc.)
-3. Haber leído los capítulos teóricos de este toolkit para entender qué método le conviene
-4. Haber completado la [herramienta de autodiagnóstico](02-autodiagnostico.qmd)
-:::
+Este capítulo cubre la parte **transversal** del trabajo con IA: cómo prepararse, cómo proteger los datos, cómo describir y explorar la base, y cómo construir los insumos (variables, vectores, subgrupos) que después usará en cada método. Las recetas específicas de cada método —RCT, DiD, IV, RDD, Matching, Poder— viven en sus respectivos anexos de código.
+
+## ¿Qué obtiene del uso de IA en una evaluación?
+
+La IA generativa **democratiza el acceso a métodos analíticos sofisticados** que antes requerían años de entrenamiento técnico [@cgiar2024ai]. Para un evaluador que no programa, los beneficios concretos son:
+
+| Beneficio | En qué se traduce |
+|-----------|-------------------|
+| **Soporte para escribir código** | La IA genera scripts en R o Python listos para copiar y ejecutar [@cgiar2024ai; @ukri2025ai] |
+| **Procesamiento más rápido de datos** | Limpieza, recodificación y descriptivos en minutos en lugar de días [@cgiar2024ai] |
+| **Pluralismo metodológico** | Probar varios métodos sobre los mismos datos sin tener que aprender la sintaxis de cada uno [@cgiar2024ai] |
+| **Replicabilidad** | Código documentado paso a paso que cualquier persona puede ejecutar de nuevo [@ukri2025ai] |
+| **Acompañamiento pedagógico** | La IA explica los resultados en lenguaje simple si así se le pide |
 
 ::: {.callout-warning}
-## Limitaciones importantes
-La IA es un **asistente**, no un reemplazo del juicio profesional. Puede cometer errores en el código, malinterpretar sus datos o sugerir análisis inadecuados. Siempre valide los resultados con un experto antes de tomar decisiones basadas en ellos. Nunca comparta datos confidenciales sin anonimizarlos primero.
+## Lo que la IA *no* reemplaza
+
+La IA es un asistente, no un reemplazo del juicio profesional. Los textos guía sobre uso de IA en evaluación son explícitos: los resultados deben tratarse como **borradores sujetos a verificación humana** [@cgiar2024ai; @ukri2025ai]. Riesgos concretos:
+
+- **Alucinaciones**: la IA puede inventar referencias, fabricar números o producir interpretaciones plausibles pero falsas [@cgiar2024ai].
+- **Sesgo algorítmico**: refleja perspectivas dominantes en los datos de entrenamiento; puede reforzar estereotipos o invisibilizar contextos minoritarios [@cgiar2024ai; @ukri2025ai].
+- **Privacidad**: lo que escriba en una herramienta comercial puede usarse para entrenar modelos futuros. Nunca comparta datos sensibles ni información identificable [@cgiar2024ai].
+- **Atrofia cognitiva (*deskilling*)**: el uso acrítico erosiona la capacidad de pensamiento crítico [@ukri2025ai].
+:::
+
+## Buenas prácticas transversales
+
+Las siguientes prácticas se aplican **a cada paso** de su trabajo con IA, sin importar el método. Vienen de la guía técnica de CGIAR [@cgiar2024ai] y del informe del Innovation and Research Caucus para UKRI [@ukri2025ai].
+
+::: {.callout-tip}
+## Reglas de oro
+
+1. **Human-in-the-loop siempre.** Trate cada salida de la IA como un borrador. Verifique que los números tengan sentido (¿el efecto es +500%? algo está mal). Compare contra al menos un método tradicional cuando pueda [@ukri2025ai].
+2. **Diálogo iterativo, no prompt único.** Conseguir un resultado útil casi nunca sale del primer intento. Refine: "el gráfico está bien pero cambia colores", "agrega intervalo de confianza al 95%", "la tabla necesita una fila más" [@cgiar2024ai].
+3. **Anonimice antes de compartir.** Nunca pegue datos personales identificables (PII): nombres, cédulas, direcciones, teléfonos, datos de poblaciones vulnerables [@cgiar2024ai; @ukri2025ai].
+4. **Comparta solo lo mínimo.** Para que la IA entienda la estructura le bastan los nombres de columnas y 5–10 filas anonimizadas. La base completa nunca debe salir de su computador.
+5. **Sea específico en el prompt.** Indique persona ("actúa como analista de evaluación"), tarea exacta, formato de salida y qué hacer con los resultados [@ukri2025ai]. Pida código copiable, no descripciones genéricas.
+6. **Documente el uso de IA.** Guarde los prompts y respuestas. Reporte en el informe final qué tareas fueron asistidas por IA, con qué herramienta y cómo se verificaron los resultados [@cgiar2024ai; @ukri2025ai].
+7. **Mantenga el juicio analítico.** Las conclusiones finales deben basarse en su lectura crítica, no en el output del modelo [@ukri2025ai].
+:::
+
+## Cómo escribir prompts que funcionen
+
+A lo largo de esta guía y de los anexos por método verá prompts listos para copiar. Todos siguen la misma estructura, recomendada en la literatura [@ukri2025ai]:
+
+```
+[ROL]      Actúa como analista de evaluación de impacto que escribe código en R.
+[CONTEXTO] Tengo una base de [N] observaciones de [tipo de programa]…
+[TAREA]    Genera un script que…
+[FORMATO]  Devuélveme solo el código en un bloque, listo para copiar y pegar
+           en RStudio, con comentarios en español que expliquen cada paso.
+[VERIFICACIÓN] Al final, indícame qué debería ver si todo salió bien y qué
+           sería una señal de alerta.
+```
+
+Cuando el prompt está bien construido, la IA debe devolver **solo código copiable** y una breve nota de qué esperar. Si la respuesta es vaga, no acepte: pida específicamente "dame el código completo, no me lo expliques en pseudocódigo".
+
+::: {.callout-note}
+## Cómo está organizada esta sección
+
+- **Este capítulo (Pasos 1–4)** cubre la parte transversal: anonimización, exposición de la estructura de datos, limpieza y problemas comunes (uniones, duplicados, NA, outliers, tipos), y análisis descriptivo / exploratorio inicial. Lo que aquí construya —indicador de tratamiento, vector de covariables, periodos, subgrupos— se reutiliza en *todos* los métodos.
+- **Cada anexo de código** ([RCT](anexo-codigo-rct.qmd), [DiD](anexo-codigo-did.qmd), [IV](anexo-codigo-iv.qmd), [RDD](anexo-codigo-rdd.qmd), [Matching](anexo-codigo-matching.qmd), [Poder](anexo-codigo-poder.qmd)) tiene su propia sección **"Trabajando con IA paso a paso"** con prompts específicos del método, datos simulados sencillos y cómo interpretar la respuesta.
 :::
 
 ---
 
 ## Paso 1: Anonimizar sus datos {#sec-ia-paso1}
 
-Antes de compartir cualquier dato con una IA, **debe eliminar toda información que permita identificar a las personas**. Esto es un requisito ético y, en muchos países, legal.
+Antes de compartir cualquier dato con una IA, **debe eliminar toda información que permita identificar a las personas**. Es un requisito ético y, en muchos países, legal (GDPR en Europa, Ley 1581 en Colombia, etc.) [@cgiar2024ai].
 
-### ¿Qué debe eliminar?
+### ¿Qué eliminar y qué mantener?
 
 | Eliminar siempre | Mantener |
 |-------------------|----------|
 | Nombres y apellidos | Variables de resultado (ingresos, puntajes, etc.) |
 | Números de identificación (cédula, DNI, RUT) | Indicador de tratamiento (1 = participó, 0 = no) |
-| Direcciones exactas | Periodo o fecha de medición |
+| Direcciones exactas, geolocalización fina | Periodo o fecha de medición |
 | Teléfonos y correos electrónicos | Covariables (edad, género, nivel educativo) |
-| Nombres de comunidades pequeñas | Identificadores anónimos (ID_001, ID_002...) |
+| Nombres de comunidades pequeñas | Identificadores anónimos (ID_001, ID_002…) |
 
-### Prompt sugerido
+::: {.callout-warning}
+## Datos especialmente sensibles
+@cgiar2024ai recomienda **nunca** enviar a servicios de IA de terceros datos sobre poblaciones vulnerables (refugiados, víctimas de violencia, trabajadoras sexuales, etc.) ni datos sensibles según GDPR (origen étnico, opiniones políticas, religión, salud, orientación sexual). Para esos casos use modelos locales o consulte con su equipo de protección de datos.
+:::
+
+### Prompt 1.1 — Generar el script de anonimización
 
 ::: {.prompt-block}
-**Copie y pegue este prompt en la IA:**
+**Copie y pegue (reemplazando lo que está entre corchetes):**
 
-Tengo una base de datos en formato [CSV / Excel] para una evaluación de impacto. Necesito anonimizarla antes de analizarla. La base tiene las siguientes columnas:
+Actúa como analista de evaluación de impacto que escribe código en R. Tengo un archivo `[mi_base.csv]` (separador `[,]`, codificación `[UTF-8]`) con las siguientes columnas:
 
-[LISTE AQUÍ LOS NOMBRES DE SUS COLUMNAS]
-
-Por favor:
-
-1. Genera un script en R (o Python) que lea mi archivo, elimine las columnas con información personal identificable y reemplace el identificador original por un código secuencial (ID_001, ID_002...).
-2. Explícame qué columnas recomiendas eliminar y por qué.
-3. Guarda el resultado como un nuevo archivo "base_anonima.csv".
-4. Muéstrame las primeras 5 filas del resultado para verificar.
-:::
-
-::: {.callout-tip}
-## Consejo
-No necesita compartir los datos reales en este paso. Solo comparta los **nombres de las columnas** y la IA le dirá cuáles eliminar y generará el código para hacerlo. Ejecute el código en su computador.
-:::
-
----
-
-## Paso 2: Compartir la estructura de sus datos {#sec-ia-paso2}
-
-Una vez que tenga la base anonimizada, comparta **solo las primeras 10 filas** con la IA para que entienda su estructura. Nunca comparta la base completa.
-
-### Prompt sugerido
-
-::: {.prompt-block}
-Estoy realizando una evaluación de impacto de un programa social. Voy a compartir las primeras 10 filas de mi base de datos anonimizada para que entiendas la estructura.
-
-**Contexto del programa:**
-- Tipo de programa: [ej: capacitación agrícola, microcrédito, alimentación escolar]
-- Beneficiarios: [ej: 200 hogares rurales en el departamento del Cauca]
-- Grupo de comparación: [ej: 150 hogares similares que no recibieron el programa]
-- El programa comenzó en: [ej: marzo 2023]
-- Datos disponibles: [ej: encuestas antes (2022) y después (2024) del programa]
-
-**Variable de resultado principal:** [ej: ingreso mensual del hogar]
-**Variable de tratamiento:** [ej: columna "programa" donde 1 = recibió, 0 = no recibió]
-
-Aquí están las primeras 10 filas:
-
-[PEGUE AQUÍ LAS 10 PRIMERAS FILAS DE SU BASE]
-
-Por favor:
-1. Confirma que entiendes la estructura
-2. Identifica qué tipo de variables tengo (continuas, categóricas, binarias)
-3. Señala si hay algo que deba corregir antes de continuar
-4. Sugiere qué método de evaluación de impacto podría usar dados mis datos
-:::
-
-::: {.callout-tip}
-## Cómo obtener las primeras 10 filas
-Abra su archivo CSV en Excel, seleccione las primeras 10 filas con encabezado, cópielas y péguelas directamente en el chat con la IA. O pida a la IA que le genere el código para extraerlas.
-:::
-
----
-
-## Paso 3: Análisis exploratorio de variables {#sec-ia-paso3}
-
-Antes de cualquier análisis causal, necesita entender qué tiene en sus datos. Este paso le ayuda a detectar problemas como datos faltantes, valores atípicos o variables mal codificadas.
-
-### Prompt sugerido
-
-::: {.prompt-block}
-Con la base de datos que te compartí, necesito un análisis exploratorio completo. Por favor genera código que:
-
-1. **Resumen general:**
-   - Número total de observaciones y variables
-   - Cuántas observaciones hay por grupo (tratamiento vs. control)
-   - Cuántas observaciones hay por periodo (antes vs. después)
-
-2. **Estadísticas descriptivas:**
-   - Para variables numéricas: media, mediana, desviación estándar, mínimo, máximo
-   - Para variables categóricas: frecuencias y porcentajes
-   - Separado por grupo de tratamiento y control
-
-3. **Datos faltantes:**
-   - ¿Cuántos valores faltantes hay en cada variable?
-   - ¿Hay algún patrón? (¿se concentran en algún grupo?)
-
-4. **Visualizaciones:**
-   - Histograma de la variable de resultado, separado por grupo
-   - Gráfico de barras para variables categóricas importantes
-
-Explícame los resultados como si no supiera estadística. ¿Hay algo preocupante que deba resolver antes de continuar?
-:::
-
----
-
-## Paso 4: Tabla de balance (comparabilidad de grupos) {#sec-ia-paso4}
-
-Este paso es crítico: necesita verificar si el grupo que recibió el programa y el grupo que no lo recibió son realmente comparables. Si los grupos son muy diferentes desde el inicio, su evaluación será más difícil.
-
-### Prompt sugerido
-
-::: {.prompt-block}
-Necesito verificar si mi grupo de tratamiento y mi grupo de control son comparables. Por favor:
-
-1. Genera una **tabla de balance** que compare las características ANTES del programa entre ambos grupos. Para cada variable incluye:
-   - Media del grupo tratamiento
-   - Media del grupo control
-   - Diferencia
-   - Valor p de la prueba de diferencia (t-test para continuas, chi-cuadrado para categóricas)
-   - Diferencia estandarizada (d de Cohen)
-
-2. Presenta la tabla de forma clara y ordenada.
-
-3. Interpreta los resultados:
-   - ¿Los grupos son estadísticamente similares?
-   - ¿Hay variables con diferencias preocupantes (diferencia estandarizada > 0.25)?
-   - ¿Qué implica esto para mi evaluación?
-
-4. Si hay desequilibrios, sugiere qué puedo hacer al respecto (incluir covariables, usar matching, etc.)
-:::
-
-::: {.callout-note}
-## ¿Por qué importa el balance?
-Si los grupos son similares antes del programa, cualquier diferencia después probablemente se deba al programa. Si son diferentes, necesitará métodos más sofisticados (como Matching o controles en la regresión) para aislar el efecto del programa.
-:::
-
----
-
-## Paso 5: Verificar los supuestos del método {#sec-ia-paso5}
-
-Cada método tiene supuestos que deben cumplirse. Este paso depende del método que haya elegido con la herramienta de autodiagnóstico.
-
-### Si usa Diferencias en Diferencias (DiD)
-
-::: {.prompt-block}
-Voy a usar diferencias en diferencias para mi evaluación. Necesito verificar el supuesto de tendencias paralelas.
-
-Por favor:
-1. Filtra solo los datos del periodo ANTES del programa
-2. Grafica la evolución del indicador "[mi variable de resultado]" para el grupo de tratamiento y control a lo largo del tiempo
-3. Realiza una prueba formal: regresión con interacción entre grupo y tendencia temporal en el periodo pre-tratamiento
-4. Explícame en lenguaje simple: ¿las tendencias son paralelas? ¿Puedo usar DiD?
-
-Si las tendencias NO son paralelas, sugiere alternativas.
-:::
-
-### Si usa Matching / Propensity Score
-
-::: {.prompt-block}
-Voy a usar Propensity Score Matching para mi evaluación. Necesito:
-
-1. Estimar el propensity score con una regresión logística usando estas covariables: [LISTE SUS VARIABLES]
-2. Graficar la distribución del propensity score para tratados y controles
-3. Verificar que hay suficiente **soporte común** (superposición entre las distribuciones)
-4. Realizar el emparejamiento usando vecino más cercano
-5. Crear un Love Plot mostrando el balance de covariables antes y después del matching
-6. Decirme si el matching fue exitoso: ¿se lograron grupos comparables?
-:::
-
-### Si usa un Experimento Aleatorio (RCT)
-
-::: {.prompt-block}
-Tengo datos de un experimento aleatorio (RCT). Necesito verificar que la aleatorización funcionó correctamente.
-
-Por favor:
-1. Crea una tabla de balance comparando TODAS las características observables entre tratados y controles ANTES de la intervención
-2. Realiza un test conjunto (prueba F) de que todas las diferencias son simultáneamente cero
-3. Verifica si hay **atrición diferencial** (¿abandonaron más personas de un grupo que del otro?)
-4. Si hay atrición, analiza si los que abandonaron son diferentes a los que se quedaron
-
-Dime: ¿la aleatorización se sostiene? ¿Hay problemas que deba abordar?
-:::
-
-### Si usa Variables Instrumentales (IV)
-
-::: {.prompt-block}
-Voy a usar variables instrumentales. Mi instrumento es: [DESCRIBA SU INSTRUMENTO].
-
-Necesito verificar:
-1. **Relevancia:** Regresión de primera etapa. ¿El instrumento predice significativamente el tratamiento? ¿El F-estadístico es mayor a 10?
-2. **Exclusión:** Esto no se puede probar estadísticamente, pero ayúdame a argumentar por qué mi instrumento solo afecta el resultado a través del tratamiento
-3. Si tengo más de un instrumento: test de sobreidentificación (Hansen/Sargan)
-
-¿Mi instrumento es suficientemente fuerte?
-:::
-
-### Si usa Regresión Discontinua (RDD)
-
-::: {.prompt-block}
-Voy a usar regresión discontinua. La variable de asignación es "[NOMBRE]" y el punto de corte es [VALOR].
-
-Necesito verificar:
-1. **No manipulación:** Test de McCrary — ¿hay acumulación sospechosa de observaciones justo antes/después del corte?
-2. **Continuidad en covariables:** ¿Las características observables cambian suavemente alrededor del corte?
-3. Grafica la variable de resultado contra la variable de asignación, con líneas de ajuste a cada lado del corte
-
-¿Se cumplen los supuestos para RDD?
-:::
-
----
-
-## Paso 6: Estimar el efecto del programa {#sec-ia-paso6}
-
-Este es el paso central. Pida a la IA que estime el efecto causal de su programa usando el método elegido.
-
-### Prompt sugerido (adapte según su método)
-
-::: {.prompt-block}
-Ya verifiqué los supuestos y estoy listo para estimar el efecto de mi programa. Voy a usar [DiD / Matching / RCT / IV / RDD].
-
-Por favor:
-1. Estima el efecto del programa sobre "[mi variable de resultado]" usando [el método elegido]
-2. Incluye **errores estándar robustos** (y clusterizados si tengo datos agrupados por [escuela / comunidad / municipio])
-3. Estima dos modelos:
-   - **Modelo básico:** solo tratamiento y periodo
-   - **Modelo con covariables:** agrega como controles [LISTE SUS COVARIABLES]
-4. Presenta los resultados en una **tabla limpia** con:
-   - Coeficiente del efecto
-   - Error estándar
-   - Valor p
-   - Intervalo de confianza al 95%
-   - Número de observaciones
-   - R²
-
-5. Interpreta los resultados para mí:
-   - ¿El programa tuvo un efecto estadísticamente significativo?
-   - ¿Qué tan grande es el efecto en términos prácticos?
-   - ¿El resultado cambia mucho entre el modelo básico y el modelo con covariables?
-:::
-
----
-
-## Paso 7: Análisis de heterogeneidad {#sec-ia-paso7}
-
-¿El programa funcionó igual para todos, o tuvo efectos diferentes según el tipo de beneficiario?
-
-### Prompt sugerido
-
-::: {.prompt-block}
-Quiero saber si el efecto del programa varía según subgrupos de la población. Por favor:
-
-1. Estima el efecto del programa **por separado** para:
-   - Hombres vs. mujeres
-   - Zona urbana vs. rural
-   - [OTROS SUBGRUPOS RELEVANTES PARA SU PROGRAMA]
-
-2. Presenta los resultados en una tabla comparativa
-
-3. Realiza una prueba formal de interacción: ¿la diferencia entre subgrupos es estadísticamente significativa?
-
-4. Crea un gráfico de **coeficientes por subgrupo** con intervalos de confianza (forest plot)
-
-5. Interpreta: ¿para quién funcionó mejor el programa? ¿Hay grupos que no se beneficiaron?
-:::
-
----
-
-## Paso 8: Análisis de robustez {#sec-ia-paso8}
-
-Antes de confiar en los resultados, necesita verificar que no dependen de decisiones arbitrarias en el análisis.
-
-### Prompt sugerido
-
-::: {.prompt-block}
-Necesito verificar que mis resultados son robustos. Por favor realiza estas pruebas:
-
-1. **Sensibilidad a covariables:** ¿Cambia mucho el resultado si agrego o quito variables de control? Muestra una tabla con 3-4 especificaciones diferentes.
-
-2. **Test placebo / falsificación:**
-   - Estima el efecto del programa sobre una variable que el programa NO debería haber afectado (ej: [una variable que no debería cambiar]). Si encuentras un efecto "significativo" ahí, algo anda mal.
-
-3. **Efectos por periodo (si tengo datos de panel):**
-   - Estima efectos separados para cada periodo post-tratamiento. ¿El efecto crece, se mantiene o desaparece con el tiempo?
-
-4. Para cada prueba, dime qué resultado esperamos si nuestro análisis es confiable vs. qué resultado sería una señal de alerta.
-
-Resumen final: ¿mis resultados principales se sostienen?
-:::
-
----
-
-## Paso 9: Crear tablas y gráficos para el informe {#sec-ia-paso9}
-
-Ahora necesita presentar los resultados de forma clara para su audiencia.
-
-### Prompt sugerido
-
-::: {.prompt-block}
-Necesito crear las visualizaciones finales para mi informe de evaluación. Por favor genera:
-
-1. **Tabla principal de resultados** con formato de publicación:
-   - Modelos en columnas, variables en filas
-   - Estrellas de significancia (*** p<0.01, ** p<0.05, * p<0.10)
-   - Errores estándar entre paréntesis
-   - Estadísticos de ajuste al pie (N, R², F-test)
-
-2. **Gráfico del efecto principal:**
-   - [Para DiD]: gráfico de tendencias con línea contrafactual punteada
-   - [Para Matching]: gráfico de densidad del propensity score antes/después
-   - [Para RCT]: gráfico de barras comparando medias con intervalo de confianza
-   - [Para RDD]: gráfico de dispersión con líneas de ajuste a cada lado del corte
-
-3. **Gráfico de efectos heterogéneos:** forest plot con coeficientes por subgrupo
-
-4. **Tabla resumen ejecutivo** (1 página) con:
-   - Pregunta de evaluación
-   - Método utilizado
-   - Resultado principal en lenguaje simple
-   - Tamaño del efecto
-   - Nivel de confianza
-   - Principales limitaciones
-
-Haz que los gráficos sean profesionales, con colores azul (#185FA5) para control y naranja (#D85A30) para tratamiento.
-:::
-
----
-
-## Paso 10: Redactar la sección de resultados {#sec-ia-paso10}
-
-Finalmente, pida ayuda para comunicar los hallazgos en lenguaje accesible.
-
-### Prompt sugerido
-
-::: {.prompt-block}
-Con los resultados de mi evaluación, necesito redactar la sección de resultados para un informe dirigido a [tomadores de decisión / donantes / gerentes de programa].
-
-Los resultados principales son:
-[PEGUE AQUÍ SU TABLA PRINCIPAL DE RESULTADOS]
-
-Por favor escribe:
-
-1. **Un párrafo de resultados principales** (3-4 oraciones) que:
-   - Indique si el programa tuvo un efecto significativo
-   - Cuantifique el tamaño del efecto en unidades comprensibles
-   - Mencione el nivel de confianza estadística
-   - Sea comprensible para alguien que no sabe estadística
-
-2. **Un párrafo de matices** que:
-   - Mencione para qué subgrupos el efecto fue mayor/menor
-   - Señale las principales limitaciones del análisis
-   - Indique qué tan generalizables son los resultados
-
-3. **Una recomendación** basada en la evidencia:
-   - ¿Se debería continuar/expandir/modificar el programa?
-   - ¿Qué información adicional ayudaría a tomar una mejor decisión?
-
-Usa un tono profesional pero accesible. Evita jerga estadística innecesaria.
-:::
-
----
-
-## Flujo completo: ejemplo de una conversación
-
-Para ilustrar cómo funciona todo junto, aquí tiene un ejemplo del flujo de conversación para una evaluación con Diferencias en Diferencias:
-
-```{mermaid}
-%%| fig-width: 7
-%%| fig-cap: "Flujo de conversación con la IA para una evaluación DiD"
-flowchart TD
-  A["<b>Paso 1</b><br>Anonimizar datos"] --> B["<b>Paso 2</b><br>Compartir estructura<br>(10 filas)"]
-  B --> C["<b>Paso 3</b><br>Análisis exploratorio"]
-  C --> D["<b>Paso 4</b><br>Tabla de balance"]
-  D --> E["<b>Paso 5</b><br>Verificar tendencias<br>paralelas"]
-  E -->|"✅ Se cumplen"| F["<b>Paso 6</b><br>Estimar efecto DiD"]
-  E -->|"❌ No se cumplen"| G["Considerar otro<br>método"]
-  F --> H["<b>Paso 7</b><br>Efectos heterogéneos"]
-  H --> I["<b>Paso 8</b><br>Análisis de robustez"]
-  I --> J["<b>Paso 9</b><br>Tablas y gráficos"]
-  J --> K["<b>Paso 10</b><br>Redactar resultados"]
-
-  style A fill:#E8F4FD,stroke:#185FA5
-  style B fill:#E8F4FD,stroke:#185FA5
-  style C fill:#E8F4FD,stroke:#185FA5
-  style D fill:#E8F4FD,stroke:#185FA5
-  style E fill:#FFF8E1,stroke:#BA7517
-  style F fill:#E8F5E9,stroke:#0F6E56
-  style G fill:#FFEBEE,stroke:#D85A30
-  style H fill:#E8F5E9,stroke:#0F6E56
-  style I fill:#E8F5E9,stroke:#0F6E56
-  style J fill:#E8F5E9,stroke:#0F6E56
-  style K fill:#E8F5E9,stroke:#0F6E56
+```
+[pegue aquí solo los NOMBRES de las columnas, separados por coma]
 ```
 
-## Consejos generales para hablar con la IA
+Genera un script en R que haga lo siguiente, **en este orden exacto**:
+
+1. Lea el archivo con `readr::read_csv()`.
+2. Elimine las columnas con información personal identificable (PII). Para cada columna que decidas eliminar, agrega un comentario `# eliminada porque: …`.
+3. Reemplace el identificador original por uno anónimo con formato `ID_001`, `ID_002`, …
+4. Guarde el resultado como `base_anonima.csv` en el mismo directorio.
+5. Imprima `head(datos, 5)` para verificación.
+
+**Devuélveme solo el código completo en un único bloque listo para copiar a RStudio, con comentarios en español.** No me expliques los pasos en prosa, el código y los comentarios deben ser suficientes. Al final, en una sola frase, dime qué debería ver en pantalla si el script corrió correctamente.
+:::
+
+### Qué debería devolverle la IA
+
+Un bloque único de R (≈ 25–40 líneas) similar a:
+
+```r
+library(readr); library(dplyr)
+datos <- read_csv("mi_base.csv")
+datos_anon <- datos |>
+  select(-nombre, -cedula, -telefono, -direccion) |>  # PII
+  mutate(id = sprintf("ID_%03d", row_number())) |>
+  relocate(id)
+write_csv(datos_anon, "base_anonima.csv")
+head(datos_anon, 5)
+```
+
+### Cómo verificar que funcionó
+
+- El archivo `base_anonima.csv` existe en su carpeta de trabajo.
+- Las primeras 5 filas no contienen ningún nombre, cédula, teléfono, dirección ni correo.
+- La columna `id` arranca en `ID_001` y es secuencial.
+- El número de filas es el mismo que el original.
 
 ::: {.callout-tip}
-## Buenas prácticas
+## Truco
+En este paso **no comparta los datos**: comparta solo los nombres de las columnas. La IA no necesita ver los valores para escribir el código.
+:::
 
-1. **Sea específico:** "Genera un gráfico de barras comparando ingresos por grupo" es mejor que "haz un gráfico".
-2. **Dé contexto:** siempre explique qué programa evalúa, qué método usa y qué pregunta quiere responder.
-3. **Pida explicaciones:** agregue "explícame el resultado como si no supiera estadística" a cualquier prompt.
-4. **Itere:** si el resultado no es lo que esperaba, no empiece de cero. Diga "el gráfico está bien pero cambia los colores a azul y naranja" o "la tabla necesita una columna adicional con intervalos de confianza".
-5. **Verifique:** siempre pregunte "¿qué supuestos estás asumiendo?" y "¿qué podría salir mal con este análisis?".
-6. **No comparta datos sensibles:** solo las primeras filas anonimizadas. Ejecute el código en su computador, no en la IA.
-7. **Guarde su conversación:** los prompts y respuestas son documentación valiosa de su proceso analítico.
+---
+
+## Paso 2: Compartir la estructura de los datos {#sec-ia-paso2}
+
+Una vez tenga la base anonimizada, comparta **únicamente las primeras 10 filas** para que la IA entienda la estructura. Nunca pegue la base completa [@cgiar2024ai].
+
+### Prompt 2.1 — Diagnóstico de estructura
+
+::: {.prompt-block}
+Actúa como analista de evaluación de impacto. Voy a compartir las primeras 10 filas de mi base anonimizada para que diagnostiques su estructura.
+
+**Contexto del programa:**
+
+- Tipo de programa: `[ej.: capacitación agrícola, microcrédito, alimentación escolar]`
+- Población: `[ej.: 200 hogares rurales en Cauca, Colombia]`
+- Grupo de comparación: `[ej.: 150 hogares similares no atendidos]`
+- Fecha de inicio del programa: `[mes/año]`
+- Datos disponibles: `[ej.: encuesta línea base 2022 + seguimiento 2024]`
+- Variable de resultado principal: `[nombre de la columna y qué mide]`
+- Variable de tratamiento: `[nombre de la columna; 1 = recibió, 0 = no]`
+
+**Primeras 10 filas:**
+
+```
+[pegue aquí las 10 filas con encabezado]
+```
+
+Devuélveme:
+
+1. Una **tabla** (markdown) con tres columnas: `variable | tipo (continua / categórica / binaria / fecha / id) | rol probable (resultado / tratamiento / covariable / id / periodo)`.
+2. Cualquier **alerta** que veas: codificaciones extrañas (ej. `99` como faltante), tipos mal interpretados (fechas como texto), variables que parecen redundantes.
+3. Un párrafo de máximo 4 líneas con la **recomendación inicial de método** (RCT / DiD / IV / RDD / Matching) según lo que ves en la estructura, y qué información adicional necesitarías para confirmarlo.
+
+No generes código todavía. Solo el diagnóstico.
+:::
+
+::: {.callout-tip}
+## Cómo extraer las primeras 10 filas
+Abra el CSV en Excel, copie las primeras 10 filas con encabezado, y pegue. O pídale a la IA un comando previo: *"dame el código de R para imprimir `head(datos, 10)` de un CSV"* y ejecute en su computador.
+:::
+
+---
+
+## Paso 3: Limpieza y problemas comunes {#sec-ia-paso3}
+
+Antes de describir o estimar nada, es probable que necesite **arreglar** la base: unir archivos sueltos, quitar filas duplicadas, decidir qué hacer con valores faltantes, detectar valores absurdos, normalizar categorías mal escritas, convertir fechas que llegan como texto. Casi todas las evaluaciones tienen al menos uno de estos problemas. Esta sección reúne prompts específicos para resolverlos con IA.
+
+::: {.callout-warning}
+## Regla básica
+Cualquier transformación que haga en este paso debe quedar **registrada en código**, no en cambios manuales sobre el archivo. Si edita el CSV en Excel, pierde la trazabilidad. La IA debe darle siempre un script que parta del archivo crudo y produzca el archivo limpio.
+:::
+
+### Prompt 3.1 — Unir dos bases de datos
+
+Es muy frecuente que la información venga partida: una base tiene los datos demográficos del beneficiario, otra los datos de la encuesta de seguimiento, y necesita unirlas por un identificador común.
+
+::: {.prompt-block}
+Actúa como analista que escribe código en R. Tengo dos archivos CSV que necesito unir:
+
+- **Archivo A**: `[nombre_A.csv]`, con `[N_A]` filas y las columnas `[liste columnas A]`.
+- **Archivo B**: `[nombre_B.csv]`, con `[N_B]` filas y las columnas `[liste columnas B]`.
+
+La columna identificador en ambos archivos es: `[nombre del id]` (en A) y `[nombre del id]` (en B).
+
+Genera un script en R que:
+
+1. Lea ambos archivos con `readr::read_csv()`.
+2. Verifique antes del join: cuántos id duplicados hay en cada base, y cuántos id de A están en B y viceversa (use `setdiff()` y `intersect()`). Imprima estos diagnósticos con mensajes claros.
+3. Ejecute un **left join** desde A (la base maestra de personas) hacia B con `dplyr::left_join()`.
+4. Imprima un resumen: filas en A, filas resultantes, y cuántas filas de A no encontraron pareja en B (NA en columnas de B).
+5. Guarde el resultado como `base_unida.csv`.
+
+Solo código en un bloque. Al final, en una frase, dime cuándo debería usar `inner_join` en lugar de `left_join`.
+:::
+
+**Cómo verificar:** el número de filas final debe ser igual a las filas de A (con `left_join`). Si crece, hay duplicados en B y debe resolverlos antes. Si necesita conservar solo personas con datos en ambas bases, use `inner_join`.
+
+### Prompt 3.2 — Detectar y resolver duplicados
+
+::: {.prompt-block}
+Con la base `datos` cargada (data frame con columna identificador `id`), genera un script en R que:
+
+1. Cuente filas totales y filas únicas por `id`. Si difieren, hay duplicados.
+2. Imprima los `id` duplicados con `datos |> filter(duplicated(id) | duplicated(id, fromLast = TRUE))` para inspección visual.
+3. Para cada `id` duplicado, indique si las filas son **idénticas** (duplicado verdadero, se puede eliminar con `distinct()`) o si **difieren en alguna columna** (conflicto real, requiere decisión).
+4. Genere dos versiones limpias para que yo elija:
+    - `datos_distinct <- distinct(datos, id, .keep_all = TRUE)` (mantiene la primera).
+    - `datos_ultimo <- datos |> arrange(desc(fecha_registro)) |> distinct(id, .keep_all = TRUE)` (mantiene la observación más reciente).
+
+Solo código. Al final, en una frase, recuérdame por qué la elección entre estas dos opciones es una decisión sustantiva, no técnica.
+:::
+
+### Prompt 3.3 — Filas vacías y observaciones incompletas
+
+::: {.prompt-block}
+Con `datos` cargado, genera un script en R que diagnostique y limpie observaciones incompletas:
+
+1. **Filas completamente vacías** (todas las columnas en NA): cuéntalas y elimínalas con `filter(if_any(everything(), ~ !is.na(.)))`.
+2. **% de NA por fila**: agrega una columna `pct_na` y muestra la distribución con `summary()`. Marca como "incompletas críticas" las filas con > 50% de NA.
+3. **Variables esenciales** (las que SÍ deben tener valor para entrar al análisis): el script debe recibir un vector `vars_esenciales <- c("tratamiento", "resultado_principal", "id")` y eliminar filas con NA en alguna de ellas.
+4. Imprima una tabla resumen: `paso | filas antes | filas después | filas eliminadas`.
+5. Guarde como `datos_filtrados.csv`.
+
+Solo código. Al final, en una frase, advertirme cuándo eliminar filas con NA puede sesgar el análisis.
 :::
 
 ::: {.callout-warning}
-## Errores comunes al usar IA para evaluación
+## Cuidado con eliminar NA a la ligera
+Si los faltantes no son aleatorios (ej. la gente más pobre tiende a no responder ingresos), eliminar esas filas introduce sesgo. Antes de eliminar, intente entender **por qué falta** la información. Para variables con muchos NA pero teóricamente importantes, considere imputación (Prompt 3.4).
+:::
 
-- **Confiar ciegamente en el código:** la IA puede generar código con errores sutiles. Verifique que los resultados tengan sentido (¿el efecto del programa es 500%? Probablemente hay un error).
-- **No verificar supuestos:** la IA puede estimar un modelo DiD sin verificar tendencias paralelas. Siempre pida las verificaciones.
-- **Compartir datos completos:** nunca pegue toda su base de datos. Use solo las primeras filas anonimizadas.
-- **Usar un método inadecuado:** la IA ejecutará cualquier método que le pida, aunque no sea apropiado para sus datos. Use el [autodiagnóstico](02-autodiagnostico.qmd) primero.
-- **Ignorar las limitaciones:** siempre pida a la IA que liste las limitaciones de su análisis. Si no lo hace espontáneamente, algo anda mal.
+### Prompt 3.4 — Estrategia para valores faltantes
+
+::: {.prompt-block}
+Con `datos` cargado, genera un script en R que ayude a decidir qué hacer con cada variable que tenga NA:
+
+1. Tabule por columna: `% NA | tipo (numérica/categórica) | recomendación inicial`.
+2. Aplique esta lógica de recomendación:
+    - NA < 5% → eliminar filas con NA en esa variable.
+    - NA 5–20% → imputar (mediana si numérica, moda si categórica) y crear una columna binaria `var_imputada` que indique cuáles fueron imputados.
+    - NA > 20% → no imputar; sugerir o bien excluir la variable o usar imputación múltiple con `mice`.
+3. Para las variables del rango 5–20%, ejecute la imputación simple como ejemplo y guarde `datos_imputados.csv`.
+4. Para las > 20%, imprima un mensaje claro con el nombre de la variable y la recomendación.
+
+Solo código. Al final, en una frase, dime por qué siempre conviene crear la columna `var_imputada`.
+:::
+
+**Por qué la columna `_imputada`:** permite hacer un análisis de sensibilidad después, comparando el efecto del programa con y sin las observaciones imputadas, para verificar que el resultado no depende del método de imputación.
+
+### Prompt 3.5 — Outliers y valores absurdos
+
+::: {.prompt-block}
+Con `datos` cargado, genera un script en R que detecte valores sospechosos en variables numéricas:
+
+1. Para cada variable numérica, calcule `IQR` y marque como outliers a quienes están fuera de `[Q1 - 1.5*IQR, Q3 + 1.5*IQR]`.
+2. Reporte una tabla `variable | n outliers | valor mín | valor máx | % de la muestra`.
+3. Para una lista de variables que yo defino con rangos esperados (`rangos <- list(edad = c(18, 95), ingreso = c(0, 50000), educacion = c(0, 25))`), marque como **valores imposibles** los que estén fuera del rango y conviértalos a NA con un mensaje claro de cuántos se modificaron por variable.
+4. Genere un boxplot facetado por variable para inspección visual.
+
+Solo código. Al final, en una frase, dime cuándo un outlier real (no un error) debe **mantenerse** en el análisis.
+:::
+
+**Cómo interpretar:** outliers por error de captura (edad 200, ingreso negativo) deben corregirse o convertirse a NA. Outliers reales (un hogar realmente atípico) suelen mantenerse porque eliminarlos sesga el efecto promedio. La decisión es sustantiva, no automática.
+
+### Prompt 3.6 — Categorías mal escritas
+
+::: {.prompt-block}
+Con `datos` cargado, genera un script en R que normalice variables categóricas con codificación inconsistente (ej. "Femenino", "femenino", "F", "Mujer" para la misma categoría).
+
+1. Para cada columna de tipo `character` o `factor`, imprima la tabla de frecuencias con `janitor::tabyl()`.
+2. Para variables que yo señale en el vector `vars_a_normalizar <- c("sexo", "zona", "nivel_educativo")`, propón un mapeo de normalización: `sexo: c("F"="Femenino", "f"="Femenino", "M"="Masculino", ...)` y aplíquelo con `dplyr::recode()` o `case_when()`.
+3. Reporte antes/después: cuántas categorías únicas había y cuántas quedan.
+
+Solo código. Al final, en una frase, recuérdame revisar manualmente el mapeo antes de aplicarlo (la IA puede unificar mal categorías que parecen iguales pero significan distinto).
+:::
+
+### Prompt 3.7 — Conversión de tipos
+
+::: {.prompt-block}
+Con `datos` cargado, genera un script en R que diagnostique y arregle problemas de tipo:
+
+1. Imprima `glimpse(datos)` y señale columnas con tipo aparentemente incorrecto: fechas como `character`, números con coma decimal como `character`, indicadores binarios como `numeric` que deberían ser factor.
+2. Aplique conversiones específicas:
+    - Fechas tipo `"15/03/2024"` → `as.Date(x, format = "%d/%m/%Y")`.
+    - Números con coma → `as.numeric(gsub(",", ".", x))`.
+    - Binarios 0/1 que se quieran como factor → `factor(x, levels = c(0,1), labels = c("No","Sí"))`.
+3. Verifique después con `glimpse()` que los tipos sean los esperados.
+
+Solo código. Al final, en una frase, dime por qué dejar fechas como texto rompe cualquier análisis temporal.
+:::
+
+::: {.callout-tip}
+## Cómo encadenar estos prompts
+El orden recomendado es: 3.1 (unir) → 3.2 (duplicados) → 3.7 (tipos) → 3.6 (categorías) → 3.5 (outliers) → 3.3 (filas vacías) → 3.4 (NA en variables clave). Una vez termine este paso, la base queda lista para el análisis exploratorio del Paso 4.
+:::
+
+---
+
+## Paso 4: Análisis descriptivo y exploratorio {#sec-ia-paso4}
+
+Antes de cualquier análisis causal, necesita **entender** sus datos: cuántas observaciones por grupo, dónde hay vacíos, qué variables son útiles. Lo que construya aquí —especialmente el **vector de covariables** y la lista de **subgrupos**— se reutiliza en todos los métodos.
+
+### Prompt 4.1 — Tabla descriptiva por grupo
+
+::: {.prompt-block}
+Con la base `base_anonima.csv` que cargaste, genera **un único script en R** que produzca:
+
+1. Resumen general: número de filas, columnas, observaciones por grupo de tratamiento (`tratamiento == 1` vs. `0`) y por periodo (`periodo == "pre"` vs. `"post"`) si aplica.
+2. Una tabla descriptiva con `gtsummary::tbl_summary()` agrupada por tratamiento, mostrando media (DE) para variables continuas y % para categóricas, con valor p de la diferencia (`add_p()`).
+3. Una tabla aparte con los datos faltantes por columna, ordenada de mayor a menor, con la columna y el % de NA.
+
+Devuélveme solo el código completo en un bloque, listo para copiar a RStudio. Al final, agrega un comentario `# Verificación:` con dos chequeos rápidos que yo deba hacer al ver las tablas.
+:::
+
+### Qué espera ver
+
+Una tabla descriptiva por grupo, comparable a la de balance que se usa en RCT, y un listado claro de NA. **Lo importante**: identifique aquí qué covariables tienen muy pocos faltantes y son candidatas a entrar como controles en cualquier modelo posterior.
+
+### Prompt 4.2 — Construir el vector de covariables
+
+Este paso es clave porque genera un objeto que **reutilizará en todos los anexos**. La idea es decidir, con ayuda de la IA, qué covariables son numéricamente sólidas (pocos NA, varianza no nula, no perfectamente colineales con otra) y guardarlas en un vector con nombre.
+
+::: {.prompt-block}
+Con la base `base_anonima.csv` cargada, ayúdame a construir el vector de covariables que voy a usar en los modelos posteriores.
+
+**Mi variable de resultado es:** `[nombre]`
+**Mi variable de tratamiento es:** `[nombre]`
+**Mi periodo (si aplica) es:** `[nombre o "no aplica"]`
+
+Genera un script en R que:
+
+1. Liste todas las columnas que NO son resultado, tratamiento, periodo ni id.
+2. Para cada candidata calcule: % NA, varianza (si numérica), número de categorías (si factor).
+3. Descarte automáticamente: columnas con > 20% NA, varianza cero, o que sean transformaciones lineales exactas de otra (correlación |r| > 0.95).
+4. Imprima el vector final con `cat('covariables <- c(', paste0('"', nombres, '"', collapse=', '), ')')` para que yo lo pueda copiar tal cual.
+
+Devuelve solo código. Después del bloque, en una línea, dime qué umbral cambiar si quiero ser más o menos estricto.
+:::
+
+### Qué hacer con la respuesta
+
+Pegue la línea final que la IA imprimió, por ejemplo:
+
+```r
+covariables <- c("edad", "anios_educacion", "tamano_hogar", "ingreso_base")
+```
+
+Guarde ese vector en su script. **Cada anexo de método empieza con esa línea**: en RCT lo usa para la tabla de balance; en DiD para los controles; en Matching para estimar el propensity score; en RDD para verificar continuidad de covariables.
+
+### Prompt 4.3 — Detección de subgrupos para análisis de heterogeneidad
+
+::: {.prompt-block}
+Con la base cargada, genera un script en R que identifique **candidatos a subgrupos** para análisis de heterogeneidad. Un buen subgrupo es una variable categórica o binaria que:
+
+- Tiene al menos 2 categorías con n ≥ 30 cada una en el grupo de tratamiento.
+- Es teóricamente relevante (sexo, zona urbana/rural, nivel educativo, edad agrupada).
+
+Devuelve solo código que:
+
+1. Recorra las columnas del data frame.
+2. Imprima una tabla con: variable | n por categoría dentro de tratados | apta (sí/no).
+3. Al final imprima: `subgrupos <- c('var1', 'var2', …)` con las que pasen el filtro.
+
+Después del bloque, en una sola frase, recuérdame que debo descartar manualmente cualquier subgrupo que pueda estar afectado por el tratamiento (post-tratamiento).
+:::
+
+::: {.callout-warning}
+## Subgrupos post-tratamiento
+Nunca use como subgrupo una variable que pudo haber sido modificada por el programa (ej.: si el programa promueve empleo, no use "empleado/desempleado en línea de seguimiento" como subgrupo). Eso introduce sesgo de selección post-tratamiento. La IA no detecta este problema automáticamente — usted sí.
+:::
+
+---
+
+## De aquí en adelante: la guía por método
+
+Ya tiene los tres insumos que se reutilizan en todos los métodos:
+
+1. **Base anonimizada** (`base_anonima.csv`)
+2. **Vector de covariables** (`covariables <- c(...)`)
+3. **Vector de subgrupos** (`subgrupos <- c(...)`)
+
+A partir de aquí, vaya al anexo del método que eligió con el [autodiagnóstico](02-autodiagnostico.qmd):
+
+| Método | Anexo | Qué encontrará |
+|--------|-------|----------------|
+| RCT | [Anexo RCT](anexo-codigo-rct.qmd) | Tabla de balance, prueba F conjunta, atrición diferencial, ITT vs. TOT |
+| DiD | [Anexo DiD](anexo-codigo-did.qmd) | Tendencias paralelas, regresión de DiD con efectos fijos, eventos placebo |
+| Matching | [Anexo Matching](anexo-codigo-matching.qmd) | Propensity score, soporte común, balance post-matching, ATT |
+| IV | [Anexo IV](anexo-codigo-iv.qmd) | Primera etapa, F-test débil, 2SLS, exclusión |
+| RDD | [Anexo RDD](anexo-codigo-rdd.qmd) | McCrary, continuidad de covariables, banda óptima, RDD local |
+| Poder | [Anexo Poder](anexo-codigo-poder.qmd) | Tamaño de muestra, MDE, ajuste por clusters |
+
+Cada anexo replica la misma lógica que vio aquí —**prompt → código copiable → qué verificar**— pero con un **dataset simulado sencillo** y prompts específicos del método.
+
+---
+
+## Análisis de heterogeneidad (transversal)
+
+Aunque cada método tiene su propia estimación principal, el análisis de heterogeneidad sigue la misma receta. Lo dejamos aquí porque se aplica igual en RCT, DiD, Matching o IV.
+
+### Prompt 4.1 — Forest plot de efectos heterogéneos
+
+::: {.prompt-block}
+Tengo estimado el efecto del programa con `[método]`. Quiero el efecto desagregado por los subgrupos del vector `subgrupos`.
+
+Genera un script en R que:
+
+1. Para cada variable en `subgrupos`, ajuste el mismo modelo dentro de cada categoría.
+2. Extraiga coeficiente, error estándar, IC95% y n.
+3. Combine todo en un solo data frame con columnas: `dimension | categoria | efecto | li | ls | n`.
+4. Grafique con `ggplot2` un forest plot: punto + barra horizontal de IC, una fila por subgrupo, agrupado por dimensión, línea vertical en cero, color `#D85A30`.
+5. Agregue un test formal de interacción (`lm(... * subgrupo)`) y reporte el valor p de la interacción al lado del nombre de cada dimensión.
+
+Solo código, en un bloque. Después, en una frase, indícame cómo leer el forest plot.
+:::
+
+---
+
+## Robustez y reporte (transversal)
+
+### Prompt 5.1 — Tabla de sensibilidad a covariables
+
+::: {.prompt-block}
+Quiero verificar que mi efecto principal es robusto a la elección de covariables. Genera un script en R que estime 4 especificaciones del mismo modelo `[método]`:
+
+1. Sin covariables.
+2. Solo demográficas básicas: edad, sexo.
+3. Demográficas + socioeconómicas (todas las del vector `covariables`).
+4. Especificación 3 + efectos fijos por `[unidad geográfica]`.
+
+Pon los 4 modelos en una sola tabla con `modelsummary::modelsummary()`, mostrando coeficiente del tratamiento, error estándar (clusterizado por `[unidad]`), IC95%, n y R². Estrellas de significancia.
+
+Solo código. Al final dime qué cambio entre columnas sería una señal de alerta.
+:::
+
+### Prompt 5.2 — Redacción del párrafo de resultados
+
+::: {.prompt-block}
+Mis resultados principales son:
+
+```
+[pegue la tabla principal]
+```
+
+Redacta, para un informe dirigido a tomadores de decisión sin formación estadística:
+
+1. Un **párrafo de 4–5 líneas** con: si el programa tuvo efecto, magnitud en unidades comprensibles, nivel de confianza, y para quién funcionó mejor.
+2. Un **párrafo de matices** con limitaciones del análisis y qué tan generalizables son los resultados.
+3. Una **recomendación accionable** en una frase: continuar / expandir / modificar / no escalar.
+
+Tono profesional pero accesible. Sin jerga estadística innecesaria. No menciones "p-valor" ni "intervalo de confianza" sin traducirlo.
+:::
+
+---
+
+## Documentar el uso de IA (obligatorio)
+
+@cgiar2024ai y @ukri2025ai coinciden en que toda evaluación que use IA debe incluir una **declaración de uso de IA** en el informe final. Como mínimo:
+
+- Qué herramienta(s) y modelo(s) se usaron (ChatGPT-4, Claude 3.5, Gemini 2.5, etc.).
+- En qué tareas se usó (anonimización, descriptivos, generación de código, redacción de borradores).
+- Cómo se verificaron los resultados (ejecución del código en máquina propia, doble revisión, comparación con métodos tradicionales).
+- Qué tareas se mantuvieron exclusivamente humanas (decisiones de diseño, juicio sobre validez, conclusiones).
+- Cualquier limitación, alucinación o sesgo observado durante el proceso.
+
+::: {.callout-tip}
+## Plantilla mínima de declaración
+
+> *Para este informe se utilizó `[Claude 3.5 Sonnet / GPT-4 / …]` como asistente para `[anonimizar la base, generar código en R, redactar borradores de la sección de resultados]`. Todo el código fue ejecutado por el equipo evaluador en su entorno local; los resultados estadísticos se verificaron de forma independiente en `[R / Stata]`. Las decisiones de diseño, la elección de método y las conclusiones del informe son responsabilidad de los autores. No se compartió información personal identificable con la herramienta.*
+:::
+
+---
+
+## Errores comunes al usar IA en evaluación
+
+::: {.callout-warning}
+## No haga esto
+
+- **Confiar ciegamente en el código.** La IA puede generar código que corre pero hace algo distinto a lo que usted pidió. Lea cada bloque antes de ejecutar [@ukri2025ai].
+- **No verificar supuestos.** La IA estimará un DiD sin chequear tendencias paralelas si no se lo pide. Siempre exija las verificaciones del método.
+- **Pegar la base completa.** Solo las primeras filas anonimizadas. Ejecute el análisis en su computador.
+- **Aceptar la primera respuesta.** El primer prompt rara vez es el bueno. Itere [@cgiar2024ai].
+- **Usar un método inadecuado.** La IA ejecuta lo que usted pida, aunque no aplique. Use el [autodiagnóstico](02-autodiagnostico.qmd) primero.
+- **Omitir la declaración de uso de IA.** Es un requisito ético creciente en evaluación [@cgiar2024ai; @ukri2025ai].
+- **Tratar los textos generados como autoría suya.** La IA produce borradores. Reescriba con su voz y verifique cada cifra.
+:::
+
+::: {.callout-tip}
+## Lecturas recomendadas
+
+- @cgiar2024ai — Nota técnica del CGIAR sobre uso ético y práctico de IA en evaluación, con ejemplos, tabla de tareas y *checklists*.
+- @ukri2025ai — Informe del Innovation and Research Caucus para UKRI, con marco de gobernanza, *checklists* por etapa y discusión a fondo de riesgos.
 :::

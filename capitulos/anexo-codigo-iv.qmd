@@ -134,3 +134,95 @@ ggplot(resultados, aes(x = metodo, y = estimado)) +
   theme_minimal(base_size = 13) +
   theme(plot.title = element_text(face = "bold"))
 ```
+
+## Trabajando con IA paso a paso
+
+::: {.callout-note}
+## Sobre esta sección
+Replica los pasos del [capítulo de uso de IA](06-guia-ia.qmd) con prompts **específicos para Variables Instrumentales** sobre el dataset simulado de becas universitarias por lotería.
+:::
+
+### Contexto simulado
+
+500 postulantes elegibles. La lotería (`loteria`, 1/0) asigna becas aleatoriamente. La asistencia universitaria efectiva (`universidad`, 1/0) depende de la lotería pero no perfectamente. Variable de resultado: `ingreso`. Sospechamos sesgo por **habilidad no observada** que correlaciona universidad e ingreso. La lotería es un instrumento candidato porque (a) afecta la asistencia y (b) plausiblemente no afecta el ingreso por otra vía.
+
+### Prompt IV.1 — Primera etapa y test de instrumento débil
+
+::: {.prompt-block}
+Actúa como analista que escribe código en R. Tengo `datos_iv` con: `id`, `loteria` (1/0, instrumento), `universidad` (1/0, tratamiento endógeno), `ingreso`.
+
+Genera un script en R que:
+
+1. Estime la primera etapa: `lm(universidad ~ loteria, data = datos_iv)`.
+2. Calcule el **F-estadístico de exclusión del instrumento** con `car::linearHypothesis(primera, "loteria = 0")` o `summary(primera)$fstatistic`.
+3. Imprima un mensaje claro: `cat("F primera etapa:", round(F,2), "— ", ifelse(F>10, "instrumento fuerte", "INSTRUMENTO DÉBIL — no usar IV"))`.
+4. Use el test robusto de Olea-Pflueger (`ivDiag::ivDiag()` si está disponible, o reporte el F efectivo).
+
+Solo código en un bloque. Al final, en una frase, dime por qué la regla F>10 es solo orientativa.
+:::
+
+**Cómo interpretar:** F < 10 indica instrumento débil; los IC de IV son inválidos y no debe reportar el resultado. Aquí debe salir F muy alto (>50) porque la lotería es aleatoria.
+
+### Prompt IV.2 — Estimación 2SLS y comparación con OLS
+
+::: {.prompt-block}
+Con `datos_iv`, genera un script en R que:
+
+1. Estime OLS: `lm(ingreso ~ universidad)`.
+2. Estime 2SLS con `AER::ivreg(ingreso ~ universidad | loteria, data = datos_iv)` y use `summary(modelo, diagnostics = TRUE)` para obtener test de instrumento débil, Wu-Hausman y Sargan.
+3. Construya una tabla comparativa con `modelsummary::modelsummary()` con OLS y 2SLS lado a lado, errores robustos.
+4. Imprima los tres diagnósticos en mensajes claros: F primera etapa, p-valor Wu-Hausman, p-valor Sargan (si aplica).
+
+Solo código. Al final, en una frase, dime cómo interpretar Wu-Hausman significativo.
+:::
+
+**Cómo interpretar:** Wu-Hausman significativo confirma endogeneidad (OLS sesgado, IV preferido). Sargan no aplica con un solo instrumento.
+
+### Prompt IV.3 — Argumentación de la restricción de exclusión
+
+::: {.prompt-block}
+La restricción de exclusión NO se puede testear estadísticamente con un solo instrumento. Ayúdame a estructurar el argumento de defensa.
+
+Mi instrumento es: `loteria` (asignación aleatoria de beca).
+Mi tratamiento es: asistencia universitaria.
+Mi resultado es: ingreso laboral 5 años después.
+
+Devuelve un texto estructurado en 4 secciones (sin código):
+
+1. **Canales plausibles por los que la lotería podría afectar el ingreso SIN pasar por la universidad** (ej.: efecto motivacional de ganar, transferencia de dinero por la beca, efecto sobre la salud mental). Lista 4 canales potenciales.
+2. **Para cada canal, una estrategia empírica de descarte** o un argumento por el que es despreciable.
+3. **Un test placebo**: estimar `ingreso ~ loteria` en una submuestra de personas que NO podían ir a la universidad por otras razones (mayores de cierta edad, etc.). Explica qué resultado esperar.
+4. **Una conclusión** de máximo 3 líneas sobre qué tan defendible es el supuesto.
+:::
+
+### Prompt IV.4 — Caracterización de compliers
+
+::: {.prompt-block}
+Con `datos_iv`, genera un script en R que caracterice a los **compliers** (quienes asisten a la universidad SOLO porque ganaron la lotería). Usa el método de Abadie / Angrist & Pischke.
+
+Pasos:
+
+1. Para cada covariable observable disponible (en este ejemplo no hay, así que usa el placeholder `covariables`), calcule el ratio: `Pr(X | complier) / Pr(X | población)`.
+2. Imprima una tabla `covariable | media_pop | media_complier | ratio`.
+3. En una frase, comenta para quién aplica el LATE estimado.
+
+Si `covariables` está vacío, comenta dentro del código por qué este paso requiere covariables. Solo código.
+:::
+
+### Prompt IV.5 — Reporte ejecutivo
+
+::: {.prompt-block}
+Pegando esta tabla con efecto OLS y 2SLS:
+
+```
+[pegar tabla del Prompt IV.2]
+```
+
+Redacta para el ministro de educación:
+
+1. **Párrafo de 4 líneas** con el efecto causal de la universidad sobre ingreso, en pesos comprensibles, y por qué confiamos en el IV más que en OLS.
+2. **Frase** con la población a la que aplica el resultado (compliers, no toda la población).
+3. **Recomendación accionable** en una oración.
+
+Sin jerga. Traduce "LATE" como "efecto en quienes son sensibles al sorteo".
+:::

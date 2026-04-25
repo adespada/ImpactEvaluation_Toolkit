@@ -139,6 +139,16 @@ tipos <- data.frame(
 knitr::kable(tipos, col.names = c("Tipo", "Comportamiento", "Relevancia para IV"))
 ```
 
+### Elementos clave de diseño (IV)
+
+Cinco decisiones definen un estudio con IV creíble [@gertler2016impact; @huntingtonklein2022]:
+
+1. **Identificar un instrumento con variación genuinamente exógena** (loterías, asignación geográfica, cambios normativos exógenos).
+2. **Argumentar la restricción de exclusión** como narrativa causal — no como supuesto estadístico — descartando canales alternativos.
+3. **Considerar un diseño de promoción aleatorizada** cuando no se puede aleatorizar el tratamiento directamente [@gertler2016impact].
+4. **Caracterizar a los compliers**: cuántos son y cómo se comparan con la población total (validez externa del LATE).
+5. **Probar la relevancia (primera etapa)** con el estadístico F; un F < 10 obliga a reconsiderar el diseño.
+
 ### Supuestos y limitaciones
 
 ::: {.callout-warning}
@@ -253,6 +263,16 @@ $$ {#eq-rdd-fuzzy}
 La estimacion de RDD solo utiliza observaciones **cerca** del punto de corte. El **ancho de banda** determina que tan cerca. Un ancho de banda muy grande incluye observaciones lejanas (mas precision pero mayor sesgo); uno muy pequeno usa pocas observaciones (menos sesgo pero mas varianza). Paquetes como `rdrobust` seleccionan el ancho de banda optimo de forma automatica.
 :::
 
+### Elementos clave de diseño (RDD)
+
+Cinco decisiones que deben fijarse antes de analizar la discontinuidad [@gertler2016impact; @huntingtonklein2022]:
+
+1. **Un índice de elegibilidad continuo y conocido**, observable con precisión a ambos lados del corte.
+2. **Un punto de corte estricto y no manipulable**, con test de McCrary sobre la densidad del *running variable*.
+3. **Pruebas de continuidad en covariables de línea base** — las características pre-tratamiento deben evolucionar suavemente a través del corte.
+4. **Elección justificada del bandwidth** (Imbens-Kalyanaraman, CCT en `rdrobust`), con análisis de sensibilidad.
+5. **Especificación de la forma funcional** (lineal local por defecto; probar polinomios moderados; evitar grados altos que introducen artefactos) [@huntingtonklein2022].
+
 ### Supuestos y limitaciones
 
 ::: {.callout-warning}
@@ -288,6 +308,7 @@ Para el taller práctico con código R de este método, consulte el [Anexo de c�
 ## Para profundizar {#sec-iv-rdd-referencias}
 
 ::: {.callout-tip}
-## Recurso recomendado
-El libro *The Effect: An Introduction to Research Design and Causality* de Nick Huntington-Klein (disponible gratuitamente en [theeffectbook.net](https://theeffectbook.net)) dedica capitulos completos a variables instrumentales (Cap. 19) y regresion discontinua (Cap. 20). Es una excelente referencia complementaria con ejemplos en R.
+## Recursos recomendados
+- @gertler2016impact (Caps. 4, 5 y 8): presenta ambos métodos en el marco de la evaluación de impacto, con énfasis en los elementos de diseño y en la conexión entre RDD difusa e IV.
+- @huntingtonklein2022 (Caps. 19 y 20 de *The Effect*, [theeffectbook.net](https://theeffectbook.net)): introducción accesible al diseño con IV y RDD, con ejemplos en R y discusión práctica de los diagnósticos.
 :::

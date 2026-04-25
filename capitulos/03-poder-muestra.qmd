@@ -213,6 +213,16 @@ Sin clustering necesita 200 personas por grupo. Con 20 escuelas de 20 estudiante
 La recomendación práctica es tener **al menos 30 a 50 clusters por grupo** (tratamiento y comparación). Por debajo de ese umbral, los errores estándar se vuelven poco confiables incluso con muchos individuos por cluster.
 :::
 
+## Elementos clave de diseño
+
+Planear la muestra es una decisión de diseño, no un cálculo terminal. Cinco elementos deben fijarse *antes* de recolectar datos [@gertler2016impact; @huntingtonklein2022]:
+
+1. **Definir el MDE desde la política, no desde la literatura.** El efecto mínimo que justificaría operar el programa — si el real es menor, no importa detectarlo. @huntingtonklein2022 recomienda acordar este valor con los tomadores de decisión antes de escribir el plan.
+2. **Fijar el nivel de poder entre 0.80 y 0.90.** Valores por debajo de 0.80 producen evaluaciones que rutinariamente "no encuentran nada" pese a impactos reales; subir a 0.90 es prudente cuando las consecuencias de un falso negativo son altas.
+3. **Ajustar por clusters con ICC realista.** Si el programa se asigna por conglomerados, aplicar DEFF y priorizar **más clusters** sobre más unidades por cluster [@gertler2016impact]. Buscar al menos 30–50 clusters por brazo.
+4. **Inflar la muestra para análisis de subgrupos.** Si el estudio va a reportar efectos por género, región o nivel educativo, cada subgrupo necesita poder propio — típicamente 2–4 veces la muestra base.
+5. **Margen del 10–20% por deserción y no respuesta.** Reclutar por encima del tamaño requerido según la tasa de deserción esperada; documentarla para ajustar el análisis ITT.
+
 ## Errores comunes {#sec-poder-errores}
 
 ::: {.callout-warning}
@@ -248,7 +258,7 @@ Para el taller práctico con código R de este método, consulte el [Anexo de c�
 - **@gertler2016impact**, Capítulo 11 ("Choosing the Sample"): guía práctica completa sobre cálculo de poder en evaluación de impacto, con el ejemplo HISP+ como hilo conductor y discusión detallada del papel de los conglomerados.
 - **@bernal2011**, Capítulo 8: tratamiento formal del cálculo de poder, efecto mínimo detectable y consideraciones de diseño muestral con ejemplos colombianos.
 - **@khandker2009**: manual del Banco Mundial con énfasis en implementación práctica de cálculos de muestra para evaluaciones en países en desarrollo.
-- Huntington-Klein, N. (2021). *The Effect: An Introduction to Research Design and Causality*. Capítulo sobre poder estadístico, disponible en [theeffectbook.net](https://theeffectbook.net).
+- @huntingtonklein2022 (*The Effect: An Introduction to Research Design and Causality*): capítulo sobre poder estadístico con ejemplos accesibles y discusión práctica de los trade-offs en el diseño muestral.
 - Cohen, J. (1988). *Statistical Power Analysis for the Behavioral Sciences* (2da ed.): referencia clásica sobre tamaños de efecto estandarizados.
 - Documentación del paquete `pwr` en R: `?pwr.t.test`.
 :::

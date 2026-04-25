@@ -126,3 +126,108 @@ ggplot(data.frame(d = d_rango, poder = poder_rango), aes(d, poder)) +
 ## ¿Cómo usar el MDE?
 Compare el MDE con el efecto esperado de su programa. Si el MDE es **mayor**, necesita más muestra o aceptar que podría no detectar el efecto. Si es **menor**, su diseño es adecuado.
 :::
+
+## Trabajando con IA paso a paso
+
+::: {.callout-note}
+## Sobre esta sección
+Replica los pasos del [capítulo de uso de IA](06-guia-ia.qmd) con prompts **específicos para cálculo de poder y tamaño muestral**. A diferencia de los otros métodos, aquí no necesita una base de datos: necesita supuestos sobre media, desviación estándar y tamaño de efecto mínimo detectable (MDE).
+:::
+
+### Contexto simulado
+
+Programa de capacitación agrícola. Producción actual promedio: 8 ton/ha; DE histórica: 2.5; efecto mínimo que importa para la política (MDE): 1 ton/ha (un aumento del 12.5%). Aleatorización por finca, posiblemente con clusters por municipio.
+
+### Prompt POW.1 — Tamaño de muestra para RCT individual
+
+::: {.prompt-block}
+Actúa como analista que escribe código en R.
+
+Quiero calcular el tamaño de muestra mínimo para un RCT individual con estos parámetros:
+
+- Resultado: producción agrícola en ton/ha
+- Media de control esperada: `8`
+- Desviación estándar esperada: `2.5`
+- Efecto mínimo detectable (MDE): `1` ton/ha
+- Nivel de significancia: `0.05` (dos colas)
+- Poder: `0.80`
+- Razón de asignación tratamiento:control = `1:1`
+
+Genera un script en R con `pwr::pwr.t.test()` que:
+
+1. Calcule d de Cohen.
+2. Reporte n por grupo y n total.
+3. Repita el cálculo para poder = 0.90 y para MDE = 0.5 ton/ha (más exigente), reportando los tres escenarios en una tabla.
+
+Solo código en un bloque. Al final, en una frase, dime cómo cambia n si el MDE se reduce a la mitad.
+:::
+
+**Lo que esperar:** n total ≈ 200 para los parámetros iniciales; n se cuadruplica si el MDE se reduce a la mitad.
+
+### Prompt POW.2 — Ajuste por covariables (R²)
+
+::: {.prompt-block}
+Mismos parámetros que el Prompt POW.1, pero ahora asumo que tengo covariables de línea base (producción previa, tamaño de finca) que explican parte de la varianza del resultado.
+
+Genera un script en R que:
+
+1. Recalcule el n necesario para varios niveles de R² explicado por las covariables: `c(0, 0.10, 0.25, 0.40, 0.60)`.
+2. Use el ajuste: `n_ajustado = n_base * (1 - R²)`.
+3. Reporte una tabla `R² | n por grupo | n total | reducción vs. R²=0`.
+4. Grafique con `ggplot2` la curva de n total vs. R², con título "Ahorro de muestra por covariables".
+
+Solo código. Al final, en una frase, dime cuándo no vale la pena recolectar más covariables.
+:::
+
+### Prompt POW.3 — Diseño con clusters (CRT)
+
+::: {.prompt-block}
+Voy a aleatorizar a nivel de **municipio** (cluster), no de finca. Asumo:
+
+- ICC (correlación intra-cluster) esperada: `0.10`
+- Tamaño promedio del cluster (fincas por municipio): `25`
+- Mismos MDE, alpha y poder que el Prompt POW.1
+
+Genera un script en R que:
+
+1. Calcule el **inflation factor**: `IF = 1 + (m - 1) * ICC` donde `m` es el tamaño del cluster.
+2. Use `pwr.t.test` para obtener `n_individual` (sin clusters), luego multiplique por IF para obtener `n_efectivo` y divídalo entre `m` para obtener el **número de clusters por brazo**.
+3. Repita para ICC = `c(0.05, 0.10, 0.20)` y reporte una tabla `ICC | IF | clusters por brazo | n total`.
+4. Recuerda al final que con pocos clusters (<30 por brazo) los errores estándar requieren corrección de grados de libertad.
+
+Solo código. Al final, en una frase, dime por qué ICC importa más que el tamaño del cluster.
+:::
+
+**Cómo interpretar:** con ICC = 0.10 y clusters de 25, necesita aproximadamente 3.4× más fincas que en un RCT individual. El número de clusters por brazo es el binding constraint, no el n total.
+
+### Prompt POW.4 — Detección por subgrupos (penalización)
+
+::: {.prompt-block}
+Quiero garantizar poder no solo para el efecto promedio, sino también para detectar efectos por subgrupo (sexo del jefe de hogar, zona urbana/rural).
+
+Genera un script en R que:
+
+1. Calcule el n necesario para detectar el mismo MDE de 1 ton/ha **dentro de cada subgrupo** asumiendo que los subgrupos representan 50/50 de la muestra.
+2. Compare con el n necesario para una **prueba de interacción** (efecto diferencial entre subgrupos), que típicamente requiere 4× más muestra que la prueba principal.
+3. Reporte una tabla con: `objetivo | n total | factor sobre n base`.
+
+Solo código. Al final, en una frase, dime qué hacer si no tiene presupuesto para 4× la muestra.
+:::
+
+### Prompt POW.5 — Reporte ejecutivo del cálculo de muestra
+
+::: {.prompt-block}
+Pegando los resultados de los Prompts POW.1 a POW.3:
+
+```
+[pegar tablas]
+```
+
+Redacta para el equipo directivo del programa:
+
+1. **Párrafo de 4 líneas** justificando la muestra recomendada y los supuestos que la sostienen.
+2. **Frase** con el **margen de atrición** que se ha incorporado (típicamente +10% sobre el n calculado).
+3. **Recomendación accionable**: cuántas fincas y cuántos municipios reclutar.
+
+Sin jerga. Traduce "poder estadístico" como "probabilidad de detectar un efecto si realmente existe".
+:::

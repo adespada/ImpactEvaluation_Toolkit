@@ -263,3 +263,20 @@ robustez <- data.frame(
 knitr::kable(robustez,
              col.names = c("Ancho de banda", "Efecto", "Error estándar", "Valor p"))
 ```
+
+## Trabajando con IA paso a paso
+
+Este anexo combina IV y RDD en un solo documento. Los prompts específicos están repetidos en los anexos individuales, pero los listamos aquí en versión condensada.
+
+### Para Variables Instrumentales (IV)
+
+Los prompts detallados (instrumento débil, 2SLS, exclusión, compliers, reporte ejecutivo) viven en el [anexo de IV](anexo-codigo-iv.qmd#trabajando-con-ia-paso-a-paso).
+
+### Para Regresión Discontinua (RDD)
+
+Los prompts detallados (test McCrary, continuidad de covariables, banda óptima, placebos, reporte ejecutivo) viven en el [anexo de RDD](anexo-codigo-rdd.qmd#trabajando-con-ia-paso-a-paso).
+
+::: {.callout-tip}
+## Cuándo usar IV vs. RDD
+Si la asignación al programa depende de una **variable continua con un umbral conocido** (puntaje SISBEN, edad de jubilación, calificación), prefiera RDD. Si la asignación depende de un **evento exógeno o sorteo** que no es función de un umbral, prefiera IV. Use el [autodiagnóstico](02-autodiagnostico.qmd) para confirmar.
+:::

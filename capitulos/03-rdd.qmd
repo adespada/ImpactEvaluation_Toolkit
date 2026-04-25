@@ -101,6 +101,16 @@ Es importante reconocer las limitaciones inherentes al diseño de regresión dis
 
 - **Sensibilidad a especificaciones.** Los resultados pueden variar según la forma funcional elegida y el ancho de banda seleccionado, lo que exige análisis de robustez rigurosos [@lee2010].
 
+## Elementos clave de diseño
+
+Un RDD creíble se construye con cinco decisiones que se toman **antes** de mirar el resultado [@gertler2016impact; @huntingtonklein2022]:
+
+1. **Un índice de elegibilidad continuo y conocido.** El puntaje (SISBEN, prueba estandarizada, índice de pobreza) debe poder observarse con precisión a ambos lados del corte, sin redondeos arbitrarios que destruyan la continuidad.
+2. **Un punto de corte estricto y no manipulable.** Documentar cómo se fijó el umbral y quién lo aplica. El *test de McCrary* sobre la densidad del *running variable* es parte del diseño, no un robustness check posterior.
+3. **Pruebas de continuidad en covariables de línea base.** Las características pre-tratamiento deben evolucionar suavemente a través del corte; un salto en covariables es señal de manipulación o de violación del diseño [@huntingtonklein2022].
+4. **Elección justificada del bandwidth.** Escoger entre selectores automáticos (Imbens-Kalyanaraman, CCT en `rdrobust`) y reportar sensibilidad ante bandwidths alternativos. Más amplio = más poder pero más sesgo por forma funcional.
+5. **Especificación de la forma funcional.** Lineal local es el estándar; probar polinomios de grado 2 y advertir contra grados altos (que @huntingtonklein2022 documenta como fuente común de artefactos). Reportar la estimación tanto gráfica como paramétrica.
+
 ## Supuestos y limitaciones
 
 ::: {.callout-warning}
@@ -139,3 +149,4 @@ Para el taller práctico con código R de este método, consulte el [Anexo de c�
 - @lee2010: referencia metodológica fundamental sobre RDD, con discusión detallada de supuestos, especificación y limitaciones.
 - @angrist2009: tratamiento formal de la econometría de RDD y su conexión con variables instrumentales.
 - @bernal2011: aplicaciones y ejemplos del contexto colombiano y latinoamericano.
+- @huntingtonklein2022 (*The Effect*, Cap. 20): guía intuitiva al diseño RDD, con énfasis en los diagnósticos gráficos y los riesgos de sobreajuste polinómico.

@@ -1,6 +1,174 @@
+---
+format: html
+bibliography: ../referencias.bib
+---
+
 # Qualitative Comparative Analysis (QCA)
 
+## A. Teoría y explicación
+
+### ¿Qué es QCA?
+
+El **Qualitative Comparative Analysis (QCA)** es un método de comparación sistemática entre casos, basado en **teoría de conjuntos y álgebra booleana**, que identifica **combinaciones de condiciones** (no variables aisladas) que son **necesarias** y/o **suficientes** para producir un resultado.
+
+Desarrollado por Charles Ragin en 1987 (@ragin1987), el QCA busca tender un puente entre los estudios de caso —profundos pero difícilmente generalizables— y los métodos estadísticos cuantitativos —buenos para detectar patrones cross-case pero ciegos al contexto de cada caso.
+
+Sus rasgos distintivos son:
+
+- **Case-based:** respeta la complejidad de cada caso.
+- **Configuracional:** busca **recetas** (combinaciones), no efectos netos de variables aisladas.
+- **Formalizado:** usa lógica booleana y teoría de conjuntos.
+
+### Idea central
+
+En lugar de preguntar *“¿cuánto contribuye X a Y?”*, el QCA pregunta *“¿qué combinaciones de condiciones producen Y?”*. Esto lo hace apto para responder cuestiones como:
+
+- ¿Qué combinaciones producen éxito?
+- ¿Hay **múltiples caminos** al mismo resultado?
+- ¿Qué condiciones son **necesarias** y cuáles **suficientes**?
+
+### ¿Qué problema resuelve?
+
+- **El problema “small-N”:** entre 5 y 50 casos son demasiados para tenerlos en la cabeza pero muy pocos para inferencia estadística.
+- **Complejidad causal:** la realidad social rara vez es “X ⇒ Y”; requiere **combinaciones** y **múltiples caminos**.
+- **Teoría vs. correlación:** muchas teorías sociales se formulan en términos conjuntistas (necesidad, suficiencia), no como correlaciones lineales.
+
+---
+
+## B. Fundamento lógico: los métodos de Mill
+
+QCA refina los métodos comparados de John Stuart Mill (1843):
+
+- **Método de concordancia (→ necesidad):** si la única circunstancia común a varios casos positivos es $H$, entonces $H$ es candidata a causa.
+- **Método de diferencia (→ suficiencia):** si dos casos difieren solo en la presencia de $H$ y solo uno produce el resultado, $H$ es parte indispensable de la causa.
+
+A esos métodos, QCA añade **tabla de verdad**, **minimización booleana**, **conjuntos difusos** y **parámetros de ajuste** (consistencia y cobertura).
+
+### Conceptos clave del enfoque configuracional
+
+- **Equifinalidad:** distintas combinaciones pueden producir el mismo resultado.
+- **Causalidad conjuntural:** las condiciones operan en combinación; el efecto de una depende de las demás.
+- **Causalidad asimétrica:** lo que explica el éxito no es el inverso de lo que explica el fracaso; se analizan por separado.
+- **Condición necesaria:** debe estar presente para que ocurra el resultado.
+- **Condición suficiente:** cuando está, el resultado ocurre.
+
+---
+
+## C. Tipos de QCA según la calibración
+
+| Tipo | Valores | Descripción | Cuándo usar |
+|---|---|---|---|
+| **csQCA** (Crisp Set) | Binarios (0/1) | Presencia o ausencia. | Condiciones naturalmente dicotómicas. |
+| **mvQCA** (Multi-Value) | Discretos (0, 1, 2, …) | Varias categorías por condición. | Nominales o rangos discretos. |
+| **fsQCA** (Fuzzy Set) | Continuos $[0,1]$ | Grado de pertenencia. | Cuando importan diferencias de grado. |
+
+**fsQCA** usa tres **anclas** cualitativas: 1 (inclusión total), 0.5 (punto de cruce), 0 (exclusión total).
+
+---
+
+## D. Los 7 pasos del proceso QCA
+
+**Fase preparatoria (1–3):**
+
+1. **Especificación del modelo:** definir el resultado $Y$ y las condiciones causales plausibles, con base en teoría y conocimiento sustantivo. Buena práctica: pocas condiciones críticas (4–7) que hagan **diferencia real** en el *outcome*.
+2. **Selección de casos:** QCA es *case-based*; no recolecta datos, los **compara**. Casos comparables (misma unidad), datos completos (QCA no tolera faltantes), rúbrica única que capte la variación.
+3. **Calibración:** convertir información cualitativa en valores de pertenencia a conjuntos, mediante **rúbricas explícitas**. En *csQCA* es binaria; en *fsQCA* usa las tres anclas. Crítico: documentar cada rúbrica y hacer análisis de sensibilidad.
+
+**Fase analítica (4–7):**
+
+4. **Análisis visual:** diagramas de Venn (crisp) o *XY plots* (fuzzy) para detectar patrones a simple vista. En un *XY plot*, los puntos **bajo la diagonal** sugieren **suficiencia**; los puntos **sobre** la diagonal sugieren **necesidad**.
+5. **Tabla de verdad:** tabla con todas las combinaciones lógicas de las condiciones; con $k$ condiciones hay $2^k$ filas. Cada fila es una configuración única, se asignan los casos empíricos, y se identifican **filas contradictorias** (misma configuración, distinto *outcome*) y **remanentes lógicos** (configuraciones sin casos).
+6. **Minimización booleana (Quine–McCluskey):** aplica la regla de una diferencia — si dos combinaciones casi idénticas producen el mismo *outcome*, la condición que varía es irrelevante y se elimina. Notación: $*$ = AND, $+$ = OR, $\sim$ = negación, MAYÚS = presencia, minús = ausencia. El algoritmo puede reportar tres soluciones:
+   - **Compleja:** no usa remanentes.
+   - **Parsimoniosa:** usa todos los remanentes.
+   - **Intermedia:** usa sólo los remanentes con justificación teórica (suele ser la que se reporta).
+7. **Parámetros de ajuste e interpretación:**
+   - **Consistencia** (0–1): fuerza teórica. Para suficiencia, proporción de casos con la configuración que muestran el *outcome*. Umbral típico $\geq 0{,}80$.
+   - **Cobertura:** relevancia empírica. Proporción de casos con *outcome* explicados por la solución (raw, unique, solution).
+   - **Regreso al caso:** la fórmula no es el producto final. La interpretación cualitativa a la luz de los casos le da sentido sustantivo.
+
+---
+
+## E. Ejemplo didáctico paso a paso
+
+Siguiendo a Rosati & Chazarreta (2017), un dataset simulado de 10 casos con 4 condiciones ($X_1, X_2, X_3, X_4$) y *outcome* $Y$ produce, tras la tabla de verdad (16 filas posibles) y la minimización booleana, la fórmula:
+
+$$
+Y = X_4 + \sim X_3 \cdot X_4 + X_1 \cdot X_2 \cdot X_4
+$$
+
+Lectura: existen **tres “caminos”** al resultado; la presencia de $X_4$ es una condición que aparece siempre — **necesaria y suficiente** en este dataset.
+
+---
+
+## F. Ejemplo aplicado: capacidad organizacional y salud pública (CPPW)
+
+@kane2017 estudiaron el programa *Communities Putting Prevention to Work* (CDC, 2010–2013) que financió 50 comunidades para reducir factores de riesgo de enfermedades crónicas. Sobre una submuestra propositiva de 22 comunidades, analizaron qué combinaciones de capacidad organizacional se asocian con completar ≥60% de los objetivos en 2 años.
+
+**Condiciones (csQCA):** *EXPERIENCE* (experiencia del staff), *COLLABORATION* (historial de alianzas), *LEADERSHIP* (liderazgo fuerte), *TURNOVER* (rotación).
+
+**Resultado:** la solución minimizada es
+
+$$
+\text{EXPERIENCE} \cdot \text{COLLABORATION} + \text{experience} \cdot \text{LEADERSHIP} \rightarrow \text{ÉXITO}
+$$
+
+Con cobertura total de 0.88 y dos “recetas” distintas:
+
+- **Receta 1 — “Experto con aliados”:** *EXPERIENCE · COLLABORATION* (12 de 17 casos exitosos; consistencia 0.86).
+- **Receta 2 — “Novato con liderazgo”:** *experience · LEADERSHIP* (3 casos; consistencia 1.00).
+
+**Lecturas:**
+
+- **Equifinalidad:** hay más de un camino al éxito.
+- **Causalidad conjuntural:** ni experiencia ni liderazgo bastan por separado.
+- **Causalidad asimétrica:** explicar el fracaso requeriría un análisis aparte.
+- **Utilidad de política:** los financiadores pueden reconocer **perfiles distintos** de organizaciones viables.
+
+---
+
+## G. Fortalezas, limitaciones y recomendaciones
+
+**Fortalezas:**
+
+- Captura **combinaciones** y **múltiples caminos**, coherente con la teoría social.
+- Puente entre lo cualitativo y lo cuantitativo, especialmente para *small-N*.
+- Transparencia: la calibración, la tabla de verdad y la fórmula son documentables y replicables.
+
+**Limitaciones:**
+
+- **Sensibilidad a la calibración:** cambios pequeños pueden alterar conclusiones → análisis de sensibilidad obligatorio.
+- **Requiere datos completos** sobre todos los casos.
+- **Remanentes lógicos:** elegir si incluirlos (solución parsimoniosa) o no (compleja) tiene implicaciones fuertes.
+- **No estima efectos promedio** ni magnitudes.
+
+**Recomendaciones:**
+
+- Justifique teóricamente cada condición — no incluya condiciones “por si acaso”.
+- Haga explícitas las rúbricas de calibración y reporte análisis de sensibilidad.
+- Siempre **vuelva a los casos** para interpretar las fórmulas; QCA sin regreso al caso es un ejercicio vacío.
+- Considere combinar QCA con *process tracing* dentro de cada configuración para robustecer la inferencia.
+
 ::: {.callout-note}
-## En construcción
-Este capítulo está en desarrollo. Consulta el [capítulo piloto de Diferencias en Diferencias](03-did.qmd) como referencia del formato y profundidad esperada.
+## Idea final
+QCA no pregunta “¿qué variable importa más?”, sino **“¿qué combinación de condiciones produce el resultado?”**. Es la herramienta natural cuando hay equifinalidad, causalidad conjuntural y asimetría — tres rasgos habituales en los programas sociales.
+:::
+
+---
+
+## H. Ideas avanzadas del QCA
+
+Para quien quiera trabajar QCA al nivel de los estándares actuales, conviene tener presente [@ragin2000; @schneiderwagemann2012; @rihouxragin2009; @dusa2019]:
+
+- **Asimetría causal:** las causas de la presencia del fenómeno pueden ser totalmente distintas de las causas de su ausencia. Por eso se analizan **por separado** el resultado positivo ($Y$) y el negativo ($\sim Y$) [@schneiderwagemann2012].
+- **Análisis pseudo-contrafáctico:** algoritmos modernos (eQMC, CCubes en el paquete `QCA` de R) no “usan” los casos remanentes para minimizar, sino que se concentran en las configuraciones *excluidas* para derivar lógicamente las soluciones más simples [@dusa2019]. El resultado final es el mismo, pero el razonamiento es inverso.
+- **Relaciones simultáneas de subconjuntos (fsQCA):** en conjuntos difusos una configuración puede ser consistente con $Y$ y con $\sim Y$ a la vez. Para evitar contradicciones lógicas se usa el parámetro **PRI** (*Proportional Reduction in Inconsistency*) además de la consistencia simple [@dusa2019].
+- **Propiedad de acordeón:** QCA es metodológicamente flexible — funciona con 5–10 casos (conservando la riqueza cualitativa) y también con cientos o miles (acercándose a métodos basados en variables), todo sin cambiar la lógica subyacente [@ragin2000].
+- **Causas INUS y SUIN:** QCA permite identificar condiciones que son *partes necesarias pero insuficientes* de una combinación suficiente (**INUS**), o *componentes suficientes pero innecesarios* de una combinación necesaria (**SUIN**). Es una forma rigurosa de hablar de causalidad compleja.
+- **Diversidad limitada como hallazgo:** los *remanentes lógicos* (filas sin casos empíricos) no son una falla de los datos: son una característica de la realidad social, que se agrupa en tipologías y no agota todas las combinaciones posibles [@ragin1987].
+- **Combinación QCA + Process Tracing:** recomendada por buenas prácticas recientes — QCA identifica las *recetas* (qué combinación) y el PT documenta los *mecanismos* dentro de cada receta [@schneiderwagemann2012; @befanimayne2014].
+
+## Referencias
+
+::: {#refs}
 :::

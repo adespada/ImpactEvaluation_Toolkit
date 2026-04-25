@@ -259,6 +259,97 @@ ggplot(efectos_sub, aes(x = subgrupo, y = efecto)) +
 Si los intervalos de confianza de los subgrupos se superponen, no hay evidencia estadística de que el programa funcione de manera diferente entre subgrupos. Si un subgrupo muestra un efecto significativamente mayor, esto puede orientar la focalización de futuras intervenciones.
 :::
 
+## Trabajando con IA paso a paso
+
+::: {.callout-note}
+## Sobre esta sección
+Esta sección replica los pasos que vio en el [capítulo de uso de IA](06-guia-ia.qmd) pero con prompts **específicos para RCT** y aplicados a un dataset simulado sencillo. La idea es que pueda copiar cada prompt, pegarlo en su IA preferida, y obtener código listo para ejecutar. Los prompts asumen que ya pasó por los Pasos 1–4 del capítulo general (tiene `base_anonima.csv` limpia y los vectores `covariables` y `subgrupos`).
+:::
+
+### Contexto simulado
+
+Trabajamos con la base `datos` del taller anterior: 80 comunidades rurales asignadas aleatoriamente (40 a brigadas móviles de vacunación, 40 a control). Variable de resultado: `tasa_vacunacion`. Covariables: `poblacion`, `distancia_hospital`, `ingreso_base`. Para los prompts de abajo asuma:
+
+```r
+covariables <- c("poblacion", "distancia_hospital", "ingreso_base")
+subgrupos   <- c("subgrupo_dist", "subgrupo_pob")
+```
+
+### Prompt RCT.1 — Tabla de balance con prueba conjunta
+
+::: {.prompt-block}
+Actúa como analista de evaluación que escribe código en R. Tengo un data frame `datos` con: `comunidad_id`, `tratamiento` (1/0), `tasa_vacunacion`, y covariables en el vector `covariables <- c("poblacion","distancia_hospital","ingreso_base")`.
+
+Genera un script en R que produzca:
+
+1. Una tabla de balance con `gtsummary::tbl_summary()` agrupada por `tratamiento`, mostrando media (DE) para cada covariable y `add_p()` con t-test.
+2. Una columna adicional con la **diferencia estandarizada** (Cohen's d) calculada manualmente por covariable.
+3. Una **prueba F conjunta** que regrese `tratamiento` sobre todas las covariables y reporte el F y su p-valor con `linearHypothesis()` o equivalente.
+
+Devuelve solo el código completo en un único bloque, sin explicaciones en prosa. Al final agrega un comentario `# Verificación:` con dos chequeos rápidos que yo deba hacer al ver la tabla.
+:::
+
+**Qué debe ver si la aleatorización funcionó:** todos los p-valores individuales > 0.05, todas las |d| < 0.25, y la prueba F conjunta con p > 0.10.
+
+### Prompt RCT.2 — Atrición diferencial
+
+::: {.prompt-block}
+Con la base `datos` cargada, asume que la columna `respondio_endline` (1/0) indica quién completó la encuesta de seguimiento. Genera un script en R que:
+
+1. Calcule la tasa de atrición por grupo (`tratamiento == 1` vs. `0`).
+2. Estime una regresión logística `respondio_endline ~ tratamiento + covariables` y reporte el coeficiente de `tratamiento` con IC95%.
+3. Compare las características de quienes respondieron vs. quienes no, dentro del grupo tratado, con `tbl_summary()`.
+
+Solo código. Al final, en una frase, dime cuándo la atrición sería preocupante.
+:::
+
+**Lo que verifica:** que la decisión de responder no esté sistemáticamente relacionada con el tratamiento. Si el coeficiente de `tratamiento` es significativo, hay atrición diferencial y los resultados ITT pueden estar sesgados.
+
+### Prompt RCT.3 — ITT y TOT (cumplimiento imperfecto)
+
+::: {.prompt-block}
+Con `datos`, asume que la columna `tomo_brigada` (1/0) indica cumplimiento efectivo y `tratamiento` indica asignación aleatoria. Genera un script en R que estime:
+
+1. **ITT** (efecto de la asignación): `lm(tasa_vacunacion ~ tratamiento + covariables)` con errores robustos (`sandwich::vcovHC`).
+2. **TOT/LATE** (efecto del cumplimiento) usando 2SLS con `tratamiento` como instrumento de `tomo_brigada`: `AER::ivreg(tasa_vacunacion ~ tomo_brigada + covariables | tratamiento + covariables)`.
+3. Una tabla comparativa con `modelsummary::modelsummary()` con ambos modelos lado a lado.
+
+Solo código. Al final, en una sola frase, recuérdame por qué TOT > ITT en valor absoluto cuando hay incumplimiento parcial.
+:::
+
+### Prompt RCT.4 — Heterogeneidad y forest plot
+
+::: {.prompt-block}
+Con `datos`, `covariables` y `subgrupos <- c("subgrupo_dist","subgrupo_pob")`, genera un script en R que:
+
+1. Para cada subgrupo: ajuste `lm(tasa_vacunacion ~ tratamiento + covariables)` por categoría.
+2. Construya un data frame único con `dimension | categoria | efecto | li | ls | n`.
+3. Grafique un forest plot con `ggplot2`: barra horizontal de IC95%, una fila por categoría agrupada por dimensión, línea vertical en cero, color `#D85A30` para puntos.
+4. Pruebe la interacción `lm(tasa_vacunacion ~ tratamiento * subgrupo_dist + covariables)` y reporte el p-valor de la interacción.
+
+Solo código. Al final, en una frase, dime cómo interpretar barras que cruzan el cero.
+:::
+
+### Prompt RCT.5 — Reporte ejecutivo
+
+::: {.prompt-block}
+Pegando esta tabla de resultados:
+
+```
+[pegar el output de modelsummary del modelo principal]
+```
+
+Redacta para un alcalde sin formación estadística:
+
+1. Un **párrafo de 4 líneas** sobre si la brigada móvil aumentó la tasa de vacunación, en cuántos puntos porcentuales y con qué confianza.
+2. Una **frase** con para qué tipo de comunidad funcionó mejor (cercanas vs. lejanas, grandes vs. pequeñas).
+3. Una **recomendación accionable** en una oración.
+
+Sin jerga. No uses "p-valor" ni "intervalo de confianza" sin traducirlos.
+:::
+
+---
+
 ## Guía de recolección de datos
 
 ::: {.callout-important}

@@ -3,190 +3,176 @@ format: html
 bibliography: ../referencias.bib
 ---
 
-# Process Tracing {#sec-process-tracing}
+# Process Tracing (PT)
 
-## ¿Qué es Process Tracing?
+## A. Teoría y explicación
 
-El **Process Tracing (PT)** es una herramienta de análisis dentro-del-caso (*within-case analysis*) diseñada para **abrir la caja negra** de las intervenciones y examinar si la cadena causal teorizada —de la causa al efecto— efectivamente se manifestó en la realidad. A diferencia de los métodos frecuentistas, que se apoyan en grandes muestras y asociaciones estadísticas, el Process Tracing utiliza **observaciones del proceso causal** (*Causal Process Observations*, CPOs) que aportan profundidad, secuencia temporal y contexto [@collier2011; @beach2013].
+### ¿Qué es Process Tracing?
 
-Esta distinción es fundamental:
+El **Process Tracing (PT)** o **rastreo de procesos** es el estudio sistemático del vínculo causal entre un resultado observado y una explicación propuesta, basado en la evaluación rigurosa de evidencia **a favor y en contra** de la inferencia causal. Es un método fundamentalmente orientado al **testeo de teorías (*theory testing*)**: no busca estimar cuánto cambió un indicador, sino evaluar si el mecanismo causal hipotetizado es consistente con la evidencia.
 
-| Característica | Causal Process Observations (CPOs) | Data Set Observations (DSOs) |
-|----------------|-----------------------------------|------------------------------|
-| Contexto primario | Análisis cualitativo dentro del caso | Análisis estadístico cuantitativo |
-| Estructura del dato | Relatos de observaciones en el tiempo | Matrices de valores de variables |
-| Foco analítico | Secuencias temporales y pasos causales | Frecuencia y asociación entre variables |
-| Poder inferencial | Basado en la probabilidad de piezas de evidencia específicas | Basado en tamaño de muestra y correlación |
-| Tipos de evidencia | Secuencia, patrón, relato, traza | Correlación y diferencias de medias |
+La analogía más útil es la del **detective**: se parte de un resultado conocido (el crimen ya ocurrió) y se rastrean las pistas hacia atrás para determinar quién lo cometió (la causa) y **descartar otros sospechosos** (hipótesis rivales). Siguiendo a @ricksliu2018, un diseño de PT riguroso depende tanto de la teoría previa como de la búsqueda disciplinada de evidencia en el terreno.
 
-: CPOs vs. DSOs en Process Tracing {#tbl-cpo-dso}
+### ¿Cuándo usar Process Tracing?
+
+El PT es especialmente pertinente en contextos donde los métodos estadísticos no son factibles o donde se requiere comprender **mecanismos** más que efectos promedios:
+
+- **Estudios de caso único o pocos casos (*small-N*):** cuando hay pocas observaciones para inferencia estadística.
+- **Análisis dentro del caso (*within-case analysis*):** cuando interesa entender cómo se encadenaron los eventos dentro de un caso específico.
+- **Complemento a métodos cuantitativos:** para profundizar en el *cómo* y el *por qué* detrás de correlaciones ya observadas.
+- **Cuando los RCTs no son factibles:** por restricciones éticas, logísticas o de escala.
+
+### Principio fundamental: no hay inferencia sin hipótesis rivales
+
+Siguiendo a Lakatos, el PT organiza la inferencia causal como una **“pelea de tres esquinas”**: la hipótesis primaria debe defenderse no solo frente a los datos, sino frente a **hipótesis rivales** plausibles. **Sin rivales no hay inferencia causal válida**: una hipótesis que nunca se pone a competir con alternativas siempre “gana” trivialmente.
+
+---
+
+## B. El checklist de 7 pasos
+
+Siguiendo a @ricksliu2018, un diseño estándar de Process Tracing se organiza en **7 pasos**, divididos en dos fases:
+
+**Preparación teórica (antes del trabajo de campo — pasos 1–5):**
+
+1. **Identificar hipótesis:** definir una hipótesis primaria y al menos una rival, fundamentadas en la literatura.
+2. **Establecer la línea temporal:** delimitar el período de análisis de forma coherente con la teoría (aplicar *face validity*).
+3. **Construir el gráfico causal:** representar el proceso como una cadena $X \to M_1 \to M_2 \to Y$; usar líneas punteadas donde hay incertidumbre.
+4. **Identificar alternativas:** en cada nodo de decisión del grafo, ¿qué evento podría haber ocurrido en su lugar?
+5. **Identificar contrafactuales:** ¿qué habría sucedido bajo cada alternativa? Comparar con el resultado observado.
+
+**Búsqueda de evidencia (durante el trabajo de campo — pasos 6–7):**
+
+6. **Buscar evidencia para la hipótesis primaria:** examinar cada eslabón de la cadena, documentar evidencia a favor y en contra, clasificarla según su **poder inferencial**.
+7. **Buscar evidencia para las hipótesis rivales:** repetir el proceso para cada rival; la primaria se fortalece cada vez que una rival queda eliminada.
+
+::: {.callout-important}
+## Regla de oro
+Los pasos 1–5 deben cerrarse **antes** del trabajo de campo. Si los datos guían la teoría en lugar de lo contrario, se pierde la capacidad de rechazar hipótesis.
+:::
+
+---
+
+## C. Los 4 tipos de evidencia (Van Evera)
+
+La fuerza inferencial de cada pieza de evidencia depende de dos preguntas: ¿es **necesaria** para afirmar la hipótesis? ¿es **suficiente** para confirmarla? Cruzándolas se obtienen los cuatro tests clásicos de @vanevera1997:
+
+| | **No suficiente** | **Suficiente** |
+|---|---|---|
+| **No necesaria** | **Straw-in-the-Wind** — sugiere relevancia pero ni confirma ni elimina. | **Smoking Gun** — si se encuentra, confirma la hipótesis; si no, no la elimina. |
+| **Necesaria** | **Hoop Test** — si falla, **elimina la hipótesis**. Es el test de exclusión más importante. | **Doubly Decisive** — confirma la hipótesis *y* elimina las rivales. Es la evidencia más poderosa (y la más rara). |
+
+Guía práctica:
+
+- La **mayoría de la evidencia** recolectada será tipo *straw-in-the-wind*: indicios que sugieren pero no cierran.
+- El **Hoop Test** es el excluyente clave: si la hipótesis no lo pasa, queda descartada.
+- El **Smoking Gun** establece causalidad de manera contundente cuando aparece.
+- La evidencia **Doubly Decisive** es el ideal, pero raramente disponible.
+
+---
+
+## D. Aplicación en evaluación de impacto
+
+En evaluación, el PT permite responder preguntas que los métodos cuantitativos no resuelven por sí solos:
+
+- **¿Cómo y por qué funcionó (o no) el programa?** PT abre la caja negra del mecanismo causal.
+- **¿Qué parte de la cadena falló?** Al rastrear eslabón por eslabón, se identifica dónde se rompe la teoría de cambio.
+- **¿La intervención o factores externos?** El análisis explícito de hipótesis rivales separa la contribución del programa de co-ocurrencias.
+
+### Fortalezas y limitaciones
+
+**Fortalezas:**
+
+- Método cualitativo riguroso y sistemático.
+- Testea mecanismos causales, no solo correlaciones.
+- Aborda explicaciones rivales de forma explícita.
+- Genera comprensión profunda del proceso.
+
+**Limitaciones:**
+
+- Intensivo en recursos: requiere tiempo y acceso a información detallada.
+- Requiere conocimiento profundo del caso.
+- Subjetividad en la valoración de la evidencia.
+- No generalizable a grandes poblaciones.
+
+---
+
+## E. Caso aplicado: la estandarización del inglés en Singapur
+
+Para ilustrar el uso completo del checklist, @ricksliu2018 presentan el caso de Singapur: hoy más del 90% de la población habla inglés, pero en 1965 (independencia) solo el 21% tenía algún nivel de alfabetización en ese idioma. ¿Qué explica esta transformación?
+
+**Paso 1 — Hipótesis rivales:**
+
+- **H1 (primaria):** la **fortaleza del Estado singapurense** explica la estandarización; la alta capacidad institucional permitió implementar políticas lingüísticas efectivas.
+- **H2 (rival):** el **nombramiento de Goh Keng Swee como Ministro de Educación en 1979** fue el factor determinante; su liderazgo produjo el *Goh Report* que transformó el currículo.
+
+**Paso 2 — Línea temporal (1965–1990):** el inglés pasa de 21% (1965) a 33% (1979) y luego salta a 69% (1990). El sistema educativo permaneció esencialmente sin cambios hasta 1979.
+
+**Paso 3 — Grafos causales:**
+
+- H1: Estado fuerte → adopción de currículo de inglés → implementación efectiva.
+- H2: Goh en Educación → *Goh Report* → implementación efectiva.
+
+Ambas llevan al mismo $Y$, pero a través de mecanismos distintos.
+
+**Pasos 4–5 — Alternativas y contrafactuales:** si Singapur fuera un Estado débil o si Goh no hubiera sido nombrado, la trayectoria habría sido marcadamente distinta. La evidencia clave: entre 1965 y 1979 (sin Goh en Educación) la proficiencia subió apenas ~1% por año.
+
+**Paso 6 — Evidencia para H1:**
+
+- *Straw-in-the-wind:* Lee nombra funcionarios clave ✔
+- **Hoop test:** burocracia educativa fuerte antes de 1979 ✗ → **falla**.
+
+**Paso 7 — Evidencia para H2:**
+
+- *Straw-in-the-wind, Hoop, Smoking Gun* y *Doubly Decisive* → todos pasan.
+
+**Conclusión:** H1 queda **eliminada** por el Hoop test; H2 queda **confirmada** por los cuatro tipos de evidencia. El PT permitió ir más allá de la correlación y aislar el mecanismo específico.
+
+---
+
+## F. Combinando Process Tracing con Contribution Analysis
+
+Siguiendo a @befanimayne2014, CA y PT comparten raíces en la **causalidad generativa**: ambos buscan entender cómo se produjo el efecto, no solo si ocurrió. Son complementarios:
+
+- **Contribution Analysis** proporciona el marco lógico (ToC, 6 pasos, supuestos).
+- **Process Tracing** aporta las herramientas de evidencia (tests de Van Evera, criterios bayesianos).
+
+Donde CA dice “verificar los enlaces causales”, PT dice *exactamente cómo hacerlo*. El procedimiento combinado opera en tres fases:
+
+- **PT1:** Hoop + Smoking Gun para el mecanismo de la intervención.
+- **PT2:** Hoop + Smoking Gun para factores externos.
+- **PT3:** Doubly Decisive sobre la ToC completa — ¿es la mejor explicación disponible?
+
+El paradigma resultante deja de ser *“medir impacto”* para convertirse en *“evaluar nuestra confianza en el impacto”*, actualizando creencias previas con la fuerza bayesiana de la evidencia.
+
+---
+
+## G. Limitaciones y recomendaciones de uso
+
+- **Cierre la teoría antes del campo.** Los pasos 1–5 no son negociables; sin ellos, el análisis pierde capacidad de refutar.
+- **No rehuya las rivales.** La credibilidad del PT depende de la severidad con que se busque desmentir la hipótesis primaria.
+- **Documente la ausencia de evidencia.** En PT, que algo *no* aparezca donde la teoría lo exige es información valiosa (Hoop).
+- **Combínelo.** PT gana claridad cuando se integra con Contribution Analysis, Outcome Harvesting o métodos cuantitativos.
 
 ::: {.callout-note}
-## La idea clave
-En lugar de comparar muchos casos para inferir un efecto promedio, Process Tracing examina **un solo caso** en profundidad y pregunta: *¿apareció la secuencia de eventos que la teoría predice?*. Cada eslabón de la cadena causal se somete a una prueba de evidencia.
+## Idea final
+El Process Tracing no mide cuánto impacto hubo. Establece **cómo y por qué** ocurrió, y cuánta confianza podemos depositar en esa explicación frente a las alternativas.
 :::
 
-Como señalan @bennett2014, el Process Tracing se ha convertido en la alternativa científica rigurosa cuando las evaluaciones contrafactuales son inviables: cuando el programa comenzó antes de diseñar la evaluación, cuando no es ético establecer un grupo de control, o cuando la intervención cubre a toda una población.
+---
 
-## La lógica bayesiana del Process Tracing
+## H. Ideas avanzadas del Process Tracing
 
-Process Tracing abandona la estadística frecuentista y adopta una **lógica bayesiana** de "evaluación de confianza". Este enfoque incorpora el conocimiento previo y el contexto para actualizar nuestro grado de certeza sobre un mecanismo causal (MC). El corazón de este razonamiento es la fórmula de Bayes:
+Para quienes quieran ir más allá del manual clásico, el PT moderno (combinado con evaluación) incorpora varias ideas potentes [@beachpedersen2013; @bennettcheckel2015; @befanimayne2014; @humphreysjacobs2015]:
 
-$$
-P(MC|E) = P(MC) \cdot \frac{P(E|MC)}{P(E)}
-$$ {#eq-pt-bayes}
+- **Inferencia bayesiana vs. frecuencista:** la **fuerza inferencial de una sola observación** es más importante que el tamaño de muestra. El PT pregunta cómo una evidencia *cambia nuestra confianza previa* en una teoría (razonamiento bayesiano), no cuántos casos la corroboran [@humphreysjacobs2015].
+- **Causas INUS y “paquetes causales”:** las intervenciones rara vez actúan solas; son **partes necesarias pero insuficientes** de un *paquete causal* que, en conjunto, sí es suficiente para producir el resultado [@mahoney2012]. El PT identifica esos paquetes.
+- **Leverage contextual:** una observación no es fuerte o débil por sí sola; su peso probatorio depende del **contexto, el conocimiento previo y el momento** en que aparece. La misma pista puede valer mucho o nada en escenarios distintos [@beachpedersen2013].
+- **Mecanismos como componentes entrelazados:** un mecanismo causal no es una flecha de X a Y; es una cadena de entidades y actividades donde *todos los componentes son necesarios* — si falta un eslabón, el mecanismo se redefine o se rompe [@beachpedersen2013].
+- **“Lucha de tres esquinas” (Lakatos):** un PT riguroso no solo confirma una hipótesis; la enfrenta simultáneamente contra al menos una explicación rival, de modo lakatosiano [@ricksliu2018].
+- **Test *doubly-decisive* sobre la ToC completa:** más allá de los tests individuales por eslabón, una ToC compleja puede someterse a un test global; si se confirma, invalida automáticamente las explicaciones alternativas [@befanimayne2014].
+- **Cuatro tipos de evidencia (Beach & Pedersen):** secuencia, patrón, relato y huella. Cada tipo responde mejor a ciertos tests y a ciertas preguntas causales.
 
-Donde:
+## Referencias
 
-- $P(MC)$: probabilidad previa o confianza "teórica" de que el mecanismo opere, antes de recolectar datos.
-- $P(E|MC)$: **sensibilidad**, la probabilidad de observar la evidencia si el mecanismo es cierto.
-- $P(E)$: probabilidad general de que la evidencia aparezca, con o sin mecanismo.
-
-El rigor científico proviene de la **razón de verosimilitud**: nuestra confianza aumenta más cuando la distancia entre $P(E|MC)$ y $P(E|\neg MC)$ —la probabilidad de la evidencia si el mecanismo *no* opera— es máxima [@collier2011].
-
-::: {.callout-tip}
-## La analogía de la puerta
-Si usted está en una tienda y oye abrirse la puerta, $P(E)$ es alta porque constantemente entran clientes: oír la puerta es evidencia débil de que su socio llegó. Pero si oye abrirse la puerta de su casa, $P(E)$ es muy baja porque solo entran personas con llave. Observar esa evidencia en casa aporta enorme "apalancamiento inferencial" porque es altamente específica ($P(E|\neg MC)$ es baja). Esta lógica permite tratar observaciones cualitativas —como el reclutamiento de funcionarios específicos— como datos rigurosos.
-:::
-
-## Los cuatro pilares: las pruebas de evidencia
-
-Para traducir la lógica bayesiana a la práctica investigativa, Process Tracing utiliza cuatro pruebas cualitativas derivadas de @vanevera1997. Estas clasifican la evidencia según su **necesidad** y **suficiencia**:
-
-1. **Pajita al viento** (*Straw-in-the-Wind*): la prueba más débil; pasarla confirma relevancia pero no confirma ni refuta la hipótesis. Suele ser el resultado de trabajo de campo exploratorio sin foco estratégico.
-
-2. **Prueba del aro** (*Hoop Test*): **necesaria pero no suficiente**. La hipótesis debe "pasar por el aro" para seguir siendo válida. **Valor estratégico:** reprobar un Hoop Test actúa como una "señal de pare", ahorrando recursos al falsar una hipótesis principal tempranamente.
-
-3. **Pistola humeante** (*Smoking Gun Test*): **suficiente pero no necesaria**. Aporta alto poder confirmatorio mediante "trazas firma" únicas del mecanismo. Pasar una Smoking Gun aumenta notablemente $P(MC|E)$.
-
-4. **Doblemente decisiva** (*Doubly-Decisive Test*): el estándar de oro; tanto necesaria como suficiente. Confirma una hipótesis y elimina las rivales simultáneamente.
-
-```{r}
-#| label: tbl-pt-pruebas
-#| tbl-cap: "Las cuatro pruebas de evidencia en Process Tracing"
-#| echo: false
-
-pruebas <- data.frame(
-  Prueba = c("Pajita al viento", "Prueba del aro (Hoop)",
-             "Pistola humeante (Smoking Gun)", "Doblemente decisiva"),
-  Necesaria = c("No", "Sí", "No", "Sí"),
-  Suficiente = c("No", "No", "Sí", "Sí"),
-  Efecto = c(
-    "Sugiere relevancia; no confirma ni refuta",
-    "Si no pasa, la hipótesis se descarta",
-    "Si pasa, la hipótesis se confirma fuertemente",
-    "Confirma la hipótesis y elimina las rivales"
-  )
-)
-
-knitr::kable(pruebas,
-             col.names = c("Tipo de prueba", "¿Necesaria?", "¿Suficiente?",
-                           "Efecto sobre la hipótesis"))
-```
-
-@befani2014 advierten que los errores metodológicos más comunes provienen de apoyarse exclusivamente en evidencia tipo "pajita al viento". Un evaluador riguroso prioriza **Hoop y Smoking Gun** para asegurar que el diseño tenga el poder de falsar o validar genuinamente la teoría.
-
-## Los siete pasos operativos
-
-Para que Process Tracing no sea "narrativa glorificada", debe seguir una lista de verificación rigurosa [@beach2013; @befani2014]:
-
-::: {.pasos-container}
-
-::: {.paso}
-**Paso 1 — Identificar hipótesis.** Establecer la teoría principal y sus explicaciones rivales. Esto crea un "combate a tres" (*three-cornered fight*) donde las observaciones enfrentan teorías en competencia.
-:::
-
-::: {.paso}
-**Paso 2 — Establecer líneas de tiempo.** Secuenciar los eventos desde la emergencia de la causa teorizada hasta el resultado, para establecer precedencia temporal.
-:::
-
-::: {.paso}
-**Paso 3 — Construir grafos causales.** Visualizar el camino de $X$ a $Y$. En estos grafos, distinguir el proceso causal principal (líneas sólidas) del ruido contextual (líneas discontinuas).
-:::
-
-::: {.paso}
-**Paso 4 — Identificar eventos alternativos.** En cada eslabón del grafo, preguntar qué otras decisiones podrían haberse tomado o qué otros eventos podrían haber ocurrido.
-:::
-
-::: {.paso}
-**Paso 5 — Identificar resultados contrafactuales.** Determinar el resultado hipotético si esas alternativas se hubieran materializado.
-:::
-
-::: {.paso}
-**Paso 6 — Buscar evidencia para la hipótesis principal.** Recolectar datos sistemáticamente para cada eslabón, priorizando Hoop Tests y Smoking Guns.
-:::
-
-::: {.paso}
-**Paso 7 — Repetir para hipótesis rivales.** Aplicar el mismo rigor evidencial a las alternativas para ver si pueden eliminarse mediante Hoops reprobados.
-:::
-
-:::
-
-Esta secuencia transforma Process Tracing en una herramienta científica para identificar **junturas críticas** (*critical junctures*) donde decisiones específicas alteraron la trayectoria del caso.
-
-## Causalidad generativa y paquetes causales
-
-Process Tracing se inscribe firmemente en el marco de **causalidad generativa**, que busca mapear las características finas del mecanismo causal. Muchos métodos tradicionales son "basados en asociación", probando que dos cosas ocurren juntas pero fallando al describir "los mecanismos internos".
-
-La causalidad generativa es superior para intervenciones complejas porque el cambio social rara vez es resultado de un único factor. Los efectos son producidos por **paquetes causales** —combinaciones de acciones y contextos— que en terminología técnica se denominan **causas INUS** (*Insufficient but Necessary parts of an Unnecessary but Sufficient package*). Process Tracing permite mapear estos paquetes con precisión, transitando del foco en asociaciones abstractas a la lógica matemática de la evaluación de evidencia [@befani2014].
-
-## Aplicaciones prácticas
-
-### Caso 1 — Estandarización del inglés en Singapur
-
-Este estudio examinó cómo la alfabetización en inglés en Singapur creció del 21% a cerca del 70%.
-
-- **Hipótesis en competencia:** la teoría del "Estado fuerte" (capacidad institucional general) versus la teoría de "Priorización" (específicamente el nombramiento de Goh Keng Swee en el Ministerio de Educación).
-- **Evaluación de evidencia:** la teoría del Estado fuerte **reprobó un Hoop Test**. Aunque Finanzas y Defensa eran sólidos, el Ministerio de Educación era "decrépito", "intacto" y "desastroso" hasta 1979.
-- **Rigor metodológico:** los analistas evitaron la falacia del "punto de vista temporal" —usar puntajes de Transparencia Internacional de 1995 para medir la capacidad de 1965. La **Smoking Gun** para la teoría rival fue el "Reporte Goh" y el reclutamiento de los "Daring Dozen", un equipo traído desde otros ministerios, algo que solo un ministro de alta prioridad podía lograr.
-
-### Caso 2 — Educación de niñas (procedimiento combinado CA-PT)
-
-Se utilizó un procedimiento combinado para evaluar un programa de formación docente en educación de niñas [@befani2014].
-
-- **El mecanismo:** la teoría trazaba la capacitación hacia la capacidad docente, luego hacia la enseñanza sensible al género, el compromiso estudiantil y los puntajes mejorados.
-- **Pruebas paso a paso:**
-  - **PT1 (Intervención):** evidencia de Smoking Gun confirmó que la capacitación se implementó como estaba teorizada.
-  - **PT2 (Factores externos):** se pasó un Hoop Test para el cierre de una fábrica textil, que liberó tiempo de estudio para las niñas.
-  - **PT3 (Síntesis de la teoría del cambio):** la síntesis reveló un **paquete INUS**. El módulo de capacitación sobre "oportunidades futuras" (incentivos) requirió el "tiempo adicional de estudio" liberado por el cierre de la fábrica para ser "absorbido". Sin el cierre, la capacitación sola era insuficiente; sin la capacitación, el tiempo solo no generaba nuevos incentivos.
-
-## Supuestos y limitaciones
-
-::: {.callout-warning}
-## Los riesgos metodológicos del Process Tracing
-- **Narrativa glorificada:** sin el rigor de los siete pasos y las pruebas formales, el PT degenera en contar una historia atractiva pero no falsable.
-- **Confirmación selectiva:** la tentación de buscar solo evidencia que confirme la teoría del programa, ignorando pistas que podrían favorecer hipótesis rivales.
-- **Falacia del punto de vista temporal:** usar evidencia posterior al período analizado como si hubiera estado disponible en el momento de la decisión.
-- **Sobrecarga de evidencia débil:** acumular muchas "pajitas al viento" no compensa la ausencia de Hoops o Smoking Guns.
-:::
-
-**Cuándo PT es una buena opción:**
-
-- Usted necesita entender **cómo y por qué** un programa produjo (o no) sus efectos.
-- El contexto impide diseños contrafactuales (N pequeño, programa universal, evaluación tardía).
-- Existen **hipótesis rivales** plausibles que conviene poner a prueba.
-- Hay acceso a documentos, testimonios y trazas temporales ricas.
-
-**Cuándo PT NO es una buena opción:**
-
-- Necesita estimar **magnitud** del efecto (cuánto cambió, en promedio).
-- No existe una teoría del cambio explícita que probar.
-- El acceso a evidencia dentro del caso es limitado o sesgado.
-- No se puede dedicar tiempo suficiente a la reconstrucción detallada del proceso.
-
-## Conexiones con otros métodos
-
-Process Tracing se complementa especialmente bien con **Contribution Analysis** (véase el [capítulo correspondiente](04-contribution-analysis.qmd)): el primero prueba rigurosamente eslabones causales específicos; el segundo construye la historia de contribución global. La combinación CA-PT, propuesta por @befani2014, es uno de los diseños más robustos para evaluación de impacto cualitativa.
-
-También puede integrarse con métodos cuantitativos en diseños mixtos: un RCT puede estimar el efecto promedio, y Process Tracing puede explicar por qué funcionó en unos casos y no en otros.
-
-::: {.callout-tip}
-## Para profundizar
-
-- **@beach2013** — Manual riguroso y accesible sobre los fundamentos y guías de Process Tracing, con énfasis en las variantes (teórico-explicativa, teórico-construida, explicativa del caso).
-- **@bennett2014** — Compilación de aplicaciones de Process Tracing en ciencia política y evaluación, con discusión de buenas prácticas.
-- **@collier2011** — Introducción clásica y corta a Process Tracing, ideal como primer contacto con el método.
-- **@befani2014** — Artículo seminal que articula Process Tracing con Contribution Analysis para evaluación de impacto.
-- **@punton2015** — *Brief* práctico orientado a evaluadores, con ejemplos aplicados.
-- **@vanevera1997** — Fuente original de las cuatro pruebas de evidencia.
+::: {#refs}
 :::

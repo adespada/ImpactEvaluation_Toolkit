@@ -9,7 +9,15 @@ bibliography: ../referencias.bib
 
 ### ¿Qué es Participatory Systems Mapping (PSM)?
 
-El **Participatory Systems Mapping (PSM)** es una metodología participativa de modelación que permite representar de manera simplificada cómo funciona un sistema complejo a partir del conocimiento de sus propios actores. A través de talleres colaborativos, los participantes identifican **variables clave** (factores que pueden cambiar) y las **relaciones causales** entre ellas, construyendo un mapa que refleja su comprensión colectiva del problema. Este enfoque parte de la idea de que los sistemas sociales están compuestos por múltiples elementos interdependientes y dinámicas no lineales, que difícilmente pueden capturarse mediante análisis tradicionales. Por ello, el PSM no solo genera un producto visual, sino que también facilita procesos de aprendizaje colectivo, haciendo explícitos los mecanismos causales, las interacciones y los posibles bucles de retroalimentación dentro del sistema (@undp_psm; @psm_paper).
+El **Participatory Systems Mapping (PSM)** es una metodología participativa de modelación en la que un grupo de actores clave desarrolla colaborativamente un mapa causal de un problema durante un taller. Los participantes producen un mapa compuesto por **factores** (variables que pueden aumentar o disminuir) y **conexiones** que representan relaciones causales; el mapa refleja lo que los participantes creen que es la estructura causal de su sistema (Penn & Barbrook-Johnson, CECAN).
+
+El PSM no es solo un diagrama final: el propio **proceso de construcción** —la discusión entre actores sobre qué se conecta con qué y cómo— es uno de sus productos más valiosos. Permite hacer explícitos los mecanismos causales, detectar interacciones no obvias y anticipar posibles bucles de retroalimentación dentro de un sistema complejo (@undp_psm; @psm_paper).
+
+::: {.callout-note}
+## Pensamiento lineal vs. pensamiento sistémico
+
+El **pensamiento lineal** asume cadenas simples de causa–efecto (A → B → C), con proporcionalidad y predictibilidad. El **pensamiento sistémico** reconoce que los sistemas sociales son redes interconectadas con **retroalimentación**, **no linealidad** y **propiedades emergentes**. El PSM es, en este sentido, una herramienta para hacer visible esa complejidad.
+:::
 
 
 ### ¿Para qué sirve el PSM en evaluación?
@@ -34,7 +42,50 @@ En evaluación de impacto, el PSM se utiliza como una herramienta complementaria
 **Bucles de retroalimentación:** Cadenas de relaciones causales que se cierran sobre sí mismas y pueden amplificar o estabilizar cambios en el sistema.
 
 **Efectos indirectos (spillovers):** Consecuencias del programa que ocurren a través de otras variables o actores, no de forma directa.
+
+**Polaridad (+/−):** Dirección del efecto entre dos variables. Si A aumenta y B también aumenta, la flecha es (+); si A aumenta y B disminuye, la flecha es (−).
+
+**Bucle reforzador (R):** Ciclo de relaciones causales que amplifica el cambio inicial. **Bucle balanceador (B):** ciclo que lo estabiliza o lo frena.
 :::
+
+### Diagramas de Bucles Causales (CLDs)
+
+Los **Causal Loop Diagrams** son la gramática básica del pensamiento sistémico que sustenta el PSM. Sus componentes son:
+
+- **Variables:** elementos del sistema que pueden cambiar.
+- **Flechas causales:** representan relaciones directas entre variables.
+- **Polaridad (+/−):** indica la dirección del efecto.
+- **Bucles reforzadores (R):** amplifican el cambio.
+- **Bucles balanceadores (B):** estabilizan el sistema.
+
+Un ejemplo clásico: *población → nacimientos (+) → población* forma un bucle **reforzador**, mientras que *población → muertes (+) → población (−)* forma un bucle **balanceador**.
+
+### Arquetipos sistémicos frecuentes
+
+Los arquetipos son patrones recurrentes que aparecen en muchos sistemas sociales y pueden ayudar a diagnosticar rápidamente qué está pasando:
+
+- **Tragedia de los comunes:** múltiples actores sobreexplotan un recurso compartido porque cada uno se beneficia a corto plazo; el sistema colapsa.
+- **Límites al crecimiento:** un proceso de expansión se encuentra con restricciones que lo desaceleran y eventualmente lo detienen.
+- **Soluciones contraproducentes (fixes that fail):** una respuesta rápida genera consecuencias no intencionadas que agravan el problema original.
+
+### Ideas avanzadas del PSM
+
+Más allá de su mecánica básica, el PSM tiene implicaciones metodológicas sutiles que conviene incorporar en el uso serio de la herramienta [@psm_paper; @meadows2008; @senge1990]:
+
+- **Mapas como documentos vivos:** el mapa no es un producto final sino un artefacto que se revisa conforme emergen nuevas hipótesis y evidencias. Congelar el mapa es perder su principal virtud.
+- **Carga cognitiva y niveles de conocimiento:** no todos los grupos tienen el mismo capital educativo o la misma soltura para razonar sistémicamente. El diseño del taller debe ajustarse: visualizaciones más simples, ejemplos contextualizados, rondas más cortas.
+- **Tensión neutralidad/agenda:** *quien elige los factores focales configura el mapa*. La pretendida neutralidad del facilitador es siempre parcial; declarar explícitamente la perspectiva desde la que se mapea es una exigencia ética, no un detalle.
+- **Inviabilidad de umbrales cuantitativos para simplificar:** reducir un mapa complejo podando las aristas “menos fuertes” suele romper la lógica sistémica. La simplificación debe ser sustantiva (por qué es importante este vínculo), no estadística.
+- **PSM como herramienta política:** al visibilizar perspectivas marginadas dentro del sistema, el PSM puede usarse para negociación y *advocacy*, no solo como insumo técnico [@undp_psm].
+- **Sinergias y conflictos entre intervenciones:** el mapa hace visibles los puntos donde dos programas bien intencionados pueden anularse o reforzarse entre sí, algo difícil de detectar desde cada programa por separado.
+- **Digital vs. analógico:** el papel y los post-its favorecen la participación espontánea; las herramientas digitales (Kumu, Vensim, etc.) facilitan el análisis posterior. No elegir entre ambos: combinarlos por fase.
+- **Facilitador como “traductor activo”:** entre jergas técnicas, institucionales y comunitarias. La calidad del mapa depende tanto de la facilitación como de los participantes.
+- **Palancas del sistema vs. vulnerabilidades:** inspirado en @meadows2008, distinguir entre puntos del sistema donde una pequeña intervención produce grandes cambios (palancas) y puntos donde el sistema es frágil (vulnerabilidades) es clave para priorizar.
+- **Combinación con *backcasting*:** partir del futuro deseado y rastrear hacia atrás las condiciones que tendrían que cumplirse es un complemento natural al mapeo hacia adelante.
+
+### Los 11 pasos del taller PSM
+
+Siguiendo la guía CECAN, un taller PSM típico se organiza en 11 pasos: (1) elegir un problema focal, (2) recopilar conocimiento previo, (3) elegir un factor focal, (4) hacer lluvia de factores, (5) consolidar factores, (6) conectarlos causalmente, (7) verificar conexiones, (8) enriquecer información sobre factores y vínculos, (9) analizar el mapa, (10) verificar con actores, (11) explorar escenarios. En este capítulo nos enfocamos en un subconjunto simplificado adaptado al aula, pero el principio es el mismo: **primero entender, luego conectar y luego analizar**.
 
 
 ### Ejemplo aplicado: Programa de monitorías académicas

@@ -140,6 +140,16 @@ tipos <- data.frame(
 knitr::kable(tipos, col.names = c("Tipo", "Comportamiento", "Relevancia para IV"))
 ```
 
+## Elementos clave de diseño
+
+Un estudio con IV vive o muere en la elección del instrumento. Cinco decisiones concretas resumen el diseño [@gertler2016impact; @huntingtonklein2022]:
+
+1. **Identificar un instrumento con variación genuinamente exógena** — loterías, asignación geográfica por reglas administrativas, cambios normativos que afectan solo a ciertos grupos. @huntingtonklein2022 recomienda escribir explícitamente la historia que justifica la exogeneidad antes de buscar los datos.
+2. **Argumentar la restricción de exclusión.** No es un supuesto estadístico: es una narrativa causal que descarta todos los canales alternativos por los que el instrumento podría afectar al resultado. Debe defenderse frente a un lector escéptico.
+3. **Considerar un diseño de promoción aleatorizada.** Cuando no es posible aleatorizar el tratamiento, @gertler2016impact sugieren aleatorizar una **campaña de estímulo** (invitaciones, incentivos, información) que eleve la participación solo en algunos grupos — creando un instrumento por diseño.
+4. **Caracterizar a los compliers.** LATE solo describe a quienes cambian su decisión por el instrumento. Documentar cuántos son y cómo se comparan con la población total determina la validez externa de la conclusión [@huntingtonklein2022].
+5. **Probar la relevancia (primera etapa).** Reportar siempre el estadístico F; un F < 10 indica instrumento débil y obliga a reconsiderar el diseño, no a parchar con más covariables.
+
 ## Supuestos y limitaciones
 
 ::: {.callout-warning}
@@ -187,5 +197,5 @@ Para el taller práctico con código R de este método, consulte el [Anexo de c�
 - **@bernal2011**, Capítulo 7: tratamiento formal de los parámetros LATE, ATE y MTE con ejemplos colombianos.
 - **@angrist2009**: referencia metodológica estándar para IV y el marco de cumplidores.
 - **@imbens2015**: tratamiento teórico riguroso del estimador IV y sus supuestos.
-- *The Effect* de Huntington-Klein, Cap. 19, disponible en [theeffectbook.net](https://theeffectbook.net).
+- @huntingtonklein2022 (*The Effect*, Cap. 19): introducción accesible al diseño con IV, con énfasis en la narrativa causal que respalda la restricción de exclusión.
 :::

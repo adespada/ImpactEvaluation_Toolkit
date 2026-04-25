@@ -160,6 +160,103 @@ iplot(es,
 Los puntos antes del año 0 (periodo pre-programa) deberían estar **cerca de cero** y sus intervalos de confianza deberían cruzar la línea del cero. Esto confirma que no había diferencias previas. Los puntos después del año 0 muestran el efecto del programa en cada año — si son positivos y significativos, el programa tuvo impacto.
 :::
 
+## Trabajando con IA paso a paso
+
+::: {.callout-note}
+## Sobre esta sección
+Replica los pasos del [capítulo de uso de IA](06-guia-ia.qmd) con prompts **específicos para DiD** sobre el dataset simulado de capacitación agrícola. Asume que ya construyó `covariables` y `subgrupos` siguiendo el Paso 4 del capítulo general.
+:::
+
+### Contexto simulado
+
+Panel de 100 fincas (50 tratadas, 50 control), años 2020–2024, programa inicia en 2022. Variable de resultado: `produccion` (ton/ha). En el ejemplo trabajado no hay covariables variantes en el tiempo, pero los prompts incluyen un placeholder `covariables` para casos reales:
+
+```r
+covariables <- c()           # vacío en el ejemplo; agregue las suyas
+subgrupos   <- c("zona")     # ej.: zona urbana/rural si la tuviera
+```
+
+### Prompt DiD.1 — Test de tendencias paralelas
+
+::: {.prompt-block}
+Actúa como analista que escribe código en R. Tengo un panel `datos` con: `finca_id`, `anio`, `tratamiento` (1/0), `post` (1 si `anio >= 2022`), `produccion`. Quiero un script que verifique tendencias paralelas en el periodo **pre-tratamiento** (`anio < 2022`).
+
+Genera código que:
+
+1. Filtre el periodo pre y grafique con `ggplot2` la `produccion` promedio por año y grupo, con líneas y puntos.
+2. Estime `lm(produccion ~ tratamiento * anio, data = filter(datos, anio < 2022))` con errores clusterizados por `finca_id` (use `lmtest::coeftest` + `sandwich::vcovCL`).
+3. Reporte el p-valor del término de interacción `tratamiento:anio` con un mensaje claro `cat("Pendiente diferencial pre:", round(beta,3), "p =", round(p,3))`.
+
+Solo código en un bloque. Al final, en una frase, dime qué umbral de p-valor considerar para concluir que las tendencias son razonablemente paralelas.
+:::
+
+**Cómo interpretar:** si el p-valor de `tratamiento:anio` es > 0.10, no hay evidencia de tendencias divergentes pre-programa y puede proceder con DiD.
+
+### Prompt DiD.2 — DiD con efectos fijos y errores clusterizados
+
+::: {.prompt-block}
+Con `datos` cargado, genera un script en R que estime tres especificaciones de DiD usando `fixest::feols` con errores clusterizados a nivel `finca_id`:
+
+1. **Modelo 1 — DiD básico:** `produccion ~ tratamiento * post`
+2. **Modelo 2 — Efectos fijos:** `produccion ~ tratamiento:post | finca_id + anio`
+3. **Modelo 3 — EF + covariables variantes en tiempo:** igual al 2 pero agregando `covariables` (si el vector `covariables` está vacío, omite este modelo y comenta la razón).
+
+Reúne los tres modelos en una sola tabla con `modelsummary::modelsummary()` mostrando estrellas de significancia, errores clusterizados entre paréntesis, n y R² ajustado.
+
+Solo código. Al final, en una frase, dime qué esperar si el coeficiente cambia sustancialmente entre modelos.
+:::
+
+**Cómo interpretar:** si los tres coeficientes son similares (en este ejemplo, cercanos a +1.8), el efecto es robusto. Diferencias grandes sugieren que covariables o efectos fijos están capturando confusores importantes.
+
+### Prompt DiD.3 — Event study
+
+::: {.prompt-block}
+Con `datos` y la variable `anio_relativo <- anio - 2022` ya creada, genera un script en R que:
+
+1. Estime un event study con `fixest::feols`: `produccion ~ i(anio_relativo, tratamiento, ref = -1) | finca_id + anio`, errores clusterizados por `finca_id`.
+2. Grafique con `fixest::iplot` con etiquetas en español: eje x "Años desde el inicio del programa", eje y "Efecto estimado (ton/ha)", línea horizontal en 0.
+3. Imprima un mensaje al final con: cuántos coeficientes pre-tratamiento tienen p<0.05 (cero es lo deseable) y cuántos post tienen p<0.05.
+
+Solo código. Al final, en una frase, dime qué patrón sugeriría que el supuesto de tendencias paralelas no se sostiene.
+:::
+
+### Prompt DiD.4 — Placebo: tratamiento adelantado
+
+::: {.prompt-block}
+Con `datos`, genera un script en R que ejecute un **test placebo**: pretender que el programa empezó en 2021 (un año antes del verdadero inicio) y verificar que NO se detecta efecto.
+
+Pasos:
+
+1. Filtra solo `anio < 2022` (datos pre-tratamiento reales).
+2. Crea `post_placebo <- ifelse(anio >= 2021, 1, 0)`.
+3. Estima `feols(produccion ~ tratamiento:post_placebo | finca_id + anio, data = ..., cluster = ~finca_id)`.
+4. Imprime el coeficiente y p-valor con un mensaje claro.
+
+Solo código. Al final, en una frase, indícame qué resultado del placebo sería una mala señal.
+:::
+
+**Lo que esperar:** coeficiente cercano a 0 y p > 0.10. Si sale significativo, hay tendencias divergentes y los resultados principales son sospechosos.
+
+### Prompt DiD.5 — Reporte ejecutivo
+
+::: {.prompt-block}
+Pegando los resultados principales:
+
+```
+[pegar coef y SE clusterizado del modelo de efectos fijos]
+```
+
+Redacta para el director de la secretaría de agricultura:
+
+1. Un **párrafo de 4 líneas** sobre el efecto del programa de capacitación en producción por hectárea.
+2. Una **frase** con la principal limitación (qué supuesto sostiene la inferencia).
+3. Una **recomendación accionable** en una oración.
+
+Sin jerga. Traduce "intervalo de confianza" como "rango plausible".
+:::
+
+---
+
 ## Guía de recolección de datos
 
 ::: {.callout-important}

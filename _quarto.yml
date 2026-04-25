@@ -68,7 +68,7 @@ book:
         - capitulos/05-disenos-mixtos.qmd
         - capitulos/05-casos-estudio.qmd
 
-    - part: "Cómo hablar con la IA y anexos de código"
+    - part: "Anexo: IA"
       chapters:
         - capitulos/06-guia-ia.qmd
         - capitulos/anexo-codigo-rct.qmd

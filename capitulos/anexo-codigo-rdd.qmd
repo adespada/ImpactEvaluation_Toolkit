@@ -131,3 +131,94 @@ robustez <- data.frame(
 knitr::kable(robustez,
              col.names = c("Ancho de banda", "Efecto", "Error estándar", "Valor p"))
 ```
+
+## Trabajando con IA paso a paso
+
+::: {.callout-note}
+## Sobre esta sección
+Replica los pasos del [capítulo de uso de IA](06-guia-ia.qmd) con prompts **específicos para Regresión Discontinua (RDD)** sobre el dataset simulado del subsidio de vivienda.
+:::
+
+### Contexto simulado
+
+500 hogares con un `puntaje` de pobreza entre 15 y 85. Reciben subsidio si `puntaje < 50` (corte). Variable de resultado: `calidad_vivienda` (índice). El supuesto clave: **alrededor del corte**, los hogares son comparables. Cualquier salto en `calidad_vivienda` en `puntaje = 50` se atribuye al programa.
+
+### Prompt RDD.1 — Test de manipulación (McCrary)
+
+::: {.prompt-block}
+Actúa como analista que escribe código en R. Tengo `datos_rdd` con: `puntaje` (variable de asignación, 15–85), `subsidio` (1 si `puntaje<50`, 0 si no), `calidad_vivienda` (resultado). El corte es 50.
+
+Genera un script en R que:
+
+1. Use `rddensity::rddensity(X = datos_rdd$puntaje, c = 50)` para el test de manipulación.
+2. Imprima el p-valor con un mensaje: `cat("Test McCrary p =", round(p,3), "—", ifelse(p>0.10, "no hay evidencia de manipulación", "POSIBLE MANIPULACIÓN — RDD comprometido"))`.
+3. Grafique con `rddensity::rdplotdensity(rdd, X)` la densidad alrededor del corte.
+
+Solo código en un bloque. Al final, en una frase, dime qué patrón visual sería sospechoso aunque el p-valor sea alto.
+:::
+
+**Cómo interpretar:** p > 0.10 sugiere que no hay manipulación de la variable de asignación. Una acumulación visual a un lado del corte (incluso con p alto) sigue siendo sospechosa.
+
+### Prompt RDD.2 — Continuidad de covariables alrededor del corte
+
+::: {.prompt-block}
+Con `datos_rdd` y un vector `covariables` (en el ejemplo asume covariables placeholders como `n_miembros`, `edad_jefe`, `educacion_jefe`), genera un script en R que:
+
+1. Para cada covariable, ejecute `rdrobust::rdrobust(y = datos[[var]], x = puntaje, c = 50)` y guarde `coef` y `pvalue`.
+2. Construya una tabla `variable | salto | p-valor | conclusión`.
+3. Imprima un mensaje claro con cuántas covariables presentan saltos significativos (p<0.05).
+
+Solo código. Al final, en una frase, dime qué hacer si una covariable salta significativamente en el corte.
+:::
+
+**Cómo interpretar:** ninguna covariable debería saltar en el corte. Si lo hace, sugiere que el corte está capturando algo más que el programa, y la inferencia causal queda comprometida.
+
+### Prompt RDD.3 — Estimación principal con banda óptima
+
+::: {.prompt-block}
+Con `datos_rdd`, genera un script en R que:
+
+1. Estime el efecto principal con `rdrobust::rdrobust(y = calidad_vivienda, x = puntaje, c = 50)` (banda automática, kernel triangular, polinomio local lineal).
+2. Imprima `summary()` y extraiga: efecto, SE robusto, IC95%, banda óptima usada, n efectivo a cada lado.
+3. Repita con bandas alternativas: `h = h_opt * 0.5`, `h_opt`, `h_opt * 1.5`, y reporte los tres efectos en una tabla.
+4. Grafique con `rdplot(y = calidad_vivienda, x = puntaje, c = 50, kernel = "triangular")`.
+
+Solo código. Al final, en una frase, dime qué esperar si el efecto cambia mucho con la banda.
+:::
+
+**Cómo interpretar:** si los tres efectos son similares en signo y magnitud, el resultado es robusto. Cambios de signo o magnitud >50% sugieren que el efecto depende fuertemente de la banda y debe reportarse con cautela.
+
+### Prompt RDD.4 — Tests placebo en cortes ficticios
+
+::: {.prompt-block}
+Con `datos_rdd`, genera un script en R que ejecute tests placebo en cortes ficticios para verificar que el efecto está concentrado en el corte real.
+
+Pasos:
+
+1. Define cortes placebo: `c(35, 40, 45, 55, 60, 65)` (excluye el real, 50).
+2. Para cada uno, filtra los datos a un solo lado del corte real (donde no hay tratamiento real) y estima `rdrobust(y, x, c = corte_placebo)`.
+3. Reporta los efectos placebo en una tabla `corte | efecto | p-valor`.
+4. Grafica los efectos placebo con `ggplot2`, marcando con línea horizontal punteada el efecto en el corte real.
+
+Solo código. Al final, en una frase, dime qué patrón haría sospechar del resultado principal.
+:::
+
+**Cómo interpretar:** los efectos placebo deben ser pequeños y no significativos. Si encuentra saltos similares en cortes ficticios, el efecto principal puede ser un artefacto.
+
+### Prompt RDD.5 — Reporte ejecutivo
+
+::: {.prompt-block}
+Pegando los resultados principales:
+
+```
+[pegar tabla del Prompt RDD.3]
+```
+
+Redacta para el ministro de vivienda:
+
+1. **Párrafo de 4 líneas** sobre el efecto del subsidio en calidad de vivienda, indicando que el resultado aplica a hogares **alrededor del puntaje de corte**.
+2. **Frase** con la principal limitación: el efecto no se puede extrapolar a hogares muy por debajo o muy por encima del corte.
+3. **Recomendación accionable** en una oración: ajustar el corte, expandir, o mantener.
+
+Sin jerga. No menciones "polinomio local" ni "banda óptima".
+:::

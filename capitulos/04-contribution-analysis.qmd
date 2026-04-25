@@ -3,170 +3,138 @@ format: html
 bibliography: ../referencias.bib
 ---
 
-# Contribution Analysis {#sec-contribution-analysis}
+# Contribution Analysis (CA)
 
-## ¿Qué es Contribution Analysis?
+## A. Teoría y explicación
 
-El **Contribution Analysis (CA)** —o análisis de contribución— es un enfoque de evaluación basado en la teoría del cambio, diseñado para establecer una **asociación plausible** entre una intervención y sus resultados observados. En entornos volátiles, complejos y no experimentales —donde operan la mayoría de los programas sociales— los diseños experimentales como los RCT suelen ser técnica o éticamente inviables. El CA surge como una solución metodológica sistemática para inferir causalidad **verificando la lógica interna del programa** y, al mismo tiempo, contabilizando rigurosamente las influencias externas [@mayne2001; @mayne2008].
+### ¿Qué es Contribution Analysis?
 
-El método fue formalizado por **John Mayne** a comienzos de los años 2000 y ha sido refinado desde entonces [@mayne2012]. Su aporte central es desplazar la pregunta evaluativa:
+El **Contribution Analysis (CA)** o **Análisis de Contribución** es un enfoque de evaluación desarrollado por @mayne2008 para situaciones en las que no es posible aislar experimentalmente el efecto de una intervención, pero aún así se necesita una afirmación razonada sobre si —y cómo— el programa contribuyó a los cambios observados. La pregunta central no es *“¿cuánto cambió gracias al programa?”*, sino *“¿qué tan plausible es que el programa haya contribuido, considerando otros factores?”*.
+
+El CA parte de tres premisas:
+
+- En contextos complejos, **casi nunca** hay una sola causa del cambio.
+- La atribución estadística estricta suele ser inviable (sin experimento y sin contrafactual creíble).
+- Lo que sí puede construirse es una **historia de contribución** creíble, que articule la Teoría de Cambio, los supuestos, la evidencia a favor y en contra, y el papel de los factores externos.
+
+### ¿Cuándo usar Contribution Analysis?
+
+- Intervenciones **complejas**, con múltiples actores y factores.
+- Programas de **políticas públicas**, incidencia o fortalecimiento institucional.
+- Cuando no es ético o viable construir grupo de control.
+- Cuando se dispone de monitoreo longitudinal pero no de un diseño experimental.
+- Cuando el interés evaluativo es **explicativo** y no sólo descriptivo.
+
+### Contribución vs. atribución
+
+El CA abandona la lógica binaria de “el programa causó X o no lo causó” y adopta una **escala de credibilidad**. En lugar de una prueba, se produce una **narrativa razonada** cuya fuerza depende de:
+
+1. La calidad de la Teoría de Cambio.
+2. Lo completa que sea la evidencia empírica.
+3. Qué tan bien se aborden las explicaciones rivales.
+4. Cuán explícitamente se discutan los supuestos y los riesgos.
+
+### Círculos de influencia
+
+@mayne2008 distingue tres círculos concéntricos que ayudan a ubicar la responsabilidad del programa:
+
+- **Círculo de control:** lo que el programa ejecuta directamente (actividades, productos).
+- **Círculo de influencia directa:** los cambios inmediatos en quienes interactúan con el programa (similar a los *boundary partners* del Outcome Mapping).
+- **Círculo de influencia indirecta:** los cambios de largo plazo, compartidos con otros actores y factores externos.
+
+El CA reconoce explícitamente que **cuanto más nos alejamos del círculo de control, más débil es la atribución directa** y más importante se vuelve la historia de contribución.
+
+---
+
+## B. Los 6 pasos del Contribution Analysis
+
+Siguiendo a @mayne2008, el CA se organiza en **6 pasos iterativos**:
+
+1. **Enunciar el problema de atribución.** ¿Qué pregunta causal se quiere responder? ¿Qué nivel de certeza es necesario para los usuarios de la evaluación?
+
+2. **Desarrollar la Teoría de Cambio con sus supuestos y riesgos.** No basta con diagramar insumos → productos → resultados; hay que **nombrar los supuestos** que deben cumplirse en cada transición y los **riesgos** que podrían romper la cadena.
+
+3. **Recolectar evidencia inicial sobre la ToC.** ¿Qué sabemos ya? Datos de monitoreo, estudios previos, evaluaciones parciales.
+
+4. **Armar la primera historia de contribución.** Una narrativa que articule qué ocurrió, cómo el programa contribuyó y qué factores externos también influyeron.
+
+5. **Buscar evidencia adicional específica** donde la historia es débil: supuestos no verificados, explicaciones rivales no descartadas, eslabones causales sin datos.
+
+6. **Revisar y fortalecer la historia de contribución.** Iterar. Una buena historia es la que quedaría en pie frente a un crítico razonable.
+
+### Niveles de afirmación causal en CA
+
+El CA es explícito en **cuán fuerte** es la afirmación que hace, y usa tres niveles crecientes:
+
+- **Minimalista:** “los resultados observados son *consistentes* con la contribución del programa”.
+- **Influencia directa:** “el programa influyó plausiblemente en los cambios en su círculo de influencia directa”.
+- **Influencia indirecta:** “el programa contribuyó, junto con otros factores, a los cambios de largo plazo observados”.
+
+Una escala complementaria de credibilidad **1–5** permite calificar la fortaleza de la historia de contribución según la cantidad y calidad de la evidencia disponible, siendo 1 (historia inicial sin evidencia verificada) y 5 (historia robusta, con supuestos verificados y rivales descartadas).
+
+---
+
+## C. Limitaciones del CA puro
+
+El CA es un **enfoque**, no un método: ofrece una estructura lógica pero no especifica cómo recolectar datos ni cómo evaluar la fuerza de la evidencia. Esto puede convertirlo en un ejercicio discursivo si no se combina con herramientas más específicas. Las principales limitaciones son:
+
+- **Subjetividad:** sin criterios estándar para evaluar la evidencia, distintos evaluadores pueden llegar a historias distintas.
+- **Dependencia de la calidad de la ToC:** una ToC débil produce un CA débil.
+- **Riesgo de confirmación:** si no se buscan activamente explicaciones rivales, la narrativa tiende a favorecer al programa.
+
+---
+
+## D. Combinando CA con Process Tracing
+
+@befanimayne2014 muestran que el CA gana enormemente al combinarse con **Process Tracing (PT)**: mientras el CA proporciona el marco lógico (ToC, supuestos, círculos de influencia), el PT aporta los **criterios de evidencia** (Hoop, Smoking Gun, Doubly Decisive) para juzgar su fortaleza.
+
+El procedimiento combinado opera en tres fases:
+
+- **PT1 — Testear la intervención:** Hoop + Smoking Gun sobre el mecanismo del programa.
+- **PT2 — Testear factores externos:** Hoop + Smoking Gun sobre cada hipótesis rival.
+- **PT3 — Testear la ToC completa:** Doubly Decisive sobre la configuración global.
+
+El resultado ya no es *“el programa tuvo un efecto de X%”*, sino *“nuestra confianza en que el programa contribuyó al resultado observado ha aumentado de Y a Z, dados los tests superados”*. Esta es la lógica **bayesiana** de la evaluación basada en contribución.
+
+### Ejemplo ilustrativo
+
+Una intervención capacita a docentes en enseñanza sensible al género. Tras dos años, los puntajes de niñas mejoran. ¿Fue la capacitación?
+
+- **PT1 (Hoop):** ¿la capacitación llegó a un número suficiente de docentes? ¿las niñas reconocen cambios en el aula? Si **no**, se descarta la intervención.
+- **PT1 (Smoking Gun):** ¿existe un proceso documentado que vincule lo enseñado en la capacitación con lo implementado en aula y con la mejora?
+- **PT2:** un factor externo posible es que una fábrica local cerró y las niñas tienen más tiempo para estudiar. Se aplica el mismo par de tests.
+- **PT3:** si ambos pasan, ambos factores contribuyen (paquete causal).
+
+---
+
+## E. Recomendaciones de uso
+
+- **Empiece por la ToC.** Un CA sin una Teoría de Cambio bien articulada es un ejercicio retórico.
+- **Nombre los supuestos y los riesgos** en cada transición de la ToC: son los candidatos naturales para buscar evidencia.
+- **Haga explícitas las explicaciones rivales** y destine trabajo de campo específico a descartarlas o ponderarlas.
+- **Declare el nivel de afirmación causal.** No pretenda atribuir cuando sólo puede contribuir.
+- **Combine con PT** siempre que sea posible; es lo que distingue una historia plausible de una historia defendible.
 
 ::: {.callout-note}
-## Del "¿causó?" al "¿contribuyó?"
-@mayne2001 argumenta que la pregunta tradicional —*"¿en qué medida el programa causó el resultado?"*— a menudo carece de sentido en contextos complejos donde múltiples factores se combinan para producir un efecto. El CA reorienta la evaluación hacia preguntas de tipo gerencial: ¿el programa **agregó valor**? ¿**marcó una diferencia**? Estas preguntas son más realistas y, en última instancia, más útiles para la toma de decisiones.
+## Idea final
+El Contribution Analysis cambia la pregunta evaluativa: de *“¿cuánto cambió gracias al programa?”* a *“¿qué tan defendible es la afirmación de que el programa contribuyó?”*. No entrega coeficientes, entrega **credibilidad razonada**.
 :::
 
-Crucialmente, el CA provee una **puerta diagnóstica**: si una contribución significativa no es plausible dado el tamaño del programa en relación con el problema, el valor de seguir invirtiendo en trabajo evaluativo debe reevaluarse. No tiene sentido dedicar recursos a demostrar impactos que el programa, por su escala, no podría razonablemente producir.
+---
 
-### Propuesta de valor estratégico
+## F. Ideas avanzadas del CA
 
-| Dimensión | Aporte del CA |
-|-----------|---------------|
-| **Demostración de valor agregado** | Articula las rutas causales específicas por las que el programa contribuye a cambios sociales u organizacionales. |
-| **Lógica inferencial y credibilidad** | Construye conclusiones robustas combinando lógica razonada, verificación de la implementación y evidencia a lo largo de la cadena de resultados. |
-| **Asignación estratégica de recursos** | Responde preguntas prácticas sobre efectividad que informan decisiones de financiamiento y escalamiento. |
-| **Contabilidad contextual del desempeño** | Reconoce y pondera la influencia de factores externos, produciendo evaluaciones justas y matizadas. |
+Más allá de los 6 pasos, hay varias sutilezas que distinguen un CA riguroso de una narrativa retórica [@mayne2008; @mayne2019; @befanimayne2014; @bourgeois2024]:
 
-: Propuesta de valor del Contribution Analysis {#tbl-ca-valor}
+- **Causalidad gerencial vs. tradicional:** el CA no intenta responder la pregunta causal clásica (“¿en qué proporción el programa causó el resultado?”) sino una gerencial (“¿es razonable concluir que el programa marcó una diferencia?”). Esta reformulación es lo que lo hace viable en contextos complejos [@mayne2008].
+- **Tres círculos de influencia:** **control directo** (productos), **influencia directa** (comportamiento de socios/clientes) e **influencia indirecta** (impactos finales). La capacidad de afirmar contribución disminuye al alejarse del control directo [@mayne2008].
+- **Niveles de robustez del CA:** el mismo método admite un CA **minimalista** (basado solo en lógica de ToC y productos entregados), uno de **influencia directa** (con evidencia empírica de cambios de comportamiento) y uno de **influencia indirecta** (con evidencia sobre los eslabones más desafiantes) [@mayne2008].
+- **Teorías de cambio en disputa:** cuando los actores clave defienden visiones divergentes de cómo funciona el programa, el CA maduro evalúa y recolecta evidencia para confirmar o descartar cada teoría alternativa, no impone una sola [@mayne2008].
+- **Validación de supuestos, no solo de resultados:** la evidencia debe confirmar no solo que el resultado ocurrió, sino también que los **supuestos críticos** (condiciones bajo las cuales A lleva a B) se cumplieron, y que los riesgos nombrados no se materializaron [@mayne2019].
+- **Desagregación post-evaluación:** si tras recolectar evidencia la historia sigue siendo débil en un eslabón, la solución no es “más datos generales”, sino **desagregar ese elemento de la teoría** y tratarlo con mayor detalle [@mayne2019].
+- **CA aplicado a ECB y a *policy research*:** el CA es útil no solo para evaluar intervenciones de desarrollo, sino también para evaluar el impacto de investigaciones sobre políticas [@riley2018] y el fortalecimiento de capacidades evaluativas en organizaciones comunitarias [@bourgeois2024; @biggs2014].
 
-## El núcleo teórico: teoría del cambio y cadena de resultados
+## Referencias
 
-El instrumento central del Contribution Analysis es la **teoría del cambio (TdC)**. No es un diagrama decorativo: es la hoja de ruta estratégica que detalla los mecanismos causales —el *por qué* y el *cómo*— que vinculan los esfuerzos del programa con los impactos últimos. Una teoría razonada, plausible y **acordada con actores clave** es el prerrequisito para inferir causalidad. Sin ella, cualquier afirmación de contribución carece del respaldo lógico necesario para resistir escrutinio [@mayne2008].
-
-Una TdC robusta integra tres componentes críticos:
-
-- **Cadena de resultados**: progresión secuencial desde actividades y productos hacia resultados inmediatos, intermedios y de largo plazo.
-- **Supuestos y riesgos**: condiciones necesarias para que cada eslabón causal se mantenga (supuestos) y amenazas externas que podrían romperlos (riesgos).
-- **Círculos de influencia**: modelo conceptual que identifica el nivel de control del programa sobre cada resultado.
-
-### Los círculos de influencia
-
-| Círculo | Nivel de control | Resultados típicos |
-|---------|------------------|--------------------|
-| **Control directo** | Alto | Actividades y productos del programa (talleres, módulos, asistencia técnica). |
-| **Influencia directa** | Moderado | Resultados inmediatos y algunos intermedios (reacciones de clientes, cambios iniciales de comportamiento). |
-| **Influencia indirecta** | Bajo | Resultados intermedios y finales (cambios institucionales de largo plazo o transformaciones sociales influidas por factores externos). |
-
-: Círculos de influencia en Contribution Analysis {#tbl-ca-circulos}
-
-Para que una afirmación de contribución mantenga integridad metodológica, el evaluador debe **evaluar el grado en que la teoría del cambio es disputada**. En entornos donde los actores sostienen visiones conflictivas sobre cómo opera el programa, el CA debe usarse explícitamente para confirmar o descartar teorías alternativas. Este ejercicio de razonamiento evaluativo asegura que la narrativa final esté anclada en evidencia, no en sesgo institucional.
-
-## El marco operativo: los seis pasos iterativos de Mayne
-
-Contribution Analysis se ejecuta como un **ciclo iterativo de seis pasos** propuesto por @mayne2008. Cada etapa fortalece progresivamente la historia de contribución, abordando debilidades lógicas o vacíos evidenciales.
-
-::: {.pasos-container}
-
-::: {.paso}
-**Paso 1 — Plantear el problema de atribución.** Reconocer las preguntas legítimas sobre atribución. Determinar las preguntas específicas de causa-efecto, el nivel de confianza requerido para la toma de decisiones y el tipo de contribución esperada. *Directriz crítica:* evaluar la plausibilidad de la contribución esperada en relación con el tamaño y escala del programa **antes** de continuar.
-:::
-
-::: {.paso}
-**Paso 2 — Desarrollar la teoría del cambio.** Mapear la cadena de resultados, identificando supuestos explícitos y riesgos. Incluye identificar influencias externas (reformas gubernamentales, presión de donantes, programas paralelos) que podrían afectar los resultados.
-:::
-
-::: {.paso}
-**Paso 3 — Reunir evidencia existente.** Usar datos disponibles para validar la lógica. Confirmar que las actividades se implementaron como se planearon y que la cadena esperada de resultados ocurrió.
-:::
-
-::: {.paso}
-**Paso 4 — Ensamblar y evaluar la historia de contribución.** Criticar la narrativa. La pregunta clave del "¿y qué?": ¿la historia es suficientemente buena para que los actores tomen decisiones? Identificar dónde la lógica es débil, los riesgos son altos o la evidencia falta.
-:::
-
-::: {.paso}
-**Paso 5 — Buscar evidencia adicional.** Llenar vacíos evidenciales con apoyo triangulado: encuestas a expertos o beneficiarios, estudios de caso, evaluaciones de componentes específicos.
-:::
-
-::: {.paso}
-**Paso 6 — Revisar y fortalecer.** Finalizar una narrativa que, aunque quizá no sea "a prueba de tontos", sea creíble, plausible y capaz de resistir desafíos críticos.
-:::
-
-:::
-
-### Tipos de evidencia requerida
-
-Para validar la teoría, el evaluador debe sintetizar evidencia de **tres dominios** [@mayne2008]:
-
-- **Resultados observados**: confirmación factual de que los productos y resultados efectivamente se manifestaron.
-- **Supuestos**: validación de los eslabones causales mediante investigación previa, síntesis de evaluaciones existentes [@mayne_rist2006] o teoría establecida.
-- **Factores externos influyentes**: documentación de eventos externos, presiones de donantes o iniciativas paralelas que también contribuyeron a los resultados observados.
-
-## Niveles de rigor analítico
-
-Contribution Analysis existe en un **espectro de profundidad**, ajustado a los requisitos de los actores y la complejidad del fenómeno:
-
-- **CA Minimalista**: se enfoca en la lógica interna de la TdC y en la entrega de productos. *¿Cuándo?* Intervenciones donde el vínculo entre productos y resultados ya está establecido por investigación previa robusta —por ejemplo, un programa de vacunación donde la eficacia médica de la vacuna es una constante científica probada.
-
-- **CA de Influencia Directa**: reúne evidencia factual de cambios de comportamiento dentro de la esfera de contacto directo del programa. *¿Cuándo?* Cuando el éxito del programa depende de cambios en las acciones de sus clientes. El objetivo es probar que los cambios conductuales ocurrieron debido a la intervención, controlando por influencias externas.
-
-- **CA de Influencia Indirecta**: el nivel más riguroso, que mide impactos intermedios y finales y pone a prueba los supuestos más desafiantes donde el programa tiene control limitado. *¿Cuándo?* En intervenciones de alto riesgo y múltiples años donde los actores requieren evidencia factual para toda la cadena causal.
-
-## Aplicaciones prácticas
-
-### Caso A — Organizaciones de investigación agrícola (AROs)
-
-En una intervención para fortalecer la capacidad de Planificación, Monitoreo y Evaluación (PM&E), el CA reveló que las actividades del proyecto no eran los únicos motores del cambio: **la presión de donantes y las reformas gubernamentales fueron factores paralelos significativos**. Usando encuestas para triangular los datos, la evaluación confirmó la contribución específica del proyecto al desarrollo de habilidades profesionales. Crucialmente, el CA hizo visibles riesgos que el reporte tradicional habría pasado por alto:
-
-- **Sobrecarga de información**: riesgo de que los sistemas de PM&E se convirtieran en carga más que en herramienta.
-- **Complejidad de gestión**: peligro de que los nuevos enfoques se volvieran demasiado complicados para el uso diario.
-- **Presiones de rendición de cuentas**: riesgo de que el progreso se disipara si las presiones externas disminuían.
-
-### Caso B — LaboEval (organizaciones comunitarias)
-
-El programa LaboEval, de 5 años, evaluó una intervención multiorganizacional en 16 grupos comunitarios, combinando **ECB directo** (módulos en línea) con **ECB indirecto** (acompañamiento personalizado).
-
-| Componente de la TdC | Fortaleza de la afirmación | Hallazgos clave |
-|----------------------|---------------------------|-----------------|
-| **Actividades** | Fuerte | 85% de participación; el factor "sin costo" fue crucial para organizaciones con recursos limitados; el currículo era libre de jerga técnica. |
-| **Alcance** | Fuerte | Comprometió a directivos; sin embargo, el riesgo de sostenibilidad era alto ya que solo 1-2 participantes por organización se involucraron. |
-| **Corto plazo (habilidades)** | Fuerte | Los participantes adquirieron habilidades significativas en diseño de modelos lógicos y análisis de datos; sin embargo, permanecieron débiles en habilidades de diseminación. |
-| **Mediano plazo (cultura)** | Débil | Aunque mejoró la "alfabetización evaluativa", pocas organizaciones tomaron pasos concretos para institucionalizar el ECB o la "cultura" post-programa. |
-
-: Fortaleza de las afirmaciones de contribución en LaboEval {#tbl-ca-laboeval}
-
-El CA identificó explícitamente que **la rotación de personal** era la barrera primaria que impedía que las ganancias individuales se tradujeran en "cultura" organizacional sostenida. También visibilizó cómo la pandemia de COVID-19 y la inestabilidad económica forzaron a las organizaciones a priorizar la prestación inmediata de servicios sobre el desarrollo de capacidades de largo plazo.
-
-## Supuestos y limitaciones
-
-::: {.callout-warning}
-## Desafíos del Contribution Analysis
-Establecer causalidad en situaciones no experimentales es inherentemente difícil. Los cambios contextuales —inestabilidad económica, emergencias sanitarias globales como COVID-19— deben documentarse como barreras externas para que la historia de contribución se mantenga anclada en la realidad. El CA **no elimina** la incertidumbre causal; la hace explícita y manejable.
-:::
-
-### Buenas prácticas para evaluadores
-
-- [ ] **Adoptar un modo participativo**: involucrar a los actores en el desarrollo de la TdC para asegurar que la lógica esté "acordada".
-- [ ] **Usar apoyo evidencial triangulado**: combinar encuestas, estudios de caso y datos administrativos para respaldar las afirmaciones.
-- [ ] **Abordar explícitamente los riesgos causales**: identificar factores como la alta rotación o recortes de recursos que podrían romper la cadena de resultados.
-- [ ] **Incorporar acompañamiento personalizado**: usar el coaching individualizado como puente entre capacitación directa y práctica conductual indirecta.
-- [ ] **Dar cuenta del "contrafactual"**: evaluar la influencia relativa de otros factores (presión de donantes, mercado) para evitar sobreatribuir el impacto.
-
-**Cuándo CA es una buena opción:**
-
-- El programa tiene una teoría del cambio explícita y articulable.
-- Existe evidencia dispersa (monitoreo, estudios de caso, datos secundarios) que puede triangularse.
-- El contexto impide diseños contrafactuales rigurosos.
-- La audiencia necesita una narrativa **creíble** más que una estimación numérica precisa.
-
-**Cuándo CA NO es una buena opción:**
-
-- Se requiere una estimación cuantitativa precisa del efecto.
-- No hay teoría del cambio articulable ni consenso sobre cómo opera el programa.
-- La evidencia disponible es exclusivamente anecdótica y no puede triangularse.
-- El programa es tan pequeño que, ex-ante, es implausible que produzca el resultado esperado.
-
-## Conexiones con otros métodos
-
-Contribution Analysis es el complemento natural de **Process Tracing** (véase el [capítulo correspondiente](04-process-tracing.qmd)). Mientras el CA construye la historia global de contribución y pondera influencias externas, el PT somete eslabones causales específicos a pruebas bayesianas rigurosas. La combinación **CA-PT**, formalizada por @befani2014, es uno de los diseños cualitativos más robustos para evaluación de impacto.
-
-Ultimadamente, el Contribution Analysis transforma la evaluación de un ejercicio de rendición de cuentas en un **proceso estratégico de aprendizaje**. No es solo una herramienta para probar impacto; es un marco para mejorar iterativamente el diseño de la intervención. Al testear metódicamente la teoría del cambio y reconocer las complejidades de la influencia, las organizaciones pasan de la rendición de cuentas simple a una comprensión de nivel experto sobre cómo realmente marcan la diferencia.
-
-::: {.callout-tip}
-## Para profundizar
-
-- **@mayne2001** — Artículo fundacional que introduce el método y plantea el problema de atribución en contextos complejos.
-- **@mayne2008** — Brief del ILAC con la formulación canónica de los seis pasos.
-- **@mayne2012** — Balance crítico tras una década de aplicaciones; discute fortalezas, limitaciones y evolución del método.
-- **@mayne_rist2006** — Argumento sobre por qué los estudios aislados no bastan y cómo CA los articula.
-- **@befani2014** — Articulación de Contribution Analysis con Process Tracing para evaluación de impacto.
+::: {#refs}
 :::
