@@ -231,3 +231,30 @@ Redacta para el equipo directivo del programa:
 
 Sin jerga. Traduce "poder estadístico" como "probabilidad de detectar un efecto si realmente existe".
 :::
+
+### Prompt POW.6 — Tablas y curvas de sensibilidad para anexar al protocolo
+
+::: {.prompt-block}
+Quiero documentar un cálculo de tamaño de muestra para un protocolo de evaluación. Genera código en R que exporte tablas y gráficos en PNG a partir de estos supuestos:
+
+```
+alpha <- 0.05
+poder <- 0.80
+efecto_minimo <- c(0.10, 0.15, 0.20)
+sd_resultado <- 1
+atrition <- 0.10
+icc <- c(0.01, 0.05, 0.10)
+cluster_size <- c(10, 20, 30)
+```
+
+El script debe crear:
+
+1. `tables/power_assumptions_table.png`: tabla con todos los supuestos y una explicación breve de cada uno.
+2. `tables/power_sample_size_table.png`: tamaño de muestra requerido bajo varios efectos mínimos detectables, con y sin ajuste por atrición.
+3. `tables/power_cluster_table.png`: muestra requerida para diseños por conglomerados bajo distintos ICC y tamaños de cluster.
+4. `plots/power_curve.png`: curva de poder para distintos tamaños de muestra.
+5. `plots/mde_curve.png`: efecto mínimo detectable para distintos tamaños de muestra.
+6. `plots/cluster_design_effect.png`: efecto de diseño según ICC y tamaño de cluster.
+
+Usa `pwr`, `dplyr`, `ggplot2`, `gt` y `webshot2` o alternativas equivalentes. Después del código, escribe tres frases para explicar a un equipo no técnico por qué una muestra más grande no siempre compensa un mal diseño de recolección.
+:::

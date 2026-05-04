@@ -255,6 +255,42 @@ Redacta para el director de la secretaría de agricultura:
 Sin jerga. Traduce "intervalo de confianza" como "rango plausible".
 :::
 
+### Prompt DiD.6 — Paquete visual completo para DiD
+
+::: {.prompt-block}
+Tengo una base de panel llamada `datos_did` con `id`, `anio`, `tratamiento`, `post`, `resultado` y covariables de línea base. Quiero producir gráficos de diagnóstico y resultados para un informe.
+
+Genera código en R que exporte en la carpeta `plots/`:
+
+1. `did_love_plot.png`: love plot de covariables pre-tratamiento, con diferencias medias estandarizadas firmadas en porcentaje y líneas de referencia en -10%, 0 y 10%.
+2. `did_parallel_trends.png`: gráfico de medias del resultado por año y grupo, con la etapa posterior al programa sombreada y línea vertical en el primer año tratado.
+3. `did_event_study.png`: event study con el periodo inmediatamente anterior al tratamiento como categoría omitida, puntos, IC95% y línea horizontal en cero.
+4. `did_placebo_and_main_effects.png`: gráfico comparando el efecto placebo pre-tratamiento y el efecto principal.
+5. Un estilo consistente entre figuras: colores distintos para tratamiento/control, fondo blanco, títulos breves y etiquetas claras.
+
+Incluye controles para que el código falle con un mensaje entendible si faltan años pre-tratamiento suficientes. Después del código, escribe tres frases sobre cómo leer tendencias paralelas y qué señales harían desconfiar del DiD.
+:::
+
+### Prompt DiD.7 — Tablas tipo artículo y supuestos
+
+::: {.prompt-block}
+Con `datos_did`, genera un script en R para exportar tablas en PNG con estándares de artículo académico.
+
+Quiero las siguientes tablas en la carpeta `tables/`:
+
+1. `did_descriptives_table.png`: estadísticas descriptivas por grupo y periodo, separando pre y post.
+2. `did_balance_table.png`: balance de covariables antes del programa, con medias, diferencias, SMD y p-valores.
+3. `did_regression_table.png`: tabla de regresiones con tres columnas:
+   - modelo simple DiD;
+   - DiD con controles;
+   - DiD con efectos fijos de unidad y año, errores estándar agrupados por unidad.
+4. `did_diagnostics_table.png`: resumen de pruebas de placebo y tendencias previas, con interpretación breve en una columna final.
+
+La tabla de regresiones debe verse como tabla de revista: título centrado, nombres de variables legibles, errores estándar en paréntesis, estrellas de significancia, N, R2, efectos fijos indicados como Sí/No y nota al pie con la regla de significancia.
+
+Usa `fixest`, `modelsummary`, `gt` y `webshot2` o una alternativa equivalente. Comenta en el código dónde cambiar el nombre del resultado y de las covariables.
+:::
+
 ---
 
 ## Guía de recolección de datos

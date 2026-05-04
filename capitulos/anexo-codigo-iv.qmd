@@ -226,3 +226,19 @@ Redacta para el ministro de educación:
 
 Sin jerga. Traduce "LATE" como "efecto en quienes son sensibles al sorteo".
 :::
+
+### Prompt IV.6 — Tablas y gráficos publicables para IV
+
+::: {.prompt-block}
+Con una base llamada `datos_iv`, un tratamiento endógeno `universidad`, un instrumento `loteria`, un resultado `ingreso` y un vector `covariables`, genera un script en R para exportar resultados de variables instrumentales en formato PNG.
+
+El script debe crear:
+
+1. `tables/iv_first_stage_table.png`: tabla de primera etapa con coeficiente del instrumento, error estándar, F de instrumento débil y N.
+2. `tables/iv_regression_table.png`: tabla tipo artículo con OLS, forma reducida y 2SLS en columnas separadas, errores estándar en paréntesis, estrellas de significancia, N y nota metodológica.
+3. `tables/iv_balance_table.png`: balance de covariables por instrumento asignado, para revisar si la lotería parece aleatoria.
+4. `plots/iv_first_stage_plot.png`: gráfico de la probabilidad media de recibir tratamiento según instrumento.
+5. `plots/iv_ols_vs_2sls.png`: gráfico de coeficientes comparando OLS y 2SLS con IC95%.
+
+Usa `AER` o `fixest`, `modelsummary`, `gt`, `ggplot2` y `webshot2` o alternativas equivalentes. Después del código, escribe tres frases sobre la diferencia entre relevancia del instrumento, restricción de exclusión y población complier.
+:::

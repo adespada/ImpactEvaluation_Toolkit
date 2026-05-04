@@ -270,11 +270,11 @@ Este anexo combina IV y RDD en un solo documento. Los prompts específicos está
 
 ### Para Variables Instrumentales (IV)
 
-Los prompts detallados (instrumento débil, 2SLS, exclusión, compliers, reporte ejecutivo) viven en el [anexo de IV](anexo-codigo-iv.qmd#trabajando-con-ia-paso-a-paso).
+Los prompts detallados (instrumento débil, 2SLS, exclusión, compliers, reporte ejecutivo, tablas y gráficos publicables) viven en el [anexo de IV](anexo-codigo-iv.qmd#trabajando-con-ia-paso-a-paso).
 
 ### Para Regresión Discontinua (RDD)
 
-Los prompts detallados (test McCrary, continuidad de covariables, banda óptima, placebos, reporte ejecutivo) viven en el [anexo de RDD](anexo-codigo-rdd.qmd#trabajando-con-ia-paso-a-paso).
+Los prompts detallados (test McCrary, continuidad de covariables, banda óptima, placebos, reporte ejecutivo, diagnósticos y tablas tipo artículo) viven en el [anexo de RDD](anexo-codigo-rdd.qmd#trabajando-con-ia-paso-a-paso).
 
 ::: {.callout-tip}
 ## Cuándo usar IV vs. RDD

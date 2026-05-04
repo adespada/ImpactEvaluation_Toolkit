@@ -141,20 +141,29 @@ summary(m_out)
 library(cobalt)
 
 love.plot(m_out,
-          binary = "std",
-          thresholds = c(m = 0.1),
-          colors = c("#185FA5", "#D85A30"),
-          var.names = c(educacion = "Educación (años)",
-                        edad = "Edad",
-                        ingreso_previo = "Ingreso previo",
-                        urbano = "Zona urbana"),
-          title = "Balance de covariables") +
-  theme_minimal(base_size = 13)
+          stats         = "mean.diffs",
+          abs           = TRUE,
+          binary        = "std",
+          un            = TRUE,                 # mostrar también ANTES del matching
+          drop.distance = TRUE,                 # ocultar el propensity score
+          thresholds    = c(m = 0.1),
+          colors        = c("#185FA5", "#D85A30"),
+          shapes        = c("circle", "triangle"),
+          sample.names  = c(Unadjusted = "Antes del matching",
+                            Adjusted   = "Después del matching"),
+          var.names     = c(educacion      = "Educación (años)",
+                            edad           = "Edad",
+                            ingreso_previo = "Ingreso previo",
+                            urbano         = "Zona urbana"),
+          title         = "Balance de covariables (Love plot)") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold"))
 ```
 
 ::: {.callout-note}
 ## ¿Cómo leer el Love plot?
-Cada punto muestra la diferencia estandarizada entre tratados y controles. Los puntos **azules** son antes del matching y los **naranjas** después. Un buen matching acerca todos los puntos a cero. La línea vertical punteada (0.1) es el umbral recomendado.
+Cada punto muestra la **diferencia estandarizada de medias** (|SMD|) entre tratados y controles para una covariable. Los puntos **azules** son antes del matching y los **naranjas** después. Un buen matching acerca todos los puntos a cero. La línea vertical punteada (0.1) es el umbral recomendado: covariables por encima de 0.1 después del matching siguen desbalanceadas.
 :::
 
 ### Paso 6: Estimar el ATT sobre la muestra emparejada
@@ -279,4 +288,48 @@ Redacta para la junta directiva de la entidad de microfinanzas:
 3. **Recomendación accionable** en una oración.
 
 Sin jerga. Traduce "ATT" como "efecto promedio entre quienes tomaron el crédito".
+:::
+
+### Prompt PSM.6 — Love plot publicable y balance cercano a cero
+
+::: {.prompt-block}
+Tengo una base llamada `datos_psm` con una variable de tratamiento `credito`, un resultado `ingreso_mensual` y covariables observadas antes del crédito.
+
+Genera código en R que:
+
+1. Estime el propensity score con un logit usando covariables pre-tratamiento.
+2. Compare al menos tres estrategias de matching:
+   - vecino más cercano con caliper;
+   - vecino más cercano con reemplazo;
+   - full matching.
+3. Use `cobalt::bal.tab()` para elegir la estrategia con mejor balance post-matching, priorizando que todas las covariables tengan `abs(SMD) < 0.05` si es posible.
+4. Exporte `plots/psm_love_plot.png` como love plot firmado en porcentaje:
+   - triángulos turquesa para "Antes del matching";
+   - círculos salmón para "Después del matching";
+   - puntos antes del matching bien dispersos;
+   - puntos después del matching cercanos a cero;
+   - líneas verticales en -10%, 0 y 10%;
+   - covariables ordenadas por desbalance inicial.
+5. Reporte una tabla con SMD antes y después, mejora porcentual del balance y el número de observaciones usadas.
+
+Después del código, explica en cuatro frases qué significa buen soporte común, por qué no basta con mirar solo el p-valor y qué hacer si una covariable sigue desbalanceada después del matching.
+:::
+
+### Prompt PSM.7 — Entregables PNG para PSM
+
+::: {.prompt-block}
+Con la base `datos_psm` y el objeto de matching elegido, crea un script para exportar tablas y gráficos de PSM en formato PNG con diseño de artículo.
+
+El script debe crear:
+
+1. `tables/psm_descriptives_table.png`: tabla descriptiva antes del matching por tratados y controles.
+2. `tables/psm_balance_table.png`: tabla de balance antes y después del matching, con SMD, razón de varianzas si aplica y número efectivo de observaciones.
+3. `tables/psm_regression_table.png`: tabla tipo Stargazer con tres columnas:
+   - diferencia cruda sin controles;
+   - regresión con controles antes del matching;
+   - estimación ATT en la muestra emparejada con pesos del matching.
+4. `plots/psm_propensity_overlap.png`: histograma o densidad del propensity score por grupo antes y después del matching.
+5. `plots/psm_att_sensitivity.png`: gráfico de sensibilidad con el ATT bajo distintas especificaciones de matching.
+
+La tabla de regresión debe tener título centrado, errores estándar en paréntesis, estrellas de significancia, N, R2 cuando aplique, nota metodológica y nombres de variables fáciles de leer. Usa `MatchIt`, `cobalt`, `modelsummary`, `gt`, `ggplot2` y `webshot2` o alternativas equivalentes.
 :::

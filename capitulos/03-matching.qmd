@@ -1,4 +1,4 @@
-# Matching y Propensity Score {#sec-matching}
+# Propensity Score Matching {#sec-matching}
 
 ## A. Teoría y explicación {#sec-matching-teoria}
 
@@ -172,16 +172,16 @@ Cuando se dispone de datos de línea base, combinar matching con Diferencias en 
 
 ::: {.callout-tip}
 ## Código y práctica
-Para el taller práctico con código R de este método, consulte el [Anexo de código: Matching y Propensity Score](anexo-codigo-matching.qmd). Para una guía paso a paso de cómo usar IA para ejecutar este análisis, consulte la [Parte 6: Cómo hablar con la IA](06-guia-ia.qmd).
+Para el taller práctico con código R de este método, consulte el [Anexo de código: Propensity Score Matching](anexo-codigo-matching.qmd). Para una guía paso a paso de cómo usar IA para ejecutar este análisis, consulte la [Parte 6: Cómo hablar con la IA](06-guia-ia.qmd).
 :::
 
 ::: {.callout-tip}
 ## Recursos recomendados
-Para profundizar en matching y propensity score, se recomiendan las siguientes referencias:
+Para profundizar en propensity score matching, se recomiendan las siguientes referencias:
 
 - @gertler2016impact, capítulos 7 y 8, para una explicación detallada de matching, propensity score y su combinación con otros métodos.
 - @rosenbaum1983, el artículo fundacional que demuestra las propiedades del propensity score.
 - @khandker2009, para una guía práctica de métodos de evaluación de impacto incluyendo matching.
 - La documentación del paquete [MatchIt](https://kosukeimai.github.io/MatchIt/) para la implementación en R.
-- @huntingtonklein2022 (*The Effect*, Cap. 14): exposición intuitiva de matching y propensity score, con énfasis en las limitaciones del supuesto de selección en observables.
+- @huntingtonklein2022 (*The Effect*, Cap. 14): exposición intuitiva de propensity score matching, con énfasis en las limitaciones del supuesto de selección en observables.
 :::

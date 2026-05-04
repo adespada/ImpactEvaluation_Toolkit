@@ -6,7 +6,7 @@ book:
   title: "Toolkit de Evaluación de Impacto"
   subtitle: "Guía práctica para programas sociales"
   author:
-    - name: "Andrés Despada"
+    - name: "Andres David Espada"
     - name: "Nayith Mosquera"
   date: today
   date-format: "MMMM YYYY"
@@ -59,8 +59,9 @@ book:
         - capitulos/04-outcome-harvesting.qmd
         - capitulos/04-contribution-analysis.qmd
         - capitulos/04-process-tracing.qmd
-        - capitulos/04-qca.qmd
         - capitulos/04-quip.qmd
+        - capitulos/04-qca.qmd
+
 
     - part: "Métodos mixtos"
       chapters:

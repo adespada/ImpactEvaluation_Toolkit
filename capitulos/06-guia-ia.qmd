@@ -469,6 +469,68 @@ Redacta, para un informe dirigido a tomadores de decisión sin formación estad�
 Tono profesional pero accesible. Sin jerga estadística innecesaria. No menciones "p-valor" ni "intervalo de confianza" sin traducirlo.
 :::
 
+### Prompt 5.3 — Convertir resultados en tablas tipo artículo
+
+::: {.prompt-block}
+Actúa como analista de evaluación de impacto y editor técnico de una revista académica. Ya tengo en R los objetos de modelos:
+
+```
+[pegue aquí los nombres de los modelos: m1, m2, m3...]
+```
+
+Genera código en R que produzca una tabla de regresiones tipo **Stargazer / artículo académico**, con estas reglas:
+
+1. Columnas numeradas `(1)`, `(2)`, `(3)` y nombre corto de la variable dependiente debajo.
+2. Coeficientes con estrellas de significancia y errores estándar entre paréntesis en la línea siguiente.
+3. Filas de `Observations`, `R-squared`, covariables, efectos fijos, pesos y tipo de error estándar.
+4. Nota al pie: `Standard errors in parentheses; *** p<0.01, ** p<0.05, * p<0.1`.
+5. Exporta la tabla como PNG en una carpeta `tables/`, con resolución suficiente para pegar en Word o PowerPoint.
+
+Usa `modelsummary`, `gt`, `gtsummary` o una solución con `grid` si exportar con HTML falla. Devuélveme solo código ejecutable y robusto. Al final imprime la ruta del PNG generado.
+:::
+
+### Prompt 5.4 — Gráficos de diagnóstico listos para informe
+
+::: {.prompt-block}
+Tengo una base limpia y un efecto estimado. Genera código en R para crear gráficos diagnósticos listos para informe, siguiendo estos criterios:
+
+1. Paleta sobria: control en gris/azul, tratamiento en naranja.
+2. Título claro, subtítulo interpretativo y ejes en español.
+3. Intervalos de confianza al 95% cuando haya estimaciones.
+4. Una línea vertical u horizontal en cero cuando el gráfico muestre efectos.
+5. Exportar cada gráfico como PNG en `plots/` con `ggsave()`.
+
+Quiero que el código produzca, si aplica al método:
+
+- distribución del resultado por grupo;
+- gráfico de balance de covariables;
+- gráfico de coeficientes con IC95%;
+- forest plot de heterogeneidad;
+- tendencias o event study para paneles.
+
+Antes de escribir código, identifica cuáles de estos gráficos sí aplican al método `[RCT / DiD / PSM / IV / RDD]` y cuáles no. Luego entrega solo el código.
+:::
+
+### Prompt 5.5 — Revisar outputs reales y proponer correcciones
+
+::: {.prompt-block}
+Actúa como revisor técnico de un análisis de evaluación de impacto. Estos son los outputs que obtuve al correr mi script:
+
+```
+[pegue aquí consola, tabla de balance, tabla de regresión y advertencias]
+```
+
+Revisa los resultados y dime:
+
+1. Qué señales son tranquilizadoras.
+2. Qué señales son alertas metodológicas o de calidad de datos.
+3. Qué cambios harías en el código.
+4. Qué tablas o gráficos faltan para que el análisis sea defendible.
+5. Qué conclusión NO debería decir todavía.
+
+No reescribas todo el análisis. Dame una lista priorizada de mejoras y, para cada una, el fragmento de código mínimo que tendría que cambiar.
+:::
+
 ---
 
 ## Documentar el uso de IA (obligatorio)
