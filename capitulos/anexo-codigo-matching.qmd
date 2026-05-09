@@ -201,135 +201,512 @@ Compare el efecto estimado con el efecto real programado (150). El matching debe
 
 ::: {.callout-note}
 ## Sobre esta sección
-Replica los pasos del [capítulo de uso de IA](06-guia-ia.qmd) con prompts **específicos para Propensity Score Matching** sobre el dataset simulado del programa de microfinanzas. Asume que ya construyó `covariables` y `subgrupos` siguiendo el Paso 4 del capítulo general.
+Esta sección contiene una guía completa de prompts para usar IA como asistente al preparar y aplicar Propensity Score Matching. Los prompts son **genéricos**: no dependen de un programa, país o sector. Reemplace lo que aparece entre corchetes `[ ]` por la información de su proyecto.
 :::
 
-### Contexto simulado
+### Regla general para todos los prompts
 
-200 personas (≈100 tratadas, ≈100 control) con autoselección al programa de microcréditos. Variable de resultado: `ingreso` (mensual, USD). Covariables observables que predicen la participación: `educacion`, `edad`, `ingreso_previo`, `urbano`. Para los prompts asuma:
+Antes de pegar cualquier prompt en una IA, agregue esta instrucción:
+
+::: {.prompt-block}
+Actúa como analista de evaluación de impacto que escribe código en R para personas con nivel básico. Devuelve siempre:
+
+1. Un único bloque de código R completo y ejecutable.
+2. Comentarios breves en español antes de cada bloque.
+3. Objetos con nombres claros.
+4. Al final, un bloque `cat("VERIFICACION...")` con 2 o 3 cosas que debo revisar.
+5. No uses pseudocódigo.
+6. No inventes columnas que no te di.
+7. No me pidas subir la base completa. Trabaja solo con rutas locales, nombres de columnas, diagnósticos y primeras filas anonimizadas si son necesarias.
+:::
+
+## Parte 1 — Entender qué bases existen, sin compartir datos
+
+### Prompt 1 — Inventario inicial de archivos y columnas
+
+::: {.prompt-block}
+Actúa como analista de evaluación de impacto que escribe código en R.
+
+Tengo uno o varios archivos CSV en mi computador. Las rutas son:
+
+```
+[pegue aquí las rutas de los archivos CSV, una por línea]
+```
+
+Todavía no quiero analizar valores ni compartir datos. Solo quiero entender qué columnas tiene cada archivo.
+
+Genera código R que:
+
+1. Cargue cada CSV con `readr::read_csv()`.
+2. Para cada archivo imprima:
+   - nombre del archivo;
+   - número de filas;
+   - número de columnas;
+   - lista de nombres de columnas;
+   - tipo que R asignó a cada columna.
+3. Cree una tabla llamada `inventario_columnas` con columnas:
+   `archivo`, `variable`, `tipo_r`, `n_filas`.
+4. Guarde esa tabla como `outputs/inventario_columnas.csv`.
+5. No imprima valores de las filas. Solo columnas y tipos.
+
+Devuélveme solo código R completo.
+:::
+
+### Prompt 2 — Interpretar columnas y roles probables
+
+::: {.prompt-block}
+Actúa como analista de evaluación de impacto. A continuación voy a pegar una tabla con los nombres de columnas de mis archivos, sin valores de datos.
+
+```
+[pegue aquí el contenido de inventario_columnas.csv o la lista de columnas por archivo]
+```
+
+El contexto general del programa es:
+
+```
+[describa en 3 a 5 líneas el programa, población, tratamiento y resultado esperado]
+```
+
+Devuélveme una tabla en markdown con estas columnas:
+
+1. `archivo`
+2. `variable`
+3. `rol probable`
+4. `usar en PSM?`
+5. `razon`
+
+Clasifica el rol probable como:
+
+- id
+- tratamiento
+- resultado
+- covariable pretratamiento
+- variable postratamiento
+- fecha o periodo
+- información privada o sensible
+- relleno o no relevante
+- requiere aclaración
+
+Reglas:
+
+1. No generes código todavía.
+2. No asumas que una variable sirve para PSM solo por tener buen nombre.
+3. Marca como "requiere aclaración" cualquier variable ambigua.
+4. Recuerda que en PSM solo deben usarse covariables medidas antes del tratamiento.
+:::
+
+## Parte 2 — Privacidad, anonimización y variables que no se comparten
+
+### Prompt 3 — Identificar variables privadas o sensibles usando solo nombres
+
+::: {.prompt-block}
+Actúa como revisor de privacidad de datos para evaluación de impacto.
+
+Con base en esta lista de columnas:
+
+```
+[pegue aquí nombres de columnas por archivo]
+```
+
+Identifica variables que NO debo compartir con una IA externa y que debería eliminar, anonimizar o agrupar antes de cualquier consulta.
+
+Devuélveme una tabla con:
+
+1. `variable`
+2. `tipo de riesgo`
+3. `acción recomendada`
+4. `justificación`
+
+Considera como riesgos:
+
+- nombres de personas;
+- nombres de empresas, negocios, organizaciones o comunidades pequeñas;
+- números de identificación;
+- teléfonos;
+- correos;
+- direcciones;
+- coordenadas o ubicación muy precisa;
+- fechas exactas que permitan reidentificación;
+- información sensible de salud, religión, política, violencia, etnia, orientación sexual, migración o vulnerabilidad;
+- variables que combinadas puedan reidentificar personas o grupos pequeños.
+
+No generes código todavía. Solo la tabla de decisión.
+:::
+
+### Prompt 4 — Crear una versión anonimizada de los datos
+
+::: {.prompt-block}
+Actúa como analista de datos que escribe código en R.
+
+Tengo estos archivos:
+
+```
+[pegue rutas de archivos]
+```
+
+Después de revisar privacidad, decidí:
+
+- Eliminar estas columnas:
+```
+[liste columnas a eliminar]
+```
+
+- Mantener este identificador técnico para unir bases:
+```
+[nombre del ID técnico, si existe]
+```
+
+Genera código R que:
+
+1. Cargue cada archivo.
+2. Elimine las columnas privadas o sensibles indicadas.
+3. Si se debe anonimizar el ID, cree un ID anónimo estable por archivo o una tabla de equivalencias local.
+4. Guarde versiones anonimizadas en una carpeta `datos_anonimizados/`.
+5. Imprima solamente nombres de columnas de las bases anonimizadas, no valores.
+
+Devuélveme solo código R completo. Agrega comentarios que expliquen por qué se elimina o anonimiza cada grupo de variables.
+:::
+
+## Parte 3 — Diagnóstico general de calidad de datos
+
+### Prompt 5 — Diagnóstico automático por variable
+
+::: {.prompt-block}
+Actúa como analista de evaluación de impacto que escribe código en R.
+
+Tengo una base anonimizada llamada:
+
+```
+[nombre del objeto en R o ruta del CSV anonimizado]
+```
+
+Quiero diagnosticar problemas de calidad antes de limpiar.
+
+Genera código R que cree una tabla `diagnostico_variables` con una fila por variable y estas columnas:
+
+1. `variable`
+2. `tipo_r`
+3. `n_filas`
+4. `n_faltantes`
+5. `pct_faltantes`
+6. `n_unicos`
+7. `ejemplos_no_sensibles` con máximo 5 valores únicos solo si no parecen datos privados
+8. `minimo` si es numérica
+9. `maximo` si es numérica
+10. `media` si es numérica
+11. `desviacion` si es numérica
+12. `posibles_codigos_na` si aparecen valores como 99, 999, -99, "NS", "NR", "No sabe", "No responde", "", "."
+13. `posible_numero_como_texto`
+14. `posible_fecha_como_texto`
+15. `posible_porcentaje_como_texto`
+16. `posible_categoria_inconsistente` si la misma categoría parece repetida con mayúsculas, tildes, espacios o abreviaturas
+17. `posibles_problemas`
+
+El código debe:
+
+1. No modificar la base.
+2. Guardar `diagnostico_variables` como `outputs/diagnostico_variables.csv`.
+3. Imprimir un resumen con las variables que requieren revisión.
+
+Devuélveme solo código R completo.
+:::
+
+### Prompt 6 — Interpretar el diagnóstico y priorizar problemas
+
+::: {.prompt-block}
+Actúa como revisor técnico de calidad de datos.
+
+Voy a pegar el diagnóstico de variables generado por R:
+
+```
+[pegue aquí diagnostico_variables.csv o las filas relevantes]
+```
+
+El contexto del análisis PSM es:
+
+- Posible variable de tratamiento: `[nombre o "no estoy seguro"]`
+- Posible resultado: `[nombre o "no estoy seguro"]`
+- Posible identificador: `[nombre o "no estoy seguro"]`
+- Variables que creo que son previas al tratamiento: `[lista o "no estoy seguro"]`
+
+Devuélveme:
+
+1. Una lista priorizada de problemas, de más grave a menos grave.
+2. Para cada problema, indica:
+   - variable afectada;
+   - tipo de problema;
+   - por qué importa para PSM;
+   - solución recomendada;
+   - si la solución es automática o requiere decisión humana.
+3. Una tabla final llamada `plan_limpieza` con columnas:
+   `prioridad`, `variable`, `problema`, `solucion`, `decision_humana`.
+
+No generes código todavía.
+:::
+
+### Prompt 7 — Aplicar plan de limpieza recomendado
+
+::: {.prompt-block}
+Actúa como analista de evaluación de impacto que escribe código en R.
+
+Ya realicé un diagnóstico de calidad de datos y recibí un plan de limpieza previo. Quiero que tomes las recomendaciones del prompt anterior y generes el código necesario para limpiar la base.
+
+Mi base se llama:
 
 ```r
-covariables <- c("educacion", "edad", "ingreso_previo", "urbano")
+[nombre_base]
 ```
 
-### Prompt PSM.1 — Estimación del propensity score y soporte común
-
-::: {.prompt-block}
-Actúa como analista que escribe código en R. Tengo un data frame `datos` con: `tratamiento` (1/0), `ingreso`, y covariables en `covariables <- c("educacion","edad","ingreso_previo","urbano")`.
-
-Genera un script en R que:
-
-1. Estime el propensity score con `glm(tratamiento ~ educacion + edad + ingreso_previo + urbano, family = binomial, data = datos)` y guarde `datos$ps <- predict(modelo, type = "response")`.
-2. Grafique con `ggplot2` la **densidad** del PS por grupo (relleno con alpha=0.5), colores `#185FA5` para control y `#D85A30` para tratamiento, línea vertical en min y max del soporte común.
-3. Calcule el rango de soporte común: `c(max(min_trat, min_ctrl), min(max_trat, max_ctrl))` e imprima cuántos tratados quedan dentro y fuera.
-4. Cree `datos_sc <- subset(datos, ps >= li & ps <= ls)` con solo el soporte común.
-
-Solo código en un bloque. Al final, en una frase, dime qué % de tratados perdidos por soporte común sería preocupante.
-:::
-
-**Cómo interpretar:** si pierde más del 10–15% de tratados al imponer soporte común, los grupos son demasiado distintos y PSM puede no ser viable.
-
-### Prompt PSM.2 — Matching y verificación de balance
-
-::: {.prompt-block}
-Con `datos_sc` (ya filtrado por soporte común) y `covariables`, genera un script en R que:
-
-1. Use `MatchIt::matchit(tratamiento ~ educacion + edad + ingreso_previo + urbano, data = datos_sc, method = "nearest", caliper = 0.1)`.
-2. Imprima `summary(m.out)` y guarde el balance.
-3. Genere un **Love plot** con `cobalt::love.plot(m.out, thresholds = c(m = 0.10))` mostrando SMD antes y después.
-4. Imprima un mensaje claro `cat("Covariables con |SMD|>0.10 después del matching:", n_malas)`.
-
-Solo código. Al final, en una frase, indícame qué hacer si el balance falla.
-:::
-
-**Cómo interpretar:** después del matching, todas las |SMD| deben quedar por debajo de 0.10. Si alguna covariable persiste descompensada, considere agregar términos cuadráticos o interacciones al modelo de PS, o usar otro algoritmo.
-
-### Prompt PSM.3 — ATT con tres algoritmos (sensibilidad)
-
-::: {.prompt-block}
-Con `datos_sc` y `covariables`, estima el ATT con tres algoritmos distintos para análisis de sensibilidad:
-
-1. **Vecino más cercano sin reemplazo** con `caliper = 0.1`.
-2. **Vecino más cercano con reemplazo** y `ratio = 1`.
-3. **Kernel matching** (puede usar `Matching::Match(M=Inf, Weight=2)` o ponderación por PS con `WeightIt`).
-
-Para cada uno, ajusta `lm(ingreso ~ tratamiento + covariables, data = matched, weights = pesos)` con errores robustos. Reúne los tres efectos en una tabla con `modelsummary::modelsummary()` lado a lado.
-
-Solo código. Al final, en una frase, dime qué resultado haría más creíble el ATT.
-:::
-
-**Cómo interpretar:** si los tres efectos son similares y todos tienen p<0.05, el resultado es robusto. Diferencias grandes sugieren dependencia del algoritmo y debilidad del soporte común.
-
-### Prompt PSM.4 — Sensibilidad a confusores no observados (Rosenbaum bounds)
-
-::: {.prompt-block}
-Con el matched dataset del Prompt PSM.2, genera un script en R que ejecute un **test de sensibilidad de Rosenbaum** usando `rbounds::psens()` o `sensitivitymw`, sobre los pares emparejados.
-
-Reporte la **gamma crítica**: el nivel de confusor no observado (en términos de odds ratio sobre la probabilidad de tratamiento) que volvería el efecto no significativo.
-
-Solo código. Al final, en una frase, dime cómo se interpreta gamma=1.5 vs gamma=3.0.
-:::
-
-**Cómo interpretar:** gamma alto (≥ 2) significa que se necesitaría un confusor no observado muy fuerte para anular el resultado, lo que da credibilidad. Gamma bajo (≤ 1.3) sugiere que el resultado es frágil.
-
-### Prompt PSM.5 — Reporte ejecutivo
-
-::: {.prompt-block}
-Pegando esta tabla con los tres ATT estimados:
+Este fue el plan de limpieza recomendado:
 
 ```
-[pegar tabla del Prompt PSM.3]
+[pegue aquí la tabla plan_limpieza del prompt anterior]
 ```
 
-Redacta para la junta directiva de la entidad de microfinanzas:
+Variables esenciales para el análisis:
 
-1. **Párrafo de 4 líneas** sobre el efecto del programa en ingreso mensual, en USD comprensibles.
-2. **Frase** con la principal limitación: PSM no controla por factores no observables como motivación.
-3. **Recomendación accionable** en una oración.
+- ID: `[nombre_id]`
+- Tratamiento: `[nombre_tratamiento]`
+- Resultado: `[nombre_resultado]`
+- Covariables candidatas: `[lista_covariables]`
 
-Sin jerga. Traduce "ATT" como "efecto promedio entre quienes tomaron el crédito".
+Además, quiero agregar esta instrucción específica:
+
+```
+[agregue aquí cualquier decisión o regla adicional que quiera aplicar; si no aplica, escriba "ninguna"]
+```
+
+Genera código R que:
+
+1. Aplique únicamente las correcciones recomendadas en el plan de limpieza.
+2. Corrija categorías inconsistentes cuando el mapeo sea claro.
+3. Convierta números guardados como texto cuando corresponda.
+4. Convierta fechas guardadas como texto cuando corresponda.
+5. Maneje valores faltantes según el tipo de variable:
+   - no imputar automáticamente el resultado;
+   - no usar filas sin tratamiento válido;
+   - imputar covariables solo cuando sea razonable;
+   - crear banderas `_imp` para variables imputadas.
+6. Detecte outliers y valores imposibles:
+   - convertir valores imposibles a `NA` solo si el rango teórico es claro;
+   - no eliminar outliers reales automáticamente.
+7. Revise duplicados por ID:
+   - eliminar duplicados idénticos;
+   - dejar duplicados conflictivos en una tabla para revisión humana.
+8. Recodifique el tratamiento a una variable numérica 1/0 llamada `tratamiento_psm`.
+9. Cree una base limpia llamada `base_limpia`.
+10. Cree una tabla `log_limpieza` con:
+   `variable`, `problema`, `accion_aplicada`, `n_afectados`, `requiere_revision`.
+11. Guarde:
+   - `base_limpia` como `outputs/base_limpia.csv`;
+   - `log_limpieza` como `outputs/log_limpieza.csv`.
+
+Reglas:
+
+1. No inventes variables que no estén en el plan de limpieza.
+2. No elimines observaciones sin reportar cuántas se pierden.
+3. No tomes decisiones ambiguas por tu cuenta: marca esos casos como `"REVISAR"`.
+4. No modifiques variables que no fueron mencionadas en el plan.
+5. Devuélveme solo código R completo, listo para copiar y ejecutar.
 :::
 
-### Prompt PSM.6 — Love plot publicable y balance cercano a cero
+### Prompt 8 — Definir resultado y covariables pretratamiento
 
 ::: {.prompt-block}
-Tengo una base llamada `datos_psm` con una variable de tratamiento `credito`, un resultado `ingreso_mensual` y covariables observadas antes del crédito.
+Actúa como asesor metodológico de PSM.
 
-Genera código en R que:
+Tengo esta lista de variables limpias (usa `colnames(base_limpia)`):
 
-1. Estime el propensity score con un logit usando covariables pre-tratamiento.
-2. Compare al menos tres estrategias de matching:
-   - vecino más cercano con caliper;
-   - vecino más cercano con reemplazo;
-   - full matching.
-3. Use `cobalt::bal.tab()` para elegir la estrategia con mejor balance post-matching, priorizando que todas las covariables tengan `abs(SMD) < 0.05` si es posible.
-4. Exporte `plots/psm_love_plot.png` como love plot firmado en porcentaje:
-   - triángulos turquesa para "Antes del matching";
-   - círculos salmón para "Después del matching";
-   - puntos antes del matching bien dispersos;
-   - puntos después del matching cercanos a cero;
-   - líneas verticales en -10%, 0 y 10%;
-   - covariables ordenadas por desbalance inicial.
-5. Reporte una tabla con SMD antes y después, mejora porcentual del balance y el número de observaciones usadas.
+```
+[pegue nombres de columnas de la base limpia]
+```
 
-Después del código, explica en cuatro frases qué significa buen soporte común, por qué no basta con mirar solo el p-valor y qué hacer si una covariable sigue desbalanceada después del matching.
+Contexto del programa:
+
+```
+[describa programa, población, fecha de inicio y resultado que quiere evaluar]
+```
+
+Variable de tratamiento propuesta:
+
+```
+[nombre_tratamiento]
+```
+
+Variable de resultado propuesta:
+
+```
+[nombre_resultado]
+```
+
+Ayúdame a clasificar variables para PSM.
+
+Devuélveme una tabla con:
+
+1. `variable`
+2. `clasificacion`
+3. `incluir_como_covariable_psm`
+4. `razon`
+
+Reglas:
+
+1. Incluir como covariables solo variables medidas antes del tratamiento.
+2. No incluir variables postratamiento.
+3. No incluir IDs.
+4. No incluir variables privadas.
+5. No incluir el resultado como covariable.
+6. Marcar como "requiere decisión" variables ambiguas.
+
+Al final, propone una línea de R:
+
+```r
+covariables_psm <- c(...)
+```
+
+No generes más código que esa línea.
 :::
 
-### Prompt PSM.7 — Entregables PNG para PSM
+## Parte 4 — Análisis PSM
+
+### Prompt 17 — Descriptivos y comparación simple antes de PSM
 
 ::: {.prompt-block}
-Con la base `datos_psm` y el objeto de matching elegido, crea un script para exportar tablas y gráficos de PSM en formato PNG con diseño de artículo.
+Actúa como analista de evaluación de impacto que escribe código en R.
 
-El script debe crear:
+Tengo una base limpia y unida llamada `base_limpia`.
 
-1. `tables/psm_descriptives_table.png`: tabla descriptiva antes del matching por tratados y controles.
-2. `tables/psm_balance_table.png`: tabla de balance antes y después del matching, con SMD, razón de varianzas si aplica y número efectivo de observaciones.
-3. `tables/psm_regression_table.png`: tabla tipo Stargazer con tres columnas:
-   - diferencia cruda sin controles;
-   - regresión con controles antes del matching;
-   - estimación ATT en la muestra emparejada con pesos del matching.
-4. `plots/psm_propensity_overlap.png`: histograma o densidad del propensity score por grupo antes y después del matching.
-5. `plots/psm_att_sensitivity.png`: gráfico de sensibilidad con el ATT bajo distintas especificaciones de matching.
+Variables:
 
-La tabla de regresión debe tener título centrado, errores estándar en paréntesis, estrellas de significancia, N, R2 cuando aplique, nota metodológica y nombres de variables fáciles de leer. Usa `MatchIt`, `cobalt`, `modelsummary`, `gt`, `ggplot2` y `webshot2` o alternativas equivalentes.
+- Tratamiento 1/0: `tratamiento_psm`
+- Resultado: `[nombre_resultado]`
+- Covariables pretratamiento:
+```r
+covariables_psm
+```
+
+Genera código R que:
+
+1. Reporte número de observaciones totales, tratadas y controles.
+2. Cree una tabla descriptiva por grupo para resultado y covariables.
+3. Estime una comparación simple:
+   `resultado ~ tratamiento_psm`
+4. Use errores robustos HC1.
+5. Guarde la tabla descriptiva y la comparación simple.
+6. La comparación simple guárdala como una imagen. Usa `modelsummary` para guardarla.
+
+Devuélveme solo código R completo.
+:::
+
+### Prompt 18 — Estimar propensity score y soporte común
+
+::: {.prompt-block}
+Actúa como analista de evaluación de impacto que escribe código en R.
+
+Tengo:
+
+- Base: `base_limpia`
+- Tratamiento: `tratamiento_psm`
+- Covariables:
+```r
+covariables_psm
+```
+
+Genera código R que:
+
+1. Estime un modelo logit del tratamiento usando las covariables.
+2. Guarde el propensity score como `ps`.
+3. Grafique la distribución del propensity score por grupo.
+4. Calcule el rango de soporte común.
+5. Cree `base_psm_soporte` con observaciones dentro del soporte común.
+6. Reporte cuántas observaciones tratadas y controles quedan dentro y fuera del soporte común.
+7. Guarde el gráfico y una tabla de soporte común.
+
+Devuélveme solo código R completo.
+:::
+
+### Prompt 19 — Matching principal y balance
+
+::: {.prompt-block}
+Actúa como analista de evaluación de impacto que escribe código en R.
+
+Tengo la base `base_psm_soporte`, tratamiento `tratamiento_psm` y covariables:
+
+```r
+covariables_psm
+```
+
+Genera código R que:
+
+1. Aplique matching por vecino más cercano con `MatchIt`.
+2. Use `method = "nearest"`, `distance = "glm"`, `estimand = "ATT"`.
+3. Use un caliper razonable y explícito. Si no tengo preferencia, usa `caliper = 0.1`.
+4. Guarde el objeto como `matching_principal`.
+5. Imprima `summary(matching_principal, un = TRUE)`.
+6. Calcule balance con SMD antes y después usando `cobalt::bal.tab()`.
+7. Reporte cuántas covariables quedan con `|SMD| > 0.10` después del matching.
+8. Exporte un Love plot.
+9. Si el balance falla, imprime recomendaciones: cambiar caliper, agregar términos no lineales, exact matching en variables clave o revisar covariables.
+
+Devuélveme solo código R completo.
+:::
+
+### Prompt 20 — Estimar ATT después del matching
+
+::: {.prompt-block}
+Actúa como analista de evaluación de impacto que escribe código en R.
+
+Tengo:
+
+- Objeto de matching: `matching_principal`
+- Resultado: `[nombre_resultado]`
+- Tratamiento: `tratamiento_psm`
+- Covariables:
+```r
+covariables_psm <- c([pegue vector])
+```
+
+Genera código R que:
+
+1. Extraiga la base emparejada con `match.data()`.
+2. Estime el ATT con una regresión del resultado sobre tratamiento y covariables, usando pesos del matching.
+3. Use errores robustos. Si existe `subclass`, usa errores clusterizados por `subclass`.
+4. Extraiga coeficiente, error estándar, IC95%, p-valor y N.
+5. Guarde una tabla `resultado_att`.
+6. Interprete el efecto en unidades del resultado.
+
+Devuélveme solo código R completo.
+:::
+
+### Prompt 21 — Sensibilidad con varias estrategias de PSM
+
+::: {.prompt-block}
+Actúa como analista de evaluación de impacto que escribe código en R.
+
+Quiero saber si mi resultado depende del algoritmo de matching.
+
+Tengo:
+
+- Base dentro de soporte común: `base_psm_soporte`
+- Tratamiento: `tratamiento_psm`
+- Resultado: `[nombre_resultado]`
+- Covariables:
+```r
+covariables_psm <- c([pegue vector])
+```
+
+Genera código R que compare al menos tres estrategias:
+
+1. Vecino más cercano sin reemplazo.
+2. Vecino más cercano con reemplazo.
+3. Full matching o ponderación por propensity score para ATT.
+
+Para cada estrategia:
+
+1. Estima el efecto ATT.
+2. Calcula error estándar, IC95%, p-valor y N.
+3. Reporta balance máximo después del ajuste si es posible.
+4. Reúne todo en `tabla_sensibilidad_psm`.
+5. Guarda la tabla como CSV.
+
+Devuélveme solo código R completo. Al final imprime una frase: el resultado es más creíble si las estimaciones son parecidas y el balance es adecuado.
 :::

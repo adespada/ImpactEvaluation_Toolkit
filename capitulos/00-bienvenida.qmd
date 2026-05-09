@@ -13,7 +13,7 @@ Una guía práctica que le acompaña desde la planificación de su sistema de mo
 
 ## El ciclo de un programa social
 
-Todo programa social sigue un ciclo que conecta el diseño con el aprendizaje. La evaluación de impacto no es un ejercicio aislado al final: se prepara desde el diseño y se alimenta del monitoreo continuo.
+Todo programa social sigue un ciclo que conecta el diseño con el aprendizaje. La evaluación de impacto no es un ejercicio aislado: se prepara desde el diseño y se alimenta del monitoreo continuo.
 
 ```{mermaid}
 %%| fig-cap: "Ciclo de vida de un programa social"
@@ -94,7 +94,7 @@ Bloques como este muestran **ejemplos de respuestas** que debería esperar de la
 
 ## Código R
 
-Los capítulos de métodos incluyen código en **R** para ilustrar los análisis. Por defecto, el código aparece plegado — haga clic en "Mostrar código R" para verlo. Si no tiene experiencia con R, las secciones de Guía IA le enseñan a usar prompts para que la IA genere y explique el código por usted.
+Los capítulos de métodos incluyen código en R para ilustrar los análisis. Por defecto, el código aparece plegado. Haga clic en "Mostrar código R" para verlo.
 
 ## Requisitos técnicos
 
@@ -106,5 +106,5 @@ Para aprovechar al máximo este toolkit:
 
 ::: {.callout-tip}
 ## No se preocupe por el código
-Si no tiene experiencia con R, puede usar las Guías IA de cada capítulo de método. Allí le proporcionamos los prompts exactos para que la IA genere el código por usted, y le explicamos cómo interpretar los resultados.
+Si no tiene experiencia con R, puede usar las Guías IA de cada capítulo. Allí le proporcionamos los prompts exactos para que la IA genere el código por usted, y le explicamos cómo interpretar los resultados.
 :::

@@ -46,7 +46,7 @@ knitr::kable(tipos,
 ```
 
 ::: {.callout-note}
-## La diferencia clave
+## Diferencia clave
 El **monitoreo** le dice *qué* se hizo. La **evaluación de proceso** le dice *cómo* se hizo. La **evaluación de impacto** le dice *qué diferencia hizo*. Las tres son complementarias y necesarias.
 :::
 
@@ -61,10 +61,10 @@ No necesariamente. Durante esos dos años pudieron ocurrir muchas otras cosas:
 - La economía local mejoró y las familias compraron más alimentos
 - Hubo una campaña nacional de vacunación que redujo enfermedades
 - Las lluvias fueron mejores y la producción agrícola aumentó
-- Los niños simplemente crecieron y su nutrición mejoró naturalmente
+- Los niños crecieron y su nutrición mejoró naturalmente
 
 ::: {.callout-warning}
-## El error de atribución
+## Error de atribución
 Comparar el "antes" con el "después" en los beneficiarios **no** es suficiente para medir el impacto de un programa. Muchos cambios habrían ocurrido de todos modos, con o sin el programa.
 :::
 
@@ -78,7 +78,7 @@ Existen dos grandes familias de enfoques:
 
 ### Métodos cuantitativos
 
-Construyen el contrafactual usando un **grupo de comparación** — personas, comunidades o instituciones similares a las que recibieron el programa, pero que no lo recibieron. La clave está en que ambos grupos sean lo más parecidos posible, de modo que la única diferencia relevante sea haber participado o no en el programa.
+Construyen el contrafactual usando un grupo de comparación: personas, comunidades o instituciones similares a las que recibieron el programa, pero que no lo recibieron. La clave está en que ambos grupos sean lo más parecidos posible, de modo que la única diferencia relevante sea haber participado o no en el programa (@gerber2012; @gertler2016).
 
 | Método | Idea central | Capítulo |
 |--------|-------------|----------|
@@ -92,7 +92,7 @@ Construyen el contrafactual usando un **grupo de comparación** — personas, co
 
 ### Métodos cualitativos y participativos
 
-Construyen el contrafactual o la explicación causal a través del **análisis de mecanismos**, la **triangulación de evidencia** o la **participación de actores clave**. Son especialmente útiles cuando:
+Construyen el contrafactual o la explicación causal a través del **análisis de mecanismos**, la **triangulación de evidencia** o la **participación de actores clave** (@befani2016; @white2009). Son especialmente útiles cuando:
 
 - El programa opera en contextos complejos con múltiples actores
 - No es posible o ético tener un grupo de comparación
@@ -172,4 +172,5 @@ knitr::kable(resumen,
              col.names = c("Concepto", "Definición"))
 ```
 
-En el siguiente capítulo aprenderá a construir una **teoría de cambio**, que es el primer paso para diseñar cualquier evaluación: entender *cómo* se supone que su programa genera impacto.
+En el siguiente capítulo aprenderá a construir una **teoría de cambio**, un paso fundamental para diseñar cualquier evaluación, pues permite comprender *cómo* se espera que el programa genere impacto.
+
