@@ -106,7 +106,7 @@ El coeficiente $\beta_1$ es el efecto causal estimado del tratamiento sobre el r
 ## LATE: el efecto local
 El estimador IV no recupera el efecto promedio del tratamiento (ATE) para toda la población. Lo que estima es el **Efecto Promedio Local del Tratamiento** (LATE): el efecto para las personas cuyo comportamiento cambió gracias al instrumento --- los llamados **cumplidores** (*compliers*) [@bernal2011].
 
-En general, en presencia de cumplimiento imperfecto, los métodos estándar de evaluación de impacto producen estimaciones de **intención de tratar** (*intention-to-treat*, ITT). Sin embargo, las estimaciones del **efecto del tratamiento sobre los tratados** (*treatment-on-the-treated*, TOT) pueden recuperarse mediante el enfoque de variables instrumentales [@gertler2016impact]. La relación es directa: el estimador IV equivale a dividir el efecto ITT por la tasa de cumplimiento, lo que permite aislar el efecto causal sobre quienes efectivamente participaron en el programa.
+En general, en presencia de cumplimiento imperfecto, los métodos estándar de evaluación de impacto producen estimaciones de **intención de tratar** (*intention-to-treat*, ITT). Sin embargo, las estimaciones del **efecto del tratamiento sobre los tratados** (*treatment-on-the-treated*, ToT) pueden recuperarse mediante el enfoque de variables instrumentales [@gertler2016impact]. La relación es directa: el estimador IV equivale a dividir el efecto ITT por la tasa de cumplimiento, lo que permite aislar el efecto causal sobre quienes efectivamente participaron en el programa.
 :::
 
 ## Tipos de individuos en IV

@@ -305,16 +305,16 @@ Solo código. Al final, en una frase, dime cuándo la atrición sería preocupan
 
 **Lo que verifica:** que la decisión de responder no esté sistemáticamente relacionada con el tratamiento. Si el coeficiente de `tratamiento` es significativo, hay atrición diferencial y los resultados ITT pueden estar sesgados.
 
-### Prompt RCT.3 — ITT y TOT (cumplimiento imperfecto)
+### Prompt RCT.3 — ITT y ToT (cumplimiento imperfecto)
 
 ::: {.prompt-block}
 Con `datos`, asume que la columna `tomo_brigada` (1/0) indica cumplimiento efectivo y `tratamiento` indica asignación aleatoria. Genera un script en R que estime:
 
 1. **ITT** (efecto de la asignación): `lm(tasa_vacunacion ~ tratamiento + covariables)` con errores robustos (`sandwich::vcovHC`).
-2. **TOT/LATE** (efecto del cumplimiento) usando 2SLS con `tratamiento` como instrumento de `tomo_brigada`: `AER::ivreg(tasa_vacunacion ~ tomo_brigada + covariables | tratamiento + covariables)`.
+2. **ToT/LATE** (efecto del cumplimiento) usando 2SLS con `tratamiento` como instrumento de `tomo_brigada`: `AER::ivreg(tasa_vacunacion ~ tomo_brigada + covariables | tratamiento + covariables)`.
 3. Una tabla comparativa con `modelsummary::modelsummary()` con ambos modelos lado a lado.
 
-Solo código. Al final, en una sola frase, recuérdame por qué TOT > ITT en valor absoluto cuando hay incumplimiento parcial.
+Solo código. Al final, en una sola frase, recuérdame por qué ToT > ITT en valor absoluto cuando hay incumplimiento parcial.
 :::
 
 ### Prompt RCT.4 — Heterogeneidad y forest plot
@@ -346,52 +346,6 @@ Redacta para un alcalde sin formación estadística:
 3. Una **recomendación accionable** en una oración.
 
 Sin jerga. No uses "p-valor" ni "intervalo de confianza" sin traducirlos.
-:::
-
-### Prompt RCT.6 — Aleatorización restringida sin perder validez
-
-::: {.prompt-block}
-Tengo una base de línea base llamada `datos_base` y quiero asignar tratamiento de manera aleatoria, pero evitando diferencias iniciales muy grandes entre tratamiento y control.
-
-Genera código en R que:
-
-1. Mantenga aproximadamente la mitad de la muestra en tratamiento y la mitad en control.
-2. Repita la aleatorización hasta encontrar una asignación con buen balance en estas covariables:
-
-```
-covariables <- c("tasa_vacunacion_base", "distancia_centro_salud",
-                 "poblacion", "pobreza", "cobertura_internet")
-```
-
-3. Calcule diferencias medias estandarizadas firmadas para cada covariable.
-4. Acepte una asignación si el máximo `abs(SMD)` está entre 0.06 y 0.12, para que el balance sea razonable sin quedar artificialmente perfecto.
-5. Guarde la semilla, el número de intentos, el máximo desbalance encontrado y una tabla de balance antes de iniciar el programa.
-6. Incluya una advertencia clara: solo se deben usar variables medidas antes del tratamiento, nunca variables de resultado posteriores.
-
-Después del código, explica en tres frases por qué pequeñas diferencias iniciales son normales en un RCT y por qué no se debe buscar que todas las diferencias sean exactamente cero.
-:::
-
-### Prompt RCT.7 — Paquete de gráficos y tablas para informe
-
-::: {.prompt-block}
-Con una base RCT llamada `datos_rct`, crea un script completo en R para exportar resultados listos para un artículo o informe técnico.
-
-El script debe:
-
-1. Crear la carpeta `plots/` si no existe y exportar en PNG:
-   - `rct_love_plot.png`: love plot firmado en porcentaje, con puntos de tratamiento-control cercanos a cero y líneas verticales en -10%, 0 y 10%.
-   - `rct_outcome_distribution.png`: distribución del resultado final por grupo.
-   - `rct_pre_post_change.png`: medias pre y post por grupo con IC95%.
-   - `rct_itt_coefficients.png`: coeficientes del efecto del tratamiento en 3 especificaciones.
-   - `rct_heterogeneity_forest.png`: forest plot por subgrupos relevantes.
-2. Crear la carpeta `tables/` si no existe y exportar en PNG:
-   - tabla descriptiva de línea base por tratamiento y control;
-   - tabla de balance con SMD y p-valores;
-   - tabla de regresiones tipo artículo, similar a Stargazer, con errores estándar en paréntesis, estrellas de significancia, N y R2.
-3. Usar un diseño limpio: fondo blanco, tipografía legible, títulos cortos y notas metodológicas al pie.
-4. Comentar brevemente cada bloque del script.
-
-Usa paquetes comunes (`dplyr`, `ggplot2`, `modelsummary`, `gt`, `webshot2` o alternativa equivalente). Si falta algún paquete, incluye una línea opcional para instalarlo, pero no la ejecutes automáticamente.
 :::
 
 ---

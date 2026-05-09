@@ -9,7 +9,7 @@ Este anexo contiene el código R completo para el taller práctico del método M
 
 ::: {.callout-note}
 ## Sobre este taller
-Vamos a trabajar con datos **simulados** de un programa de microfinanzas que otorgó microcréditos a 100 personas. Otras 100 personas no participaron. El resultado de interés es el ingreso mensual. Los participantes se autoseleccionaron: personas con más educación, más jóvenes, con mayor ingreso previo y de zona urbana tenían mayor probabilidad de participar.
+Vamos a trabajar con datos **simulados** de un programa de microfinanzas. La participación fue **voluntaria**: personas más educadas, más jóvenes, con más experiencia laboral, mayor ingreso previo y de zona urbana se inscribieron con mayor probabilidad. El resultado de interés es el ingreso mensual posterior al programa. Tenemos 600 personas (más controles que tratados, como suele ocurrir en programas observacionales).
 :::
 
 ### Paso 1: Crear los datos simulados
@@ -24,51 +24,60 @@ library(ggplot2)
 
 set.seed(42)
 
-n <- 200
+n <- 600   # Pool grande con autoselección al programa
 
-# Covariables
-educacion <- round(rnorm(n, mean = 10, sd = 3))
-educacion <- pmax(educacion, 4)
-edad <- round(rnorm(n, mean = 35, sd = 10))
-edad <- pmax(edad, 18)
-ingreso_previo <- round(rnorm(n, mean = 800, sd = 200))
-ingreso_previo <- pmax(ingreso_previo, 300)
-urbano <- rbinom(n, 1, 0.5)
+# ---- Covariables observables ----
+educacion         <- pmax(round(rnorm(n, 10, 3)), 4)        # años
+edad              <- pmax(round(rnorm(n, 35, 10)), 18)       # años
+ingreso_previo    <- pmax(round(rnorm(n, 800, 200)), 300)    # USD
+experiencia_anios <- pmax(round(rnorm(n, 8, 4)), 0)          # años
+n_hijos           <- pmax(rpois(n, 2), 0)                    # conteo
+urbano            <- rbinom(n, 1, 0.55)                      # binaria
+casado            <- rbinom(n, 1, 0.50)                      # binaria
 
-# Selección al tratamiento (sesgo: más probable si joven, educado, urbano, mayor ingreso)
-logit_p <- -3 + 0.15 * educacion + (-0.03) * edad +
-  0.002 * ingreso_previo + 0.8 * urbano
+# ---- Autoselección al programa ----
+# Coeficientes calibrados para que el ANTES tenga SMDs grandes (0.3–0.7),
+# pero con suficiente solapamiento para que el matching las pueda igualar
+# (DESPUÉS cerca de 0). El intercepto fija ~30% de tratados.
+logit_p <- -0.9 +
+  0.20 * scale(educacion)[, 1] +
+  -0.25 * scale(edad)[, 1] +
+  0.30 * scale(ingreso_previo)[, 1] +
+  0.15 * scale(experiencia_anios)[, 1] +
+  -0.20 * scale(n_hijos)[, 1] +
+  0.55 * urbano +
+  0.30 * casado
 prob_tratamiento <- plogis(logit_p)
 tratamiento <- rbinom(n, 1, prob_tratamiento)
 
-# Forzar 100 tratados y 100 controles para el ejemplo
-indices_trat <- which(tratamiento == 1)
-indices_ctrl <- which(tratamiento == 0)
-
-if (length(indices_trat) > 100) {
-  remover <- sample(indices_trat, length(indices_trat) - 100)
-  tratamiento[remover] <- 0
-} else if (length(indices_trat) < 100) {
-  agregar <- sample(indices_ctrl, 100 - length(indices_trat))
-  tratamiento[agregar] <- 1
-}
-
-# Resultado: ingreso mensual (efecto real del programa = 150)
+# ---- Resultado: ingreso mensual (efecto real = 150 USD) ----
 efecto_real <- 150
-ingreso <- 500 + 30 * educacion + (-2) * edad + 0.4 * ingreso_previo +
-  100 * urbano + efecto_real * tratamiento + rnorm(n, 0, 120)
+ingreso <- 500 +
+  30 * educacion +
+  -2 * edad +
+  0.4 * ingreso_previo +
+  20 * experiencia_anios +
+  -25 * n_hijos +
+  100 * urbano +
+  efecto_real * tratamiento +
+  rnorm(n, 0, 120)
 
 datos <- data.frame(
-  id = sprintf("ID_%03d", 1:n),
-  tratamiento = tratamiento,
-  ingreso = round(ingreso),
-  educacion = educacion,
-  edad = edad,
-  ingreso_previo = ingreso_previo,
-  urbano = urbano
+  id                = sprintf("ID_%03d", 1:n),
+  tratamiento       = tratamiento,
+  ingreso           = round(ingreso),
+  educacion         = educacion,
+  edad              = edad,
+  ingreso_previo    = ingreso_previo,
+  experiencia_anios = experiencia_anios,
+  n_hijos           = n_hijos,
+  urbano            = urbano,
+  casado            = casado
 )
 
-head(datos, 10)
+cat("Tratados:", sum(datos$tratamiento),
+    "  Controles:", sum(datos$tratamiento == 0), "\n")
+head(datos, 6)
 ```
 
 ### Paso 2: Comparación naive (sesgada)
@@ -98,8 +107,9 @@ La diferencia naive sobreestima el efecto real porque los participantes ya tení
 #| fig-cap: "Distribución del propensity score por grupo"
 #| code-fold: false
 
-modelo_ps <- glm(tratamiento ~ educacion + edad + ingreso_previo + urbano,
-                  data = datos, family = binomial)
+modelo_ps <- glm(tratamiento ~ educacion + edad + ingreso_previo +
+                                experiencia_anios + n_hijos + urbano + casado,
+                 data = datos, family = binomial)
 
 datos$ps <- predict(modelo_ps, type = "response")
 
@@ -122,13 +132,17 @@ ggplot(datos, aes(x = ps, fill = factor(tratamiento,
 #| label: matching-matchit
 #| code-fold: false
 
-m_out <- matchit(tratamiento ~ educacion + edad + ingreso_previo + urbano,
-                  data = datos,
-                  method = "nearest",
-                  distance = "glm",
-                  ratio = 1)
+set.seed(2024)
+m_out <- matchit(tratamiento ~ educacion + edad + ingreso_previo +
+                                experiencia_anios + n_hijos + urbano + casado,
+                 data     = datos,
+                 method   = "nearest",
+                 distance = "glm",
+                 caliper  = 0.2,        # SD del logit(PS) — Austin (2011)
+                 ratio    = 1,
+                 estimand = "ATT")
 
-summary(m_out)
+summary(m_out, un = TRUE)
 ```
 
 ### Paso 5: Verificar balance (Love plot)
@@ -136,6 +150,7 @@ summary(m_out)
 ```{r}
 #| label: fig-matching-love-taller
 #| fig-cap: "Love plot: balance de covariables antes y después del matching"
+#| fig-height: 5
 #| code-fold: false
 
 library(cobalt)
@@ -144,21 +159,25 @@ love.plot(m_out,
           stats         = "mean.diffs",
           abs           = TRUE,
           binary        = "std",
-          un            = TRUE,                 # mostrar también ANTES del matching
-          drop.distance = TRUE,                 # ocultar el propensity score
+          un            = TRUE,                  # también ANTES del matching
+          drop.distance = TRUE,                  # ocultar el propensity score
           thresholds    = c(m = 0.1),
           colors        = c("#185FA5", "#D85A30"),
-          shapes        = c("circle", "triangle"),
-          sample.names  = c(Unadjusted = "Antes del matching",
-                            Adjusted   = "Después del matching"),
-          var.names     = c(educacion      = "Educación (años)",
-                            edad           = "Edad",
-                            ingreso_previo = "Ingreso previo",
-                            urbano         = "Zona urbana"),
+          shapes        = c("triangle", "circle"),
+          sample.names  = c("Antes del matching",
+                            "Después del matching"),
+          var.names     = c(educacion         = "Educación (años)",
+                            edad              = "Edad",
+                            ingreso_previo    = "Ingreso previo",
+                            experiencia_anios = "Experiencia laboral",
+                            n_hijos           = "N° de hijos",
+                            urbano            = "Zona urbana",
+                            casado            = "Casado/a"),
           title         = "Balance de covariables (Love plot)") +
   theme_minimal(base_size = 13) +
-  theme(legend.position = "bottom",
-        plot.title = element_text(face = "bold"))
+  theme(legend.position  = "right",
+        legend.title     = element_blank(),
+        plot.title       = element_text(face = "bold"))
 ```
 
 ::: {.callout-note}
@@ -166,7 +185,12 @@ love.plot(m_out,
 Cada punto muestra la **diferencia estandarizada de medias** (|SMD|) entre tratados y controles para una covariable. Los puntos **azules** son antes del matching y los **naranjas** después. Un buen matching acerca todos los puntos a cero. La línea vertical punteada (0.1) es el umbral recomendado: covariables por encima de 0.1 después del matching siguen desbalanceadas.
 :::
 
-### Paso 6: Estimar el ATT sobre la muestra emparejada
+### Paso 6: Estimar el ATT (= ToT) sobre la muestra emparejada
+
+::: {.callout-note}
+## Nota de notación
+El parámetro que estima Matching es el **ATT** (*Average Treatment Effect on the Treated*), también llamado **ToT** (*Treatment on the Treated*). Las dos siglas se usan indistintamente en la literatura: ambas designan el efecto promedio sobre **quienes efectivamente recibieron** el programa, no sobre toda la población. Para una discusión sobre la diferencia entre ATT/ToT, ATE e ITT, consulte la sección "Efecto promedio del tratamiento" del [capítulo de introducción cuantitativa](03-intro-cuantitativa.qmd).
+:::
 
 ```{r}
 #| label: matching-att
@@ -174,16 +198,16 @@ Cada punto muestra la **diferencia estandarizada de medias** (|SMD|) entre trata
 
 datos_matched <- match.data(m_out)
 
-modelo_att <- lm(ingreso ~ tratamiento + educacion + edad +
-                   ingreso_previo + urbano,
-                 data = datos_matched,
+modelo_att <- lm(ingreso ~ tratamiento + educacion + edad + ingreso_previo +
+                   experiencia_anios + n_hijos + urbano + casado,
+                 data    = datos_matched,
                  weights = weights)
 
 resultado <- summary(modelo_att)
 coef_trat <- resultado$coefficients["tratamiento", ]
 
 cat("========================================\n")
-cat("Efecto estimado (ATT):", round(coef_trat[1]), "\n")
+cat("Efecto estimado (ATT = ToT):", round(coef_trat[1]), "\n")
 cat("Error estándar:", round(coef_trat[2], 1), "\n")
 cat("Valor p:", round(coef_trat[4], 4), "\n")
 cat("IC 95%: [", round(coef_trat[1] - 1.96 * coef_trat[2]),

@@ -1,4 +1,4 @@
-# Propensity Score Matching {#sec-matching}
+# Matching y Propensity Score {#sec-matching}
 
 ## A. Teoría y explicación {#sec-matching-teoria}
 
@@ -48,51 +48,90 @@ Se estima típicamente con una regresión logística. @rosenbaum1983 demostraron
 
 ```{r}
 #| label: fig-matching-propensity
-#| fig-cap: "Distribución del propensity score antes y después del matching"
+#| fig-cap: "Propensity Score Matching: distribución del PS antes y después del emparejamiento"
 #| echo: false
+#| fig-height: 5
 
 library(ggplot2)
+library(dplyr)
 
 set.seed(42)
-n <- 300
+n_t <- 300
+n_c <- 600  # más controles que tratados (típico en PSM)
 
-# Simular propensity scores con diferente distribución por grupo
-ps_tratamiento <- rbeta(n, 5, 2)
-ps_control <- rbeta(n, 2, 5)
+# ---- ANTES del matching: distribuciones desplazadas ----
+ps_t_pre <- rbeta(n_t, 5, 2)   # tratados concentrados en PS alto
+ps_c_pre <- rbeta(n_c, 2, 5)   # controles concentrados en PS bajo
 
-# Después del matching: distribuciones más parecidas
-ps_control_matched <- sample(ps_control[ps_control > 0.25 & ps_control < 0.85],
-                              size = 120, replace = TRUE)
-ps_trat_matched <- sample(ps_tratamiento[ps_tratamiento > 0.25 & ps_tratamiento < 0.85],
-                           size = 120, replace = TRUE)
+# ---- DESPUÉS del matching: por cada tratado en el soporte común,
+#      se busca el control con PS más cercano (1:1, sin reemplazo) ----
+li <- max(min(ps_t_pre), min(ps_c_pre))
+ls <- min(max(ps_t_pre), max(ps_c_pre))
+trat_sc <- sort(ps_t_pre[ps_t_pre >= li & ps_t_pre <= ls])
+ctrl_pool <- ps_c_pre[ps_c_pre >= li & ps_c_pre <= ls]
 
-datos_ps <- data.frame(
-  ps = c(ps_tratamiento, ps_control, ps_trat_matched, ps_control_matched),
-  grupo = c(rep("Tratamiento", n), rep("Control", n),
-            rep("Tratamiento", 120), rep("Control", 120)),
-  etapa = c(rep("Antes del matching", 2 * n),
-            rep("Después del matching", 240))
-)
-datos_ps$etapa <- factor(datos_ps$etapa,
-                          levels = c("Antes del matching", "Después del matching"))
+ctrl_matched <- numeric(0)
+trat_matched <- numeric(0)
+disponibles <- rep(TRUE, length(ctrl_pool))
+caliper <- 0.05
+for (p in trat_sc) {
+  d <- abs(ctrl_pool - p)
+  d[!disponibles] <- Inf
+  if (min(d) <= caliper) {
+    j <- which.min(d)
+    trat_matched <- c(trat_matched, p)
+    ctrl_matched <- c(ctrl_matched, ctrl_pool[j])
+    disponibles[j] <- FALSE
+  }
+}
+
+datos_ps <- bind_rows(
+  data.frame(ps = ps_t_pre,     grupo = "Tratamiento",
+             etapa = "Antes del matching"),
+  data.frame(ps = ps_c_pre,     grupo = "Control",
+             etapa = "Antes del matching"),
+  data.frame(ps = trat_matched, grupo = "Tratamiento",
+             etapa = "Después del matching"),
+  data.frame(ps = ctrl_matched, grupo = "Control",
+             etapa = "Después del matching")
+) |>
+  mutate(etapa = factor(etapa,
+                        levels = c("Antes del matching",
+                                   "Después del matching")))
+
+# Líneas para marcar el soporte común en el panel "antes"
+sc_lines <- data.frame(etapa = factor("Antes del matching",
+                                      levels = levels(datos_ps$etapa)),
+                       x = c(li, ls))
 
 ggplot(datos_ps, aes(x = ps, fill = grupo)) +
-  geom_density(alpha = 0.5, color = NA) +
-  facet_wrap(~etapa, ncol = 1) +
-  scale_fill_manual(values = c("Control" = "#185FA5",
-                                "Tratamiento" = "#D85A30")) +
+  geom_density(alpha = 0.55, color = NA) +
+  geom_vline(data = sc_lines, aes(xintercept = x),
+             linetype = "dashed", color = "grey30", linewidth = 0.4) +
+  facet_wrap(~etapa, ncol = 1, scales = "free_y") +
+  scale_fill_manual(values = c("Control"     = "#185FA5",
+                               "Tratamiento" = "#D85A30")) +
+  scale_x_continuous(limits = c(0, 1),
+                     breaks = seq(0, 1, 0.25)) +
   labs(x = "Propensity score estimado", y = "Densidad",
        fill = NULL,
-       title = "Soporte común: distribuciones del propensity score") +
+       title = "Propensity Score Matching",
+       subtitle = paste0(
+         "Antes: distribuciones desplazadas (líneas marcan el soporte común). ",
+         "Después: ", length(trat_matched),
+         " pares con PS prácticamente idéntico.")) +
   theme_minimal(base_size = 13) +
   theme(legend.position = "bottom",
         plot.title = element_text(face = "bold"),
-        strip.text = element_text(face = "bold"))
+        plot.subtitle = element_text(color = "grey30",
+                                     margin = margin(b = 8)),
+        strip.text = element_text(face = "bold"),
+        panel.spacing = unit(1, "lines"))
 ```
 
 ### La fórmula del efecto
 
-El efecto promedio del tratamiento sobre los tratados (**ATT**) se estima como:
+El efecto promedio del tratamiento sobre los tratados, conocido indistintamente como **ATT** (*Average Treatment Effect on the Treated*) o **ToT** (*Treatment on the Treated*), se estima como:
 
 $$
 \widehat{ATT} = \frac{1}{N_T} \sum_{i: T_i=1} \left[ Y_i - \hat{Y}_i^{(0)} \right]
@@ -172,16 +211,16 @@ Cuando se dispone de datos de línea base, combinar matching con Diferencias en 
 
 ::: {.callout-tip}
 ## Código y práctica
-Para el taller práctico con código R de este método, consulte el [Anexo de código: Propensity Score Matching](anexo-codigo-matching.qmd). Para una guía paso a paso de cómo usar IA para ejecutar este análisis, consulte la [Parte 6: Cómo hablar con la IA](06-guia-ia.qmd).
+Para el taller práctico con código R de este método, consulte el [Anexo de código: Matching y Propensity Score](anexo-codigo-matching.qmd). Para una guía paso a paso de cómo usar IA para ejecutar este análisis, consulte la [Parte 6: Cómo hablar con la IA](06-guia-ia.qmd).
 :::
 
 ::: {.callout-tip}
 ## Recursos recomendados
-Para profundizar en propensity score matching, se recomiendan las siguientes referencias:
+Para profundizar en matching y propensity score, se recomiendan las siguientes referencias:
 
 - @gertler2016impact, capítulos 7 y 8, para una explicación detallada de matching, propensity score y su combinación con otros métodos.
 - @rosenbaum1983, el artículo fundacional que demuestra las propiedades del propensity score.
 - @khandker2009, para una guía práctica de métodos de evaluación de impacto incluyendo matching.
 - La documentación del paquete [MatchIt](https://kosukeimai.github.io/MatchIt/) para la implementación en R.
-- @huntingtonklein2022 (*The Effect*, Cap. 14): exposición intuitiva de propensity score matching, con énfasis en las limitaciones del supuesto de selección en observables.
+- @huntingtonklein2022 (*The Effect*, Cap. 14): exposición intuitiva de matching y propensity score, con énfasis en las limitaciones del supuesto de selección en observables.
 :::

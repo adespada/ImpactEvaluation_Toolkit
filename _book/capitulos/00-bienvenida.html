@@ -437,7 +437,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/03-matching.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Matching y Propensity Score</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Propensity Score Matching</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -496,25 +496,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/04-contribution-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Contribution Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Contribution Analysis (CA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/04-process-tracing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Process Tracing</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../capitulos/04-qca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Qualitative Comparative Analysis (QCA)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Process Tracing (PT)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/04-quip.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Qualitative Impact Protocol (QuIP)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Qualitative Impact Protocol (QuIP)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-qca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Qualitative Comparative Analysis (QCA)</span></span></a>
   </div>
 </li>
       </ul>
@@ -551,7 +551,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
- <span class="menu-text">Cómo hablar con la IA y anexos de código</span></a>
+ <span class="menu-text">Anexo: IA</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -668,10 +668,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <details class="code-fold">
 <summary>Mostrar código R</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1"></a>flowchart LR</span>
-<span id="cb1-2"><a href="#cb1-2"></a>    A["🎯 Diseño\n(Teoría de cambio,\nindicadores)"] --&gt; B["⚙️ Implementación\n(Ejecución del\nprograma)"]</span>
-<span id="cb1-3"><a href="#cb1-3"></a>    B --&gt; C["📊 Monitoreo\n(Recolección\nde datos)"]</span>
-<span id="cb1-4"><a href="#cb1-4"></a>    C --&gt; D["🔍 Evaluación\n(Análisis de\nimpacto)"]</span>
-<span id="cb1-5"><a href="#cb1-5"></a>    D --&gt; E["💡 Aprendizaje\n(Ajustes y\nmejoras)"]</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    A["Diseño&lt;br/&gt;(Teoría de cambio,&lt;br/&gt;indicadores)"] --&gt; B["Implementación&lt;br/&gt;(Ejecución del&lt;br/&gt;programa)"]</span>
+<span id="cb1-3"><a href="#cb1-3"></a>    B --&gt; C["Monitoreo&lt;br/&gt;(Recolección&lt;br/&gt;de datos)"]</span>
+<span id="cb1-4"><a href="#cb1-4"></a>    C --&gt; D["Evaluación&lt;br/&gt;(Análisis de&lt;br/&gt;impacto)"]</span>
+<span id="cb1-5"><a href="#cb1-5"></a>    D --&gt; E["Aprendizaje&lt;br/&gt;(Ajustes y&lt;br/&gt;mejoras)"]</span>
 <span id="cb1-6"><a href="#cb1-6"></a>    E --&gt; A</span>
 <span id="cb1-7"><a href="#cb1-7"></a></span>
 <span id="cb1-8"><a href="#cb1-8"></a>    style A fill:#E8F4FD,stroke:#185FA5,color:#000</span>
@@ -686,10 +686,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div aria-describedby="fig-ciclo-programa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
 <pre class="mermaid mermaid-js" data-label="fig-ciclo-programa">flowchart LR
-    A["🎯 Diseño\n(Teoría de cambio,\nindicadores)"] --&gt; B["⚙️ Implementación\n(Ejecución del\nprograma)"]
-    B --&gt; C["📊 Monitoreo\n(Recolección\nde datos)"]
-    C --&gt; D["🔍 Evaluación\n(Análisis de\nimpacto)"]
-    D --&gt; E["💡 Aprendizaje\n(Ajustes y\nmejoras)"]
+    A["Diseño&lt;br/&gt;(Teoría de cambio,&lt;br/&gt;indicadores)"] --&gt; B["Implementación&lt;br/&gt;(Ejecución del&lt;br/&gt;programa)"]
+    B --&gt; C["Monitoreo&lt;br/&gt;(Recolección&lt;br/&gt;de datos)"]
+    C --&gt; D["Evaluación&lt;br/&gt;(Análisis de&lt;br/&gt;impacto)"]
+    D --&gt; E["Aprendizaje&lt;br/&gt;(Ajustes y&lt;br/&gt;mejoras)"]
     E --&gt; A
 
     style A fill:#E8F4FD,stroke:#185FA5,color:#000
@@ -844,13 +844,6 @@ Tabla&nbsp;1.1: Estructura del toolkit
 <div class="callout-body-container callout-body">
 <p>Secciones donde se proporcionan prompts estructurados para que una inteligencia artificial (como Claude, ChatGPT u otra) le ayude a ejecutar análisis paso a paso. Estas secciones aparecen en los capítulos de métodos (Partes 3-5).</p>
 </div>
-</div>
-<p>Además, en los capítulos de métodos encontrará:</p>
-<div class="prompt-block">
-<p>Bloques como este contienen <strong>prompts sugeridos</strong> que puede copiar y pegar directamente en una herramienta de IA para obtener ayuda con su análisis.</p>
-</div>
-<div class="respuesta-ia">
-<p>Bloques como este muestran <strong>ejemplos de respuestas</strong> que debería esperar de la IA, para que pueda verificar que el resultado tiene sentido.</p>
 </div>
 </section>
 <section id="código-r" class="level2" data-number="1.5">
@@ -1390,10 +1383,10 @@ Tabla&nbsp;1.1: Estructura del toolkit
 <span id="cb2-22"><a href="#cb2-22"></a>%%| label: fig-ciclo-programa</span>
 <span id="cb2-23"><a href="#cb2-23"></a></span>
 <span id="cb2-24"><a href="#cb2-24"></a>flowchart LR</span>
-<span id="cb2-25"><a href="#cb2-25"></a>    A[<span class="ot">"</span><span class="st">🎯 Diseño</span><span class="ch">\n</span><span class="st">(Teoría de cambio,</span><span class="ch">\n</span><span class="st">indicadores)</span><span class="ot">"</span>] --&gt; B[<span class="ot">"</span><span class="st">⚙️ Implementación</span><span class="ch">\n</span><span class="st">(Ejecución del</span><span class="ch">\n</span><span class="st">programa)</span><span class="ot">"</span>]</span>
-<span id="cb2-26"><a href="#cb2-26"></a>    B --&gt; C[<span class="ot">"</span><span class="st">📊 Monitoreo</span><span class="ch">\n</span><span class="st">(Recolección</span><span class="ch">\n</span><span class="st">de datos)</span><span class="ot">"</span>]</span>
-<span id="cb2-27"><a href="#cb2-27"></a>    C --&gt; D[<span class="ot">"</span><span class="st">🔍 Evaluación</span><span class="ch">\n</span><span class="st">(Análisis de</span><span class="ch">\n</span><span class="st">impacto)</span><span class="ot">"</span>]</span>
-<span id="cb2-28"><a href="#cb2-28"></a>    D --&gt; E[<span class="ot">"</span><span class="st">💡 Aprendizaje</span><span class="ch">\n</span><span class="st">(Ajustes y</span><span class="ch">\n</span><span class="st">mejoras)</span><span class="ot">"</span>]</span>
+<span id="cb2-25"><a href="#cb2-25"></a>    A[<span class="ot">"</span><span class="st">Diseño&lt;br/&gt;(Teoría de cambio,&lt;br/&gt;indicadores)</span><span class="ot">"</span>] --&gt; B[<span class="ot">"</span><span class="st">Implementación&lt;br/&gt;(Ejecución del&lt;br/&gt;programa)</span><span class="ot">"</span>]</span>
+<span id="cb2-26"><a href="#cb2-26"></a>    B --&gt; C[<span class="ot">"</span><span class="st">Monitoreo&lt;br/&gt;(Recolección&lt;br/&gt;de datos)</span><span class="ot">"</span>]</span>
+<span id="cb2-27"><a href="#cb2-27"></a>    C --&gt; D[<span class="ot">"</span><span class="st">Evaluación&lt;br/&gt;(Análisis de&lt;br/&gt;impacto)</span><span class="ot">"</span>]</span>
+<span id="cb2-28"><a href="#cb2-28"></a>    D --&gt; E[<span class="ot">"</span><span class="st">Aprendizaje&lt;br/&gt;(Ajustes y&lt;br/&gt;mejoras)</span><span class="ot">"</span>]</span>
 <span id="cb2-29"><a href="#cb2-29"></a>    E --&gt; A</span>
 <span id="cb2-30"><a href="#cb2-30"></a></span>
 <span id="cb2-31"><a href="#cb2-31"></a>    style A fill:<span class="co">#E8F4FD,stroke:#185FA5,color:#000</span></span>
@@ -1452,32 +1445,22 @@ Tabla&nbsp;1.1: Estructura del toolkit
 <span id="cb2-84"><a href="#cb2-84"></a>Secciones donde se proporcionan prompts estructurados para que una inteligencia artificial (como Claude, ChatGPT u otra) le ayude a ejecutar análisis paso a paso. Estas secciones aparecen en los capítulos de métodos (Partes 3-5).</span>
 <span id="cb2-85"><a href="#cb2-85"></a>:::</span>
 <span id="cb2-86"><a href="#cb2-86"></a></span>
-<span id="cb2-87"><a href="#cb2-87"></a>Además, en los capítulos de métodos encontrará:</span>
+<span id="cb2-87"><a href="#cb2-87"></a><span class="fu">## Código R</span></span>
 <span id="cb2-88"><a href="#cb2-88"></a></span>
-<span id="cb2-89"><a href="#cb2-89"></a>::: {.prompt-block}</span>
-<span id="cb2-90"><a href="#cb2-90"></a>Bloques como este contienen **prompts sugeridos** que puede copiar y pegar directamente en una herramienta de IA para obtener ayuda con su análisis.</span>
-<span id="cb2-91"><a href="#cb2-91"></a>:::</span>
+<span id="cb2-89"><a href="#cb2-89"></a>Los capítulos de métodos incluyen código en **R** para ilustrar los análisis. Por defecto, el código aparece plegado — haga clic en "Mostrar código R" para verlo. Si no tiene experiencia con R, las secciones de Guía IA le enseñan a usar prompts para que la IA genere y explique el código por usted.</span>
+<span id="cb2-90"><a href="#cb2-90"></a></span>
+<span id="cb2-91"><a href="#cb2-91"></a><span class="fu">## Requisitos técnicos</span></span>
 <span id="cb2-92"><a href="#cb2-92"></a></span>
-<span id="cb2-93"><a href="#cb2-93"></a>::: {.respuesta-ia}</span>
-<span id="cb2-94"><a href="#cb2-94"></a>Bloques como este muestran **ejemplos de respuestas** que debería esperar de la IA, para que pueda verificar que el resultado tiene sentido.</span>
-<span id="cb2-95"><a href="#cb2-95"></a>:::</span>
-<span id="cb2-96"><a href="#cb2-96"></a></span>
-<span id="cb2-97"><a href="#cb2-97"></a><span class="fu">## Código R</span></span>
+<span id="cb2-93"><a href="#cb2-93"></a>Para aprovechar al máximo este toolkit:</span>
+<span id="cb2-94"><a href="#cb2-94"></a></span>
+<span id="cb2-95"><a href="#cb2-95"></a><span class="ss">- </span>**Mínimo:** Un navegador web moderno para leer la guía y usar la herramienta de autodiagnóstico interactiva.</span>
+<span id="cb2-96"><a href="#cb2-96"></a><span class="ss">- </span>**Recomendado:** <span class="co">[</span><span class="ot">R</span><span class="co">](https://cran.r-project.org/)</span> y <span class="co">[</span><span class="ot">RStudio</span><span class="co">](https://posit.co/download/rstudio-desktop/)</span> instalados para ejecutar los talleres prácticos.</span>
+<span id="cb2-97"><a href="#cb2-97"></a><span class="ss">- </span>**Opcional:** Acceso a una herramienta de IA (Claude, ChatGPT u otra) para usar las guías de prompts.</span>
 <span id="cb2-98"><a href="#cb2-98"></a></span>
-<span id="cb2-99"><a href="#cb2-99"></a>Los capítulos de métodos incluyen código en **R** para ilustrar los análisis. Por defecto, el código aparece plegado — haga clic en "Mostrar código R" para verlo. Si no tiene experiencia con R, las secciones de Guía IA le enseñan a usar prompts para que la IA genere y explique el código por usted.</span>
-<span id="cb2-100"><a href="#cb2-100"></a></span>
-<span id="cb2-101"><a href="#cb2-101"></a><span class="fu">## Requisitos técnicos</span></span>
-<span id="cb2-102"><a href="#cb2-102"></a></span>
-<span id="cb2-103"><a href="#cb2-103"></a>Para aprovechar al máximo este toolkit:</span>
-<span id="cb2-104"><a href="#cb2-104"></a></span>
-<span id="cb2-105"><a href="#cb2-105"></a><span class="ss">- </span>**Mínimo:** Un navegador web moderno para leer la guía y usar la herramienta de autodiagnóstico interactiva.</span>
-<span id="cb2-106"><a href="#cb2-106"></a><span class="ss">- </span>**Recomendado:** <span class="co">[</span><span class="ot">R</span><span class="co">](https://cran.r-project.org/)</span> y <span class="co">[</span><span class="ot">RStudio</span><span class="co">](https://posit.co/download/rstudio-desktop/)</span> instalados para ejecutar los talleres prácticos.</span>
-<span id="cb2-107"><a href="#cb2-107"></a><span class="ss">- </span>**Opcional:** Acceso a una herramienta de IA (Claude, ChatGPT u otra) para usar las guías de prompts.</span>
-<span id="cb2-108"><a href="#cb2-108"></a></span>
-<span id="cb2-109"><a href="#cb2-109"></a>::: {.callout-tip}</span>
-<span id="cb2-110"><a href="#cb2-110"></a><span class="fu">## No se preocupe por el código</span></span>
-<span id="cb2-111"><a href="#cb2-111"></a>Si no tiene experiencia con R, puede usar las Guías IA de cada capítulo de método. Allí le proporcionamos los prompts exactos para que la IA genere el código por usted, y le explicamos cómo interpretar los resultados.</span>
-<span id="cb2-112"><a href="#cb2-112"></a>:::</span>
+<span id="cb2-99"><a href="#cb2-99"></a>::: {.callout-tip}</span>
+<span id="cb2-100"><a href="#cb2-100"></a><span class="fu">## No se preocupe por el código</span></span>
+<span id="cb2-101"><a href="#cb2-101"></a>Si no tiene experiencia con R, puede usar las Guías IA de cada capítulo de método. Allí le proporcionamos los prompts exactos para que la IA genere el código por usted, y le explicamos cómo interpretar los resultados.</span>
+<span id="cb2-102"><a href="#cb2-102"></a>:::</span>
 </code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

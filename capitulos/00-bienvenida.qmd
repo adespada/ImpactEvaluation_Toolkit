@@ -13,17 +13,17 @@ Una guía práctica que le acompaña desde la planificación de su sistema de mo
 
 ## El ciclo de un programa social
 
-Todo programa social sigue un ciclo que conecta el diseño con el aprendizaje. La evaluación de impacto no es un ejercicio aislado: se prepara desde el diseño y se alimenta del monitoreo continuo.
+Todo programa social sigue un ciclo que conecta el diseño con el aprendizaje. La evaluación de impacto no es un ejercicio aislado al final: se prepara desde el diseño y se alimenta del monitoreo continuo.
 
 ```{mermaid}
 %%| fig-cap: "Ciclo de vida de un programa social"
 %%| label: fig-ciclo-programa
 
 flowchart LR
-    A["🎯 Diseño\n(Teoría de cambio,\nindicadores)"] --> B["⚙️ Implementación\n(Ejecución del\nprograma)"]
-    B --> C["📊 Monitoreo\n(Recolección\nde datos)"]
-    C --> D["🔍 Evaluación\n(Análisis de\nimpacto)"]
-    D --> E["💡 Aprendizaje\n(Ajustes y\nmejoras)"]
+    A["Diseño<br/>(Teoría de cambio,<br/>indicadores)"] --> B["Implementación<br/>(Ejecución del<br/>programa)"]
+    B --> C["Monitoreo<br/>(Recolección<br/>de datos)"]
+    C --> D["Evaluación<br/>(Análisis de<br/>impacto)"]
+    D --> E["Aprendizaje<br/>(Ajustes y<br/>mejoras)"]
     E --> A
 
     style A fill:#E8F4FD,stroke:#185FA5,color:#000
@@ -82,19 +82,9 @@ Advertencias sobre errores frecuentes que se deben evitar. Si los ignora, su eva
 Secciones donde se proporcionan prompts estructurados para que una inteligencia artificial (como Claude, ChatGPT u otra) le ayude a ejecutar análisis paso a paso. Estas secciones aparecen en los capítulos de métodos (Partes 3-5).
 :::
 
-Además, en los capítulos de métodos encontrará:
-
-::: {.prompt-block}
-Bloques como este contienen **prompts sugeridos** que puede copiar y pegar directamente en una herramienta de IA para obtener ayuda con su análisis.
-:::
-
-::: {.respuesta-ia}
-Bloques como este muestran **ejemplos de respuestas** que debería esperar de la IA, para que pueda verificar que el resultado tiene sentido.
-:::
-
 ## Código R
 
-Los capítulos de métodos incluyen código en R para ilustrar los análisis. Por defecto, el código aparece plegado. Haga clic en "Mostrar código R" para verlo.
+Los capítulos de métodos incluyen código en **R** para ilustrar los análisis. Por defecto, el código aparece plegado — haga clic en "Mostrar código R" para verlo. Si no tiene experiencia con R, las secciones de Guía IA le enseñan a usar prompts para que la IA genere y explique el código por usted.
 
 ## Requisitos técnicos
 
@@ -106,5 +96,5 @@ Para aprovechar al máximo este toolkit:
 
 ::: {.callout-tip}
 ## No se preocupe por el código
-Si no tiene experiencia con R, puede usar las Guías IA de cada capítulo. Allí le proporcionamos los prompts exactos para que la IA genere el código por usted, y le explicamos cómo interpretar los resultados.
+Si no tiene experiencia con R, puede usar las Guías IA de cada capítulo de método. Allí le proporcionamos los prompts exactos para que la IA genere el código por usted, y le explicamos cómo interpretar los resultados.
 :::

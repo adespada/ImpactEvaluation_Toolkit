@@ -649,9 +649,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#prompt-5.1-tabla-de-sensibilidad-a-covariables" id="toc-prompt-5.1-tabla-de-sensibilidad-a-covariables" class="nav-link" data-scroll-target="#prompt-5.1-tabla-de-sensibilidad-a-covariables"><span class="header-section-number">27.10.1</span> Prompt 5.1 — Tabla de sensibilidad a covariables</a></li>
   <li><a href="#prompt-5.2-redacción-del-párrafo-de-resultados" id="toc-prompt-5.2-redacción-del-párrafo-de-resultados" class="nav-link" data-scroll-target="#prompt-5.2-redacción-del-párrafo-de-resultados"><span class="header-section-number">27.10.2</span> Prompt 5.2 — Redacción del párrafo de resultados</a></li>
-  <li><a href="#prompt-5.3-convertir-resultados-en-tablas-tipo-artículo" id="toc-prompt-5.3-convertir-resultados-en-tablas-tipo-artículo" class="nav-link" data-scroll-target="#prompt-5.3-convertir-resultados-en-tablas-tipo-artículo"><span class="header-section-number">27.10.3</span> Prompt 5.3 — Convertir resultados en tablas tipo artículo</a></li>
-  <li><a href="#prompt-5.4-gráficos-de-diagnóstico-listos-para-informe" id="toc-prompt-5.4-gráficos-de-diagnóstico-listos-para-informe" class="nav-link" data-scroll-target="#prompt-5.4-gráficos-de-diagnóstico-listos-para-informe"><span class="header-section-number">27.10.4</span> Prompt 5.4 — Gráficos de diagnóstico listos para informe</a></li>
-  <li><a href="#prompt-5.5-revisar-outputs-reales-y-proponer-correcciones" id="toc-prompt-5.5-revisar-outputs-reales-y-proponer-correcciones" class="nav-link" data-scroll-target="#prompt-5.5-revisar-outputs-reales-y-proponer-correcciones"><span class="header-section-number">27.10.5</span> Prompt 5.5 — Revisar outputs reales y proponer correcciones</a></li>
   </ul></li>
   <li><a href="#documentar-el-uso-de-ia-obligatorio" id="toc-documentar-el-uso-de-ia-obligatorio" class="nav-link" data-scroll-target="#documentar-el-uso-de-ia-obligatorio"><span class="header-section-number">27.11</span> Documentar el uso de IA (obligatorio)</a></li>
   <li><a href="#errores-comunes-al-usar-ia-en-evaluación" id="toc-errores-comunes-al-usar-ia-en-evaluación" class="nav-link" data-scroll-target="#errores-comunes-al-usar-ia-en-evaluación"><span class="header-section-number">27.12</span> Errores comunes al usar IA en evaluación</a></li>
@@ -1196,7 +1193,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td>RCT</td>
 <td><a href="../capitulos/anexo-codigo-rct.html">Anexo RCT</a></td>
-<td>Tabla de balance, prueba F conjunta, atrición diferencial, ITT vs.&nbsp;TOT</td>
+<td>Tabla de balance, prueba F conjunta, atrición diferencial, ITT vs.&nbsp;ToT</td>
 </tr>
 <tr class="even">
 <td>DiD</td>
@@ -1276,60 +1273,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Una <strong>recomendación accionable</strong> en una frase: continuar / expandir / modificar / no escalar.</li>
 </ol>
 <p>Tono profesional pero accesible. Sin jerga estadística innecesaria. No menciones “p-valor” ni “intervalo de confianza” sin traducirlo.</p>
-</div>
-</section>
-<section id="prompt-5.3-convertir-resultados-en-tablas-tipo-artículo" class="level3" data-number="27.10.3">
-<h3 data-number="27.10.3" class="anchored" data-anchor-id="prompt-5.3-convertir-resultados-en-tablas-tipo-artículo"><span class="header-section-number">27.10.3</span> Prompt 5.3 — Convertir resultados en tablas tipo artículo</h3>
-<div class="prompt-block">
-<p>Actúa como analista de evaluación de impacto y editor técnico de una revista académica. Ya tengo en R los objetos de modelos:</p>
-<pre><code>[pegue aquí los nombres de los modelos: m1, m2, m3...]</code></pre>
-<p>Genera código en R que produzca una tabla de regresiones tipo <strong>Stargazer / artículo académico</strong>, con estas reglas:</p>
-<ol type="1">
-<li>Columnas numeradas <code>(1)</code>, <code>(2)</code>, <code>(3)</code> y nombre corto de la variable dependiente debajo.</li>
-<li>Coeficientes con estrellas de significancia y errores estándar entre paréntesis en la línea siguiente.</li>
-<li>Filas de <code>Observations</code>, <code>R-squared</code>, covariables, efectos fijos, pesos y tipo de error estándar.</li>
-<li>Nota al pie: <code>Standard errors in parentheses; *** p&lt;0.01, ** p&lt;0.05, * p&lt;0.1</code>.</li>
-<li>Exporta la tabla como PNG en una carpeta <code>tables/</code>, con resolución suficiente para pegar en Word o PowerPoint.</li>
-</ol>
-<p>Usa <code>modelsummary</code>, <code>gt</code>, <code>gtsummary</code> o una solución con <code>grid</code> si exportar con HTML falla. Devuélveme solo código ejecutable y robusto. Al final imprime la ruta del PNG generado.</p>
-</div>
-</section>
-<section id="prompt-5.4-gráficos-de-diagnóstico-listos-para-informe" class="level3" data-number="27.10.4">
-<h3 data-number="27.10.4" class="anchored" data-anchor-id="prompt-5.4-gráficos-de-diagnóstico-listos-para-informe"><span class="header-section-number">27.10.4</span> Prompt 5.4 — Gráficos de diagnóstico listos para informe</h3>
-<div class="prompt-block">
-<p>Tengo una base limpia y un efecto estimado. Genera código en R para crear gráficos diagnósticos listos para informe, siguiendo estos criterios:</p>
-<ol type="1">
-<li>Paleta sobria: control en gris/azul, tratamiento en naranja.</li>
-<li>Título claro, subtítulo interpretativo y ejes en español.</li>
-<li>Intervalos de confianza al 95% cuando haya estimaciones.</li>
-<li>Una línea vertical u horizontal en cero cuando el gráfico muestre efectos.</li>
-<li>Exportar cada gráfico como PNG en <code>plots/</code> con <code>ggsave()</code>.</li>
-</ol>
-<p>Quiero que el código produzca, si aplica al método:</p>
-<ul>
-<li>distribución del resultado por grupo;</li>
-<li>gráfico de balance de covariables;</li>
-<li>gráfico de coeficientes con IC95%;</li>
-<li>forest plot de heterogeneidad;</li>
-<li>tendencias o event study para paneles.</li>
-</ul>
-<p>Antes de escribir código, identifica cuáles de estos gráficos sí aplican al método <code>[RCT / DiD / PSM / IV / RDD]</code> y cuáles no. Luego entrega solo el código.</p>
-</div>
-</section>
-<section id="prompt-5.5-revisar-outputs-reales-y-proponer-correcciones" class="level3" data-number="27.10.5">
-<h3 data-number="27.10.5" class="anchored" data-anchor-id="prompt-5.5-revisar-outputs-reales-y-proponer-correcciones"><span class="header-section-number">27.10.5</span> Prompt 5.5 — Revisar outputs reales y proponer correcciones</h3>
-<div class="prompt-block">
-<p>Actúa como revisor técnico de un análisis de evaluación de impacto. Estos son los outputs que obtuve al correr mi script:</p>
-<pre><code>[pegue aquí consola, tabla de balance, tabla de regresión y advertencias]</code></pre>
-<p>Revisa los resultados y dime:</p>
-<ol type="1">
-<li>Qué señales son tranquilizadoras.</li>
-<li>Qué señales son alertas metodológicas o de calidad de datos.</li>
-<li>Qué cambios harías en el código.</li>
-<li>Qué tablas o gráficos faltan para que el análisis sea defendible.</li>
-<li>Qué conclusión NO debería decir todavía.</li>
-</ol>
-<p>No reescribas todo el análisis. Dame una lista priorizada de mejoras y, para cada una, el fragmento de código mínimo que tendría que cambiar.</p>
 </div>
 <hr>
 </section>
@@ -1890,579 +1833,517 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Ejecutar el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu"># Cómo hablar con la IA para hacer una evaluación de impacto {#sec-guia-ia}</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a>Esta guía está pensada para profesionales que **no saben programar** pero tienen una base de datos y necesitan llevar a cabo una evaluación de impacto. La idea es usar una IA conversacional (Claude, ChatGPT, Gemini, Copilot u otra) como un **asistente de análisis**: alguien que escribe código por usted, le explica resultados y le ayuda a iterar, mientras usted mantiene el juicio profesional sobre el diseño y las conclusiones.</span>
-<span id="cb9-4"><a href="#cb9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5"></a>Este capítulo cubre la parte **transversal** del trabajo con IA: cómo prepararse, cómo proteger los datos, cómo describir y explorar la base, y cómo construir los insumos (variables, vectores, subgrupos) que después usará en cada método. Las recetas específicas de cada método —RCT, DiD, IV, RDD, Matching, Poder— viven en sus respectivos anexos de código.</span>
-<span id="cb9-6"><a href="#cb9-6"></a></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="fu">## ¿Qué obtiene del uso de IA en una evaluación?</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a></span>
-<span id="cb9-9"><a href="#cb9-9"></a>La IA generativa **democratiza el acceso a métodos analíticos sofisticados** que antes requerían años de entrenamiento técnico <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>. Para un evaluador que no programa, los beneficios concretos son:</span>
-<span id="cb9-10"><a href="#cb9-10"></a></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="pp">|</span> Beneficio <span class="pp">|</span> En qué se traduce <span class="pp">|</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="pp">|-----------|-------------------|</span></span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="pp">|</span> **Soporte para escribir código** <span class="pp">|</span> La IA genera scripts en R o Python listos para copiar y ejecutar <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span> <span class="pp">|</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="pp">|</span> **Procesamiento más rápido de datos** <span class="pp">|</span> Limpieza, recodificación y descriptivos en minutos en lugar de días <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span> <span class="pp">|</span></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="pp">|</span> **Pluralismo metodológico** <span class="pp">|</span> Probar varios métodos sobre los mismos datos sin tener que aprender la sintaxis de cada uno <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span> <span class="pp">|</span></span>
-<span id="cb9-16"><a href="#cb9-16"></a><span class="pp">|</span> **Replicabilidad** <span class="pp">|</span> Código documentado paso a paso que cualquier persona puede ejecutar de nuevo <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span> <span class="pp">|</span></span>
-<span id="cb9-17"><a href="#cb9-17"></a><span class="pp">|</span> **Acompañamiento pedagógico** <span class="pp">|</span> La IA explica los resultados en lenguaje simple si así se le pide <span class="pp">|</span></span>
-<span id="cb9-18"><a href="#cb9-18"></a></span>
-<span id="cb9-19"><a href="#cb9-19"></a>::: {.callout-warning}</span>
-<span id="cb9-20"><a href="#cb9-20"></a><span class="fu">## Lo que la IA *no* reemplaza</span></span>
-<span id="cb9-21"><a href="#cb9-21"></a></span>
-<span id="cb9-22"><a href="#cb9-22"></a>La IA es un asistente, no un reemplazo del juicio profesional. Los textos guía sobre uso de IA en evaluación son explícitos: los resultados deben tratarse como **borradores sujetos a verificación humana** <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span>. Riesgos concretos:</span>
-<span id="cb9-23"><a href="#cb9-23"></a></span>
-<span id="cb9-24"><a href="#cb9-24"></a><span class="ss">- </span>**Alucinaciones**: la IA puede inventar referencias, fabricar números o producir interpretaciones plausibles pero falsas <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
-<span id="cb9-25"><a href="#cb9-25"></a><span class="ss">- </span>**Sesgo algorítmico**: refleja perspectivas dominantes en los datos de entrenamiento; puede reforzar estereotipos o invisibilizar contextos minoritarios <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span>.</span>
-<span id="cb9-26"><a href="#cb9-26"></a><span class="ss">- </span>**Privacidad**: lo que escriba en una herramienta comercial puede usarse para entrenar modelos futuros. Nunca comparta datos sensibles ni información identificable <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
-<span id="cb9-27"><a href="#cb9-27"></a><span class="ss">- </span>**Atrofia cognitiva (*deskilling*)**: el uso acrítico erosiona la capacidad de pensamiento crítico <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>.</span>
-<span id="cb9-28"><a href="#cb9-28"></a>:::</span>
-<span id="cb9-29"><a href="#cb9-29"></a></span>
-<span id="cb9-30"><a href="#cb9-30"></a><span class="fu">## Buenas prácticas transversales</span></span>
-<span id="cb9-31"><a href="#cb9-31"></a></span>
-<span id="cb9-32"><a href="#cb9-32"></a>Las siguientes prácticas se aplican **a cada paso** de su trabajo con IA, sin importar el método. Vienen de la guía técnica de CGIAR <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span> y del informe del Innovation and Research Caucus para UKRI <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>.</span>
-<span id="cb9-33"><a href="#cb9-33"></a></span>
-<span id="cb9-34"><a href="#cb9-34"></a>::: {.callout-tip}</span>
-<span id="cb9-35"><a href="#cb9-35"></a><span class="fu">## Reglas de oro</span></span>
-<span id="cb9-36"><a href="#cb9-36"></a></span>
-<span id="cb9-37"><a href="#cb9-37"></a><span class="ss">1. </span>**Human-in-the-loop siempre.** Trate cada salida de la IA como un borrador. Verifique que los números tengan sentido (¿el efecto es +500%? algo está mal). Compare contra al menos un método tradicional cuando pueda <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>.</span>
-<span id="cb9-38"><a href="#cb9-38"></a><span class="ss">2. </span>**Diálogo iterativo, no prompt único.** Conseguir un resultado útil casi nunca sale del primer intento. Refine: "el gráfico está bien pero cambia colores", "agrega intervalo de confianza al 95%", "la tabla necesita una fila más" <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
-<span id="cb9-39"><a href="#cb9-39"></a><span class="ss">3. </span>**Anonimice antes de compartir.** Nunca pegue datos personales identificables (PII): nombres, cédulas, direcciones, teléfonos, datos de poblaciones vulnerables <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span>.</span>
-<span id="cb9-40"><a href="#cb9-40"></a><span class="ss">4. </span>**Comparta solo lo mínimo.** Para que la IA entienda la estructura le bastan los nombres de columnas y 5–10 filas anonimizadas. La base completa nunca debe salir de su computador.</span>
-<span id="cb9-41"><a href="#cb9-41"></a><span class="ss">5. </span>**Sea específico en el prompt.** Indique persona ("actúa como analista de evaluación"), tarea exacta, formato de salida y qué hacer con los resultados <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>. Pida código copiable, no descripciones genéricas.</span>
-<span id="cb9-42"><a href="#cb9-42"></a><span class="ss">6. </span>**Documente el uso de IA.** Guarde los prompts y respuestas. Reporte en el informe final qué tareas fueron asistidas por IA, con qué herramienta y cómo se verificaron los resultados <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span>.</span>
-<span id="cb9-43"><a href="#cb9-43"></a><span class="ss">7. </span>**Mantenga el juicio analítico.** Las conclusiones finales deben basarse en su lectura crítica, no en el output del modelo <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>.</span>
-<span id="cb9-44"><a href="#cb9-44"></a>:::</span>
-<span id="cb9-45"><a href="#cb9-45"></a></span>
-<span id="cb9-46"><a href="#cb9-46"></a><span class="fu">## Cómo escribir prompts que funcionen</span></span>
-<span id="cb9-47"><a href="#cb9-47"></a></span>
-<span id="cb9-48"><a href="#cb9-48"></a>A lo largo de esta guía y de los anexos por método verá prompts listos para copiar. Todos siguen la misma estructura, recomendada en la literatura <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>:</span>
-<span id="cb9-49"><a href="#cb9-49"></a></span>
-<span id="cb9-50"><a href="#cb9-50"></a><span class="in">```</span></span>
-<span id="cb9-51"><a href="#cb9-51"></a><span class="in">[ROL]      Actúa como analista de evaluación de impacto que escribe código en R.</span></span>
-<span id="cb9-52"><a href="#cb9-52"></a><span class="in">[CONTEXTO] Tengo una base de [N] observaciones de [tipo de programa]…</span></span>
-<span id="cb9-53"><a href="#cb9-53"></a><span class="in">[TAREA]    Genera un script que…</span></span>
-<span id="cb9-54"><a href="#cb9-54"></a><span class="in">[FORMATO]  Devuélveme solo el código en un bloque, listo para copiar y pegar</span></span>
-<span id="cb9-55"><a href="#cb9-55"></a><span class="in">           en RStudio, con comentarios en español que expliquen cada paso.</span></span>
-<span id="cb9-56"><a href="#cb9-56"></a><span class="in">[VERIFICACIÓN] Al final, indícame qué debería ver si todo salió bien y qué</span></span>
-<span id="cb9-57"><a href="#cb9-57"></a><span class="in">           sería una señal de alerta.</span></span>
-<span id="cb9-58"><a href="#cb9-58"></a><span class="in">```</span></span>
-<span id="cb9-59"><a href="#cb9-59"></a></span>
-<span id="cb9-60"><a href="#cb9-60"></a>Cuando el prompt está bien construido, la IA debe devolver **solo código copiable** y una breve nota de qué esperar. Si la respuesta es vaga, no acepte: pida específicamente "dame el código completo, no me lo expliques en pseudocódigo".</span>
-<span id="cb9-61"><a href="#cb9-61"></a></span>
-<span id="cb9-62"><a href="#cb9-62"></a>::: {.callout-note}</span>
-<span id="cb9-63"><a href="#cb9-63"></a><span class="fu">## Cómo está organizada esta sección</span></span>
-<span id="cb9-64"><a href="#cb9-64"></a></span>
-<span id="cb9-65"><a href="#cb9-65"></a><span class="ss">- </span>**Este capítulo (Pasos 1–4)** cubre la parte transversal: anonimización, exposición de la estructura de datos, limpieza y problemas comunes (uniones, duplicados, NA, outliers, tipos), y análisis descriptivo / exploratorio inicial. Lo que aquí construya —indicador de tratamiento, vector de covariables, periodos, subgrupos— se reutiliza en *todos* los métodos.</span>
-<span id="cb9-66"><a href="#cb9-66"></a><span class="ss">- </span>**Cada anexo de código** ([RCT](anexo-codigo-rct.qmd), [DiD](anexo-codigo-did.qmd), [IV](anexo-codigo-iv.qmd), [RDD](anexo-codigo-rdd.qmd), [Matching](anexo-codigo-matching.qmd), [Poder](anexo-codigo-poder.qmd)) tiene su propia sección **"Trabajando con IA paso a paso"** con prompts específicos del método, datos simulados sencillos y cómo interpretar la respuesta.</span>
-<span id="cb9-67"><a href="#cb9-67"></a>:::</span>
-<span id="cb9-68"><a href="#cb9-68"></a></span>
-<span id="cb9-69"><a href="#cb9-69"></a>---</span>
-<span id="cb9-70"><a href="#cb9-70"></a></span>
-<span id="cb9-71"><a href="#cb9-71"></a><span class="fu">## Paso 1: Anonimizar sus datos {#sec-ia-paso1}</span></span>
-<span id="cb9-72"><a href="#cb9-72"></a></span>
-<span id="cb9-73"><a href="#cb9-73"></a>Antes de compartir cualquier dato con una IA, **debe eliminar toda información que permita identificar a las personas**. Es un requisito ético y, en muchos países, legal (GDPR en Europa, Ley 1581 en Colombia, etc.) <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
-<span id="cb9-74"><a href="#cb9-74"></a></span>
-<span id="cb9-75"><a href="#cb9-75"></a><span class="fu">### ¿Qué eliminar y qué mantener?</span></span>
-<span id="cb9-76"><a href="#cb9-76"></a></span>
-<span id="cb9-77"><a href="#cb9-77"></a><span class="pp">|</span> Eliminar siempre <span class="pp">|</span> Mantener <span class="pp">|</span></span>
-<span id="cb9-78"><a href="#cb9-78"></a><span class="pp">|-------------------|----------|</span></span>
-<span id="cb9-79"><a href="#cb9-79"></a><span class="pp">|</span> Nombres y apellidos <span class="pp">|</span> Variables de resultado (ingresos, puntajes, etc.) <span class="pp">|</span></span>
-<span id="cb9-80"><a href="#cb9-80"></a><span class="pp">|</span> Números de identificación (cédula, DNI, RUT) <span class="pp">|</span> Indicador de tratamiento (1 = participó, 0 = no) <span class="pp">|</span></span>
-<span id="cb9-81"><a href="#cb9-81"></a><span class="pp">|</span> Direcciones exactas, geolocalización fina <span class="pp">|</span> Periodo o fecha de medición <span class="pp">|</span></span>
-<span id="cb9-82"><a href="#cb9-82"></a><span class="pp">|</span> Teléfonos y correos electrónicos <span class="pp">|</span> Covariables (edad, género, nivel educativo) <span class="pp">|</span></span>
-<span id="cb9-83"><a href="#cb9-83"></a><span class="pp">|</span> Nombres de comunidades pequeñas <span class="pp">|</span> Identificadores anónimos (ID_001, ID_002…) <span class="pp">|</span></span>
-<span id="cb9-84"><a href="#cb9-84"></a></span>
-<span id="cb9-85"><a href="#cb9-85"></a>::: {.callout-warning}</span>
-<span id="cb9-86"><a href="#cb9-86"></a><span class="fu">## Datos especialmente sensibles</span></span>
-<span id="cb9-87"><a href="#cb9-87"></a>@cgiar2024ai recomienda **nunca** enviar a servicios de IA de terceros datos sobre poblaciones vulnerables (refugiados, víctimas de violencia, trabajadoras sexuales, etc.) ni datos sensibles según GDPR (origen étnico, opiniones políticas, religión, salud, orientación sexual). Para esos casos use modelos locales o consulte con su equipo de protección de datos.</span>
-<span id="cb9-88"><a href="#cb9-88"></a>:::</span>
-<span id="cb9-89"><a href="#cb9-89"></a></span>
-<span id="cb9-90"><a href="#cb9-90"></a><span class="fu">### Prompt 1.1 — Generar el script de anonimización</span></span>
-<span id="cb9-91"><a href="#cb9-91"></a></span>
-<span id="cb9-92"><a href="#cb9-92"></a>::: {.prompt-block}</span>
-<span id="cb9-93"><a href="#cb9-93"></a>**Copie y pegue (reemplazando lo que está entre corchetes):**</span>
-<span id="cb9-94"><a href="#cb9-94"></a></span>
-<span id="cb9-95"><a href="#cb9-95"></a>Actúa como analista de evaluación de impacto que escribe código en R. Tengo un archivo <span class="in">`[mi_base.csv]`</span> (separador <span class="in">`[,]`</span>, codificación <span class="in">`[UTF-8]`</span>) con las siguientes columnas:</span>
-<span id="cb9-96"><a href="#cb9-96"></a></span>
-<span id="cb9-97"><a href="#cb9-97"></a><span class="in">```</span></span>
-<span id="cb9-98"><a href="#cb9-98"></a><span class="in">[pegue aquí solo los NOMBRES de las columnas, separados por coma]</span></span>
-<span id="cb9-99"><a href="#cb9-99"></a><span class="in">```</span></span>
-<span id="cb9-100"><a href="#cb9-100"></a></span>
-<span id="cb9-101"><a href="#cb9-101"></a>Genera un script en R que haga lo siguiente, **en este orden exacto**:</span>
-<span id="cb9-102"><a href="#cb9-102"></a></span>
-<span id="cb9-103"><a href="#cb9-103"></a><span class="ss">1. </span>Lea el archivo con <span class="in">`readr::read_csv()`</span>.</span>
-<span id="cb9-104"><a href="#cb9-104"></a><span class="ss">2. </span>Elimine las columnas con información personal identificable (PII). Para cada columna que decidas eliminar, agrega un comentario <span class="in">`# eliminada porque: …`</span>.</span>
-<span id="cb9-105"><a href="#cb9-105"></a><span class="ss">3. </span>Reemplace el identificador original por uno anónimo con formato <span class="in">`ID_001`</span>, <span class="in">`ID_002`</span>, …</span>
-<span id="cb9-106"><a href="#cb9-106"></a><span class="ss">4. </span>Guarde el resultado como <span class="in">`base_anonima.csv`</span> en el mismo directorio.</span>
-<span id="cb9-107"><a href="#cb9-107"></a><span class="ss">5. </span>Imprima <span class="in">`head(datos, 5)`</span> para verificación.</span>
-<span id="cb9-108"><a href="#cb9-108"></a></span>
-<span id="cb9-109"><a href="#cb9-109"></a>**Devuélveme solo el código completo en un único bloque listo para copiar a RStudio, con comentarios en español.** No me expliques los pasos en prosa, el código y los comentarios deben ser suficientes. Al final, en una sola frase, dime qué debería ver en pantalla si el script corrió correctamente.</span>
-<span id="cb9-110"><a href="#cb9-110"></a>:::</span>
-<span id="cb9-111"><a href="#cb9-111"></a></span>
-<span id="cb9-112"><a href="#cb9-112"></a><span class="fu">### Qué debería devolverle la IA</span></span>
-<span id="cb9-113"><a href="#cb9-113"></a></span>
-<span id="cb9-114"><a href="#cb9-114"></a>Un bloque único de R (≈ 25–40 líneas) similar a:</span>
-<span id="cb9-115"><a href="#cb9-115"></a></span>
-<span id="cb9-116"><a href="#cb9-116"></a><span class="in">```r</span></span>
-<span id="cb9-117"><a href="#cb9-117"></a><span class="fu">library</span>(readr); <span class="fu">library</span>(dplyr)</span>
-<span id="cb9-118"><a href="#cb9-118"></a>datos <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"mi_base.csv"</span>)</span>
-<span id="cb9-119"><a href="#cb9-119"></a>datos_anon <span class="ot">&lt;-</span> datos <span class="sc">|&gt;</span></span>
-<span id="cb9-120"><a href="#cb9-120"></a>  <span class="fu">select</span>(<span class="sc">-</span>nombre, <span class="sc">-</span>cedula, <span class="sc">-</span>telefono, <span class="sc">-</span>direccion) <span class="sc">|&gt;</span>  <span class="co"># PII</span></span>
-<span id="cb9-121"><a href="#cb9-121"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">sprintf</span>(<span class="st">"ID_%03d"</span>, <span class="fu">row_number</span>())) <span class="sc">|&gt;</span></span>
-<span id="cb9-122"><a href="#cb9-122"></a>  <span class="fu">relocate</span>(id)</span>
-<span id="cb9-123"><a href="#cb9-123"></a><span class="fu">write_csv</span>(datos_anon, <span class="st">"base_anonima.csv"</span>)</span>
-<span id="cb9-124"><a href="#cb9-124"></a><span class="fu">head</span>(datos_anon, <span class="dv">5</span>)</span>
-<span id="cb9-125"><a href="#cb9-125"></a><span class="in">```</span></span>
-<span id="cb9-126"><a href="#cb9-126"></a></span>
-<span id="cb9-127"><a href="#cb9-127"></a><span class="fu">### Cómo verificar que funcionó</span></span>
-<span id="cb9-128"><a href="#cb9-128"></a></span>
-<span id="cb9-129"><a href="#cb9-129"></a><span class="ss">- </span>El archivo <span class="in">`base_anonima.csv`</span> existe en su carpeta de trabajo.</span>
-<span id="cb9-130"><a href="#cb9-130"></a><span class="ss">- </span>Las primeras 5 filas no contienen ningún nombre, cédula, teléfono, dirección ni correo.</span>
-<span id="cb9-131"><a href="#cb9-131"></a><span class="ss">- </span>La columna <span class="in">`id`</span> arranca en <span class="in">`ID_001`</span> y es secuencial.</span>
-<span id="cb9-132"><a href="#cb9-132"></a><span class="ss">- </span>El número de filas es el mismo que el original.</span>
-<span id="cb9-133"><a href="#cb9-133"></a></span>
-<span id="cb9-134"><a href="#cb9-134"></a>::: {.callout-tip}</span>
-<span id="cb9-135"><a href="#cb9-135"></a><span class="fu">## Truco</span></span>
-<span id="cb9-136"><a href="#cb9-136"></a>En este paso **no comparta los datos**: comparta solo los nombres de las columnas. La IA no necesita ver los valores para escribir el código.</span>
-<span id="cb9-137"><a href="#cb9-137"></a>:::</span>
-<span id="cb9-138"><a href="#cb9-138"></a></span>
-<span id="cb9-139"><a href="#cb9-139"></a>---</span>
-<span id="cb9-140"><a href="#cb9-140"></a></span>
-<span id="cb9-141"><a href="#cb9-141"></a><span class="fu">## Paso 2: Compartir la estructura de los datos {#sec-ia-paso2}</span></span>
-<span id="cb9-142"><a href="#cb9-142"></a></span>
-<span id="cb9-143"><a href="#cb9-143"></a>Una vez tenga la base anonimizada, comparta **únicamente las primeras 10 filas** para que la IA entienda la estructura. Nunca pegue la base completa <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
-<span id="cb9-144"><a href="#cb9-144"></a></span>
-<span id="cb9-145"><a href="#cb9-145"></a><span class="fu">### Prompt 2.1 — Diagnóstico de estructura</span></span>
-<span id="cb9-146"><a href="#cb9-146"></a></span>
-<span id="cb9-147"><a href="#cb9-147"></a>::: {.prompt-block}</span>
-<span id="cb9-148"><a href="#cb9-148"></a>Actúa como analista de evaluación de impacto. Voy a compartir las primeras 10 filas de mi base anonimizada para que diagnostiques su estructura.</span>
-<span id="cb9-149"><a href="#cb9-149"></a></span>
-<span id="cb9-150"><a href="#cb9-150"></a>**Contexto del programa:**</span>
-<span id="cb9-151"><a href="#cb9-151"></a></span>
-<span id="cb9-152"><a href="#cb9-152"></a><span class="ss">- </span>Tipo de programa: <span class="in">`[ej.: capacitación agrícola, microcrédito, alimentación escolar]`</span></span>
-<span id="cb9-153"><a href="#cb9-153"></a><span class="ss">- </span>Población: <span class="in">`[ej.: 200 hogares rurales en Cauca, Colombia]`</span></span>
-<span id="cb9-154"><a href="#cb9-154"></a><span class="ss">- </span>Grupo de comparación: <span class="in">`[ej.: 150 hogares similares no atendidos]`</span></span>
-<span id="cb9-155"><a href="#cb9-155"></a><span class="ss">- </span>Fecha de inicio del programa: <span class="in">`[mes/año]`</span></span>
-<span id="cb9-156"><a href="#cb9-156"></a><span class="ss">- </span>Datos disponibles: <span class="in">`[ej.: encuesta línea base 2022 + seguimiento 2024]`</span></span>
-<span id="cb9-157"><a href="#cb9-157"></a><span class="ss">- </span>Variable de resultado principal: <span class="in">`[nombre de la columna y qué mide]`</span></span>
-<span id="cb9-158"><a href="#cb9-158"></a><span class="ss">- </span>Variable de tratamiento: <span class="in">`[nombre de la columna; 1 = recibió, 0 = no]`</span></span>
-<span id="cb9-159"><a href="#cb9-159"></a></span>
-<span id="cb9-160"><a href="#cb9-160"></a>**Primeras 10 filas:**</span>
-<span id="cb9-161"><a href="#cb9-161"></a></span>
-<span id="cb9-162"><a href="#cb9-162"></a><span class="in">```</span></span>
-<span id="cb9-163"><a href="#cb9-163"></a><span class="in">[pegue aquí las 10 filas con encabezado]</span></span>
-<span id="cb9-164"><a href="#cb9-164"></a><span class="in">```</span></span>
-<span id="cb9-165"><a href="#cb9-165"></a></span>
-<span id="cb9-166"><a href="#cb9-166"></a>Devuélveme:</span>
-<span id="cb9-167"><a href="#cb9-167"></a></span>
-<span id="cb9-168"><a href="#cb9-168"></a><span class="ss">1. </span>Una **tabla** (markdown) con tres columnas: <span class="in">`variable | tipo (continua / categórica / binaria / fecha / id) | rol probable (resultado / tratamiento / covariable / id / periodo)`</span>.</span>
-<span id="cb9-169"><a href="#cb9-169"></a><span class="ss">2. </span>Cualquier **alerta** que veas: codificaciones extrañas (ej. <span class="in">`99`</span> como faltante), tipos mal interpretados (fechas como texto), variables que parecen redundantes.</span>
-<span id="cb9-170"><a href="#cb9-170"></a><span class="ss">3. </span>Un párrafo de máximo 4 líneas con la **recomendación inicial de método** (RCT / DiD / IV / RDD / Matching) según lo que ves en la estructura, y qué información adicional necesitarías para confirmarlo.</span>
-<span id="cb9-171"><a href="#cb9-171"></a></span>
-<span id="cb9-172"><a href="#cb9-172"></a>No generes código todavía. Solo el diagnóstico.</span>
-<span id="cb9-173"><a href="#cb9-173"></a>:::</span>
-<span id="cb9-174"><a href="#cb9-174"></a></span>
-<span id="cb9-175"><a href="#cb9-175"></a>::: {.callout-tip}</span>
-<span id="cb9-176"><a href="#cb9-176"></a><span class="fu">## Cómo extraer las primeras 10 filas</span></span>
-<span id="cb9-177"><a href="#cb9-177"></a>Abra el CSV en Excel, copie las primeras 10 filas con encabezado, y pegue. O pídale a la IA un comando previo: *"dame el código de R para imprimir `head(datos, 10)` de un CSV"* y ejecute en su computador.</span>
-<span id="cb9-178"><a href="#cb9-178"></a>:::</span>
-<span id="cb9-179"><a href="#cb9-179"></a></span>
-<span id="cb9-180"><a href="#cb9-180"></a>---</span>
-<span id="cb9-181"><a href="#cb9-181"></a></span>
-<span id="cb9-182"><a href="#cb9-182"></a><span class="fu">## Paso 3: Limpieza y problemas comunes {#sec-ia-paso3}</span></span>
-<span id="cb9-183"><a href="#cb9-183"></a></span>
-<span id="cb9-184"><a href="#cb9-184"></a>Antes de describir o estimar nada, es probable que necesite **arreglar** la base: unir archivos sueltos, quitar filas duplicadas, decidir qué hacer con valores faltantes, detectar valores absurdos, normalizar categorías mal escritas, convertir fechas que llegan como texto. Casi todas las evaluaciones tienen al menos uno de estos problemas. Esta sección reúne prompts específicos para resolverlos con IA.</span>
-<span id="cb9-185"><a href="#cb9-185"></a></span>
-<span id="cb9-186"><a href="#cb9-186"></a>::: {.callout-warning}</span>
-<span id="cb9-187"><a href="#cb9-187"></a><span class="fu">## Regla básica</span></span>
-<span id="cb9-188"><a href="#cb9-188"></a>Cualquier transformación que haga en este paso debe quedar **registrada en código**, no en cambios manuales sobre el archivo. Si edita el CSV en Excel, pierde la trazabilidad. La IA debe darle siempre un script que parta del archivo crudo y produzca el archivo limpio.</span>
-<span id="cb9-189"><a href="#cb9-189"></a>:::</span>
-<span id="cb9-190"><a href="#cb9-190"></a></span>
-<span id="cb9-191"><a href="#cb9-191"></a><span class="fu">### Prompt 3.1 — Unir dos bases de datos</span></span>
-<span id="cb9-192"><a href="#cb9-192"></a></span>
-<span id="cb9-193"><a href="#cb9-193"></a>Es muy frecuente que la información venga partida: una base tiene los datos demográficos del beneficiario, otra los datos de la encuesta de seguimiento, y necesita unirlas por un identificador común.</span>
-<span id="cb9-194"><a href="#cb9-194"></a></span>
-<span id="cb9-195"><a href="#cb9-195"></a>::: {.prompt-block}</span>
-<span id="cb9-196"><a href="#cb9-196"></a>Actúa como analista que escribe código en R. Tengo dos archivos CSV que necesito unir:</span>
-<span id="cb9-197"><a href="#cb9-197"></a></span>
-<span id="cb9-198"><a href="#cb9-198"></a><span class="ss">- </span>**Archivo A**: <span class="in">`[nombre_A.csv]`</span>, con <span class="in">`[N_A]`</span> filas y las columnas <span class="in">`[liste columnas A]`</span>.</span>
-<span id="cb9-199"><a href="#cb9-199"></a><span class="ss">- </span>**Archivo B**: <span class="in">`[nombre_B.csv]`</span>, con <span class="in">`[N_B]`</span> filas y las columnas <span class="in">`[liste columnas B]`</span>.</span>
-<span id="cb9-200"><a href="#cb9-200"></a></span>
-<span id="cb9-201"><a href="#cb9-201"></a>La columna identificador en ambos archivos es: <span class="in">`[nombre del id]`</span> (en A) y <span class="in">`[nombre del id]`</span> (en B).</span>
-<span id="cb9-202"><a href="#cb9-202"></a></span>
-<span id="cb9-203"><a href="#cb9-203"></a>Genera un script en R que:</span>
-<span id="cb9-204"><a href="#cb9-204"></a></span>
-<span id="cb9-205"><a href="#cb9-205"></a><span class="ss">1. </span>Lea ambos archivos con <span class="in">`readr::read_csv()`</span>.</span>
-<span id="cb9-206"><a href="#cb9-206"></a><span class="ss">2. </span>Verifique antes del join: cuántos id duplicados hay en cada base, y cuántos id de A están en B y viceversa (use <span class="in">`setdiff()`</span> y <span class="in">`intersect()`</span>). Imprima estos diagnósticos con mensajes claros.</span>
-<span id="cb9-207"><a href="#cb9-207"></a><span class="ss">3. </span>Ejecute un **left join** desde A (la base maestra de personas) hacia B con <span class="in">`dplyr::left_join()`</span>.</span>
-<span id="cb9-208"><a href="#cb9-208"></a><span class="ss">4. </span>Imprima un resumen: filas en A, filas resultantes, y cuántas filas de A no encontraron pareja en B (NA en columnas de B).</span>
-<span id="cb9-209"><a href="#cb9-209"></a><span class="ss">5. </span>Guarde el resultado como <span class="in">`base_unida.csv`</span>.</span>
-<span id="cb9-210"><a href="#cb9-210"></a></span>
-<span id="cb9-211"><a href="#cb9-211"></a>Solo código en un bloque. Al final, en una frase, dime cuándo debería usar <span class="in">`inner_join`</span> en lugar de <span class="in">`left_join`</span>.</span>
-<span id="cb9-212"><a href="#cb9-212"></a>:::</span>
-<span id="cb9-213"><a href="#cb9-213"></a></span>
-<span id="cb9-214"><a href="#cb9-214"></a>**Cómo verificar:** el número de filas final debe ser igual a las filas de A (con <span class="in">`left_join`</span>). Si crece, hay duplicados en B y debe resolverlos antes. Si necesita conservar solo personas con datos en ambas bases, use <span class="in">`inner_join`</span>.</span>
-<span id="cb9-215"><a href="#cb9-215"></a></span>
-<span id="cb9-216"><a href="#cb9-216"></a><span class="fu">### Prompt 3.2 — Detectar y resolver duplicados</span></span>
-<span id="cb9-217"><a href="#cb9-217"></a></span>
-<span id="cb9-218"><a href="#cb9-218"></a>::: {.prompt-block}</span>
-<span id="cb9-219"><a href="#cb9-219"></a>Con la base <span class="in">`datos`</span> cargada (data frame con columna identificador <span class="in">`id`</span>), genera un script en R que:</span>
-<span id="cb9-220"><a href="#cb9-220"></a></span>
-<span id="cb9-221"><a href="#cb9-221"></a><span class="ss">1. </span>Cuente filas totales y filas únicas por <span class="in">`id`</span>. Si difieren, hay duplicados.</span>
-<span id="cb9-222"><a href="#cb9-222"></a><span class="ss">2. </span>Imprima los <span class="in">`id`</span> duplicados con <span class="in">`datos |&gt; filter(duplicated(id) | duplicated(id, fromLast = TRUE))`</span> para inspección visual.</span>
-<span id="cb9-223"><a href="#cb9-223"></a><span class="ss">3. </span>Para cada <span class="in">`id`</span> duplicado, indique si las filas son **idénticas** (duplicado verdadero, se puede eliminar con `distinct()`) o si **difieren en alguna columna** (conflicto real, requiere decisión).</span>
-<span id="cb9-224"><a href="#cb9-224"></a><span class="ss">4. </span>Genere dos versiones limpias para que yo elija:</span>
-<span id="cb9-225"><a href="#cb9-225"></a><span class="ss">    - </span><span class="in">`datos_distinct &lt;- distinct(datos, id, .keep_all = TRUE)`</span> (mantiene la primera).</span>
-<span id="cb9-226"><a href="#cb9-226"></a><span class="ss">    - </span><span class="in">`datos_ultimo &lt;- datos |&gt; arrange(desc(fecha_registro)) |&gt; distinct(id, .keep_all = TRUE)`</span> (mantiene la observación más reciente).</span>
-<span id="cb9-227"><a href="#cb9-227"></a></span>
-<span id="cb9-228"><a href="#cb9-228"></a>Solo código. Al final, en una frase, recuérdame por qué la elección entre estas dos opciones es una decisión sustantiva, no técnica.</span>
-<span id="cb9-229"><a href="#cb9-229"></a>:::</span>
-<span id="cb9-230"><a href="#cb9-230"></a></span>
-<span id="cb9-231"><a href="#cb9-231"></a><span class="fu">### Prompt 3.3 — Filas vacías y observaciones incompletas</span></span>
-<span id="cb9-232"><a href="#cb9-232"></a></span>
-<span id="cb9-233"><a href="#cb9-233"></a>::: {.prompt-block}</span>
-<span id="cb9-234"><a href="#cb9-234"></a>Con <span class="in">`datos`</span> cargado, genera un script en R que diagnostique y limpie observaciones incompletas:</span>
-<span id="cb9-235"><a href="#cb9-235"></a></span>
-<span id="cb9-236"><a href="#cb9-236"></a><span class="ss">1. </span>**Filas completamente vacías** (todas las columnas en NA): cuéntalas y elimínalas con <span class="in">`filter(if_any(everything(), ~ !is.na(.)))`</span>.</span>
-<span id="cb9-237"><a href="#cb9-237"></a><span class="ss">2. </span>**% de NA por fila**: agrega una columna <span class="in">`pct_na`</span> y muestra la distribución con <span class="in">`summary()`</span>. Marca como "incompletas críticas" las filas con &gt; 50% de NA.</span>
-<span id="cb9-238"><a href="#cb9-238"></a><span class="ss">3. </span>**Variables esenciales** (las que SÍ deben tener valor para entrar al análisis): el script debe recibir un vector <span class="in">`vars_esenciales &lt;- c("tratamiento", "resultado_principal", "id")`</span> y eliminar filas con NA en alguna de ellas.</span>
-<span id="cb9-239"><a href="#cb9-239"></a><span class="ss">4. </span>Imprima una tabla resumen: <span class="in">`paso | filas antes | filas después | filas eliminadas`</span>.</span>
-<span id="cb9-240"><a href="#cb9-240"></a><span class="ss">5. </span>Guarde como <span class="in">`datos_filtrados.csv`</span>.</span>
-<span id="cb9-241"><a href="#cb9-241"></a></span>
-<span id="cb9-242"><a href="#cb9-242"></a>Solo código. Al final, en una frase, advertirme cuándo eliminar filas con NA puede sesgar el análisis.</span>
-<span id="cb9-243"><a href="#cb9-243"></a>:::</span>
-<span id="cb9-244"><a href="#cb9-244"></a></span>
-<span id="cb9-245"><a href="#cb9-245"></a>::: {.callout-warning}</span>
-<span id="cb9-246"><a href="#cb9-246"></a><span class="fu">## Cuidado con eliminar NA a la ligera</span></span>
-<span id="cb9-247"><a href="#cb9-247"></a>Si los faltantes no son aleatorios (ej. la gente más pobre tiende a no responder ingresos), eliminar esas filas introduce sesgo. Antes de eliminar, intente entender **por qué falta** la información. Para variables con muchos NA pero teóricamente importantes, considere imputación (Prompt 3.4).</span>
-<span id="cb9-248"><a href="#cb9-248"></a>:::</span>
-<span id="cb9-249"><a href="#cb9-249"></a></span>
-<span id="cb9-250"><a href="#cb9-250"></a><span class="fu">### Prompt 3.4 — Estrategia para valores faltantes</span></span>
-<span id="cb9-251"><a href="#cb9-251"></a></span>
-<span id="cb9-252"><a href="#cb9-252"></a>::: {.prompt-block}</span>
-<span id="cb9-253"><a href="#cb9-253"></a>Con <span class="in">`datos`</span> cargado, genera un script en R que ayude a decidir qué hacer con cada variable que tenga NA:</span>
-<span id="cb9-254"><a href="#cb9-254"></a></span>
-<span id="cb9-255"><a href="#cb9-255"></a><span class="ss">1. </span>Tabule por columna: <span class="in">`% NA | tipo (numérica/categórica) | recomendación inicial`</span>.</span>
-<span id="cb9-256"><a href="#cb9-256"></a><span class="ss">2. </span>Aplique esta lógica de recomendación:</span>
-<span id="cb9-257"><a href="#cb9-257"></a><span class="ss">    - </span>NA &lt; 5% → eliminar filas con NA en esa variable.</span>
-<span id="cb9-258"><a href="#cb9-258"></a><span class="ss">    - </span>NA 5–20% → imputar (mediana si numérica, moda si categórica) y crear una columna binaria <span class="in">`var_imputada`</span> que indique cuáles fueron imputados.</span>
-<span id="cb9-259"><a href="#cb9-259"></a><span class="ss">    - </span>NA &gt; 20% → no imputar; sugerir o bien excluir la variable o usar imputación múltiple con <span class="in">`mice`</span>.</span>
-<span id="cb9-260"><a href="#cb9-260"></a><span class="ss">3. </span>Para las variables del rango 5–20%, ejecute la imputación simple como ejemplo y guarde <span class="in">`datos_imputados.csv`</span>.</span>
-<span id="cb9-261"><a href="#cb9-261"></a><span class="ss">4. </span>Para las &gt; 20%, imprima un mensaje claro con el nombre de la variable y la recomendación.</span>
-<span id="cb9-262"><a href="#cb9-262"></a></span>
-<span id="cb9-263"><a href="#cb9-263"></a>Solo código. Al final, en una frase, dime por qué siempre conviene crear la columna <span class="in">`var_imputada`</span>.</span>
-<span id="cb9-264"><a href="#cb9-264"></a>:::</span>
-<span id="cb9-265"><a href="#cb9-265"></a></span>
-<span id="cb9-266"><a href="#cb9-266"></a>**Por qué la columna `_imputada`:** permite hacer un análisis de sensibilidad después, comparando el efecto del programa con y sin las observaciones imputadas, para verificar que el resultado no depende del método de imputación.</span>
-<span id="cb9-267"><a href="#cb9-267"></a></span>
-<span id="cb9-268"><a href="#cb9-268"></a><span class="fu">### Prompt 3.5 — Outliers y valores absurdos</span></span>
-<span id="cb9-269"><a href="#cb9-269"></a></span>
-<span id="cb9-270"><a href="#cb9-270"></a>::: {.prompt-block}</span>
-<span id="cb9-271"><a href="#cb9-271"></a>Con <span class="in">`datos`</span> cargado, genera un script en R que detecte valores sospechosos en variables numéricas:</span>
-<span id="cb9-272"><a href="#cb9-272"></a></span>
-<span id="cb9-273"><a href="#cb9-273"></a><span class="ss">1. </span>Para cada variable numérica, calcule <span class="in">`IQR`</span> y marque como outliers a quienes están fuera de <span class="in">`[Q1 - 1.5*IQR, Q3 + 1.5*IQR]`</span>.</span>
-<span id="cb9-274"><a href="#cb9-274"></a><span class="ss">2. </span>Reporte una tabla <span class="in">`variable | n outliers | valor mín | valor máx | % de la muestra`</span>.</span>
-<span id="cb9-275"><a href="#cb9-275"></a><span class="ss">3. </span>Para una lista de variables que yo defino con rangos esperados (<span class="in">`rangos &lt;- list(edad = c(18, 95), ingreso = c(0, 50000), educacion = c(0, 25))`</span>), marque como **valores imposibles** los que estén fuera del rango y conviértalos a NA con un mensaje claro de cuántos se modificaron por variable.</span>
-<span id="cb9-276"><a href="#cb9-276"></a><span class="ss">4. </span>Genere un boxplot facetado por variable para inspección visual.</span>
-<span id="cb9-277"><a href="#cb9-277"></a></span>
-<span id="cb9-278"><a href="#cb9-278"></a>Solo código. Al final, en una frase, dime cuándo un outlier real (no un error) debe **mantenerse** en el análisis.</span>
-<span id="cb9-279"><a href="#cb9-279"></a>:::</span>
-<span id="cb9-280"><a href="#cb9-280"></a></span>
-<span id="cb9-281"><a href="#cb9-281"></a>**Cómo interpretar:** outliers por error de captura (edad 200, ingreso negativo) deben corregirse o convertirse a NA. Outliers reales (un hogar realmente atípico) suelen mantenerse porque eliminarlos sesga el efecto promedio. La decisión es sustantiva, no automática.</span>
-<span id="cb9-282"><a href="#cb9-282"></a></span>
-<span id="cb9-283"><a href="#cb9-283"></a><span class="fu">### Prompt 3.6 — Categorías mal escritas</span></span>
-<span id="cb9-284"><a href="#cb9-284"></a></span>
-<span id="cb9-285"><a href="#cb9-285"></a>::: {.prompt-block}</span>
-<span id="cb9-286"><a href="#cb9-286"></a>Con <span class="in">`datos`</span> cargado, genera un script en R que normalice variables categóricas con codificación inconsistente (ej. "Femenino", "femenino", "F", "Mujer" para la misma categoría).</span>
-<span id="cb9-287"><a href="#cb9-287"></a></span>
-<span id="cb9-288"><a href="#cb9-288"></a><span class="ss">1. </span>Para cada columna de tipo <span class="in">`character`</span> o <span class="in">`factor`</span>, imprima la tabla de frecuencias con <span class="in">`janitor::tabyl()`</span>.</span>
-<span id="cb9-289"><a href="#cb9-289"></a><span class="ss">2. </span>Para variables que yo señale en el vector <span class="in">`vars_a_normalizar &lt;- c("sexo", "zona", "nivel_educativo")`</span>, propón un mapeo de normalización: <span class="in">`sexo: c("F"="Femenino", "f"="Femenino", "M"="Masculino", ...)`</span> y aplíquelo con <span class="in">`dplyr::recode()`</span> o <span class="in">`case_when()`</span>.</span>
-<span id="cb9-290"><a href="#cb9-290"></a><span class="ss">3. </span>Reporte antes/después: cuántas categorías únicas había y cuántas quedan.</span>
-<span id="cb9-291"><a href="#cb9-291"></a></span>
-<span id="cb9-292"><a href="#cb9-292"></a>Solo código. Al final, en una frase, recuérdame revisar manualmente el mapeo antes de aplicarlo (la IA puede unificar mal categorías que parecen iguales pero significan distinto).</span>
-<span id="cb9-293"><a href="#cb9-293"></a>:::</span>
-<span id="cb9-294"><a href="#cb9-294"></a></span>
-<span id="cb9-295"><a href="#cb9-295"></a><span class="fu">### Prompt 3.7 — Conversión de tipos</span></span>
-<span id="cb9-296"><a href="#cb9-296"></a></span>
-<span id="cb9-297"><a href="#cb9-297"></a>::: {.prompt-block}</span>
-<span id="cb9-298"><a href="#cb9-298"></a>Con <span class="in">`datos`</span> cargado, genera un script en R que diagnostique y arregle problemas de tipo:</span>
-<span id="cb9-299"><a href="#cb9-299"></a></span>
-<span id="cb9-300"><a href="#cb9-300"></a><span class="ss">1. </span>Imprima <span class="in">`glimpse(datos)`</span> y señale columnas con tipo aparentemente incorrecto: fechas como <span class="in">`character`</span>, números con coma decimal como <span class="in">`character`</span>, indicadores binarios como <span class="in">`numeric`</span> que deberían ser factor.</span>
-<span id="cb9-301"><a href="#cb9-301"></a><span class="ss">2. </span>Aplique conversiones específicas:</span>
-<span id="cb9-302"><a href="#cb9-302"></a><span class="ss">    - </span>Fechas tipo <span class="in">`"15/03/2024"`</span> → <span class="in">`as.Date(x, format = "%d/%m/%Y")`</span>.</span>
-<span id="cb9-303"><a href="#cb9-303"></a><span class="ss">    - </span>Números con coma → <span class="in">`as.numeric(gsub(",", ".", x))`</span>.</span>
-<span id="cb9-304"><a href="#cb9-304"></a><span class="ss">    - </span>Binarios 0/1 que se quieran como factor → <span class="in">`factor(x, levels = c(0,1), labels = c("No","Sí"))`</span>.</span>
-<span id="cb9-305"><a href="#cb9-305"></a><span class="ss">3. </span>Verifique después con <span class="in">`glimpse()`</span> que los tipos sean los esperados.</span>
-<span id="cb9-306"><a href="#cb9-306"></a></span>
-<span id="cb9-307"><a href="#cb9-307"></a>Solo código. Al final, en una frase, dime por qué dejar fechas como texto rompe cualquier análisis temporal.</span>
-<span id="cb9-308"><a href="#cb9-308"></a>:::</span>
-<span id="cb9-309"><a href="#cb9-309"></a></span>
-<span id="cb9-310"><a href="#cb9-310"></a>::: {.callout-tip}</span>
-<span id="cb9-311"><a href="#cb9-311"></a><span class="fu">## Cómo encadenar estos prompts</span></span>
-<span id="cb9-312"><a href="#cb9-312"></a>El orden recomendado es: 3.1 (unir) → 3.2 (duplicados) → 3.7 (tipos) → 3.6 (categorías) → 3.5 (outliers) → 3.3 (filas vacías) → 3.4 (NA en variables clave). Una vez termine este paso, la base queda lista para el análisis exploratorio del Paso 4.</span>
-<span id="cb9-313"><a href="#cb9-313"></a>:::</span>
-<span id="cb9-314"><a href="#cb9-314"></a></span>
-<span id="cb9-315"><a href="#cb9-315"></a>---</span>
-<span id="cb9-316"><a href="#cb9-316"></a></span>
-<span id="cb9-317"><a href="#cb9-317"></a><span class="fu">## Paso 4: Análisis descriptivo y exploratorio {#sec-ia-paso4}</span></span>
-<span id="cb9-318"><a href="#cb9-318"></a></span>
-<span id="cb9-319"><a href="#cb9-319"></a>Antes de cualquier análisis causal, necesita **entender** sus datos: cuántas observaciones por grupo, dónde hay vacíos, qué variables son útiles. Lo que construya aquí —especialmente el **vector de covariables** y la lista de **subgrupos**— se reutiliza en todos los métodos.</span>
-<span id="cb9-320"><a href="#cb9-320"></a></span>
-<span id="cb9-321"><a href="#cb9-321"></a><span class="fu">### Prompt 4.1 — Tabla descriptiva por grupo</span></span>
-<span id="cb9-322"><a href="#cb9-322"></a></span>
-<span id="cb9-323"><a href="#cb9-323"></a>::: {.prompt-block}</span>
-<span id="cb9-324"><a href="#cb9-324"></a>Con la base <span class="in">`base_anonima.csv`</span> que cargaste, genera **un único script en R** que produzca:</span>
-<span id="cb9-325"><a href="#cb9-325"></a></span>
-<span id="cb9-326"><a href="#cb9-326"></a><span class="ss">1. </span>Resumen general: número de filas, columnas, observaciones por grupo de tratamiento (<span class="in">`tratamiento == 1`</span> vs. <span class="in">`0`</span>) y por periodo (<span class="in">`periodo == "pre"`</span> vs. <span class="in">`"post"`</span>) si aplica.</span>
-<span id="cb9-327"><a href="#cb9-327"></a><span class="ss">2. </span>Una tabla descriptiva con <span class="in">`gtsummary::tbl_summary()`</span> agrupada por tratamiento, mostrando media (DE) para variables continuas y % para categóricas, con valor p de la diferencia (<span class="in">`add_p()`</span>).</span>
-<span id="cb9-328"><a href="#cb9-328"></a><span class="ss">3. </span>Una tabla aparte con los datos faltantes por columna, ordenada de mayor a menor, con la columna y el % de NA.</span>
-<span id="cb9-329"><a href="#cb9-329"></a></span>
-<span id="cb9-330"><a href="#cb9-330"></a>Devuélveme solo el código completo en un bloque, listo para copiar a RStudio. Al final, agrega un comentario <span class="in">`# Verificación:`</span> con dos chequeos rápidos que yo deba hacer al ver las tablas.</span>
-<span id="cb9-331"><a href="#cb9-331"></a>:::</span>
-<span id="cb9-332"><a href="#cb9-332"></a></span>
-<span id="cb9-333"><a href="#cb9-333"></a><span class="fu">### Qué espera ver</span></span>
-<span id="cb9-334"><a href="#cb9-334"></a></span>
-<span id="cb9-335"><a href="#cb9-335"></a>Una tabla descriptiva por grupo, comparable a la de balance que se usa en RCT, y un listado claro de NA. **Lo importante**: identifique aquí qué covariables tienen muy pocos faltantes y son candidatas a entrar como controles en cualquier modelo posterior.</span>
-<span id="cb9-336"><a href="#cb9-336"></a></span>
-<span id="cb9-337"><a href="#cb9-337"></a><span class="fu">### Prompt 4.2 — Construir el vector de covariables</span></span>
-<span id="cb9-338"><a href="#cb9-338"></a></span>
-<span id="cb9-339"><a href="#cb9-339"></a>Este paso es clave porque genera un objeto que **reutilizará en todos los anexos**. La idea es decidir, con ayuda de la IA, qué covariables son numéricamente sólidas (pocos NA, varianza no nula, no perfectamente colineales con otra) y guardarlas en un vector con nombre.</span>
-<span id="cb9-340"><a href="#cb9-340"></a></span>
-<span id="cb9-341"><a href="#cb9-341"></a>::: {.prompt-block}</span>
-<span id="cb9-342"><a href="#cb9-342"></a>Con la base <span class="in">`base_anonima.csv`</span> cargada, ayúdame a construir el vector de covariables que voy a usar en los modelos posteriores.</span>
-<span id="cb9-343"><a href="#cb9-343"></a></span>
-<span id="cb9-344"><a href="#cb9-344"></a>**Mi variable de resultado es:** <span class="in">`[nombre]`</span></span>
-<span id="cb9-345"><a href="#cb9-345"></a>**Mi variable de tratamiento es:** <span class="in">`[nombre]`</span></span>
-<span id="cb9-346"><a href="#cb9-346"></a>**Mi periodo (si aplica) es:** <span class="in">`[nombre o "no aplica"]`</span></span>
-<span id="cb9-347"><a href="#cb9-347"></a></span>
-<span id="cb9-348"><a href="#cb9-348"></a>Genera un script en R que:</span>
-<span id="cb9-349"><a href="#cb9-349"></a></span>
-<span id="cb9-350"><a href="#cb9-350"></a><span class="ss">1. </span>Liste todas las columnas que NO son resultado, tratamiento, periodo ni id.</span>
-<span id="cb9-351"><a href="#cb9-351"></a><span class="ss">2. </span>Para cada candidata calcule: % NA, varianza (si numérica), número de categorías (si factor).</span>
-<span id="cb9-352"><a href="#cb9-352"></a><span class="ss">3. </span>Descarte automáticamente: columnas con &gt; 20% NA, varianza cero, o que sean transformaciones lineales exactas de otra (correlación |r| &gt; 0.95).</span>
-<span id="cb9-353"><a href="#cb9-353"></a><span class="ss">4. </span>Imprima el vector final con <span class="in">`cat('covariables &lt;- c(', paste0('"', nombres, '"', collapse=', '), ')')`</span> para que yo lo pueda copiar tal cual.</span>
-<span id="cb9-354"><a href="#cb9-354"></a></span>
-<span id="cb9-355"><a href="#cb9-355"></a>Devuelve solo código. Después del bloque, en una línea, dime qué umbral cambiar si quiero ser más o menos estricto.</span>
-<span id="cb9-356"><a href="#cb9-356"></a>:::</span>
-<span id="cb9-357"><a href="#cb9-357"></a></span>
-<span id="cb9-358"><a href="#cb9-358"></a><span class="fu">### Qué hacer con la respuesta</span></span>
-<span id="cb9-359"><a href="#cb9-359"></a></span>
-<span id="cb9-360"><a href="#cb9-360"></a>Pegue la línea final que la IA imprimió, por ejemplo:</span>
-<span id="cb9-361"><a href="#cb9-361"></a></span>
-<span id="cb9-362"><a href="#cb9-362"></a><span class="in">```r</span></span>
-<span id="cb9-363"><a href="#cb9-363"></a>covariables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"edad"</span>, <span class="st">"anios_educacion"</span>, <span class="st">"tamano_hogar"</span>, <span class="st">"ingreso_base"</span>)</span>
-<span id="cb9-364"><a href="#cb9-364"></a><span class="in">```</span></span>
-<span id="cb9-365"><a href="#cb9-365"></a></span>
-<span id="cb9-366"><a href="#cb9-366"></a>Guarde ese vector en su script. **Cada anexo de método empieza con esa línea**: en RCT lo usa para la tabla de balance; en DiD para los controles; en Matching para estimar el propensity score; en RDD para verificar continuidad de covariables.</span>
-<span id="cb9-367"><a href="#cb9-367"></a></span>
-<span id="cb9-368"><a href="#cb9-368"></a><span class="fu">### Prompt 4.3 — Detección de subgrupos para análisis de heterogeneidad</span></span>
-<span id="cb9-369"><a href="#cb9-369"></a></span>
-<span id="cb9-370"><a href="#cb9-370"></a>::: {.prompt-block}</span>
-<span id="cb9-371"><a href="#cb9-371"></a>Con la base cargada, genera un script en R que identifique **candidatos a subgrupos** para análisis de heterogeneidad. Un buen subgrupo es una variable categórica o binaria que:</span>
-<span id="cb9-372"><a href="#cb9-372"></a></span>
-<span id="cb9-373"><a href="#cb9-373"></a><span class="ss">- </span>Tiene al menos 2 categorías con n ≥ 30 cada una en el grupo de tratamiento.</span>
-<span id="cb9-374"><a href="#cb9-374"></a><span class="ss">- </span>Es teóricamente relevante (sexo, zona urbana/rural, nivel educativo, edad agrupada).</span>
-<span id="cb9-375"><a href="#cb9-375"></a></span>
-<span id="cb9-376"><a href="#cb9-376"></a>Devuelve solo código que:</span>
-<span id="cb9-377"><a href="#cb9-377"></a></span>
-<span id="cb9-378"><a href="#cb9-378"></a><span class="ss">1. </span>Recorra las columnas del data frame.</span>
-<span id="cb9-379"><a href="#cb9-379"></a><span class="ss">2. </span>Imprima una tabla con: variable | n por categoría dentro de tratados | apta (sí/no).</span>
-<span id="cb9-380"><a href="#cb9-380"></a><span class="ss">3. </span>Al final imprima: <span class="in">`subgrupos &lt;- c('var1', 'var2', …)`</span> con las que pasen el filtro.</span>
-<span id="cb9-381"><a href="#cb9-381"></a></span>
-<span id="cb9-382"><a href="#cb9-382"></a>Después del bloque, en una sola frase, recuérdame que debo descartar manualmente cualquier subgrupo que pueda estar afectado por el tratamiento (post-tratamiento).</span>
-<span id="cb9-383"><a href="#cb9-383"></a>:::</span>
-<span id="cb9-384"><a href="#cb9-384"></a></span>
-<span id="cb9-385"><a href="#cb9-385"></a>::: {.callout-warning}</span>
-<span id="cb9-386"><a href="#cb9-386"></a><span class="fu">## Subgrupos post-tratamiento</span></span>
-<span id="cb9-387"><a href="#cb9-387"></a>Nunca use como subgrupo una variable que pudo haber sido modificada por el programa (ej.: si el programa promueve empleo, no use "empleado/desempleado en línea de seguimiento" como subgrupo). Eso introduce sesgo de selección post-tratamiento. La IA no detecta este problema automáticamente — usted sí.</span>
-<span id="cb9-388"><a href="#cb9-388"></a>:::</span>
-<span id="cb9-389"><a href="#cb9-389"></a></span>
-<span id="cb9-390"><a href="#cb9-390"></a>---</span>
-<span id="cb9-391"><a href="#cb9-391"></a></span>
-<span id="cb9-392"><a href="#cb9-392"></a><span class="fu">## De aquí en adelante: la guía por método</span></span>
-<span id="cb9-393"><a href="#cb9-393"></a></span>
-<span id="cb9-394"><a href="#cb9-394"></a>Ya tiene los tres insumos que se reutilizan en todos los métodos:</span>
-<span id="cb9-395"><a href="#cb9-395"></a></span>
-<span id="cb9-396"><a href="#cb9-396"></a><span class="ss">1. </span>**Base anonimizada** (<span class="in">`base_anonima.csv`</span>)</span>
-<span id="cb9-397"><a href="#cb9-397"></a><span class="ss">2. </span>**Vector de covariables** (<span class="in">`covariables &lt;- c(...)`</span>)</span>
-<span id="cb9-398"><a href="#cb9-398"></a><span class="ss">3. </span>**Vector de subgrupos** (<span class="in">`subgrupos &lt;- c(...)`</span>)</span>
-<span id="cb9-399"><a href="#cb9-399"></a></span>
-<span id="cb9-400"><a href="#cb9-400"></a>A partir de aquí, vaya al anexo del método que eligió con el <span class="co">[</span><span class="ot">autodiagnóstico</span><span class="co">](02-autodiagnostico.qmd)</span>:</span>
-<span id="cb9-401"><a href="#cb9-401"></a></span>
-<span id="cb9-402"><a href="#cb9-402"></a><span class="pp">|</span> Método <span class="pp">|</span> Anexo <span class="pp">|</span> Qué encontrará <span class="pp">|</span></span>
-<span id="cb9-403"><a href="#cb9-403"></a><span class="pp">|--------|-------|----------------|</span></span>
-<span id="cb9-404"><a href="#cb9-404"></a><span class="pp">|</span> RCT <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo RCT</span><span class="co">](anexo-codigo-rct.qmd)</span> <span class="pp">|</span> Tabla de balance, prueba F conjunta, atrición diferencial, ITT vs. TOT <span class="pp">|</span></span>
-<span id="cb9-405"><a href="#cb9-405"></a><span class="pp">|</span> DiD <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo DiD</span><span class="co">](anexo-codigo-did.qmd)</span> <span class="pp">|</span> Tendencias paralelas, regresión de DiD con efectos fijos, eventos placebo <span class="pp">|</span></span>
-<span id="cb9-406"><a href="#cb9-406"></a><span class="pp">|</span> Matching <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo Matching</span><span class="co">](anexo-codigo-matching.qmd)</span> <span class="pp">|</span> Propensity score, soporte común, balance post-matching, ATT <span class="pp">|</span></span>
-<span id="cb9-407"><a href="#cb9-407"></a><span class="pp">|</span> IV <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo IV</span><span class="co">](anexo-codigo-iv.qmd)</span> <span class="pp">|</span> Primera etapa, F-test débil, 2SLS, exclusión <span class="pp">|</span></span>
-<span id="cb9-408"><a href="#cb9-408"></a><span class="pp">|</span> RDD <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo RDD</span><span class="co">](anexo-codigo-rdd.qmd)</span> <span class="pp">|</span> McCrary, continuidad de covariables, banda óptima, RDD local <span class="pp">|</span></span>
-<span id="cb9-409"><a href="#cb9-409"></a><span class="pp">|</span> Poder <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo Poder</span><span class="co">](anexo-codigo-poder.qmd)</span> <span class="pp">|</span> Tamaño de muestra, MDE, ajuste por clusters <span class="pp">|</span></span>
-<span id="cb9-410"><a href="#cb9-410"></a></span>
-<span id="cb9-411"><a href="#cb9-411"></a>Cada anexo replica la misma lógica que vio aquí —**prompt → código copiable → qué verificar**— pero con un **dataset simulado sencillo** y prompts específicos del método.</span>
-<span id="cb9-412"><a href="#cb9-412"></a></span>
-<span id="cb9-413"><a href="#cb9-413"></a>---</span>
-<span id="cb9-414"><a href="#cb9-414"></a></span>
-<span id="cb9-415"><a href="#cb9-415"></a><span class="fu">## Análisis de heterogeneidad (transversal)</span></span>
-<span id="cb9-416"><a href="#cb9-416"></a></span>
-<span id="cb9-417"><a href="#cb9-417"></a>Aunque cada método tiene su propia estimación principal, el análisis de heterogeneidad sigue la misma receta. Lo dejamos aquí porque se aplica igual en RCT, DiD, Matching o IV.</span>
-<span id="cb9-418"><a href="#cb9-418"></a></span>
-<span id="cb9-419"><a href="#cb9-419"></a><span class="fu">### Prompt 4.1 — Forest plot de efectos heterogéneos</span></span>
-<span id="cb9-420"><a href="#cb9-420"></a></span>
-<span id="cb9-421"><a href="#cb9-421"></a>::: {.prompt-block}</span>
-<span id="cb9-422"><a href="#cb9-422"></a>Tengo estimado el efecto del programa con <span class="in">`[método]`</span>. Quiero el efecto desagregado por los subgrupos del vector <span class="in">`subgrupos`</span>.</span>
-<span id="cb9-423"><a href="#cb9-423"></a></span>
-<span id="cb9-424"><a href="#cb9-424"></a>Genera un script en R que:</span>
-<span id="cb9-425"><a href="#cb9-425"></a></span>
-<span id="cb9-426"><a href="#cb9-426"></a><span class="ss">1. </span>Para cada variable en <span class="in">`subgrupos`</span>, ajuste el mismo modelo dentro de cada categoría.</span>
-<span id="cb9-427"><a href="#cb9-427"></a><span class="ss">2. </span>Extraiga coeficiente, error estándar, IC95% y n.</span>
-<span id="cb9-428"><a href="#cb9-428"></a><span class="ss">3. </span>Combine todo en un solo data frame con columnas: <span class="in">`dimension | categoria | efecto | li | ls | n`</span>.</span>
-<span id="cb9-429"><a href="#cb9-429"></a><span class="ss">4. </span>Grafique con <span class="in">`ggplot2`</span> un forest plot: punto + barra horizontal de IC, una fila por subgrupo, agrupado por dimensión, línea vertical en cero, color <span class="in">`#D85A30`</span>.</span>
-<span id="cb9-430"><a href="#cb9-430"></a><span class="ss">5. </span>Agregue un test formal de interacción (<span class="in">`lm(... * subgrupo)`</span>) y reporte el valor p de la interacción al lado del nombre de cada dimensión.</span>
-<span id="cb9-431"><a href="#cb9-431"></a></span>
-<span id="cb9-432"><a href="#cb9-432"></a>Solo código, en un bloque. Después, en una frase, indícame cómo leer el forest plot.</span>
-<span id="cb9-433"><a href="#cb9-433"></a>:::</span>
-<span id="cb9-434"><a href="#cb9-434"></a></span>
-<span id="cb9-435"><a href="#cb9-435"></a>---</span>
-<span id="cb9-436"><a href="#cb9-436"></a></span>
-<span id="cb9-437"><a href="#cb9-437"></a><span class="fu">## Robustez y reporte (transversal)</span></span>
-<span id="cb9-438"><a href="#cb9-438"></a></span>
-<span id="cb9-439"><a href="#cb9-439"></a><span class="fu">### Prompt 5.1 — Tabla de sensibilidad a covariables</span></span>
-<span id="cb9-440"><a href="#cb9-440"></a></span>
-<span id="cb9-441"><a href="#cb9-441"></a>::: {.prompt-block}</span>
-<span id="cb9-442"><a href="#cb9-442"></a>Quiero verificar que mi efecto principal es robusto a la elección de covariables. Genera un script en R que estime 4 especificaciones del mismo modelo <span class="in">`[método]`</span>:</span>
-<span id="cb9-443"><a href="#cb9-443"></a></span>
-<span id="cb9-444"><a href="#cb9-444"></a><span class="ss">1. </span>Sin covariables.</span>
-<span id="cb9-445"><a href="#cb9-445"></a><span class="ss">2. </span>Solo demográficas básicas: edad, sexo.</span>
-<span id="cb9-446"><a href="#cb9-446"></a><span class="ss">3. </span>Demográficas + socioeconómicas (todas las del vector <span class="in">`covariables`</span>).</span>
-<span id="cb9-447"><a href="#cb9-447"></a><span class="ss">4. </span>Especificación 3 + efectos fijos por <span class="in">`[unidad geográfica]`</span>.</span>
-<span id="cb9-448"><a href="#cb9-448"></a></span>
-<span id="cb9-449"><a href="#cb9-449"></a>Pon los 4 modelos en una sola tabla con <span class="in">`modelsummary::modelsummary()`</span>, mostrando coeficiente del tratamiento, error estándar (clusterizado por <span class="in">`[unidad]`</span>), IC95%, n y R². Estrellas de significancia.</span>
-<span id="cb9-450"><a href="#cb9-450"></a></span>
-<span id="cb9-451"><a href="#cb9-451"></a>Solo código. Al final dime qué cambio entre columnas sería una señal de alerta.</span>
-<span id="cb9-452"><a href="#cb9-452"></a>:::</span>
-<span id="cb9-453"><a href="#cb9-453"></a></span>
-<span id="cb9-454"><a href="#cb9-454"></a><span class="fu">### Prompt 5.2 — Redacción del párrafo de resultados</span></span>
-<span id="cb9-455"><a href="#cb9-455"></a></span>
-<span id="cb9-456"><a href="#cb9-456"></a>::: {.prompt-block}</span>
-<span id="cb9-457"><a href="#cb9-457"></a>Mis resultados principales son:</span>
-<span id="cb9-458"><a href="#cb9-458"></a></span>
-<span id="cb9-459"><a href="#cb9-459"></a><span class="in">```</span></span>
-<span id="cb9-460"><a href="#cb9-460"></a><span class="in">[pegue la tabla principal]</span></span>
-<span id="cb9-461"><a href="#cb9-461"></a><span class="in">```</span></span>
-<span id="cb9-462"><a href="#cb9-462"></a></span>
-<span id="cb9-463"><a href="#cb9-463"></a>Redacta, para un informe dirigido a tomadores de decisión sin formación estadística:</span>
-<span id="cb9-464"><a href="#cb9-464"></a></span>
-<span id="cb9-465"><a href="#cb9-465"></a><span class="ss">1. </span>Un **párrafo de 4–5 líneas** con: si el programa tuvo efecto, magnitud en unidades comprensibles, nivel de confianza, y para quién funcionó mejor.</span>
-<span id="cb9-466"><a href="#cb9-466"></a><span class="ss">2. </span>Un **párrafo de matices** con limitaciones del análisis y qué tan generalizables son los resultados.</span>
-<span id="cb9-467"><a href="#cb9-467"></a><span class="ss">3. </span>Una **recomendación accionable** en una frase: continuar / expandir / modificar / no escalar.</span>
-<span id="cb9-468"><a href="#cb9-468"></a></span>
-<span id="cb9-469"><a href="#cb9-469"></a>Tono profesional pero accesible. Sin jerga estadística innecesaria. No menciones "p-valor" ni "intervalo de confianza" sin traducirlo.</span>
-<span id="cb9-470"><a href="#cb9-470"></a>:::</span>
-<span id="cb9-471"><a href="#cb9-471"></a></span>
-<span id="cb9-472"><a href="#cb9-472"></a><span class="fu">### Prompt 5.3 — Convertir resultados en tablas tipo artículo</span></span>
-<span id="cb9-473"><a href="#cb9-473"></a></span>
-<span id="cb9-474"><a href="#cb9-474"></a>::: {.prompt-block}</span>
-<span id="cb9-475"><a href="#cb9-475"></a>Actúa como analista de evaluación de impacto y editor técnico de una revista académica. Ya tengo en R los objetos de modelos:</span>
-<span id="cb9-476"><a href="#cb9-476"></a></span>
-<span id="cb9-477"><a href="#cb9-477"></a><span class="in">```</span></span>
-<span id="cb9-478"><a href="#cb9-478"></a><span class="in">[pegue aquí los nombres de los modelos: m1, m2, m3...]</span></span>
-<span id="cb9-479"><a href="#cb9-479"></a><span class="in">```</span></span>
-<span id="cb9-480"><a href="#cb9-480"></a></span>
-<span id="cb9-481"><a href="#cb9-481"></a>Genera código en R que produzca una tabla de regresiones tipo **Stargazer / artículo académico**, con estas reglas:</span>
-<span id="cb9-482"><a href="#cb9-482"></a></span>
-<span id="cb9-483"><a href="#cb9-483"></a><span class="ss">1. </span>Columnas numeradas <span class="in">`(1)`</span>, <span class="in">`(2)`</span>, <span class="in">`(3)`</span> y nombre corto de la variable dependiente debajo.</span>
-<span id="cb9-484"><a href="#cb9-484"></a><span class="ss">2. </span>Coeficientes con estrellas de significancia y errores estándar entre paréntesis en la línea siguiente.</span>
-<span id="cb9-485"><a href="#cb9-485"></a><span class="ss">3. </span>Filas de <span class="in">`Observations`</span>, <span class="in">`R-squared`</span>, covariables, efectos fijos, pesos y tipo de error estándar.</span>
-<span id="cb9-486"><a href="#cb9-486"></a><span class="ss">4. </span>Nota al pie: <span class="in">`Standard errors in parentheses; *** p&lt;0.01, ** p&lt;0.05, * p&lt;0.1`</span>.</span>
-<span id="cb9-487"><a href="#cb9-487"></a><span class="ss">5. </span>Exporta la tabla como PNG en una carpeta <span class="in">`tables/`</span>, con resolución suficiente para pegar en Word o PowerPoint.</span>
-<span id="cb9-488"><a href="#cb9-488"></a></span>
-<span id="cb9-489"><a href="#cb9-489"></a>Usa <span class="in">`modelsummary`</span>, <span class="in">`gt`</span>, <span class="in">`gtsummary`</span> o una solución con <span class="in">`grid`</span> si exportar con HTML falla. Devuélveme solo código ejecutable y robusto. Al final imprime la ruta del PNG generado.</span>
-<span id="cb9-490"><a href="#cb9-490"></a>:::</span>
-<span id="cb9-491"><a href="#cb9-491"></a></span>
-<span id="cb9-492"><a href="#cb9-492"></a><span class="fu">### Prompt 5.4 — Gráficos de diagnóstico listos para informe</span></span>
-<span id="cb9-493"><a href="#cb9-493"></a></span>
-<span id="cb9-494"><a href="#cb9-494"></a>::: {.prompt-block}</span>
-<span id="cb9-495"><a href="#cb9-495"></a>Tengo una base limpia y un efecto estimado. Genera código en R para crear gráficos diagnósticos listos para informe, siguiendo estos criterios:</span>
-<span id="cb9-496"><a href="#cb9-496"></a></span>
-<span id="cb9-497"><a href="#cb9-497"></a><span class="ss">1. </span>Paleta sobria: control en gris/azul, tratamiento en naranja.</span>
-<span id="cb9-498"><a href="#cb9-498"></a><span class="ss">2. </span>Título claro, subtítulo interpretativo y ejes en español.</span>
-<span id="cb9-499"><a href="#cb9-499"></a><span class="ss">3. </span>Intervalos de confianza al 95% cuando haya estimaciones.</span>
-<span id="cb9-500"><a href="#cb9-500"></a><span class="ss">4. </span>Una línea vertical u horizontal en cero cuando el gráfico muestre efectos.</span>
-<span id="cb9-501"><a href="#cb9-501"></a><span class="ss">5. </span>Exportar cada gráfico como PNG en <span class="in">`plots/`</span> con <span class="in">`ggsave()`</span>.</span>
-<span id="cb9-502"><a href="#cb9-502"></a></span>
-<span id="cb9-503"><a href="#cb9-503"></a>Quiero que el código produzca, si aplica al método:</span>
-<span id="cb9-504"><a href="#cb9-504"></a></span>
-<span id="cb9-505"><a href="#cb9-505"></a><span class="ss">- </span>distribución del resultado por grupo;</span>
-<span id="cb9-506"><a href="#cb9-506"></a><span class="ss">- </span>gráfico de balance de covariables;</span>
-<span id="cb9-507"><a href="#cb9-507"></a><span class="ss">- </span>gráfico de coeficientes con IC95%;</span>
-<span id="cb9-508"><a href="#cb9-508"></a><span class="ss">- </span>forest plot de heterogeneidad;</span>
-<span id="cb9-509"><a href="#cb9-509"></a><span class="ss">- </span>tendencias o event study para paneles.</span>
-<span id="cb9-510"><a href="#cb9-510"></a></span>
-<span id="cb9-511"><a href="#cb9-511"></a>Antes de escribir código, identifica cuáles de estos gráficos sí aplican al método <span class="in">`[RCT / DiD / PSM / IV / RDD]`</span> y cuáles no. Luego entrega solo el código.</span>
-<span id="cb9-512"><a href="#cb9-512"></a>:::</span>
-<span id="cb9-513"><a href="#cb9-513"></a></span>
-<span id="cb9-514"><a href="#cb9-514"></a><span class="fu">### Prompt 5.5 — Revisar outputs reales y proponer correcciones</span></span>
-<span id="cb9-515"><a href="#cb9-515"></a></span>
-<span id="cb9-516"><a href="#cb9-516"></a>::: {.prompt-block}</span>
-<span id="cb9-517"><a href="#cb9-517"></a>Actúa como revisor técnico de un análisis de evaluación de impacto. Estos son los outputs que obtuve al correr mi script:</span>
-<span id="cb9-518"><a href="#cb9-518"></a></span>
-<span id="cb9-519"><a href="#cb9-519"></a><span class="in">```</span></span>
-<span id="cb9-520"><a href="#cb9-520"></a><span class="in">[pegue aquí consola, tabla de balance, tabla de regresión y advertencias]</span></span>
-<span id="cb9-521"><a href="#cb9-521"></a><span class="in">```</span></span>
-<span id="cb9-522"><a href="#cb9-522"></a></span>
-<span id="cb9-523"><a href="#cb9-523"></a>Revisa los resultados y dime:</span>
-<span id="cb9-524"><a href="#cb9-524"></a></span>
-<span id="cb9-525"><a href="#cb9-525"></a><span class="ss">1. </span>Qué señales son tranquilizadoras.</span>
-<span id="cb9-526"><a href="#cb9-526"></a><span class="ss">2. </span>Qué señales son alertas metodológicas o de calidad de datos.</span>
-<span id="cb9-527"><a href="#cb9-527"></a><span class="ss">3. </span>Qué cambios harías en el código.</span>
-<span id="cb9-528"><a href="#cb9-528"></a><span class="ss">4. </span>Qué tablas o gráficos faltan para que el análisis sea defendible.</span>
-<span id="cb9-529"><a href="#cb9-529"></a><span class="ss">5. </span>Qué conclusión NO debería decir todavía.</span>
-<span id="cb9-530"><a href="#cb9-530"></a></span>
-<span id="cb9-531"><a href="#cb9-531"></a>No reescribas todo el análisis. Dame una lista priorizada de mejoras y, para cada una, el fragmento de código mínimo que tendría que cambiar.</span>
-<span id="cb9-532"><a href="#cb9-532"></a>:::</span>
-<span id="cb9-533"><a href="#cb9-533"></a></span>
-<span id="cb9-534"><a href="#cb9-534"></a>---</span>
-<span id="cb9-535"><a href="#cb9-535"></a></span>
-<span id="cb9-536"><a href="#cb9-536"></a><span class="fu">## Documentar el uso de IA (obligatorio)</span></span>
-<span id="cb9-537"><a href="#cb9-537"></a></span>
-<span id="cb9-538"><a href="#cb9-538"></a>@cgiar2024ai y @ukri2025ai coinciden en que toda evaluación que use IA debe incluir una **declaración de uso de IA** en el informe final. Como mínimo:</span>
-<span id="cb9-539"><a href="#cb9-539"></a></span>
-<span id="cb9-540"><a href="#cb9-540"></a><span class="ss">- </span>Qué herramienta(s) y modelo(s) se usaron (ChatGPT-4, Claude 3.5, Gemini 2.5, etc.).</span>
-<span id="cb9-541"><a href="#cb9-541"></a><span class="ss">- </span>En qué tareas se usó (anonimización, descriptivos, generación de código, redacción de borradores).</span>
-<span id="cb9-542"><a href="#cb9-542"></a><span class="ss">- </span>Cómo se verificaron los resultados (ejecución del código en máquina propia, doble revisión, comparación con métodos tradicionales).</span>
-<span id="cb9-543"><a href="#cb9-543"></a><span class="ss">- </span>Qué tareas se mantuvieron exclusivamente humanas (decisiones de diseño, juicio sobre validez, conclusiones).</span>
-<span id="cb9-544"><a href="#cb9-544"></a><span class="ss">- </span>Cualquier limitación, alucinación o sesgo observado durante el proceso.</span>
-<span id="cb9-545"><a href="#cb9-545"></a></span>
-<span id="cb9-546"><a href="#cb9-546"></a>::: {.callout-tip}</span>
-<span id="cb9-547"><a href="#cb9-547"></a><span class="fu">## Plantilla mínima de declaración</span></span>
-<span id="cb9-548"><a href="#cb9-548"></a></span>
-<span id="cb9-549"><a href="#cb9-549"></a><span class="at">&gt; *Para este informe se utilizó `[Claude 3.5 Sonnet / GPT-4 / …]` como asistente para `[anonimizar la base, generar código en R, redactar borradores de la sección de resultados]`. Todo el código fue ejecutado por el equipo evaluador en su entorno local; los resultados estadísticos se verificaron de forma independiente en `[R / Stata]`. Las decisiones de diseño, la elección de método y las conclusiones del informe son responsabilidad de los autores. No se compartió información personal identificable con la herramienta.*</span></span>
-<span id="cb9-550"><a href="#cb9-550"></a><span class="at">:::</span></span>
-<span id="cb9-551"><a href="#cb9-551"></a></span>
-<span id="cb9-552"><a href="#cb9-552"></a>---</span>
-<span id="cb9-553"><a href="#cb9-553"></a></span>
-<span id="cb9-554"><a href="#cb9-554"></a><span class="fu">## Errores comunes al usar IA en evaluación</span></span>
-<span id="cb9-555"><a href="#cb9-555"></a></span>
-<span id="cb9-556"><a href="#cb9-556"></a>::: {.callout-warning}</span>
-<span id="cb9-557"><a href="#cb9-557"></a><span class="fu">## No haga esto</span></span>
-<span id="cb9-558"><a href="#cb9-558"></a></span>
-<span id="cb9-559"><a href="#cb9-559"></a><span class="ss">- </span>**Confiar ciegamente en el código.** La IA puede generar código que corre pero hace algo distinto a lo que usted pidió. Lea cada bloque antes de ejecutar <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>.</span>
-<span id="cb9-560"><a href="#cb9-560"></a><span class="ss">- </span>**No verificar supuestos.** La IA estimará un DiD sin chequear tendencias paralelas si no se lo pide. Siempre exija las verificaciones del método.</span>
-<span id="cb9-561"><a href="#cb9-561"></a><span class="ss">- </span>**Pegar la base completa.** Solo las primeras filas anonimizadas. Ejecute el análisis en su computador.</span>
-<span id="cb9-562"><a href="#cb9-562"></a><span class="ss">- </span>**Aceptar la primera respuesta.** El primer prompt rara vez es el bueno. Itere <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
-<span id="cb9-563"><a href="#cb9-563"></a><span class="ss">- </span>**Usar un método inadecuado.** La IA ejecuta lo que usted pida, aunque no aplique. Use el <span class="co">[</span><span class="ot">autodiagnóstico</span><span class="co">](02-autodiagnostico.qmd)</span> primero.</span>
-<span id="cb9-564"><a href="#cb9-564"></a><span class="ss">- </span>**Omitir la declaración de uso de IA.** Es un requisito ético creciente en evaluación <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span>.</span>
-<span id="cb9-565"><a href="#cb9-565"></a><span class="ss">- </span>**Tratar los textos generados como autoría suya.** La IA produce borradores. Reescriba con su voz y verifique cada cifra.</span>
-<span id="cb9-566"><a href="#cb9-566"></a>:::</span>
-<span id="cb9-567"><a href="#cb9-567"></a></span>
-<span id="cb9-568"><a href="#cb9-568"></a>::: {.callout-tip}</span>
-<span id="cb9-569"><a href="#cb9-569"></a><span class="fu">## Lecturas recomendadas</span></span>
-<span id="cb9-570"><a href="#cb9-570"></a></span>
-<span id="cb9-571"><a href="#cb9-571"></a><span class="ss">- </span>@cgiar2024ai — Nota técnica del CGIAR sobre uso ético y práctico de IA en evaluación, con ejemplos, tabla de tareas y *checklists*.</span>
-<span id="cb9-572"><a href="#cb9-572"></a><span class="ss">- </span>@ukri2025ai — Informe del Innovation and Research Caucus para UKRI, con marco de gobernanza, *checklists* por etapa y discusión a fondo de riesgos.</span>
-<span id="cb9-573"><a href="#cb9-573"></a>:::</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu"># Cómo hablar con la IA para hacer una evaluación de impacto {#sec-guia-ia}</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a>Esta guía está pensada para profesionales que **no saben programar** pero tienen una base de datos y necesitan llevar a cabo una evaluación de impacto. La idea es usar una IA conversacional (Claude, ChatGPT, Gemini, Copilot u otra) como un **asistente de análisis**: alguien que escribe código por usted, le explica resultados y le ayuda a iterar, mientras usted mantiene el juicio profesional sobre el diseño y las conclusiones.</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a>Este capítulo cubre la parte **transversal** del trabajo con IA: cómo prepararse, cómo proteger los datos, cómo describir y explorar la base, y cómo construir los insumos (variables, vectores, subgrupos) que después usará en cada método. Las recetas específicas de cada método —RCT, DiD, IV, RDD, Matching, Poder— viven en sus respectivos anexos de código.</span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="fu">## ¿Qué obtiene del uso de IA en una evaluación?</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a>La IA generativa **democratiza el acceso a métodos analíticos sofisticados** que antes requerían años de entrenamiento técnico <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>. Para un evaluador que no programa, los beneficios concretos son:</span>
+<span id="cb7-10"><a href="#cb7-10"></a></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="pp">|</span> Beneficio <span class="pp">|</span> En qué se traduce <span class="pp">|</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="pp">|-----------|-------------------|</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="pp">|</span> **Soporte para escribir código** <span class="pp">|</span> La IA genera scripts en R o Python listos para copiar y ejecutar <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span> <span class="pp">|</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="pp">|</span> **Procesamiento más rápido de datos** <span class="pp">|</span> Limpieza, recodificación y descriptivos en minutos en lugar de días <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span> <span class="pp">|</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="pp">|</span> **Pluralismo metodológico** <span class="pp">|</span> Probar varios métodos sobre los mismos datos sin tener que aprender la sintaxis de cada uno <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span> <span class="pp">|</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="pp">|</span> **Replicabilidad** <span class="pp">|</span> Código documentado paso a paso que cualquier persona puede ejecutar de nuevo <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span> <span class="pp">|</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="pp">|</span> **Acompañamiento pedagógico** <span class="pp">|</span> La IA explica los resultados en lenguaje simple si así se le pide <span class="pp">|</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a></span>
+<span id="cb7-19"><a href="#cb7-19"></a>::: {.callout-warning}</span>
+<span id="cb7-20"><a href="#cb7-20"></a><span class="fu">## Lo que la IA *no* reemplaza</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a></span>
+<span id="cb7-22"><a href="#cb7-22"></a>La IA es un asistente, no un reemplazo del juicio profesional. Los textos guía sobre uso de IA en evaluación son explícitos: los resultados deben tratarse como **borradores sujetos a verificación humana** <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span>. Riesgos concretos:</span>
+<span id="cb7-23"><a href="#cb7-23"></a></span>
+<span id="cb7-24"><a href="#cb7-24"></a><span class="ss">- </span>**Alucinaciones**: la IA puede inventar referencias, fabricar números o producir interpretaciones plausibles pero falsas <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
+<span id="cb7-25"><a href="#cb7-25"></a><span class="ss">- </span>**Sesgo algorítmico**: refleja perspectivas dominantes en los datos de entrenamiento; puede reforzar estereotipos o invisibilizar contextos minoritarios <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span>.</span>
+<span id="cb7-26"><a href="#cb7-26"></a><span class="ss">- </span>**Privacidad**: lo que escriba en una herramienta comercial puede usarse para entrenar modelos futuros. Nunca comparta datos sensibles ni información identificable <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
+<span id="cb7-27"><a href="#cb7-27"></a><span class="ss">- </span>**Atrofia cognitiva (*deskilling*)**: el uso acrítico erosiona la capacidad de pensamiento crítico <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>.</span>
+<span id="cb7-28"><a href="#cb7-28"></a>:::</span>
+<span id="cb7-29"><a href="#cb7-29"></a></span>
+<span id="cb7-30"><a href="#cb7-30"></a><span class="fu">## Buenas prácticas transversales</span></span>
+<span id="cb7-31"><a href="#cb7-31"></a></span>
+<span id="cb7-32"><a href="#cb7-32"></a>Las siguientes prácticas se aplican **a cada paso** de su trabajo con IA, sin importar el método. Vienen de la guía técnica de CGIAR <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span> y del informe del Innovation and Research Caucus para UKRI <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>.</span>
+<span id="cb7-33"><a href="#cb7-33"></a></span>
+<span id="cb7-34"><a href="#cb7-34"></a>::: {.callout-tip}</span>
+<span id="cb7-35"><a href="#cb7-35"></a><span class="fu">## Reglas de oro</span></span>
+<span id="cb7-36"><a href="#cb7-36"></a></span>
+<span id="cb7-37"><a href="#cb7-37"></a><span class="ss">1. </span>**Human-in-the-loop siempre.** Trate cada salida de la IA como un borrador. Verifique que los números tengan sentido (¿el efecto es +500%? algo está mal). Compare contra al menos un método tradicional cuando pueda <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>.</span>
+<span id="cb7-38"><a href="#cb7-38"></a><span class="ss">2. </span>**Diálogo iterativo, no prompt único.** Conseguir un resultado útil casi nunca sale del primer intento. Refine: "el gráfico está bien pero cambia colores", "agrega intervalo de confianza al 95%", "la tabla necesita una fila más" <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
+<span id="cb7-39"><a href="#cb7-39"></a><span class="ss">3. </span>**Anonimice antes de compartir.** Nunca pegue datos personales identificables (PII): nombres, cédulas, direcciones, teléfonos, datos de poblaciones vulnerables <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span>.</span>
+<span id="cb7-40"><a href="#cb7-40"></a><span class="ss">4. </span>**Comparta solo lo mínimo.** Para que la IA entienda la estructura le bastan los nombres de columnas y 5–10 filas anonimizadas. La base completa nunca debe salir de su computador.</span>
+<span id="cb7-41"><a href="#cb7-41"></a><span class="ss">5. </span>**Sea específico en el prompt.** Indique persona ("actúa como analista de evaluación"), tarea exacta, formato de salida y qué hacer con los resultados <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>. Pida código copiable, no descripciones genéricas.</span>
+<span id="cb7-42"><a href="#cb7-42"></a><span class="ss">6. </span>**Documente el uso de IA.** Guarde los prompts y respuestas. Reporte en el informe final qué tareas fueron asistidas por IA, con qué herramienta y cómo se verificaron los resultados <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span>.</span>
+<span id="cb7-43"><a href="#cb7-43"></a><span class="ss">7. </span>**Mantenga el juicio analítico.** Las conclusiones finales deben basarse en su lectura crítica, no en el output del modelo <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>.</span>
+<span id="cb7-44"><a href="#cb7-44"></a>:::</span>
+<span id="cb7-45"><a href="#cb7-45"></a></span>
+<span id="cb7-46"><a href="#cb7-46"></a><span class="fu">## Cómo escribir prompts que funcionen</span></span>
+<span id="cb7-47"><a href="#cb7-47"></a></span>
+<span id="cb7-48"><a href="#cb7-48"></a>A lo largo de esta guía y de los anexos por método verá prompts listos para copiar. Todos siguen la misma estructura, recomendada en la literatura <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>:</span>
+<span id="cb7-49"><a href="#cb7-49"></a></span>
+<span id="cb7-50"><a href="#cb7-50"></a><span class="in">```</span></span>
+<span id="cb7-51"><a href="#cb7-51"></a><span class="in">[ROL]      Actúa como analista de evaluación de impacto que escribe código en R.</span></span>
+<span id="cb7-52"><a href="#cb7-52"></a><span class="in">[CONTEXTO] Tengo una base de [N] observaciones de [tipo de programa]…</span></span>
+<span id="cb7-53"><a href="#cb7-53"></a><span class="in">[TAREA]    Genera un script que…</span></span>
+<span id="cb7-54"><a href="#cb7-54"></a><span class="in">[FORMATO]  Devuélveme solo el código en un bloque, listo para copiar y pegar</span></span>
+<span id="cb7-55"><a href="#cb7-55"></a><span class="in">           en RStudio, con comentarios en español que expliquen cada paso.</span></span>
+<span id="cb7-56"><a href="#cb7-56"></a><span class="in">[VERIFICACIÓN] Al final, indícame qué debería ver si todo salió bien y qué</span></span>
+<span id="cb7-57"><a href="#cb7-57"></a><span class="in">           sería una señal de alerta.</span></span>
+<span id="cb7-58"><a href="#cb7-58"></a><span class="in">```</span></span>
+<span id="cb7-59"><a href="#cb7-59"></a></span>
+<span id="cb7-60"><a href="#cb7-60"></a>Cuando el prompt está bien construido, la IA debe devolver **solo código copiable** y una breve nota de qué esperar. Si la respuesta es vaga, no acepte: pida específicamente "dame el código completo, no me lo expliques en pseudocódigo".</span>
+<span id="cb7-61"><a href="#cb7-61"></a></span>
+<span id="cb7-62"><a href="#cb7-62"></a>::: {.callout-note}</span>
+<span id="cb7-63"><a href="#cb7-63"></a><span class="fu">## Cómo está organizada esta sección</span></span>
+<span id="cb7-64"><a href="#cb7-64"></a></span>
+<span id="cb7-65"><a href="#cb7-65"></a><span class="ss">- </span>**Este capítulo (Pasos 1–4)** cubre la parte transversal: anonimización, exposición de la estructura de datos, limpieza y problemas comunes (uniones, duplicados, NA, outliers, tipos), y análisis descriptivo / exploratorio inicial. Lo que aquí construya —indicador de tratamiento, vector de covariables, periodos, subgrupos— se reutiliza en *todos* los métodos.</span>
+<span id="cb7-66"><a href="#cb7-66"></a><span class="ss">- </span>**Cada anexo de código** ([RCT](anexo-codigo-rct.qmd), [DiD](anexo-codigo-did.qmd), [IV](anexo-codigo-iv.qmd), [RDD](anexo-codigo-rdd.qmd), [Matching](anexo-codigo-matching.qmd), [Poder](anexo-codigo-poder.qmd)) tiene su propia sección **"Trabajando con IA paso a paso"** con prompts específicos del método, datos simulados sencillos y cómo interpretar la respuesta.</span>
+<span id="cb7-67"><a href="#cb7-67"></a>:::</span>
+<span id="cb7-68"><a href="#cb7-68"></a></span>
+<span id="cb7-69"><a href="#cb7-69"></a>---</span>
+<span id="cb7-70"><a href="#cb7-70"></a></span>
+<span id="cb7-71"><a href="#cb7-71"></a><span class="fu">## Paso 1: Anonimizar sus datos {#sec-ia-paso1}</span></span>
+<span id="cb7-72"><a href="#cb7-72"></a></span>
+<span id="cb7-73"><a href="#cb7-73"></a>Antes de compartir cualquier dato con una IA, **debe eliminar toda información que permita identificar a las personas**. Es un requisito ético y, en muchos países, legal (GDPR en Europa, Ley 1581 en Colombia, etc.) <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
+<span id="cb7-74"><a href="#cb7-74"></a></span>
+<span id="cb7-75"><a href="#cb7-75"></a><span class="fu">### ¿Qué eliminar y qué mantener?</span></span>
+<span id="cb7-76"><a href="#cb7-76"></a></span>
+<span id="cb7-77"><a href="#cb7-77"></a><span class="pp">|</span> Eliminar siempre <span class="pp">|</span> Mantener <span class="pp">|</span></span>
+<span id="cb7-78"><a href="#cb7-78"></a><span class="pp">|-------------------|----------|</span></span>
+<span id="cb7-79"><a href="#cb7-79"></a><span class="pp">|</span> Nombres y apellidos <span class="pp">|</span> Variables de resultado (ingresos, puntajes, etc.) <span class="pp">|</span></span>
+<span id="cb7-80"><a href="#cb7-80"></a><span class="pp">|</span> Números de identificación (cédula, DNI, RUT) <span class="pp">|</span> Indicador de tratamiento (1 = participó, 0 = no) <span class="pp">|</span></span>
+<span id="cb7-81"><a href="#cb7-81"></a><span class="pp">|</span> Direcciones exactas, geolocalización fina <span class="pp">|</span> Periodo o fecha de medición <span class="pp">|</span></span>
+<span id="cb7-82"><a href="#cb7-82"></a><span class="pp">|</span> Teléfonos y correos electrónicos <span class="pp">|</span> Covariables (edad, género, nivel educativo) <span class="pp">|</span></span>
+<span id="cb7-83"><a href="#cb7-83"></a><span class="pp">|</span> Nombres de comunidades pequeñas <span class="pp">|</span> Identificadores anónimos (ID_001, ID_002…) <span class="pp">|</span></span>
+<span id="cb7-84"><a href="#cb7-84"></a></span>
+<span id="cb7-85"><a href="#cb7-85"></a>::: {.callout-warning}</span>
+<span id="cb7-86"><a href="#cb7-86"></a><span class="fu">## Datos especialmente sensibles</span></span>
+<span id="cb7-87"><a href="#cb7-87"></a>@cgiar2024ai recomienda **nunca** enviar a servicios de IA de terceros datos sobre poblaciones vulnerables (refugiados, víctimas de violencia, trabajadoras sexuales, etc.) ni datos sensibles según GDPR (origen étnico, opiniones políticas, religión, salud, orientación sexual). Para esos casos use modelos locales o consulte con su equipo de protección de datos.</span>
+<span id="cb7-88"><a href="#cb7-88"></a>:::</span>
+<span id="cb7-89"><a href="#cb7-89"></a></span>
+<span id="cb7-90"><a href="#cb7-90"></a><span class="fu">### Prompt 1.1 — Generar el script de anonimización</span></span>
+<span id="cb7-91"><a href="#cb7-91"></a></span>
+<span id="cb7-92"><a href="#cb7-92"></a>::: {.prompt-block}</span>
+<span id="cb7-93"><a href="#cb7-93"></a>**Copie y pegue (reemplazando lo que está entre corchetes):**</span>
+<span id="cb7-94"><a href="#cb7-94"></a></span>
+<span id="cb7-95"><a href="#cb7-95"></a>Actúa como analista de evaluación de impacto que escribe código en R. Tengo un archivo <span class="in">`[mi_base.csv]`</span> (separador <span class="in">`[,]`</span>, codificación <span class="in">`[UTF-8]`</span>) con las siguientes columnas:</span>
+<span id="cb7-96"><a href="#cb7-96"></a></span>
+<span id="cb7-97"><a href="#cb7-97"></a><span class="in">```</span></span>
+<span id="cb7-98"><a href="#cb7-98"></a><span class="in">[pegue aquí solo los NOMBRES de las columnas, separados por coma]</span></span>
+<span id="cb7-99"><a href="#cb7-99"></a><span class="in">```</span></span>
+<span id="cb7-100"><a href="#cb7-100"></a></span>
+<span id="cb7-101"><a href="#cb7-101"></a>Genera un script en R que haga lo siguiente, **en este orden exacto**:</span>
+<span id="cb7-102"><a href="#cb7-102"></a></span>
+<span id="cb7-103"><a href="#cb7-103"></a><span class="ss">1. </span>Lea el archivo con <span class="in">`readr::read_csv()`</span>.</span>
+<span id="cb7-104"><a href="#cb7-104"></a><span class="ss">2. </span>Elimine las columnas con información personal identificable (PII). Para cada columna que decidas eliminar, agrega un comentario <span class="in">`# eliminada porque: …`</span>.</span>
+<span id="cb7-105"><a href="#cb7-105"></a><span class="ss">3. </span>Reemplace el identificador original por uno anónimo con formato <span class="in">`ID_001`</span>, <span class="in">`ID_002`</span>, …</span>
+<span id="cb7-106"><a href="#cb7-106"></a><span class="ss">4. </span>Guarde el resultado como <span class="in">`base_anonima.csv`</span> en el mismo directorio.</span>
+<span id="cb7-107"><a href="#cb7-107"></a><span class="ss">5. </span>Imprima <span class="in">`head(datos, 5)`</span> para verificación.</span>
+<span id="cb7-108"><a href="#cb7-108"></a></span>
+<span id="cb7-109"><a href="#cb7-109"></a>**Devuélveme solo el código completo en un único bloque listo para copiar a RStudio, con comentarios en español.** No me expliques los pasos en prosa, el código y los comentarios deben ser suficientes. Al final, en una sola frase, dime qué debería ver en pantalla si el script corrió correctamente.</span>
+<span id="cb7-110"><a href="#cb7-110"></a>:::</span>
+<span id="cb7-111"><a href="#cb7-111"></a></span>
+<span id="cb7-112"><a href="#cb7-112"></a><span class="fu">### Qué debería devolverle la IA</span></span>
+<span id="cb7-113"><a href="#cb7-113"></a></span>
+<span id="cb7-114"><a href="#cb7-114"></a>Un bloque único de R (≈ 25–40 líneas) similar a:</span>
+<span id="cb7-115"><a href="#cb7-115"></a></span>
+<span id="cb7-116"><a href="#cb7-116"></a><span class="in">```r</span></span>
+<span id="cb7-117"><a href="#cb7-117"></a><span class="fu">library</span>(readr); <span class="fu">library</span>(dplyr)</span>
+<span id="cb7-118"><a href="#cb7-118"></a>datos <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"mi_base.csv"</span>)</span>
+<span id="cb7-119"><a href="#cb7-119"></a>datos_anon <span class="ot">&lt;-</span> datos <span class="sc">|&gt;</span></span>
+<span id="cb7-120"><a href="#cb7-120"></a>  <span class="fu">select</span>(<span class="sc">-</span>nombre, <span class="sc">-</span>cedula, <span class="sc">-</span>telefono, <span class="sc">-</span>direccion) <span class="sc">|&gt;</span>  <span class="co"># PII</span></span>
+<span id="cb7-121"><a href="#cb7-121"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">sprintf</span>(<span class="st">"ID_%03d"</span>, <span class="fu">row_number</span>())) <span class="sc">|&gt;</span></span>
+<span id="cb7-122"><a href="#cb7-122"></a>  <span class="fu">relocate</span>(id)</span>
+<span id="cb7-123"><a href="#cb7-123"></a><span class="fu">write_csv</span>(datos_anon, <span class="st">"base_anonima.csv"</span>)</span>
+<span id="cb7-124"><a href="#cb7-124"></a><span class="fu">head</span>(datos_anon, <span class="dv">5</span>)</span>
+<span id="cb7-125"><a href="#cb7-125"></a><span class="in">```</span></span>
+<span id="cb7-126"><a href="#cb7-126"></a></span>
+<span id="cb7-127"><a href="#cb7-127"></a><span class="fu">### Cómo verificar que funcionó</span></span>
+<span id="cb7-128"><a href="#cb7-128"></a></span>
+<span id="cb7-129"><a href="#cb7-129"></a><span class="ss">- </span>El archivo <span class="in">`base_anonima.csv`</span> existe en su carpeta de trabajo.</span>
+<span id="cb7-130"><a href="#cb7-130"></a><span class="ss">- </span>Las primeras 5 filas no contienen ningún nombre, cédula, teléfono, dirección ni correo.</span>
+<span id="cb7-131"><a href="#cb7-131"></a><span class="ss">- </span>La columna <span class="in">`id`</span> arranca en <span class="in">`ID_001`</span> y es secuencial.</span>
+<span id="cb7-132"><a href="#cb7-132"></a><span class="ss">- </span>El número de filas es el mismo que el original.</span>
+<span id="cb7-133"><a href="#cb7-133"></a></span>
+<span id="cb7-134"><a href="#cb7-134"></a>::: {.callout-tip}</span>
+<span id="cb7-135"><a href="#cb7-135"></a><span class="fu">## Truco</span></span>
+<span id="cb7-136"><a href="#cb7-136"></a>En este paso **no comparta los datos**: comparta solo los nombres de las columnas. La IA no necesita ver los valores para escribir el código.</span>
+<span id="cb7-137"><a href="#cb7-137"></a>:::</span>
+<span id="cb7-138"><a href="#cb7-138"></a></span>
+<span id="cb7-139"><a href="#cb7-139"></a>---</span>
+<span id="cb7-140"><a href="#cb7-140"></a></span>
+<span id="cb7-141"><a href="#cb7-141"></a><span class="fu">## Paso 2: Compartir la estructura de los datos {#sec-ia-paso2}</span></span>
+<span id="cb7-142"><a href="#cb7-142"></a></span>
+<span id="cb7-143"><a href="#cb7-143"></a>Una vez tenga la base anonimizada, comparta **únicamente las primeras 10 filas** para que la IA entienda la estructura. Nunca pegue la base completa <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
+<span id="cb7-144"><a href="#cb7-144"></a></span>
+<span id="cb7-145"><a href="#cb7-145"></a><span class="fu">### Prompt 2.1 — Diagnóstico de estructura</span></span>
+<span id="cb7-146"><a href="#cb7-146"></a></span>
+<span id="cb7-147"><a href="#cb7-147"></a>::: {.prompt-block}</span>
+<span id="cb7-148"><a href="#cb7-148"></a>Actúa como analista de evaluación de impacto. Voy a compartir las primeras 10 filas de mi base anonimizada para que diagnostiques su estructura.</span>
+<span id="cb7-149"><a href="#cb7-149"></a></span>
+<span id="cb7-150"><a href="#cb7-150"></a>**Contexto del programa:**</span>
+<span id="cb7-151"><a href="#cb7-151"></a></span>
+<span id="cb7-152"><a href="#cb7-152"></a><span class="ss">- </span>Tipo de programa: <span class="in">`[ej.: capacitación agrícola, microcrédito, alimentación escolar]`</span></span>
+<span id="cb7-153"><a href="#cb7-153"></a><span class="ss">- </span>Población: <span class="in">`[ej.: 200 hogares rurales en Cauca, Colombia]`</span></span>
+<span id="cb7-154"><a href="#cb7-154"></a><span class="ss">- </span>Grupo de comparación: <span class="in">`[ej.: 150 hogares similares no atendidos]`</span></span>
+<span id="cb7-155"><a href="#cb7-155"></a><span class="ss">- </span>Fecha de inicio del programa: <span class="in">`[mes/año]`</span></span>
+<span id="cb7-156"><a href="#cb7-156"></a><span class="ss">- </span>Datos disponibles: <span class="in">`[ej.: encuesta línea base 2022 + seguimiento 2024]`</span></span>
+<span id="cb7-157"><a href="#cb7-157"></a><span class="ss">- </span>Variable de resultado principal: <span class="in">`[nombre de la columna y qué mide]`</span></span>
+<span id="cb7-158"><a href="#cb7-158"></a><span class="ss">- </span>Variable de tratamiento: <span class="in">`[nombre de la columna; 1 = recibió, 0 = no]`</span></span>
+<span id="cb7-159"><a href="#cb7-159"></a></span>
+<span id="cb7-160"><a href="#cb7-160"></a>**Primeras 10 filas:**</span>
+<span id="cb7-161"><a href="#cb7-161"></a></span>
+<span id="cb7-162"><a href="#cb7-162"></a><span class="in">```</span></span>
+<span id="cb7-163"><a href="#cb7-163"></a><span class="in">[pegue aquí las 10 filas con encabezado]</span></span>
+<span id="cb7-164"><a href="#cb7-164"></a><span class="in">```</span></span>
+<span id="cb7-165"><a href="#cb7-165"></a></span>
+<span id="cb7-166"><a href="#cb7-166"></a>Devuélveme:</span>
+<span id="cb7-167"><a href="#cb7-167"></a></span>
+<span id="cb7-168"><a href="#cb7-168"></a><span class="ss">1. </span>Una **tabla** (markdown) con tres columnas: <span class="in">`variable | tipo (continua / categórica / binaria / fecha / id) | rol probable (resultado / tratamiento / covariable / id / periodo)`</span>.</span>
+<span id="cb7-169"><a href="#cb7-169"></a><span class="ss">2. </span>Cualquier **alerta** que veas: codificaciones extrañas (ej. <span class="in">`99`</span> como faltante), tipos mal interpretados (fechas como texto), variables que parecen redundantes.</span>
+<span id="cb7-170"><a href="#cb7-170"></a><span class="ss">3. </span>Un párrafo de máximo 4 líneas con la **recomendación inicial de método** (RCT / DiD / IV / RDD / Matching) según lo que ves en la estructura, y qué información adicional necesitarías para confirmarlo.</span>
+<span id="cb7-171"><a href="#cb7-171"></a></span>
+<span id="cb7-172"><a href="#cb7-172"></a>No generes código todavía. Solo el diagnóstico.</span>
+<span id="cb7-173"><a href="#cb7-173"></a>:::</span>
+<span id="cb7-174"><a href="#cb7-174"></a></span>
+<span id="cb7-175"><a href="#cb7-175"></a>::: {.callout-tip}</span>
+<span id="cb7-176"><a href="#cb7-176"></a><span class="fu">## Cómo extraer las primeras 10 filas</span></span>
+<span id="cb7-177"><a href="#cb7-177"></a>Abra el CSV en Excel, copie las primeras 10 filas con encabezado, y pegue. O pídale a la IA un comando previo: *"dame el código de R para imprimir `head(datos, 10)` de un CSV"* y ejecute en su computador.</span>
+<span id="cb7-178"><a href="#cb7-178"></a>:::</span>
+<span id="cb7-179"><a href="#cb7-179"></a></span>
+<span id="cb7-180"><a href="#cb7-180"></a>---</span>
+<span id="cb7-181"><a href="#cb7-181"></a></span>
+<span id="cb7-182"><a href="#cb7-182"></a><span class="fu">## Paso 3: Limpieza y problemas comunes {#sec-ia-paso3}</span></span>
+<span id="cb7-183"><a href="#cb7-183"></a></span>
+<span id="cb7-184"><a href="#cb7-184"></a>Antes de describir o estimar nada, es probable que necesite **arreglar** la base: unir archivos sueltos, quitar filas duplicadas, decidir qué hacer con valores faltantes, detectar valores absurdos, normalizar categorías mal escritas, convertir fechas que llegan como texto. Casi todas las evaluaciones tienen al menos uno de estos problemas. Esta sección reúne prompts específicos para resolverlos con IA.</span>
+<span id="cb7-185"><a href="#cb7-185"></a></span>
+<span id="cb7-186"><a href="#cb7-186"></a>::: {.callout-warning}</span>
+<span id="cb7-187"><a href="#cb7-187"></a><span class="fu">## Regla básica</span></span>
+<span id="cb7-188"><a href="#cb7-188"></a>Cualquier transformación que haga en este paso debe quedar **registrada en código**, no en cambios manuales sobre el archivo. Si edita el CSV en Excel, pierde la trazabilidad. La IA debe darle siempre un script que parta del archivo crudo y produzca el archivo limpio.</span>
+<span id="cb7-189"><a href="#cb7-189"></a>:::</span>
+<span id="cb7-190"><a href="#cb7-190"></a></span>
+<span id="cb7-191"><a href="#cb7-191"></a><span class="fu">### Prompt 3.1 — Unir dos bases de datos</span></span>
+<span id="cb7-192"><a href="#cb7-192"></a></span>
+<span id="cb7-193"><a href="#cb7-193"></a>Es muy frecuente que la información venga partida: una base tiene los datos demográficos del beneficiario, otra los datos de la encuesta de seguimiento, y necesita unirlas por un identificador común.</span>
+<span id="cb7-194"><a href="#cb7-194"></a></span>
+<span id="cb7-195"><a href="#cb7-195"></a>::: {.prompt-block}</span>
+<span id="cb7-196"><a href="#cb7-196"></a>Actúa como analista que escribe código en R. Tengo dos archivos CSV que necesito unir:</span>
+<span id="cb7-197"><a href="#cb7-197"></a></span>
+<span id="cb7-198"><a href="#cb7-198"></a><span class="ss">- </span>**Archivo A**: <span class="in">`[nombre_A.csv]`</span>, con <span class="in">`[N_A]`</span> filas y las columnas <span class="in">`[liste columnas A]`</span>.</span>
+<span id="cb7-199"><a href="#cb7-199"></a><span class="ss">- </span>**Archivo B**: <span class="in">`[nombre_B.csv]`</span>, con <span class="in">`[N_B]`</span> filas y las columnas <span class="in">`[liste columnas B]`</span>.</span>
+<span id="cb7-200"><a href="#cb7-200"></a></span>
+<span id="cb7-201"><a href="#cb7-201"></a>La columna identificador en ambos archivos es: <span class="in">`[nombre del id]`</span> (en A) y <span class="in">`[nombre del id]`</span> (en B).</span>
+<span id="cb7-202"><a href="#cb7-202"></a></span>
+<span id="cb7-203"><a href="#cb7-203"></a>Genera un script en R que:</span>
+<span id="cb7-204"><a href="#cb7-204"></a></span>
+<span id="cb7-205"><a href="#cb7-205"></a><span class="ss">1. </span>Lea ambos archivos con <span class="in">`readr::read_csv()`</span>.</span>
+<span id="cb7-206"><a href="#cb7-206"></a><span class="ss">2. </span>Verifique antes del join: cuántos id duplicados hay en cada base, y cuántos id de A están en B y viceversa (use <span class="in">`setdiff()`</span> y <span class="in">`intersect()`</span>). Imprima estos diagnósticos con mensajes claros.</span>
+<span id="cb7-207"><a href="#cb7-207"></a><span class="ss">3. </span>Ejecute un **left join** desde A (la base maestra de personas) hacia B con <span class="in">`dplyr::left_join()`</span>.</span>
+<span id="cb7-208"><a href="#cb7-208"></a><span class="ss">4. </span>Imprima un resumen: filas en A, filas resultantes, y cuántas filas de A no encontraron pareja en B (NA en columnas de B).</span>
+<span id="cb7-209"><a href="#cb7-209"></a><span class="ss">5. </span>Guarde el resultado como <span class="in">`base_unida.csv`</span>.</span>
+<span id="cb7-210"><a href="#cb7-210"></a></span>
+<span id="cb7-211"><a href="#cb7-211"></a>Solo código en un bloque. Al final, en una frase, dime cuándo debería usar <span class="in">`inner_join`</span> en lugar de <span class="in">`left_join`</span>.</span>
+<span id="cb7-212"><a href="#cb7-212"></a>:::</span>
+<span id="cb7-213"><a href="#cb7-213"></a></span>
+<span id="cb7-214"><a href="#cb7-214"></a>**Cómo verificar:** el número de filas final debe ser igual a las filas de A (con <span class="in">`left_join`</span>). Si crece, hay duplicados en B y debe resolverlos antes. Si necesita conservar solo personas con datos en ambas bases, use <span class="in">`inner_join`</span>.</span>
+<span id="cb7-215"><a href="#cb7-215"></a></span>
+<span id="cb7-216"><a href="#cb7-216"></a><span class="fu">### Prompt 3.2 — Detectar y resolver duplicados</span></span>
+<span id="cb7-217"><a href="#cb7-217"></a></span>
+<span id="cb7-218"><a href="#cb7-218"></a>::: {.prompt-block}</span>
+<span id="cb7-219"><a href="#cb7-219"></a>Con la base <span class="in">`datos`</span> cargada (data frame con columna identificador <span class="in">`id`</span>), genera un script en R que:</span>
+<span id="cb7-220"><a href="#cb7-220"></a></span>
+<span id="cb7-221"><a href="#cb7-221"></a><span class="ss">1. </span>Cuente filas totales y filas únicas por <span class="in">`id`</span>. Si difieren, hay duplicados.</span>
+<span id="cb7-222"><a href="#cb7-222"></a><span class="ss">2. </span>Imprima los <span class="in">`id`</span> duplicados con <span class="in">`datos |&gt; filter(duplicated(id) | duplicated(id, fromLast = TRUE))`</span> para inspección visual.</span>
+<span id="cb7-223"><a href="#cb7-223"></a><span class="ss">3. </span>Para cada <span class="in">`id`</span> duplicado, indique si las filas son **idénticas** (duplicado verdadero, se puede eliminar con `distinct()`) o si **difieren en alguna columna** (conflicto real, requiere decisión).</span>
+<span id="cb7-224"><a href="#cb7-224"></a><span class="ss">4. </span>Genere dos versiones limpias para que yo elija:</span>
+<span id="cb7-225"><a href="#cb7-225"></a><span class="ss">    - </span><span class="in">`datos_distinct &lt;- distinct(datos, id, .keep_all = TRUE)`</span> (mantiene la primera).</span>
+<span id="cb7-226"><a href="#cb7-226"></a><span class="ss">    - </span><span class="in">`datos_ultimo &lt;- datos |&gt; arrange(desc(fecha_registro)) |&gt; distinct(id, .keep_all = TRUE)`</span> (mantiene la observación más reciente).</span>
+<span id="cb7-227"><a href="#cb7-227"></a></span>
+<span id="cb7-228"><a href="#cb7-228"></a>Solo código. Al final, en una frase, recuérdame por qué la elección entre estas dos opciones es una decisión sustantiva, no técnica.</span>
+<span id="cb7-229"><a href="#cb7-229"></a>:::</span>
+<span id="cb7-230"><a href="#cb7-230"></a></span>
+<span id="cb7-231"><a href="#cb7-231"></a><span class="fu">### Prompt 3.3 — Filas vacías y observaciones incompletas</span></span>
+<span id="cb7-232"><a href="#cb7-232"></a></span>
+<span id="cb7-233"><a href="#cb7-233"></a>::: {.prompt-block}</span>
+<span id="cb7-234"><a href="#cb7-234"></a>Con <span class="in">`datos`</span> cargado, genera un script en R que diagnostique y limpie observaciones incompletas:</span>
+<span id="cb7-235"><a href="#cb7-235"></a></span>
+<span id="cb7-236"><a href="#cb7-236"></a><span class="ss">1. </span>**Filas completamente vacías** (todas las columnas en NA): cuéntalas y elimínalas con <span class="in">`filter(if_any(everything(), ~ !is.na(.)))`</span>.</span>
+<span id="cb7-237"><a href="#cb7-237"></a><span class="ss">2. </span>**% de NA por fila**: agrega una columna <span class="in">`pct_na`</span> y muestra la distribución con <span class="in">`summary()`</span>. Marca como "incompletas críticas" las filas con &gt; 50% de NA.</span>
+<span id="cb7-238"><a href="#cb7-238"></a><span class="ss">3. </span>**Variables esenciales** (las que SÍ deben tener valor para entrar al análisis): el script debe recibir un vector <span class="in">`vars_esenciales &lt;- c("tratamiento", "resultado_principal", "id")`</span> y eliminar filas con NA en alguna de ellas.</span>
+<span id="cb7-239"><a href="#cb7-239"></a><span class="ss">4. </span>Imprima una tabla resumen: <span class="in">`paso | filas antes | filas después | filas eliminadas`</span>.</span>
+<span id="cb7-240"><a href="#cb7-240"></a><span class="ss">5. </span>Guarde como <span class="in">`datos_filtrados.csv`</span>.</span>
+<span id="cb7-241"><a href="#cb7-241"></a></span>
+<span id="cb7-242"><a href="#cb7-242"></a>Solo código. Al final, en una frase, advertirme cuándo eliminar filas con NA puede sesgar el análisis.</span>
+<span id="cb7-243"><a href="#cb7-243"></a>:::</span>
+<span id="cb7-244"><a href="#cb7-244"></a></span>
+<span id="cb7-245"><a href="#cb7-245"></a>::: {.callout-warning}</span>
+<span id="cb7-246"><a href="#cb7-246"></a><span class="fu">## Cuidado con eliminar NA a la ligera</span></span>
+<span id="cb7-247"><a href="#cb7-247"></a>Si los faltantes no son aleatorios (ej. la gente más pobre tiende a no responder ingresos), eliminar esas filas introduce sesgo. Antes de eliminar, intente entender **por qué falta** la información. Para variables con muchos NA pero teóricamente importantes, considere imputación (Prompt 3.4).</span>
+<span id="cb7-248"><a href="#cb7-248"></a>:::</span>
+<span id="cb7-249"><a href="#cb7-249"></a></span>
+<span id="cb7-250"><a href="#cb7-250"></a><span class="fu">### Prompt 3.4 — Estrategia para valores faltantes</span></span>
+<span id="cb7-251"><a href="#cb7-251"></a></span>
+<span id="cb7-252"><a href="#cb7-252"></a>::: {.prompt-block}</span>
+<span id="cb7-253"><a href="#cb7-253"></a>Con <span class="in">`datos`</span> cargado, genera un script en R que ayude a decidir qué hacer con cada variable que tenga NA:</span>
+<span id="cb7-254"><a href="#cb7-254"></a></span>
+<span id="cb7-255"><a href="#cb7-255"></a><span class="ss">1. </span>Tabule por columna: <span class="in">`% NA | tipo (numérica/categórica) | recomendación inicial`</span>.</span>
+<span id="cb7-256"><a href="#cb7-256"></a><span class="ss">2. </span>Aplique esta lógica de recomendación:</span>
+<span id="cb7-257"><a href="#cb7-257"></a><span class="ss">    - </span>NA &lt; 5% → eliminar filas con NA en esa variable.</span>
+<span id="cb7-258"><a href="#cb7-258"></a><span class="ss">    - </span>NA 5–20% → imputar (mediana si numérica, moda si categórica) y crear una columna binaria <span class="in">`var_imputada`</span> que indique cuáles fueron imputados.</span>
+<span id="cb7-259"><a href="#cb7-259"></a><span class="ss">    - </span>NA &gt; 20% → no imputar; sugerir o bien excluir la variable o usar imputación múltiple con <span class="in">`mice`</span>.</span>
+<span id="cb7-260"><a href="#cb7-260"></a><span class="ss">3. </span>Para las variables del rango 5–20%, ejecute la imputación simple como ejemplo y guarde <span class="in">`datos_imputados.csv`</span>.</span>
+<span id="cb7-261"><a href="#cb7-261"></a><span class="ss">4. </span>Para las &gt; 20%, imprima un mensaje claro con el nombre de la variable y la recomendación.</span>
+<span id="cb7-262"><a href="#cb7-262"></a></span>
+<span id="cb7-263"><a href="#cb7-263"></a>Solo código. Al final, en una frase, dime por qué siempre conviene crear la columna <span class="in">`var_imputada`</span>.</span>
+<span id="cb7-264"><a href="#cb7-264"></a>:::</span>
+<span id="cb7-265"><a href="#cb7-265"></a></span>
+<span id="cb7-266"><a href="#cb7-266"></a>**Por qué la columna `_imputada`:** permite hacer un análisis de sensibilidad después, comparando el efecto del programa con y sin las observaciones imputadas, para verificar que el resultado no depende del método de imputación.</span>
+<span id="cb7-267"><a href="#cb7-267"></a></span>
+<span id="cb7-268"><a href="#cb7-268"></a><span class="fu">### Prompt 3.5 — Outliers y valores absurdos</span></span>
+<span id="cb7-269"><a href="#cb7-269"></a></span>
+<span id="cb7-270"><a href="#cb7-270"></a>::: {.prompt-block}</span>
+<span id="cb7-271"><a href="#cb7-271"></a>Con <span class="in">`datos`</span> cargado, genera un script en R que detecte valores sospechosos en variables numéricas:</span>
+<span id="cb7-272"><a href="#cb7-272"></a></span>
+<span id="cb7-273"><a href="#cb7-273"></a><span class="ss">1. </span>Para cada variable numérica, calcule <span class="in">`IQR`</span> y marque como outliers a quienes están fuera de <span class="in">`[Q1 - 1.5*IQR, Q3 + 1.5*IQR]`</span>.</span>
+<span id="cb7-274"><a href="#cb7-274"></a><span class="ss">2. </span>Reporte una tabla <span class="in">`variable | n outliers | valor mín | valor máx | % de la muestra`</span>.</span>
+<span id="cb7-275"><a href="#cb7-275"></a><span class="ss">3. </span>Para una lista de variables que yo defino con rangos esperados (<span class="in">`rangos &lt;- list(edad = c(18, 95), ingreso = c(0, 50000), educacion = c(0, 25))`</span>), marque como **valores imposibles** los que estén fuera del rango y conviértalos a NA con un mensaje claro de cuántos se modificaron por variable.</span>
+<span id="cb7-276"><a href="#cb7-276"></a><span class="ss">4. </span>Genere un boxplot facetado por variable para inspección visual.</span>
+<span id="cb7-277"><a href="#cb7-277"></a></span>
+<span id="cb7-278"><a href="#cb7-278"></a>Solo código. Al final, en una frase, dime cuándo un outlier real (no un error) debe **mantenerse** en el análisis.</span>
+<span id="cb7-279"><a href="#cb7-279"></a>:::</span>
+<span id="cb7-280"><a href="#cb7-280"></a></span>
+<span id="cb7-281"><a href="#cb7-281"></a>**Cómo interpretar:** outliers por error de captura (edad 200, ingreso negativo) deben corregirse o convertirse a NA. Outliers reales (un hogar realmente atípico) suelen mantenerse porque eliminarlos sesga el efecto promedio. La decisión es sustantiva, no automática.</span>
+<span id="cb7-282"><a href="#cb7-282"></a></span>
+<span id="cb7-283"><a href="#cb7-283"></a><span class="fu">### Prompt 3.6 — Categorías mal escritas</span></span>
+<span id="cb7-284"><a href="#cb7-284"></a></span>
+<span id="cb7-285"><a href="#cb7-285"></a>::: {.prompt-block}</span>
+<span id="cb7-286"><a href="#cb7-286"></a>Con <span class="in">`datos`</span> cargado, genera un script en R que normalice variables categóricas con codificación inconsistente (ej. "Femenino", "femenino", "F", "Mujer" para la misma categoría).</span>
+<span id="cb7-287"><a href="#cb7-287"></a></span>
+<span id="cb7-288"><a href="#cb7-288"></a><span class="ss">1. </span>Para cada columna de tipo <span class="in">`character`</span> o <span class="in">`factor`</span>, imprima la tabla de frecuencias con <span class="in">`janitor::tabyl()`</span>.</span>
+<span id="cb7-289"><a href="#cb7-289"></a><span class="ss">2. </span>Para variables que yo señale en el vector <span class="in">`vars_a_normalizar &lt;- c("sexo", "zona", "nivel_educativo")`</span>, propón un mapeo de normalización: <span class="in">`sexo: c("F"="Femenino", "f"="Femenino", "M"="Masculino", ...)`</span> y aplíquelo con <span class="in">`dplyr::recode()`</span> o <span class="in">`case_when()`</span>.</span>
+<span id="cb7-290"><a href="#cb7-290"></a><span class="ss">3. </span>Reporte antes/después: cuántas categorías únicas había y cuántas quedan.</span>
+<span id="cb7-291"><a href="#cb7-291"></a></span>
+<span id="cb7-292"><a href="#cb7-292"></a>Solo código. Al final, en una frase, recuérdame revisar manualmente el mapeo antes de aplicarlo (la IA puede unificar mal categorías que parecen iguales pero significan distinto).</span>
+<span id="cb7-293"><a href="#cb7-293"></a>:::</span>
+<span id="cb7-294"><a href="#cb7-294"></a></span>
+<span id="cb7-295"><a href="#cb7-295"></a><span class="fu">### Prompt 3.7 — Conversión de tipos</span></span>
+<span id="cb7-296"><a href="#cb7-296"></a></span>
+<span id="cb7-297"><a href="#cb7-297"></a>::: {.prompt-block}</span>
+<span id="cb7-298"><a href="#cb7-298"></a>Con <span class="in">`datos`</span> cargado, genera un script en R que diagnostique y arregle problemas de tipo:</span>
+<span id="cb7-299"><a href="#cb7-299"></a></span>
+<span id="cb7-300"><a href="#cb7-300"></a><span class="ss">1. </span>Imprima <span class="in">`glimpse(datos)`</span> y señale columnas con tipo aparentemente incorrecto: fechas como <span class="in">`character`</span>, números con coma decimal como <span class="in">`character`</span>, indicadores binarios como <span class="in">`numeric`</span> que deberían ser factor.</span>
+<span id="cb7-301"><a href="#cb7-301"></a><span class="ss">2. </span>Aplique conversiones específicas:</span>
+<span id="cb7-302"><a href="#cb7-302"></a><span class="ss">    - </span>Fechas tipo <span class="in">`"15/03/2024"`</span> → <span class="in">`as.Date(x, format = "%d/%m/%Y")`</span>.</span>
+<span id="cb7-303"><a href="#cb7-303"></a><span class="ss">    - </span>Números con coma → <span class="in">`as.numeric(gsub(",", ".", x))`</span>.</span>
+<span id="cb7-304"><a href="#cb7-304"></a><span class="ss">    - </span>Binarios 0/1 que se quieran como factor → <span class="in">`factor(x, levels = c(0,1), labels = c("No","Sí"))`</span>.</span>
+<span id="cb7-305"><a href="#cb7-305"></a><span class="ss">3. </span>Verifique después con <span class="in">`glimpse()`</span> que los tipos sean los esperados.</span>
+<span id="cb7-306"><a href="#cb7-306"></a></span>
+<span id="cb7-307"><a href="#cb7-307"></a>Solo código. Al final, en una frase, dime por qué dejar fechas como texto rompe cualquier análisis temporal.</span>
+<span id="cb7-308"><a href="#cb7-308"></a>:::</span>
+<span id="cb7-309"><a href="#cb7-309"></a></span>
+<span id="cb7-310"><a href="#cb7-310"></a>::: {.callout-tip}</span>
+<span id="cb7-311"><a href="#cb7-311"></a><span class="fu">## Cómo encadenar estos prompts</span></span>
+<span id="cb7-312"><a href="#cb7-312"></a>El orden recomendado es: 3.1 (unir) → 3.2 (duplicados) → 3.7 (tipos) → 3.6 (categorías) → 3.5 (outliers) → 3.3 (filas vacías) → 3.4 (NA en variables clave). Una vez termine este paso, la base queda lista para el análisis exploratorio del Paso 4.</span>
+<span id="cb7-313"><a href="#cb7-313"></a>:::</span>
+<span id="cb7-314"><a href="#cb7-314"></a></span>
+<span id="cb7-315"><a href="#cb7-315"></a>---</span>
+<span id="cb7-316"><a href="#cb7-316"></a></span>
+<span id="cb7-317"><a href="#cb7-317"></a><span class="fu">## Paso 4: Análisis descriptivo y exploratorio {#sec-ia-paso4}</span></span>
+<span id="cb7-318"><a href="#cb7-318"></a></span>
+<span id="cb7-319"><a href="#cb7-319"></a>Antes de cualquier análisis causal, necesita **entender** sus datos: cuántas observaciones por grupo, dónde hay vacíos, qué variables son útiles. Lo que construya aquí —especialmente el **vector de covariables** y la lista de **subgrupos**— se reutiliza en todos los métodos.</span>
+<span id="cb7-320"><a href="#cb7-320"></a></span>
+<span id="cb7-321"><a href="#cb7-321"></a><span class="fu">### Prompt 4.1 — Tabla descriptiva por grupo</span></span>
+<span id="cb7-322"><a href="#cb7-322"></a></span>
+<span id="cb7-323"><a href="#cb7-323"></a>::: {.prompt-block}</span>
+<span id="cb7-324"><a href="#cb7-324"></a>Con la base <span class="in">`base_anonima.csv`</span> que cargaste, genera **un único script en R** que produzca:</span>
+<span id="cb7-325"><a href="#cb7-325"></a></span>
+<span id="cb7-326"><a href="#cb7-326"></a><span class="ss">1. </span>Resumen general: número de filas, columnas, observaciones por grupo de tratamiento (<span class="in">`tratamiento == 1`</span> vs. <span class="in">`0`</span>) y por periodo (<span class="in">`periodo == "pre"`</span> vs. <span class="in">`"post"`</span>) si aplica.</span>
+<span id="cb7-327"><a href="#cb7-327"></a><span class="ss">2. </span>Una tabla descriptiva con <span class="in">`gtsummary::tbl_summary()`</span> agrupada por tratamiento, mostrando media (DE) para variables continuas y % para categóricas, con valor p de la diferencia (<span class="in">`add_p()`</span>).</span>
+<span id="cb7-328"><a href="#cb7-328"></a><span class="ss">3. </span>Una tabla aparte con los datos faltantes por columna, ordenada de mayor a menor, con la columna y el % de NA.</span>
+<span id="cb7-329"><a href="#cb7-329"></a></span>
+<span id="cb7-330"><a href="#cb7-330"></a>Devuélveme solo el código completo en un bloque, listo para copiar a RStudio. Al final, agrega un comentario <span class="in">`# Verificación:`</span> con dos chequeos rápidos que yo deba hacer al ver las tablas.</span>
+<span id="cb7-331"><a href="#cb7-331"></a>:::</span>
+<span id="cb7-332"><a href="#cb7-332"></a></span>
+<span id="cb7-333"><a href="#cb7-333"></a><span class="fu">### Qué espera ver</span></span>
+<span id="cb7-334"><a href="#cb7-334"></a></span>
+<span id="cb7-335"><a href="#cb7-335"></a>Una tabla descriptiva por grupo, comparable a la de balance que se usa en RCT, y un listado claro de NA. **Lo importante**: identifique aquí qué covariables tienen muy pocos faltantes y son candidatas a entrar como controles en cualquier modelo posterior.</span>
+<span id="cb7-336"><a href="#cb7-336"></a></span>
+<span id="cb7-337"><a href="#cb7-337"></a><span class="fu">### Prompt 4.2 — Construir el vector de covariables</span></span>
+<span id="cb7-338"><a href="#cb7-338"></a></span>
+<span id="cb7-339"><a href="#cb7-339"></a>Este paso es clave porque genera un objeto que **reutilizará en todos los anexos**. La idea es decidir, con ayuda de la IA, qué covariables son numéricamente sólidas (pocos NA, varianza no nula, no perfectamente colineales con otra) y guardarlas en un vector con nombre.</span>
+<span id="cb7-340"><a href="#cb7-340"></a></span>
+<span id="cb7-341"><a href="#cb7-341"></a>::: {.prompt-block}</span>
+<span id="cb7-342"><a href="#cb7-342"></a>Con la base <span class="in">`base_anonima.csv`</span> cargada, ayúdame a construir el vector de covariables que voy a usar en los modelos posteriores.</span>
+<span id="cb7-343"><a href="#cb7-343"></a></span>
+<span id="cb7-344"><a href="#cb7-344"></a>**Mi variable de resultado es:** <span class="in">`[nombre]`</span></span>
+<span id="cb7-345"><a href="#cb7-345"></a>**Mi variable de tratamiento es:** <span class="in">`[nombre]`</span></span>
+<span id="cb7-346"><a href="#cb7-346"></a>**Mi periodo (si aplica) es:** <span class="in">`[nombre o "no aplica"]`</span></span>
+<span id="cb7-347"><a href="#cb7-347"></a></span>
+<span id="cb7-348"><a href="#cb7-348"></a>Genera un script en R que:</span>
+<span id="cb7-349"><a href="#cb7-349"></a></span>
+<span id="cb7-350"><a href="#cb7-350"></a><span class="ss">1. </span>Liste todas las columnas que NO son resultado, tratamiento, periodo ni id.</span>
+<span id="cb7-351"><a href="#cb7-351"></a><span class="ss">2. </span>Para cada candidata calcule: % NA, varianza (si numérica), número de categorías (si factor).</span>
+<span id="cb7-352"><a href="#cb7-352"></a><span class="ss">3. </span>Descarte automáticamente: columnas con &gt; 20% NA, varianza cero, o que sean transformaciones lineales exactas de otra (correlación |r| &gt; 0.95).</span>
+<span id="cb7-353"><a href="#cb7-353"></a><span class="ss">4. </span>Imprima el vector final con <span class="in">`cat('covariables &lt;- c(', paste0('"', nombres, '"', collapse=', '), ')')`</span> para que yo lo pueda copiar tal cual.</span>
+<span id="cb7-354"><a href="#cb7-354"></a></span>
+<span id="cb7-355"><a href="#cb7-355"></a>Devuelve solo código. Después del bloque, en una línea, dime qué umbral cambiar si quiero ser más o menos estricto.</span>
+<span id="cb7-356"><a href="#cb7-356"></a>:::</span>
+<span id="cb7-357"><a href="#cb7-357"></a></span>
+<span id="cb7-358"><a href="#cb7-358"></a><span class="fu">### Qué hacer con la respuesta</span></span>
+<span id="cb7-359"><a href="#cb7-359"></a></span>
+<span id="cb7-360"><a href="#cb7-360"></a>Pegue la línea final que la IA imprimió, por ejemplo:</span>
+<span id="cb7-361"><a href="#cb7-361"></a></span>
+<span id="cb7-362"><a href="#cb7-362"></a><span class="in">```r</span></span>
+<span id="cb7-363"><a href="#cb7-363"></a>covariables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"edad"</span>, <span class="st">"anios_educacion"</span>, <span class="st">"tamano_hogar"</span>, <span class="st">"ingreso_base"</span>)</span>
+<span id="cb7-364"><a href="#cb7-364"></a><span class="in">```</span></span>
+<span id="cb7-365"><a href="#cb7-365"></a></span>
+<span id="cb7-366"><a href="#cb7-366"></a>Guarde ese vector en su script. **Cada anexo de método empieza con esa línea**: en RCT lo usa para la tabla de balance; en DiD para los controles; en Matching para estimar el propensity score; en RDD para verificar continuidad de covariables.</span>
+<span id="cb7-367"><a href="#cb7-367"></a></span>
+<span id="cb7-368"><a href="#cb7-368"></a><span class="fu">### Prompt 4.3 — Detección de subgrupos para análisis de heterogeneidad</span></span>
+<span id="cb7-369"><a href="#cb7-369"></a></span>
+<span id="cb7-370"><a href="#cb7-370"></a>::: {.prompt-block}</span>
+<span id="cb7-371"><a href="#cb7-371"></a>Con la base cargada, genera un script en R que identifique **candidatos a subgrupos** para análisis de heterogeneidad. Un buen subgrupo es una variable categórica o binaria que:</span>
+<span id="cb7-372"><a href="#cb7-372"></a></span>
+<span id="cb7-373"><a href="#cb7-373"></a><span class="ss">- </span>Tiene al menos 2 categorías con n ≥ 30 cada una en el grupo de tratamiento.</span>
+<span id="cb7-374"><a href="#cb7-374"></a><span class="ss">- </span>Es teóricamente relevante (sexo, zona urbana/rural, nivel educativo, edad agrupada).</span>
+<span id="cb7-375"><a href="#cb7-375"></a></span>
+<span id="cb7-376"><a href="#cb7-376"></a>Devuelve solo código que:</span>
+<span id="cb7-377"><a href="#cb7-377"></a></span>
+<span id="cb7-378"><a href="#cb7-378"></a><span class="ss">1. </span>Recorra las columnas del data frame.</span>
+<span id="cb7-379"><a href="#cb7-379"></a><span class="ss">2. </span>Imprima una tabla con: variable | n por categoría dentro de tratados | apta (sí/no).</span>
+<span id="cb7-380"><a href="#cb7-380"></a><span class="ss">3. </span>Al final imprima: <span class="in">`subgrupos &lt;- c('var1', 'var2', …)`</span> con las que pasen el filtro.</span>
+<span id="cb7-381"><a href="#cb7-381"></a></span>
+<span id="cb7-382"><a href="#cb7-382"></a>Después del bloque, en una sola frase, recuérdame que debo descartar manualmente cualquier subgrupo que pueda estar afectado por el tratamiento (post-tratamiento).</span>
+<span id="cb7-383"><a href="#cb7-383"></a>:::</span>
+<span id="cb7-384"><a href="#cb7-384"></a></span>
+<span id="cb7-385"><a href="#cb7-385"></a>::: {.callout-warning}</span>
+<span id="cb7-386"><a href="#cb7-386"></a><span class="fu">## Subgrupos post-tratamiento</span></span>
+<span id="cb7-387"><a href="#cb7-387"></a>Nunca use como subgrupo una variable que pudo haber sido modificada por el programa (ej.: si el programa promueve empleo, no use "empleado/desempleado en línea de seguimiento" como subgrupo). Eso introduce sesgo de selección post-tratamiento. La IA no detecta este problema automáticamente — usted sí.</span>
+<span id="cb7-388"><a href="#cb7-388"></a>:::</span>
+<span id="cb7-389"><a href="#cb7-389"></a></span>
+<span id="cb7-390"><a href="#cb7-390"></a>---</span>
+<span id="cb7-391"><a href="#cb7-391"></a></span>
+<span id="cb7-392"><a href="#cb7-392"></a><span class="fu">## De aquí en adelante: la guía por método</span></span>
+<span id="cb7-393"><a href="#cb7-393"></a></span>
+<span id="cb7-394"><a href="#cb7-394"></a>Ya tiene los tres insumos que se reutilizan en todos los métodos:</span>
+<span id="cb7-395"><a href="#cb7-395"></a></span>
+<span id="cb7-396"><a href="#cb7-396"></a><span class="ss">1. </span>**Base anonimizada** (<span class="in">`base_anonima.csv`</span>)</span>
+<span id="cb7-397"><a href="#cb7-397"></a><span class="ss">2. </span>**Vector de covariables** (<span class="in">`covariables &lt;- c(...)`</span>)</span>
+<span id="cb7-398"><a href="#cb7-398"></a><span class="ss">3. </span>**Vector de subgrupos** (<span class="in">`subgrupos &lt;- c(...)`</span>)</span>
+<span id="cb7-399"><a href="#cb7-399"></a></span>
+<span id="cb7-400"><a href="#cb7-400"></a>A partir de aquí, vaya al anexo del método que eligió con el <span class="co">[</span><span class="ot">autodiagnóstico</span><span class="co">](02-autodiagnostico.qmd)</span>:</span>
+<span id="cb7-401"><a href="#cb7-401"></a></span>
+<span id="cb7-402"><a href="#cb7-402"></a><span class="pp">|</span> Método <span class="pp">|</span> Anexo <span class="pp">|</span> Qué encontrará <span class="pp">|</span></span>
+<span id="cb7-403"><a href="#cb7-403"></a><span class="pp">|--------|-------|----------------|</span></span>
+<span id="cb7-404"><a href="#cb7-404"></a><span class="pp">|</span> RCT <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo RCT</span><span class="co">](anexo-codigo-rct.qmd)</span> <span class="pp">|</span> Tabla de balance, prueba F conjunta, atrición diferencial, ITT vs. ToT <span class="pp">|</span></span>
+<span id="cb7-405"><a href="#cb7-405"></a><span class="pp">|</span> DiD <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo DiD</span><span class="co">](anexo-codigo-did.qmd)</span> <span class="pp">|</span> Tendencias paralelas, regresión de DiD con efectos fijos, eventos placebo <span class="pp">|</span></span>
+<span id="cb7-406"><a href="#cb7-406"></a><span class="pp">|</span> Matching <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo Matching</span><span class="co">](anexo-codigo-matching.qmd)</span> <span class="pp">|</span> Propensity score, soporte común, balance post-matching, ATT <span class="pp">|</span></span>
+<span id="cb7-407"><a href="#cb7-407"></a><span class="pp">|</span> IV <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo IV</span><span class="co">](anexo-codigo-iv.qmd)</span> <span class="pp">|</span> Primera etapa, F-test débil, 2SLS, exclusión <span class="pp">|</span></span>
+<span id="cb7-408"><a href="#cb7-408"></a><span class="pp">|</span> RDD <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo RDD</span><span class="co">](anexo-codigo-rdd.qmd)</span> <span class="pp">|</span> McCrary, continuidad de covariables, banda óptima, RDD local <span class="pp">|</span></span>
+<span id="cb7-409"><a href="#cb7-409"></a><span class="pp">|</span> Poder <span class="pp">|</span> <span class="co">[</span><span class="ot">Anexo Poder</span><span class="co">](anexo-codigo-poder.qmd)</span> <span class="pp">|</span> Tamaño de muestra, MDE, ajuste por clusters <span class="pp">|</span></span>
+<span id="cb7-410"><a href="#cb7-410"></a></span>
+<span id="cb7-411"><a href="#cb7-411"></a>Cada anexo replica la misma lógica que vio aquí —**prompt → código copiable → qué verificar**— pero con un **dataset simulado sencillo** y prompts específicos del método.</span>
+<span id="cb7-412"><a href="#cb7-412"></a></span>
+<span id="cb7-413"><a href="#cb7-413"></a>---</span>
+<span id="cb7-414"><a href="#cb7-414"></a></span>
+<span id="cb7-415"><a href="#cb7-415"></a><span class="fu">## Análisis de heterogeneidad (transversal)</span></span>
+<span id="cb7-416"><a href="#cb7-416"></a></span>
+<span id="cb7-417"><a href="#cb7-417"></a>Aunque cada método tiene su propia estimación principal, el análisis de heterogeneidad sigue la misma receta. Lo dejamos aquí porque se aplica igual en RCT, DiD, Matching o IV.</span>
+<span id="cb7-418"><a href="#cb7-418"></a></span>
+<span id="cb7-419"><a href="#cb7-419"></a><span class="fu">### Prompt 4.1 — Forest plot de efectos heterogéneos</span></span>
+<span id="cb7-420"><a href="#cb7-420"></a></span>
+<span id="cb7-421"><a href="#cb7-421"></a>::: {.prompt-block}</span>
+<span id="cb7-422"><a href="#cb7-422"></a>Tengo estimado el efecto del programa con <span class="in">`[método]`</span>. Quiero el efecto desagregado por los subgrupos del vector <span class="in">`subgrupos`</span>.</span>
+<span id="cb7-423"><a href="#cb7-423"></a></span>
+<span id="cb7-424"><a href="#cb7-424"></a>Genera un script en R que:</span>
+<span id="cb7-425"><a href="#cb7-425"></a></span>
+<span id="cb7-426"><a href="#cb7-426"></a><span class="ss">1. </span>Para cada variable en <span class="in">`subgrupos`</span>, ajuste el mismo modelo dentro de cada categoría.</span>
+<span id="cb7-427"><a href="#cb7-427"></a><span class="ss">2. </span>Extraiga coeficiente, error estándar, IC95% y n.</span>
+<span id="cb7-428"><a href="#cb7-428"></a><span class="ss">3. </span>Combine todo en un solo data frame con columnas: <span class="in">`dimension | categoria | efecto | li | ls | n`</span>.</span>
+<span id="cb7-429"><a href="#cb7-429"></a><span class="ss">4. </span>Grafique con <span class="in">`ggplot2`</span> un forest plot: punto + barra horizontal de IC, una fila por subgrupo, agrupado por dimensión, línea vertical en cero, color <span class="in">`#D85A30`</span>.</span>
+<span id="cb7-430"><a href="#cb7-430"></a><span class="ss">5. </span>Agregue un test formal de interacción (<span class="in">`lm(... * subgrupo)`</span>) y reporte el valor p de la interacción al lado del nombre de cada dimensión.</span>
+<span id="cb7-431"><a href="#cb7-431"></a></span>
+<span id="cb7-432"><a href="#cb7-432"></a>Solo código, en un bloque. Después, en una frase, indícame cómo leer el forest plot.</span>
+<span id="cb7-433"><a href="#cb7-433"></a>:::</span>
+<span id="cb7-434"><a href="#cb7-434"></a></span>
+<span id="cb7-435"><a href="#cb7-435"></a>---</span>
+<span id="cb7-436"><a href="#cb7-436"></a></span>
+<span id="cb7-437"><a href="#cb7-437"></a><span class="fu">## Robustez y reporte (transversal)</span></span>
+<span id="cb7-438"><a href="#cb7-438"></a></span>
+<span id="cb7-439"><a href="#cb7-439"></a><span class="fu">### Prompt 5.1 — Tabla de sensibilidad a covariables</span></span>
+<span id="cb7-440"><a href="#cb7-440"></a></span>
+<span id="cb7-441"><a href="#cb7-441"></a>::: {.prompt-block}</span>
+<span id="cb7-442"><a href="#cb7-442"></a>Quiero verificar que mi efecto principal es robusto a la elección de covariables. Genera un script en R que estime 4 especificaciones del mismo modelo <span class="in">`[método]`</span>:</span>
+<span id="cb7-443"><a href="#cb7-443"></a></span>
+<span id="cb7-444"><a href="#cb7-444"></a><span class="ss">1. </span>Sin covariables.</span>
+<span id="cb7-445"><a href="#cb7-445"></a><span class="ss">2. </span>Solo demográficas básicas: edad, sexo.</span>
+<span id="cb7-446"><a href="#cb7-446"></a><span class="ss">3. </span>Demográficas + socioeconómicas (todas las del vector <span class="in">`covariables`</span>).</span>
+<span id="cb7-447"><a href="#cb7-447"></a><span class="ss">4. </span>Especificación 3 + efectos fijos por <span class="in">`[unidad geográfica]`</span>.</span>
+<span id="cb7-448"><a href="#cb7-448"></a></span>
+<span id="cb7-449"><a href="#cb7-449"></a>Pon los 4 modelos en una sola tabla con <span class="in">`modelsummary::modelsummary()`</span>, mostrando coeficiente del tratamiento, error estándar (clusterizado por <span class="in">`[unidad]`</span>), IC95%, n y R². Estrellas de significancia.</span>
+<span id="cb7-450"><a href="#cb7-450"></a></span>
+<span id="cb7-451"><a href="#cb7-451"></a>Solo código. Al final dime qué cambio entre columnas sería una señal de alerta.</span>
+<span id="cb7-452"><a href="#cb7-452"></a>:::</span>
+<span id="cb7-453"><a href="#cb7-453"></a></span>
+<span id="cb7-454"><a href="#cb7-454"></a><span class="fu">### Prompt 5.2 — Redacción del párrafo de resultados</span></span>
+<span id="cb7-455"><a href="#cb7-455"></a></span>
+<span id="cb7-456"><a href="#cb7-456"></a>::: {.prompt-block}</span>
+<span id="cb7-457"><a href="#cb7-457"></a>Mis resultados principales son:</span>
+<span id="cb7-458"><a href="#cb7-458"></a></span>
+<span id="cb7-459"><a href="#cb7-459"></a><span class="in">```</span></span>
+<span id="cb7-460"><a href="#cb7-460"></a><span class="in">[pegue la tabla principal]</span></span>
+<span id="cb7-461"><a href="#cb7-461"></a><span class="in">```</span></span>
+<span id="cb7-462"><a href="#cb7-462"></a></span>
+<span id="cb7-463"><a href="#cb7-463"></a>Redacta, para un informe dirigido a tomadores de decisión sin formación estadística:</span>
+<span id="cb7-464"><a href="#cb7-464"></a></span>
+<span id="cb7-465"><a href="#cb7-465"></a><span class="ss">1. </span>Un **párrafo de 4–5 líneas** con: si el programa tuvo efecto, magnitud en unidades comprensibles, nivel de confianza, y para quién funcionó mejor.</span>
+<span id="cb7-466"><a href="#cb7-466"></a><span class="ss">2. </span>Un **párrafo de matices** con limitaciones del análisis y qué tan generalizables son los resultados.</span>
+<span id="cb7-467"><a href="#cb7-467"></a><span class="ss">3. </span>Una **recomendación accionable** en una frase: continuar / expandir / modificar / no escalar.</span>
+<span id="cb7-468"><a href="#cb7-468"></a></span>
+<span id="cb7-469"><a href="#cb7-469"></a>Tono profesional pero accesible. Sin jerga estadística innecesaria. No menciones "p-valor" ni "intervalo de confianza" sin traducirlo.</span>
+<span id="cb7-470"><a href="#cb7-470"></a>:::</span>
+<span id="cb7-471"><a href="#cb7-471"></a></span>
+<span id="cb7-472"><a href="#cb7-472"></a>---</span>
+<span id="cb7-473"><a href="#cb7-473"></a></span>
+<span id="cb7-474"><a href="#cb7-474"></a><span class="fu">## Documentar el uso de IA (obligatorio)</span></span>
+<span id="cb7-475"><a href="#cb7-475"></a></span>
+<span id="cb7-476"><a href="#cb7-476"></a>@cgiar2024ai y @ukri2025ai coinciden en que toda evaluación que use IA debe incluir una **declaración de uso de IA** en el informe final. Como mínimo:</span>
+<span id="cb7-477"><a href="#cb7-477"></a></span>
+<span id="cb7-478"><a href="#cb7-478"></a><span class="ss">- </span>Qué herramienta(s) y modelo(s) se usaron (ChatGPT-4, Claude 3.5, Gemini 2.5, etc.).</span>
+<span id="cb7-479"><a href="#cb7-479"></a><span class="ss">- </span>En qué tareas se usó (anonimización, descriptivos, generación de código, redacción de borradores).</span>
+<span id="cb7-480"><a href="#cb7-480"></a><span class="ss">- </span>Cómo se verificaron los resultados (ejecución del código en máquina propia, doble revisión, comparación con métodos tradicionales).</span>
+<span id="cb7-481"><a href="#cb7-481"></a><span class="ss">- </span>Qué tareas se mantuvieron exclusivamente humanas (decisiones de diseño, juicio sobre validez, conclusiones).</span>
+<span id="cb7-482"><a href="#cb7-482"></a><span class="ss">- </span>Cualquier limitación, alucinación o sesgo observado durante el proceso.</span>
+<span id="cb7-483"><a href="#cb7-483"></a></span>
+<span id="cb7-484"><a href="#cb7-484"></a>::: {.callout-tip}</span>
+<span id="cb7-485"><a href="#cb7-485"></a><span class="fu">## Plantilla mínima de declaración</span></span>
+<span id="cb7-486"><a href="#cb7-486"></a></span>
+<span id="cb7-487"><a href="#cb7-487"></a><span class="at">&gt; *Para este informe se utilizó `[Claude 3.5 Sonnet / GPT-4 / …]` como asistente para `[anonimizar la base, generar código en R, redactar borradores de la sección de resultados]`. Todo el código fue ejecutado por el equipo evaluador en su entorno local; los resultados estadísticos se verificaron de forma independiente en `[R / Stata]`. Las decisiones de diseño, la elección de método y las conclusiones del informe son responsabilidad de los autores. No se compartió información personal identificable con la herramienta.*</span></span>
+<span id="cb7-488"><a href="#cb7-488"></a><span class="at">:::</span></span>
+<span id="cb7-489"><a href="#cb7-489"></a></span>
+<span id="cb7-490"><a href="#cb7-490"></a>---</span>
+<span id="cb7-491"><a href="#cb7-491"></a></span>
+<span id="cb7-492"><a href="#cb7-492"></a><span class="fu">## Errores comunes al usar IA en evaluación</span></span>
+<span id="cb7-493"><a href="#cb7-493"></a></span>
+<span id="cb7-494"><a href="#cb7-494"></a>::: {.callout-warning}</span>
+<span id="cb7-495"><a href="#cb7-495"></a><span class="fu">## No haga esto</span></span>
+<span id="cb7-496"><a href="#cb7-496"></a></span>
+<span id="cb7-497"><a href="#cb7-497"></a><span class="ss">- </span>**Confiar ciegamente en el código.** La IA puede generar código que corre pero hace algo distinto a lo que usted pidió. Lea cada bloque antes de ejecutar <span class="co">[</span><span class="ot">@ukri2025ai</span><span class="co">]</span>.</span>
+<span id="cb7-498"><a href="#cb7-498"></a><span class="ss">- </span>**No verificar supuestos.** La IA estimará un DiD sin chequear tendencias paralelas si no se lo pide. Siempre exija las verificaciones del método.</span>
+<span id="cb7-499"><a href="#cb7-499"></a><span class="ss">- </span>**Pegar la base completa.** Solo las primeras filas anonimizadas. Ejecute el análisis en su computador.</span>
+<span id="cb7-500"><a href="#cb7-500"></a><span class="ss">- </span>**Aceptar la primera respuesta.** El primer prompt rara vez es el bueno. Itere <span class="co">[</span><span class="ot">@cgiar2024ai</span><span class="co">]</span>.</span>
+<span id="cb7-501"><a href="#cb7-501"></a><span class="ss">- </span>**Usar un método inadecuado.** La IA ejecuta lo que usted pida, aunque no aplique. Use el <span class="co">[</span><span class="ot">autodiagnóstico</span><span class="co">](02-autodiagnostico.qmd)</span> primero.</span>
+<span id="cb7-502"><a href="#cb7-502"></a><span class="ss">- </span>**Omitir la declaración de uso de IA.** Es un requisito ético creciente en evaluación <span class="co">[</span><span class="ot">@cgiar2024ai; @ukri2025ai</span><span class="co">]</span>.</span>
+<span id="cb7-503"><a href="#cb7-503"></a><span class="ss">- </span>**Tratar los textos generados como autoría suya.** La IA produce borradores. Reescriba con su voz y verifique cada cifra.</span>
+<span id="cb7-504"><a href="#cb7-504"></a>:::</span>
+<span id="cb7-505"><a href="#cb7-505"></a></span>
+<span id="cb7-506"><a href="#cb7-506"></a>::: {.callout-tip}</span>
+<span id="cb7-507"><a href="#cb7-507"></a><span class="fu">## Lecturas recomendadas</span></span>
+<span id="cb7-508"><a href="#cb7-508"></a></span>
+<span id="cb7-509"><a href="#cb7-509"></a><span class="ss">- </span>@cgiar2024ai — Nota técnica del CGIAR sobre uso ético y práctico de IA en evaluación, con ejemplos, tabla de tareas y *checklists*.</span>
+<span id="cb7-510"><a href="#cb7-510"></a><span class="ss">- </span>@ukri2025ai — Informe del Innovation and Research Caucus para UKRI, con marco de gobernanza, *checklists* por etapa y discusión a fondo de riesgos.</span>
+<span id="cb7-511"><a href="#cb7-511"></a>:::</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

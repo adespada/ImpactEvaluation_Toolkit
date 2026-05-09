@@ -869,14 +869,33 @@ window.Quarto = {
 \text{ATE} = E[Y_i(1) - Y_i(0)]
 \]</span></p>
 <p>Donde <span class="math inline">\(Y_i(1)\)</span> es el resultado del individuo <span class="math inline">\(i\)</span> con programa y <span class="math inline">\(Y_i(0)\)</span> sin programa. El problema es que para cada persona solo observamos <strong>uno</strong> de estos dos resultados — nunca ambos. A esto se le llama el <strong>problema fundamental de la inferencia causal</strong>.</p>
-<p>Variantes importantes:</p>
+<p>Variantes importantes según el grupo sobre el que se calcule el efecto y el grado de cumplimiento del programa:</p>
 <ul>
-<li><strong>ATT</strong> (<em>Average Treatment Effect on the Treated</em>): efecto promedio solo entre quienes recibieron el programa. Es lo que estiman DiD y Matching.</li>
-<li><strong>LATE</strong> (<em>Local Average Treatment Effect</em>): efecto promedio para quienes cambian su participación gracias al instrumento. Es lo que estima IV.</li>
-<li><strong>MTE</strong> (<em>Marginal Treatment Effect</em>): efecto para el individuo que es indiferente entre participar y no participar dado un nivel determinado del instrumento. Es un concepto más general del cual ATT y LATE pueden derivarse <span class="citation" data-cites="bernal2011">[@bernal2011]</span>.</li>
-<li><strong>ATE local en el corte</strong>: efecto para quienes están justo en el umbral de elegibilidad. Es lo que estima RDD.</li>
+<li><p><strong>ATE</strong> (<em>Average Treatment Effect</em>): efecto causal promedio para <strong>toda la población</strong>. Es lo que se obtiene cuando hay cumplimiento perfecto, sin atrición ni <em>spillovers</em>. Lo estima un RCT bien ejecutado.</p></li>
+<li><p><strong>ATT = ToT</strong> (<em>Average Treatment Effect on the Treated</em> o <em>Treatment on the Treated</em>): efecto promedio sobre quienes <strong>efectivamente recibieron</strong> el tratamiento. Las dos siglas (ATT y ToT) se usan indistintamente en la literatura para designar el mismo parámetro. Es lo que estiman DiD y Matching, y también IV cuando el incumplimiento es <strong>unilateral</strong> (nadie del grupo de control accede al programa).</p></li>
+<li><p><strong>ITT</strong> (<em>Intention to Treat</em>): efecto de <strong>ofrecer</strong> o <strong>asignar</strong> el tratamiento, sin importar si la persona finalmente lo recibió o lo usó. Refleja lo que ocurre en condiciones realistas — con incumplimiento, abandonos y heterogeneidad de adherencia — y por eso es el parámetro <strong>más relevante para política pública</strong>: estima el impacto de implementar el programa, no de un cumplimiento perfecto. Se obtiene comparando a todos los <strong>asignados</strong> al tratamiento contra todos los <strong>asignados</strong> al control.</p></li>
+<li><p><strong>LATE</strong> (<em>Local Average Treatment Effect</em>): efecto promedio para los <strong>cumplidores</strong> (<em>compliers</em>), es decir, quienes participan <strong>solo porque</strong> fueron asignados al tratamiento (y no habrían participado de otro modo). Es lo que estima IV bajo los supuestos de <strong>monotonicidad</strong> y <strong>restricción de exclusión</strong> (<span class="math inline">\(Z \rightarrow D \rightarrow Y\)</span>, donde <span class="math inline">\(Z\)</span> es la asignación, <span class="math inline">\(D\)</span> la participación efectiva e <span class="math inline">\(Y\)</span> el resultado). Cuando el incumplimiento es unilateral, LATE coincide con el ATT.</p></li>
+<li><p><strong>MTE</strong> (<em>Marginal Treatment Effect</em>): efecto para el individuo que es indiferente entre participar y no participar dado un nivel determinado del instrumento. Es un concepto más general del cual ATT, ITT y LATE pueden derivarse <span class="citation" data-cites="bernal2011">[@bernal2011]</span>.</p></li>
+<li><p><strong>ATE local en el corte</strong>: efecto para quienes están justo en el umbral de elegibilidad. Es lo que estima RDD.</p></li>
 </ul>
-<p>Como enfatiza <span class="citation" data-cites="gertler2016impact">@gertler2016impact</span>, estos parámetros responden a preguntas de política diferentes: el ATE informa sobre el efecto de universalizar un programa, el ATT sobre el efecto en quienes efectivamente participan, y el LATE sobre el efecto en quienes podrían ser inducidos a participar mediante un cambio en el diseño del programa.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>ITT vs.&nbsp;ATT/ToT: dos preguntas distintas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>El <strong>ITT</strong> responde: <em>“si ofrezco este programa a esta población, ¿qué cambio promedio voy a observar?”</em> — ideal para decisiones de política.</li>
+<li>El <strong>ATT/ToT</strong> responde: <em>“para quienes efectivamente lo usan, ¿qué tan grande es el efecto?”</em> — ideal para entender la potencia del tratamiento.</li>
+</ul>
+<p>Cuando el cumplimiento es perfecto, ITT = ATT = ATE. Con incumplimiento parcial, el ITT siempre será <strong>más conservador</strong> (cercano a cero) que el ATT, porque incluye en el promedio a personas que nunca recibieron el tratamiento.</p>
+</div>
+</div>
+<p>Como enfatiza <span class="citation" data-cites="gertler2016impact">@gertler2016impact</span>, estos parámetros responden a preguntas de política diferentes: el ATE informa sobre el efecto de universalizar un programa, el ATT/ToT sobre el efecto en quienes efectivamente participan, el ITT sobre el efecto realista de implementar la política, y el LATE sobre el efecto en quienes podrían ser inducidos a participar mediante un cambio en el diseño del programa.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -887,7 +906,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Un RCT bien ejecutado estima el ATE general. DiD estima el ATT. IV estima el LATE. Estos números pueden ser diferentes porque se refieren a poblaciones diferentes. Al comparar resultados de diferentes estudios, verifique que están estimando el mismo parámetro <span class="citation" data-cites="gertler2016impact">[@gertler2016impact, Cap. 3]</span>.</p>
+<p>Un RCT bien ejecutado estima el ATE (con cumplimiento perfecto) o el ITT (en presencia de incumplimiento). DiD y Matching estiman el ATT/ToT. IV estima el LATE (que coincide con el ATT/ToT cuando el incumplimiento es unilateral). Estos números pueden ser diferentes porque se refieren a poblaciones diferentes. Al comparar resultados de diferentes estudios, verifique que están estimando el mismo parámetro <span class="citation" data-cites="gertler2016impact">[@gertler2016impact, Cap. 3]</span>.</p>
 </div>
 </div>
 </section>
@@ -1500,44 +1519,59 @@ window.Quarto = {
 <span id="cb2-87"><a href="#cb2-87"></a></span>
 <span id="cb2-88"><a href="#cb2-88"></a>Donde $Y_i(1)$ es el resultado del individuo $i$ con programa y $Y_i(0)$ sin programa. El problema es que para cada persona solo observamos **uno** de estos dos resultados — nunca ambos. A esto se le llama el **problema fundamental de la inferencia causal**.</span>
 <span id="cb2-89"><a href="#cb2-89"></a></span>
-<span id="cb2-90"><a href="#cb2-90"></a>Variantes importantes:</span>
+<span id="cb2-90"><a href="#cb2-90"></a>Variantes importantes según el grupo sobre el que se calcule el efecto y el grado de cumplimiento del programa:</span>
 <span id="cb2-91"><a href="#cb2-91"></a></span>
-<span id="cb2-92"><a href="#cb2-92"></a><span class="ss">- </span>**ATT** (*Average Treatment Effect on the Treated*): efecto promedio solo entre quienes recibieron el programa. Es lo que estiman DiD y Matching.</span>
-<span id="cb2-93"><a href="#cb2-93"></a><span class="ss">- </span>**LATE** (*Local Average Treatment Effect*): efecto promedio para quienes cambian su participación gracias al instrumento. Es lo que estima IV.</span>
-<span id="cb2-94"><a href="#cb2-94"></a><span class="ss">- </span>**MTE** (*Marginal Treatment Effect*): efecto para el individuo que es indiferente entre participar y no participar dado un nivel determinado del instrumento. Es un concepto más general del cual ATT y LATE pueden derivarse <span class="co">[</span><span class="ot">@bernal2011</span><span class="co">]</span>.</span>
-<span id="cb2-95"><a href="#cb2-95"></a><span class="ss">- </span>**ATE local en el corte**: efecto para quienes están justo en el umbral de elegibilidad. Es lo que estima RDD.</span>
-<span id="cb2-96"><a href="#cb2-96"></a></span>
-<span id="cb2-97"><a href="#cb2-97"></a>Como enfatiza @gertler2016impact, estos parámetros responden a preguntas de política diferentes: el ATE informa sobre el efecto de universalizar un programa, el ATT sobre el efecto en quienes efectivamente participan, y el LATE sobre el efecto en quienes podrían ser inducidos a participar mediante un cambio en el diseño del programa.</span>
-<span id="cb2-98"><a href="#cb2-98"></a></span>
-<span id="cb2-99"><a href="#cb2-99"></a>::: {.callout-warning}</span>
-<span id="cb2-100"><a href="#cb2-100"></a><span class="fu">## Diferentes métodos, diferentes efectos</span></span>
-<span id="cb2-101"><a href="#cb2-101"></a>Un RCT bien ejecutado estima el ATE general. DiD estima el ATT. IV estima el LATE. Estos números pueden ser diferentes porque se refieren a poblaciones diferentes. Al comparar resultados de diferentes estudios, verifique que están estimando el mismo parámetro <span class="co">[</span><span class="ot">@gertler2016impact, Cap. 3</span><span class="co">]</span>.</span>
-<span id="cb2-102"><a href="#cb2-102"></a>:::</span>
+<span id="cb2-92"><a href="#cb2-92"></a><span class="ss">- </span>**ATE** (*Average Treatment Effect*): efecto causal promedio para **toda la población**. Es lo que se obtiene cuando hay cumplimiento perfecto, sin atrición ni *spillovers*. Lo estima un RCT bien ejecutado.</span>
+<span id="cb2-93"><a href="#cb2-93"></a></span>
+<span id="cb2-94"><a href="#cb2-94"></a><span class="ss">- </span>**ATT = ToT** (*Average Treatment Effect on the Treated* o *Treatment on the Treated*): efecto promedio sobre quienes **efectivamente recibieron** el tratamiento. Las dos siglas (ATT y ToT) se usan indistintamente en la literatura para designar el mismo parámetro. Es lo que estiman DiD y Matching, y también IV cuando el incumplimiento es **unilateral** (nadie del grupo de control accede al programa).</span>
+<span id="cb2-95"><a href="#cb2-95"></a></span>
+<span id="cb2-96"><a href="#cb2-96"></a><span class="ss">- </span>**ITT** (*Intention to Treat*): efecto de **ofrecer** o **asignar** el tratamiento, sin importar si la persona finalmente lo recibió o lo usó. Refleja lo que ocurre en condiciones realistas — con incumplimiento, abandonos y heterogeneidad de adherencia — y por eso es el parámetro **más relevante para política pública**: estima el impacto de implementar el programa, no de un cumplimiento perfecto. Se obtiene comparando a todos los **asignados** al tratamiento contra todos los **asignados** al control.</span>
+<span id="cb2-97"><a href="#cb2-97"></a></span>
+<span id="cb2-98"><a href="#cb2-98"></a><span class="ss">- </span>**LATE** (*Local Average Treatment Effect*): efecto promedio para los **cumplidores** (*compliers*), es decir, quienes participan **solo porque** fueron asignados al tratamiento (y no habrían participado de otro modo). Es lo que estima IV bajo los supuestos de **monotonicidad** y **restricción de exclusión** ($Z \rightarrow D \rightarrow Y$, donde $Z$ es la asignación, $D$ la participación efectiva e $Y$ el resultado). Cuando el incumplimiento es unilateral, LATE coincide con el ATT.</span>
+<span id="cb2-99"><a href="#cb2-99"></a></span>
+<span id="cb2-100"><a href="#cb2-100"></a><span class="ss">- </span>**MTE** (*Marginal Treatment Effect*): efecto para el individuo que es indiferente entre participar y no participar dado un nivel determinado del instrumento. Es un concepto más general del cual ATT, ITT y LATE pueden derivarse <span class="co">[</span><span class="ot">@bernal2011</span><span class="co">]</span>.</span>
+<span id="cb2-101"><a href="#cb2-101"></a></span>
+<span id="cb2-102"><a href="#cb2-102"></a><span class="ss">- </span>**ATE local en el corte**: efecto para quienes están justo en el umbral de elegibilidad. Es lo que estima RDD.</span>
 <span id="cb2-103"><a href="#cb2-103"></a></span>
-<span id="cb2-104"><a href="#cb2-104"></a><span class="fu">## El diseño como eje central</span></span>
-<span id="cb2-105"><a href="#cb2-105"></a></span>
-<span id="cb2-106"><a href="#cb2-106"></a>La calidad de una evaluación cuantitativa se juega en el **diseño**, no en la sofisticación del estimador. @huntingtonklein2022 insiste en que la pregunta "¿cuál método usar?" debe reformularse como "¿qué diseño de investigación sustenta la inferencia causal en este contexto?". En la misma línea, @gertler2016impact organiza toda su exposición alrededor de las decisiones que se toman **antes** de los datos: unidad de aleatorización o asignación, definición de la línea base, grupos de comparación, instrumentos, puntos de corte, y tamaño de muestra calibrado al efecto mínimo que importa a la política.</span>
-<span id="cb2-107"><a href="#cb2-107"></a></span>
-<span id="cb2-108"><a href="#cb2-108"></a>Cada uno de los capítulos siguientes dedica una sección específica a **"Elementos clave de diseño"** donde se resumen las cinco decisiones críticas para un estudio creíble con ese método. Esas decisiones —no el código ni el estimador— son las que distinguen una evaluación defendible de un ejercicio estadístico.</span>
-<span id="cb2-109"><a href="#cb2-109"></a></span>
-<span id="cb2-110"><a href="#cb2-110"></a><span class="fu">## Validez interna vs. externa</span></span>
+<span id="cb2-104"><a href="#cb2-104"></a>::: {.callout-note}</span>
+<span id="cb2-105"><a href="#cb2-105"></a><span class="fu">## ITT vs. ATT/ToT: dos preguntas distintas</span></span>
+<span id="cb2-106"><a href="#cb2-106"></a><span class="ss">- </span>El **ITT** responde: *"si ofrezco este programa a esta población, ¿qué cambio promedio voy a observar?"* — ideal para decisiones de política.</span>
+<span id="cb2-107"><a href="#cb2-107"></a><span class="ss">- </span>El **ATT/ToT** responde: *"para quienes efectivamente lo usan, ¿qué tan grande es el efecto?"* — ideal para entender la potencia del tratamiento.</span>
+<span id="cb2-108"><a href="#cb2-108"></a></span>
+<span id="cb2-109"><a href="#cb2-109"></a>Cuando el cumplimiento es perfecto, ITT = ATT = ATE. Con incumplimiento parcial, el ITT siempre será **más conservador** (cercano a cero) que el ATT, porque incluye en el promedio a personas que nunca recibieron el tratamiento.</span>
+<span id="cb2-110"><a href="#cb2-110"></a>:::</span>
 <span id="cb2-111"><a href="#cb2-111"></a></span>
-<span id="cb2-112"><a href="#cb2-112"></a><span class="ss">- </span>**Validez interna**: ¿el efecto estimado es correcto para la población estudiada? Depende de los supuestos del método.</span>
-<span id="cb2-113"><a href="#cb2-113"></a><span class="ss">- </span>**Validez externa**: ¿el efecto se mantendría en otro contexto, con otra población o en otro momento? Ningún método la garantiza automáticamente.</span>
-<span id="cb2-114"><a href="#cb2-114"></a></span>
-<span id="cb2-115"><a href="#cb2-115"></a>Un RCT tiene alta validez interna pero puede tener baja validez externa si se realizó en condiciones muy específicas. Un estudio con Matching puede ser más generalizable si usa datos representativos, aunque su validez interna depende de la calidad del emparejamiento. @gertler2016impact <span class="co">[</span><span class="ot">Cap. 3</span><span class="co">]</span> advierte además sobre el **sesgo de muestreo**: si la muestra del estudio no es representativa de la población objetivo, incluso un diseño con alta validez interna puede producir conclusiones que no son generalizables. La validez externa requiere considerar explícitamente las diferencias entre el contexto del estudio y el contexto donde se aplicarán los resultados.</span>
-<span id="cb2-116"><a href="#cb2-116"></a></span>
-<span id="cb2-117"><a href="#cb2-117"></a>::: {.callout-tip}</span>
-<span id="cb2-118"><a href="#cb2-118"></a><span class="fu">## Lecturas recomendadas</span></span>
-<span id="cb2-119"><a href="#cb2-119"></a></span>
-<span id="cb2-120"><a href="#cb2-120"></a>Para profundizar en los conceptos presentados en este capítulo, se recomiendan las siguientes referencias:</span>
-<span id="cb2-121"><a href="#cb2-121"></a></span>
-<span id="cb2-122"><a href="#cb2-122"></a><span class="ss">- </span>@gertler2016impact — Texto introductorio del Banco Mundial que cubre el contrafactual, los métodos principales (Cap. 4--7) y aspectos prácticos de implementación. Disponible gratuitamente en el sitio del Banco Mundial.</span>
-<span id="cb2-123"><a href="#cb2-123"></a><span class="ss">- </span>@bernal2011 — Guía en español con un tratamiento formal pero accesible del marco de resultados potenciales, los parámetros de interés (ATE, ATT, LATE, MTE) y cada método cuantitativo.</span>
-<span id="cb2-124"><a href="#cb2-124"></a><span class="ss">- </span>@angrist2009 — Referencia avanzada sobre diseño de investigación y estrategias de identificación causal, con énfasis en variables instrumentales y experimentos naturales.</span>
-<span id="cb2-125"><a href="#cb2-125"></a><span class="ss">- </span>@khandker2009 — Manual práctico del Banco Mundial orientado a la implementación de evaluaciones de impacto en países en desarrollo.</span>
-<span id="cb2-126"><a href="#cb2-126"></a><span class="ss">- </span>@huntingtonklein2022 (*The Effect: An Introduction to Research Design and Causality*) — Texto contemporáneo centrado en el **diseño de investigación**: cómo elegir el método según la pregunta causal, los supuestos defendibles y los datos disponibles. Disponible gratuitamente en <span class="co">[</span><span class="ot">theeffectbook.net</span><span class="co">](https://theeffectbook.net)</span>.</span>
-<span id="cb2-127"><a href="#cb2-127"></a>:::</span>
+<span id="cb2-112"><a href="#cb2-112"></a>Como enfatiza @gertler2016impact, estos parámetros responden a preguntas de política diferentes: el ATE informa sobre el efecto de universalizar un programa, el ATT/ToT sobre el efecto en quienes efectivamente participan, el ITT sobre el efecto realista de implementar la política, y el LATE sobre el efecto en quienes podrían ser inducidos a participar mediante un cambio en el diseño del programa.</span>
+<span id="cb2-113"><a href="#cb2-113"></a></span>
+<span id="cb2-114"><a href="#cb2-114"></a>::: {.callout-warning}</span>
+<span id="cb2-115"><a href="#cb2-115"></a><span class="fu">## Diferentes métodos, diferentes efectos</span></span>
+<span id="cb2-116"><a href="#cb2-116"></a>Un RCT bien ejecutado estima el ATE (con cumplimiento perfecto) o el ITT (en presencia de incumplimiento). DiD y Matching estiman el ATT/ToT. IV estima el LATE (que coincide con el ATT/ToT cuando el incumplimiento es unilateral). Estos números pueden ser diferentes porque se refieren a poblaciones diferentes. Al comparar resultados de diferentes estudios, verifique que están estimando el mismo parámetro <span class="co">[</span><span class="ot">@gertler2016impact, Cap. 3</span><span class="co">]</span>.</span>
+<span id="cb2-117"><a href="#cb2-117"></a>:::</span>
+<span id="cb2-118"><a href="#cb2-118"></a></span>
+<span id="cb2-119"><a href="#cb2-119"></a><span class="fu">## El diseño como eje central</span></span>
+<span id="cb2-120"><a href="#cb2-120"></a></span>
+<span id="cb2-121"><a href="#cb2-121"></a>La calidad de una evaluación cuantitativa se juega en el **diseño**, no en la sofisticación del estimador. @huntingtonklein2022 insiste en que la pregunta "¿cuál método usar?" debe reformularse como "¿qué diseño de investigación sustenta la inferencia causal en este contexto?". En la misma línea, @gertler2016impact organiza toda su exposición alrededor de las decisiones que se toman **antes** de los datos: unidad de aleatorización o asignación, definición de la línea base, grupos de comparación, instrumentos, puntos de corte, y tamaño de muestra calibrado al efecto mínimo que importa a la política.</span>
+<span id="cb2-122"><a href="#cb2-122"></a></span>
+<span id="cb2-123"><a href="#cb2-123"></a>Cada uno de los capítulos siguientes dedica una sección específica a **"Elementos clave de diseño"** donde se resumen las cinco decisiones críticas para un estudio creíble con ese método. Esas decisiones —no el código ni el estimador— son las que distinguen una evaluación defendible de un ejercicio estadístico.</span>
+<span id="cb2-124"><a href="#cb2-124"></a></span>
+<span id="cb2-125"><a href="#cb2-125"></a><span class="fu">## Validez interna vs. externa</span></span>
+<span id="cb2-126"><a href="#cb2-126"></a></span>
+<span id="cb2-127"><a href="#cb2-127"></a><span class="ss">- </span>**Validez interna**: ¿el efecto estimado es correcto para la población estudiada? Depende de los supuestos del método.</span>
+<span id="cb2-128"><a href="#cb2-128"></a><span class="ss">- </span>**Validez externa**: ¿el efecto se mantendría en otro contexto, con otra población o en otro momento? Ningún método la garantiza automáticamente.</span>
+<span id="cb2-129"><a href="#cb2-129"></a></span>
+<span id="cb2-130"><a href="#cb2-130"></a>Un RCT tiene alta validez interna pero puede tener baja validez externa si se realizó en condiciones muy específicas. Un estudio con Matching puede ser más generalizable si usa datos representativos, aunque su validez interna depende de la calidad del emparejamiento. @gertler2016impact <span class="co">[</span><span class="ot">Cap. 3</span><span class="co">]</span> advierte además sobre el **sesgo de muestreo**: si la muestra del estudio no es representativa de la población objetivo, incluso un diseño con alta validez interna puede producir conclusiones que no son generalizables. La validez externa requiere considerar explícitamente las diferencias entre el contexto del estudio y el contexto donde se aplicarán los resultados.</span>
+<span id="cb2-131"><a href="#cb2-131"></a></span>
+<span id="cb2-132"><a href="#cb2-132"></a>::: {.callout-tip}</span>
+<span id="cb2-133"><a href="#cb2-133"></a><span class="fu">## Lecturas recomendadas</span></span>
+<span id="cb2-134"><a href="#cb2-134"></a></span>
+<span id="cb2-135"><a href="#cb2-135"></a>Para profundizar en los conceptos presentados en este capítulo, se recomiendan las siguientes referencias:</span>
+<span id="cb2-136"><a href="#cb2-136"></a></span>
+<span id="cb2-137"><a href="#cb2-137"></a><span class="ss">- </span>@gertler2016impact — Texto introductorio del Banco Mundial que cubre el contrafactual, los métodos principales (Cap. 4--7) y aspectos prácticos de implementación. Disponible gratuitamente en el sitio del Banco Mundial.</span>
+<span id="cb2-138"><a href="#cb2-138"></a><span class="ss">- </span>@bernal2011 — Guía en español con un tratamiento formal pero accesible del marco de resultados potenciales, los parámetros de interés (ATE, ATT, LATE, MTE) y cada método cuantitativo.</span>
+<span id="cb2-139"><a href="#cb2-139"></a><span class="ss">- </span>@angrist2009 — Referencia avanzada sobre diseño de investigación y estrategias de identificación causal, con énfasis en variables instrumentales y experimentos naturales.</span>
+<span id="cb2-140"><a href="#cb2-140"></a><span class="ss">- </span>@khandker2009 — Manual práctico del Banco Mundial orientado a la implementación de evaluaciones de impacto en países en desarrollo.</span>
+<span id="cb2-141"><a href="#cb2-141"></a><span class="ss">- </span>@huntingtonklein2022 (*The Effect: An Introduction to Research Design and Causality*) — Texto contemporáneo centrado en el **diseño de investigación**: cómo elegir el método según la pregunta causal, los supuestos defendibles y los datos disponibles. Disponible gratuitamente en <span class="co">[</span><span class="ot">theeffectbook.net</span><span class="co">](https://theeffectbook.net)</span>.</span>
+<span id="cb2-142"><a href="#cb2-142"></a>:::</span>
 </code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

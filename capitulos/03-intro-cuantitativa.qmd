@@ -85,18 +85,33 @@ $$
 
 Donde $Y_i(1)$ es el resultado del individuo $i$ con programa y $Y_i(0)$ sin programa. El problema es que para cada persona solo observamos **uno** de estos dos resultados — nunca ambos. A esto se le llama el **problema fundamental de la inferencia causal**.
 
-Variantes importantes:
+Variantes importantes según el grupo sobre el que se calcule el efecto y el grado de cumplimiento del programa:
 
-- **ATT** (*Average Treatment Effect on the Treated*): efecto promedio solo entre quienes recibieron el programa. Es lo que estiman DiD y Matching.
-- **LATE** (*Local Average Treatment Effect*): efecto promedio para quienes cambian su participación gracias al instrumento. Es lo que estima IV.
-- **MTE** (*Marginal Treatment Effect*): efecto para el individuo que es indiferente entre participar y no participar dado un nivel determinado del instrumento. Es un concepto más general del cual ATT y LATE pueden derivarse [@bernal2011].
+- **ATE** (*Average Treatment Effect*): efecto causal promedio para **toda la población**. Es lo que se obtiene cuando hay cumplimiento perfecto, sin atrición ni *spillovers*. Lo estima un RCT bien ejecutado.
+
+- **ATT = ToT** (*Average Treatment Effect on the Treated* o *Treatment on the Treated*): efecto promedio sobre quienes **efectivamente recibieron** el tratamiento. Las dos siglas (ATT y ToT) se usan indistintamente en la literatura para designar el mismo parámetro. Es lo que estiman DiD y Matching, y también IV cuando el incumplimiento es **unilateral** (nadie del grupo de control accede al programa).
+
+- **ITT** (*Intention to Treat*): efecto de **ofrecer** o **asignar** el tratamiento, sin importar si la persona finalmente lo recibió o lo usó. Refleja lo que ocurre en condiciones realistas — con incumplimiento, abandonos y heterogeneidad de adherencia — y por eso es el parámetro **más relevante para política pública**: estima el impacto de implementar el programa, no de un cumplimiento perfecto. Se obtiene comparando a todos los **asignados** al tratamiento contra todos los **asignados** al control.
+
+- **LATE** (*Local Average Treatment Effect*): efecto promedio para los **cumplidores** (*compliers*), es decir, quienes participan **solo porque** fueron asignados al tratamiento (y no habrían participado de otro modo). Es lo que estima IV bajo los supuestos de **monotonicidad** y **restricción de exclusión** ($Z \rightarrow D \rightarrow Y$, donde $Z$ es la asignación, $D$ la participación efectiva e $Y$ el resultado). Cuando el incumplimiento es unilateral, LATE coincide con el ATT.
+
+- **MTE** (*Marginal Treatment Effect*): efecto para el individuo que es indiferente entre participar y no participar dado un nivel determinado del instrumento. Es un concepto más general del cual ATT, ITT y LATE pueden derivarse [@bernal2011].
+
 - **ATE local en el corte**: efecto para quienes están justo en el umbral de elegibilidad. Es lo que estima RDD.
 
-Como enfatiza @gertler2016impact, estos parámetros responden a preguntas de política diferentes: el ATE informa sobre el efecto de universalizar un programa, el ATT sobre el efecto en quienes efectivamente participan, y el LATE sobre el efecto en quienes podrían ser inducidos a participar mediante un cambio en el diseño del programa.
+::: {.callout-note}
+## ITT vs. ATT/ToT: dos preguntas distintas
+- El **ITT** responde: *"si ofrezco este programa a esta población, ¿qué cambio promedio voy a observar?"* — ideal para decisiones de política.
+- El **ATT/ToT** responde: *"para quienes efectivamente lo usan, ¿qué tan grande es el efecto?"* — ideal para entender la potencia del tratamiento.
+
+Cuando el cumplimiento es perfecto, ITT = ATT = ATE. Con incumplimiento parcial, el ITT siempre será **más conservador** (cercano a cero) que el ATT, porque incluye en el promedio a personas que nunca recibieron el tratamiento.
+:::
+
+Como enfatiza @gertler2016impact, estos parámetros responden a preguntas de política diferentes: el ATE informa sobre el efecto de universalizar un programa, el ATT/ToT sobre el efecto en quienes efectivamente participan, el ITT sobre el efecto realista de implementar la política, y el LATE sobre el efecto en quienes podrían ser inducidos a participar mediante un cambio en el diseño del programa.
 
 ::: {.callout-warning}
 ## Diferentes métodos, diferentes efectos
-Un RCT bien ejecutado estima el ATE general. DiD estima el ATT. IV estima el LATE. Estos números pueden ser diferentes porque se refieren a poblaciones diferentes. Al comparar resultados de diferentes estudios, verifique que están estimando el mismo parámetro [@gertler2016impact, Cap. 3].
+Un RCT bien ejecutado estima el ATE (con cumplimiento perfecto) o el ITT (en presencia de incumplimiento). DiD y Matching estiman el ATT/ToT. IV estima el LATE (que coincide con el ATT/ToT cuando el incumplimiento es unilateral). Estos números pueden ser diferentes porque se refieren a poblaciones diferentes. Al comparar resultados de diferentes estudios, verifique que están estimando el mismo parámetro [@gertler2016impact, Cap. 3].
 :::
 
 ## El diseño como eje central

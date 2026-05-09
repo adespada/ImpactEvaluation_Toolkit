@@ -2193,16 +2193,16 @@ Tabla&nbsp;28.3: Estructura mínima de base de datos para un RCT
 <span id="cb12-317"><a href="#cb12-317"></a></span>
 <span id="cb12-318"><a href="#cb12-318"></a>**Lo que verifica:** que la decisión de responder no esté sistemáticamente relacionada con el tratamiento. Si el coeficiente de <span class="in">`tratamiento`</span> es significativo, hay atrición diferencial y los resultados ITT pueden estar sesgados.</span>
 <span id="cb12-319"><a href="#cb12-319"></a></span>
-<span id="cb12-320"><a href="#cb12-320"></a><span class="fu">### Prompt RCT.3 — ITT y TOT (cumplimiento imperfecto)</span></span>
+<span id="cb12-320"><a href="#cb12-320"></a><span class="fu">### Prompt RCT.3 — ITT y ToT (cumplimiento imperfecto)</span></span>
 <span id="cb12-321"><a href="#cb12-321"></a></span>
 <span id="cb12-322"><a href="#cb12-322"></a>::: {.prompt-block}</span>
 <span id="cb12-323"><a href="#cb12-323"></a>Con <span class="in">`datos`</span>, asume que la columna <span class="in">`tomo_brigada`</span> (1/0) indica cumplimiento efectivo y <span class="in">`tratamiento`</span> indica asignación aleatoria. Genera un script en R que estime:</span>
 <span id="cb12-324"><a href="#cb12-324"></a></span>
 <span id="cb12-325"><a href="#cb12-325"></a><span class="ss">1. </span>**ITT** (efecto de la asignación): <span class="in">`lm(tasa_vacunacion ~ tratamiento + covariables)`</span> con errores robustos (<span class="in">`sandwich::vcovHC`</span>).</span>
-<span id="cb12-326"><a href="#cb12-326"></a><span class="ss">2. </span>**TOT/LATE** (efecto del cumplimiento) usando 2SLS con <span class="in">`tratamiento`</span> como instrumento de <span class="in">`tomo_brigada`</span>: <span class="in">`AER::ivreg(tasa_vacunacion ~ tomo_brigada + covariables | tratamiento + covariables)`</span>.</span>
+<span id="cb12-326"><a href="#cb12-326"></a><span class="ss">2. </span>**ToT/LATE** (efecto del cumplimiento) usando 2SLS con <span class="in">`tratamiento`</span> como instrumento de <span class="in">`tomo_brigada`</span>: <span class="in">`AER::ivreg(tasa_vacunacion ~ tomo_brigada + covariables | tratamiento + covariables)`</span>.</span>
 <span id="cb12-327"><a href="#cb12-327"></a><span class="ss">3. </span>Una tabla comparativa con <span class="in">`modelsummary::modelsummary()`</span> con ambos modelos lado a lado.</span>
 <span id="cb12-328"><a href="#cb12-328"></a></span>
-<span id="cb12-329"><a href="#cb12-329"></a>Solo código. Al final, en una sola frase, recuérdame por qué TOT &gt; ITT en valor absoluto cuando hay incumplimiento parcial.</span>
+<span id="cb12-329"><a href="#cb12-329"></a>Solo código. Al final, en una sola frase, recuérdame por qué ToT &gt; ITT en valor absoluto cuando hay incumplimiento parcial.</span>
 <span id="cb12-330"><a href="#cb12-330"></a>:::</span>
 <span id="cb12-331"><a href="#cb12-331"></a></span>
 <span id="cb12-332"><a href="#cb12-332"></a><span class="fu">### Prompt RCT.4 — Heterogeneidad y forest plot</span></span>
@@ -2236,141 +2236,95 @@ Tabla&nbsp;28.3: Estructura mínima de base de datos para un RCT
 <span id="cb12-360"><a href="#cb12-360"></a>Sin jerga. No uses "p-valor" ni "intervalo de confianza" sin traducirlos.</span>
 <span id="cb12-361"><a href="#cb12-361"></a>:::</span>
 <span id="cb12-362"><a href="#cb12-362"></a></span>
-<span id="cb12-363"><a href="#cb12-363"></a><span class="fu">### Prompt RCT.6 — Aleatorización restringida sin perder validez</span></span>
+<span id="cb12-363"><a href="#cb12-363"></a>---</span>
 <span id="cb12-364"><a href="#cb12-364"></a></span>
-<span id="cb12-365"><a href="#cb12-365"></a>::: {.prompt-block}</span>
-<span id="cb12-366"><a href="#cb12-366"></a>Tengo una base de línea base llamada <span class="in">`datos_base`</span> y quiero asignar tratamiento de manera aleatoria, pero evitando diferencias iniciales muy grandes entre tratamiento y control.</span>
-<span id="cb12-367"><a href="#cb12-367"></a></span>
-<span id="cb12-368"><a href="#cb12-368"></a>Genera código en R que:</span>
-<span id="cb12-369"><a href="#cb12-369"></a></span>
-<span id="cb12-370"><a href="#cb12-370"></a><span class="ss">1. </span>Mantenga aproximadamente la mitad de la muestra en tratamiento y la mitad en control.</span>
-<span id="cb12-371"><a href="#cb12-371"></a><span class="ss">2. </span>Repita la aleatorización hasta encontrar una asignación con buen balance en estas covariables:</span>
-<span id="cb12-372"><a href="#cb12-372"></a></span>
-<span id="cb12-373"><a href="#cb12-373"></a><span class="in">```</span></span>
-<span id="cb12-374"><a href="#cb12-374"></a><span class="in">covariables &lt;- c("tasa_vacunacion_base", "distancia_centro_salud",</span></span>
-<span id="cb12-375"><a href="#cb12-375"></a><span class="in">                 "poblacion", "pobreza", "cobertura_internet")</span></span>
-<span id="cb12-376"><a href="#cb12-376"></a><span class="in">```</span></span>
+<span id="cb12-365"><a href="#cb12-365"></a><span class="fu">## Guía de recolección de datos</span></span>
+<span id="cb12-366"><a href="#cb12-366"></a></span>
+<span id="cb12-367"><a href="#cb12-367"></a>::: {.callout-important}</span>
+<span id="cb12-368"><a href="#cb12-368"></a><span class="fu">## ¿Cuándo leer esta sección?</span></span>
+<span id="cb12-369"><a href="#cb12-369"></a>Lea esto **antes** de implementar el programa, cuando aún se encuentra en fase de planificación. La calidad de su evaluación RCT depende de un diseño riguroso y de la integridad de la asignación aleatoria.</span>
+<span id="cb12-370"><a href="#cb12-370"></a>:::</span>
+<span id="cb12-371"><a href="#cb12-371"></a></span>
+<span id="cb12-372"><a href="#cb12-372"></a><span class="fu">### ¿Qué datos necesita para un RCT?</span></span>
+<span id="cb12-373"><a href="#cb12-373"></a></span>
+<span id="cb12-374"><a href="#cb12-374"></a>Para llevar a cabo un experimento aleatorizado necesita como mínimo:</span>
+<span id="cb12-375"><a href="#cb12-375"></a></span>
+<span id="cb12-376"><a href="#cb12-376"></a><span class="ss">1. </span>**Línea base (datos pre-tratamiento)**: medición de su variable de resultado y covariables **antes** de la asignación aleatoria.</span>
 <span id="cb12-377"><a href="#cb12-377"></a></span>
-<span id="cb12-378"><a href="#cb12-378"></a><span class="ss">3. </span>Calcule diferencias medias estandarizadas firmadas para cada covariable.</span>
-<span id="cb12-379"><a href="#cb12-379"></a><span class="ss">4. </span>Acepte una asignación si el máximo <span class="in">`abs(SMD)`</span> está entre 0.06 y 0.12, para que el balance sea razonable sin quedar artificialmente perfecto.</span>
-<span id="cb12-380"><a href="#cb12-380"></a><span class="ss">5. </span>Guarde la semilla, el número de intentos, el máximo desbalance encontrado y una tabla de balance antes de iniciar el programa.</span>
-<span id="cb12-381"><a href="#cb12-381"></a><span class="ss">6. </span>Incluya una advertencia clara: solo se deben usar variables medidas antes del tratamiento, nunca variables de resultado posteriores.</span>
-<span id="cb12-382"><a href="#cb12-382"></a></span>
-<span id="cb12-383"><a href="#cb12-383"></a>Después del código, explica en tres frases por qué pequeñas diferencias iniciales son normales en un RCT y por qué no se debe buscar que todas las diferencias sean exactamente cero.</span>
-<span id="cb12-384"><a href="#cb12-384"></a>:::</span>
+<span id="cb12-378"><a href="#cb12-378"></a><span class="ss">2. </span>**Registro de la asignación**: documentación clara de qué unidades fueron asignadas a tratamiento y cuáles a control, y cómo se hizo la aleatorización.</span>
+<span id="cb12-379"><a href="#cb12-379"></a></span>
+<span id="cb12-380"><a href="#cb12-380"></a><span class="ss">3. </span>**Datos de seguimiento (endline)**: medición de las mismas variables **después** de la intervención, para ambos grupos.</span>
+<span id="cb12-381"><a href="#cb12-381"></a></span>
+<span id="cb12-382"><a href="#cb12-382"></a><span class="ss">4. </span>**Datos de cumplimiento**: información sobre si las unidades asignadas al tratamiento efectivamente lo recibieron (y si alguna unidad de control accedió al programa).</span>
+<span id="cb12-383"><a href="#cb12-383"></a></span>
+<span id="cb12-384"><a href="#cb12-384"></a><span class="fu">### Estructura de su base de datos</span></span>
 <span id="cb12-385"><a href="#cb12-385"></a></span>
-<span id="cb12-386"><a href="#cb12-386"></a><span class="fu">### Prompt RCT.7 — Paquete de gráficos y tablas para informe</span></span>
+<span id="cb12-386"><a href="#cb12-386"></a>Su base de datos debe tener la siguiente estructura (formato de **panel**):</span>
 <span id="cb12-387"><a href="#cb12-387"></a></span>
-<span id="cb12-388"><a href="#cb12-388"></a>::: {.prompt-block}</span>
-<span id="cb12-389"><a href="#cb12-389"></a>Con una base RCT llamada <span class="in">`datos_rct`</span>, crea un script completo en R para exportar resultados listos para un artículo o informe técnico.</span>
-<span id="cb12-390"><a href="#cb12-390"></a></span>
-<span id="cb12-391"><a href="#cb12-391"></a>El script debe:</span>
-<span id="cb12-392"><a href="#cb12-392"></a></span>
-<span id="cb12-393"><a href="#cb12-393"></a><span class="ss">1. </span>Crear la carpeta <span class="in">`plots/`</span> si no existe y exportar en PNG:</span>
-<span id="cb12-394"><a href="#cb12-394"></a><span class="ss">   - </span><span class="in">`rct_love_plot.png`</span>: love plot firmado en porcentaje, con puntos de tratamiento-control cercanos a cero y líneas verticales en -10%, 0 y 10%.</span>
-<span id="cb12-395"><a href="#cb12-395"></a><span class="ss">   - </span><span class="in">`rct_outcome_distribution.png`</span>: distribución del resultado final por grupo.</span>
-<span id="cb12-396"><a href="#cb12-396"></a><span class="ss">   - </span><span class="in">`rct_pre_post_change.png`</span>: medias pre y post por grupo con IC95%.</span>
-<span id="cb12-397"><a href="#cb12-397"></a><span class="ss">   - </span><span class="in">`rct_itt_coefficients.png`</span>: coeficientes del efecto del tratamiento en 3 especificaciones.</span>
-<span id="cb12-398"><a href="#cb12-398"></a><span class="ss">   - </span><span class="in">`rct_heterogeneity_forest.png`</span>: forest plot por subgrupos relevantes.</span>
-<span id="cb12-399"><a href="#cb12-399"></a><span class="ss">2. </span>Crear la carpeta <span class="in">`tables/`</span> si no existe y exportar en PNG:</span>
-<span id="cb12-400"><a href="#cb12-400"></a><span class="ss">   - </span>tabla descriptiva de línea base por tratamiento y control;</span>
-<span id="cb12-401"><a href="#cb12-401"></a><span class="ss">   - </span>tabla de balance con SMD y p-valores;</span>
-<span id="cb12-402"><a href="#cb12-402"></a><span class="ss">   - </span>tabla de regresiones tipo artículo, similar a Stargazer, con errores estándar en paréntesis, estrellas de significancia, N y R2.</span>
-<span id="cb12-403"><a href="#cb12-403"></a><span class="ss">3. </span>Usar un diseño limpio: fondo blanco, tipografía legible, títulos cortos y notas metodológicas al pie.</span>
-<span id="cb12-404"><a href="#cb12-404"></a><span class="ss">4. </span>Comentar brevemente cada bloque del script.</span>
-<span id="cb12-405"><a href="#cb12-405"></a></span>
-<span id="cb12-406"><a href="#cb12-406"></a>Usa paquetes comunes (<span class="in">`dplyr`</span>, <span class="in">`ggplot2`</span>, <span class="in">`modelsummary`</span>, <span class="in">`gt`</span>, <span class="in">`webshot2`</span> o alternativa equivalente). Si falta algún paquete, incluye una línea opcional para instalarlo, pero no la ejecutes automáticamente.</span>
-<span id="cb12-407"><a href="#cb12-407"></a>:::</span>
-<span id="cb12-408"><a href="#cb12-408"></a></span>
-<span id="cb12-409"><a href="#cb12-409"></a>---</span>
-<span id="cb12-410"><a href="#cb12-410"></a></span>
-<span id="cb12-411"><a href="#cb12-411"></a><span class="fu">## Guía de recolección de datos</span></span>
-<span id="cb12-412"><a href="#cb12-412"></a></span>
-<span id="cb12-413"><a href="#cb12-413"></a>::: {.callout-important}</span>
-<span id="cb12-414"><a href="#cb12-414"></a><span class="fu">## ¿Cuándo leer esta sección?</span></span>
-<span id="cb12-415"><a href="#cb12-415"></a>Lea esto **antes** de implementar el programa, cuando aún se encuentra en fase de planificación. La calidad de su evaluación RCT depende de un diseño riguroso y de la integridad de la asignación aleatoria.</span>
-<span id="cb12-416"><a href="#cb12-416"></a>:::</span>
-<span id="cb12-417"><a href="#cb12-417"></a></span>
-<span id="cb12-418"><a href="#cb12-418"></a><span class="fu">### ¿Qué datos necesita para un RCT?</span></span>
-<span id="cb12-419"><a href="#cb12-419"></a></span>
-<span id="cb12-420"><a href="#cb12-420"></a>Para llevar a cabo un experimento aleatorizado necesita como mínimo:</span>
-<span id="cb12-421"><a href="#cb12-421"></a></span>
-<span id="cb12-422"><a href="#cb12-422"></a><span class="ss">1. </span>**Línea base (datos pre-tratamiento)**: medición de su variable de resultado y covariables **antes** de la asignación aleatoria.</span>
-<span id="cb12-423"><a href="#cb12-423"></a></span>
-<span id="cb12-424"><a href="#cb12-424"></a><span class="ss">2. </span>**Registro de la asignación**: documentación clara de qué unidades fueron asignadas a tratamiento y cuáles a control, y cómo se hizo la aleatorización.</span>
-<span id="cb12-425"><a href="#cb12-425"></a></span>
-<span id="cb12-426"><a href="#cb12-426"></a><span class="ss">3. </span>**Datos de seguimiento (endline)**: medición de las mismas variables **después** de la intervención, para ambos grupos.</span>
-<span id="cb12-427"><a href="#cb12-427"></a></span>
-<span id="cb12-428"><a href="#cb12-428"></a><span class="ss">4. </span>**Datos de cumplimiento**: información sobre si las unidades asignadas al tratamiento efectivamente lo recibieron (y si alguna unidad de control accedió al programa).</span>
-<span id="cb12-429"><a href="#cb12-429"></a></span>
-<span id="cb12-430"><a href="#cb12-430"></a><span class="fu">### Estructura de su base de datos</span></span>
-<span id="cb12-431"><a href="#cb12-431"></a></span>
-<span id="cb12-432"><a href="#cb12-432"></a>Su base de datos debe tener la siguiente estructura (formato de **panel**):</span>
-<span id="cb12-433"><a href="#cb12-433"></a></span>
-<span id="cb12-436"><a href="#cb12-436"></a><span class="in">```{r}</span></span>
-<span id="cb12-437"><a href="#cb12-437"></a><span class="co">#| label: tbl-rct-estructura-anexo</span></span>
-<span id="cb12-438"><a href="#cb12-438"></a><span class="co">#| tbl-cap: "Estructura mínima de base de datos para un RCT"</span></span>
-<span id="cb12-439"><a href="#cb12-439"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb12-440"><a href="#cb12-440"></a><span class="co">#| echo: false</span></span>
+<span id="cb12-390"><a href="#cb12-390"></a><span class="in">```{r}</span></span>
+<span id="cb12-391"><a href="#cb12-391"></a><span class="co">#| label: tbl-rct-estructura-anexo</span></span>
+<span id="cb12-392"><a href="#cb12-392"></a><span class="co">#| tbl-cap: "Estructura mínima de base de datos para un RCT"</span></span>
+<span id="cb12-393"><a href="#cb12-393"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb12-394"><a href="#cb12-394"></a><span class="co">#| echo: false</span></span>
+<span id="cb12-395"><a href="#cb12-395"></a></span>
+<span id="cb12-396"><a href="#cb12-396"></a>ejemplo <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-397"><a href="#cb12-397"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">"ID_001"</span>, <span class="st">"ID_001"</span>, <span class="st">"ID_002"</span>, <span class="st">"ID_002"</span>, <span class="st">"ID_003"</span>, <span class="st">"ID_003"</span>),</span>
+<span id="cb12-398"><a href="#cb12-398"></a>  <span class="at">periodo =</span> <span class="fu">c</span>(<span class="st">"Línea base"</span>, <span class="st">"Seguimiento"</span>, <span class="st">"Línea base"</span>, <span class="st">"Seguimiento"</span>,</span>
+<span id="cb12-399"><a href="#cb12-399"></a>              <span class="st">"Línea base"</span>, <span class="st">"Seguimiento"</span>),</span>
+<span id="cb12-400"><a href="#cb12-400"></a>  <span class="at">asignacion =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb12-401"><a href="#cb12-401"></a>  <span class="at">tratamiento_efectivo =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb12-402"><a href="#cb12-402"></a>  <span class="at">resultado =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">58</span>, <span class="dv">45</span>, <span class="dv">47</span>, <span class="dv">38</span>, <span class="dv">40</span>),</span>
+<span id="cb12-403"><a href="#cb12-403"></a>  <span class="at">covariable_1 =</span> <span class="fu">c</span>(<span class="dv">2500</span>, <span class="dv">2500</span>, <span class="dv">1800</span>, <span class="dv">1800</span>, <span class="dv">3200</span>, <span class="dv">3200</span>),</span>
+<span id="cb12-404"><a href="#cb12-404"></a>  <span class="at">covariable_2 =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">32</span>, <span class="dv">32</span>)</span>
+<span id="cb12-405"><a href="#cb12-405"></a>)</span>
+<span id="cb12-406"><a href="#cb12-406"></a></span>
+<span id="cb12-407"><a href="#cb12-407"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(ejemplo,</span>
+<span id="cb12-408"><a href="#cb12-408"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"Periodo"</span>, <span class="st">"Asignación"</span>, <span class="st">"Tratamiento efectivo"</span>,</span>
+<span id="cb12-409"><a href="#cb12-409"></a>                           <span class="st">"Resultado"</span>, <span class="st">"Población"</span>, <span class="st">"Distancia (km)"</span>))</span>
+<span id="cb12-410"><a href="#cb12-410"></a><span class="in">```</span></span>
+<span id="cb12-411"><a href="#cb12-411"></a></span>
+<span id="cb12-412"><a href="#cb12-412"></a>::: {.callout-tip}</span>
+<span id="cb12-413"><a href="#cb12-413"></a><span class="fu">## Asignación vs. tratamiento efectivo</span></span>
+<span id="cb12-414"><a href="#cb12-414"></a>Note que <span class="in">`asignacion`</span> indica a qué grupo fue sorteada cada unidad, mientras que <span class="in">`tratamiento_efectivo`</span> indica si realmente recibió la intervención. En el ejemplo, ID_003 fue asignada al tratamiento pero no lo recibió (incumplimiento). Registrar ambas variables es esencial para estimar el efecto ITT y el efecto LATE.</span>
+<span id="cb12-415"><a href="#cb12-415"></a>:::</span>
+<span id="cb12-416"><a href="#cb12-416"></a></span>
+<span id="cb12-417"><a href="#cb12-417"></a><span class="fu">### Checklist de recolección</span></span>
+<span id="cb12-418"><a href="#cb12-418"></a></span>
+<span id="cb12-419"><a href="#cb12-419"></a>Antes de iniciar la recolección, verifique que puede responder "sí" a cada pregunta:</span>
+<span id="cb12-420"><a href="#cb12-420"></a></span>
+<span id="cb12-421"><a href="#cb12-421"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se ha definido la unidad de aleatorización (individuo, hogar, comunidad, escuela)?</span>
+<span id="cb12-422"><a href="#cb12-422"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se tiene un listado completo del universo de unidades elegibles?</span>
+<span id="cb12-423"><a href="#cb12-423"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se ha recolectado la **línea base** antes de revelar la asignación?</span>
+<span id="cb12-424"><a href="#cb12-424"></a><span class="ss">- </span><span class="va">[ ]</span> ¿La aleatorización fue documentada y es reproducible (semilla aleatoria guardada)?</span>
+<span id="cb12-425"><a href="#cb12-425"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se cuenta con un protocolo para manejar el incumplimiento?</span>
+<span id="cb12-426"><a href="#cb12-426"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se miden las mismas variables con el mismo instrumento en línea base y seguimiento?</span>
+<span id="cb12-427"><a href="#cb12-427"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se tiene un identificador único para cada unidad de observación?</span>
+<span id="cb12-428"><a href="#cb12-428"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se ha calculado el tamaño de muestra necesario (análisis de poder estadístico)?</span>
+<span id="cb12-429"><a href="#cb12-429"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se ha registrado el estudio en un registro público (por ejemplo, AEA RCT Registry)?</span>
+<span id="cb12-430"><a href="#cb12-430"></a></span>
+<span id="cb12-431"><a href="#cb12-431"></a><span class="fu">### Prompt para planificar la recolección con IA</span></span>
+<span id="cb12-432"><a href="#cb12-432"></a></span>
+<span id="cb12-433"><a href="#cb12-433"></a>::: {.prompt-block}</span>
+<span id="cb12-434"><a href="#cb12-434"></a>Estoy diseñando un experimento aleatorizado (RCT) para evaluar un programa. Mi programa es:</span>
+<span id="cb12-435"><a href="#cb12-435"></a></span>
+<span id="cb12-436"><a href="#cb12-436"></a><span class="ss">- </span>Tipo de programa: <span class="co">[</span><span class="ot">describir brevemente</span><span class="co">]</span></span>
+<span id="cb12-437"><a href="#cb12-437"></a><span class="ss">- </span>Beneficiarios potenciales: <span class="co">[</span><span class="ot">tipo y número aproximado</span><span class="co">]</span></span>
+<span id="cb12-438"><a href="#cb12-438"></a><span class="ss">- </span>Indicador de resultado principal: <span class="co">[</span><span class="ot">describir</span><span class="co">]</span></span>
+<span id="cb12-439"><a href="#cb12-439"></a><span class="ss">- </span>Unidad de aleatorización: <span class="co">[</span><span class="ot">individuo / hogar / comunidad / escuela</span><span class="co">]</span></span>
+<span id="cb12-440"><a href="#cb12-440"></a><span class="ss">- </span>Presupuesto aproximado para la evaluación: <span class="co">[</span><span class="ot">monto</span><span class="co">]</span></span>
 <span id="cb12-441"><a href="#cb12-441"></a></span>
-<span id="cb12-442"><a href="#cb12-442"></a>ejemplo <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb12-443"><a href="#cb12-443"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">"ID_001"</span>, <span class="st">"ID_001"</span>, <span class="st">"ID_002"</span>, <span class="st">"ID_002"</span>, <span class="st">"ID_003"</span>, <span class="st">"ID_003"</span>),</span>
-<span id="cb12-444"><a href="#cb12-444"></a>  <span class="at">periodo =</span> <span class="fu">c</span>(<span class="st">"Línea base"</span>, <span class="st">"Seguimiento"</span>, <span class="st">"Línea base"</span>, <span class="st">"Seguimiento"</span>,</span>
-<span id="cb12-445"><a href="#cb12-445"></a>              <span class="st">"Línea base"</span>, <span class="st">"Seguimiento"</span>),</span>
-<span id="cb12-446"><a href="#cb12-446"></a>  <span class="at">asignacion =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
-<span id="cb12-447"><a href="#cb12-447"></a>  <span class="at">tratamiento_efectivo =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb12-448"><a href="#cb12-448"></a>  <span class="at">resultado =</span> <span class="fu">c</span>(<span class="dv">42</span>, <span class="dv">58</span>, <span class="dv">45</span>, <span class="dv">47</span>, <span class="dv">38</span>, <span class="dv">40</span>),</span>
-<span id="cb12-449"><a href="#cb12-449"></a>  <span class="at">covariable_1 =</span> <span class="fu">c</span>(<span class="dv">2500</span>, <span class="dv">2500</span>, <span class="dv">1800</span>, <span class="dv">1800</span>, <span class="dv">3200</span>, <span class="dv">3200</span>),</span>
-<span id="cb12-450"><a href="#cb12-450"></a>  <span class="at">covariable_2 =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">32</span>, <span class="dv">32</span>)</span>
-<span id="cb12-451"><a href="#cb12-451"></a>)</span>
-<span id="cb12-452"><a href="#cb12-452"></a></span>
-<span id="cb12-453"><a href="#cb12-453"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(ejemplo,</span>
-<span id="cb12-454"><a href="#cb12-454"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"Periodo"</span>, <span class="st">"Asignación"</span>, <span class="st">"Tratamiento efectivo"</span>,</span>
-<span id="cb12-455"><a href="#cb12-455"></a>                           <span class="st">"Resultado"</span>, <span class="st">"Población"</span>, <span class="st">"Distancia (km)"</span>))</span>
-<span id="cb12-456"><a href="#cb12-456"></a><span class="in">```</span></span>
-<span id="cb12-457"><a href="#cb12-457"></a></span>
-<span id="cb12-458"><a href="#cb12-458"></a>::: {.callout-tip}</span>
-<span id="cb12-459"><a href="#cb12-459"></a><span class="fu">## Asignación vs. tratamiento efectivo</span></span>
-<span id="cb12-460"><a href="#cb12-460"></a>Note que <span class="in">`asignacion`</span> indica a qué grupo fue sorteada cada unidad, mientras que <span class="in">`tratamiento_efectivo`</span> indica si realmente recibió la intervención. En el ejemplo, ID_003 fue asignada al tratamiento pero no lo recibió (incumplimiento). Registrar ambas variables es esencial para estimar el efecto ITT y el efecto LATE.</span>
-<span id="cb12-461"><a href="#cb12-461"></a>:::</span>
-<span id="cb12-462"><a href="#cb12-462"></a></span>
-<span id="cb12-463"><a href="#cb12-463"></a><span class="fu">### Checklist de recolección</span></span>
-<span id="cb12-464"><a href="#cb12-464"></a></span>
-<span id="cb12-465"><a href="#cb12-465"></a>Antes de iniciar la recolección, verifique que puede responder "sí" a cada pregunta:</span>
-<span id="cb12-466"><a href="#cb12-466"></a></span>
-<span id="cb12-467"><a href="#cb12-467"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se ha definido la unidad de aleatorización (individuo, hogar, comunidad, escuela)?</span>
-<span id="cb12-468"><a href="#cb12-468"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se tiene un listado completo del universo de unidades elegibles?</span>
-<span id="cb12-469"><a href="#cb12-469"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se ha recolectado la **línea base** antes de revelar la asignación?</span>
-<span id="cb12-470"><a href="#cb12-470"></a><span class="ss">- </span><span class="va">[ ]</span> ¿La aleatorización fue documentada y es reproducible (semilla aleatoria guardada)?</span>
-<span id="cb12-471"><a href="#cb12-471"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se cuenta con un protocolo para manejar el incumplimiento?</span>
-<span id="cb12-472"><a href="#cb12-472"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se miden las mismas variables con el mismo instrumento en línea base y seguimiento?</span>
-<span id="cb12-473"><a href="#cb12-473"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se tiene un identificador único para cada unidad de observación?</span>
-<span id="cb12-474"><a href="#cb12-474"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se ha calculado el tamaño de muestra necesario (análisis de poder estadístico)?</span>
-<span id="cb12-475"><a href="#cb12-475"></a><span class="ss">- </span><span class="va">[ ]</span> ¿Se ha registrado el estudio en un registro público (por ejemplo, AEA RCT Registry)?</span>
-<span id="cb12-476"><a href="#cb12-476"></a></span>
-<span id="cb12-477"><a href="#cb12-477"></a><span class="fu">### Prompt para planificar la recolección con IA</span></span>
-<span id="cb12-478"><a href="#cb12-478"></a></span>
-<span id="cb12-479"><a href="#cb12-479"></a>::: {.prompt-block}</span>
-<span id="cb12-480"><a href="#cb12-480"></a>Estoy diseñando un experimento aleatorizado (RCT) para evaluar un programa. Mi programa es:</span>
-<span id="cb12-481"><a href="#cb12-481"></a></span>
-<span id="cb12-482"><a href="#cb12-482"></a><span class="ss">- </span>Tipo de programa: <span class="co">[</span><span class="ot">describir brevemente</span><span class="co">]</span></span>
-<span id="cb12-483"><a href="#cb12-483"></a><span class="ss">- </span>Beneficiarios potenciales: <span class="co">[</span><span class="ot">tipo y número aproximado</span><span class="co">]</span></span>
-<span id="cb12-484"><a href="#cb12-484"></a><span class="ss">- </span>Indicador de resultado principal: <span class="co">[</span><span class="ot">describir</span><span class="co">]</span></span>
-<span id="cb12-485"><a href="#cb12-485"></a><span class="ss">- </span>Unidad de aleatorización: <span class="co">[</span><span class="ot">individuo / hogar / comunidad / escuela</span><span class="co">]</span></span>
-<span id="cb12-486"><a href="#cb12-486"></a><span class="ss">- </span>Presupuesto aproximado para la evaluación: <span class="co">[</span><span class="ot">monto</span><span class="co">]</span></span>
-<span id="cb12-487"><a href="#cb12-487"></a></span>
-<span id="cb12-488"><a href="#cb12-488"></a>¿Puede ayudarme a:</span>
-<span id="cb12-489"><a href="#cb12-489"></a><span class="ss">1. </span>Calcular el tamaño de muestra mínimo que necesito (análisis de poder) dado un efecto mínimo detectable de <span class="co">[</span><span class="ot">X</span><span class="co">]</span> y un nivel de significancia de 0.05</span>
-<span id="cb12-490"><a href="#cb12-490"></a><span class="ss">2. </span>Diseñar el protocolo de aleatorización (simple, estratificada, por bloques)</span>
-<span id="cb12-491"><a href="#cb12-491"></a><span class="ss">3. </span>Definir qué variables necesito recolectar en la línea base</span>
-<span id="cb12-492"><a href="#cb12-492"></a><span class="ss">4. </span>Sugerir un cronograma de recolección de datos (línea base, seguimiento)</span>
-<span id="cb12-493"><a href="#cb12-493"></a><span class="ss">5. </span>Identificar riesgos potenciales (atrición, incumplimiento, derrame) y cómo mitigarlos</span>
-<span id="cb12-494"><a href="#cb12-494"></a>:::</span>
-<span id="cb12-495"><a href="#cb12-495"></a></span>
-<span id="cb12-496"><a href="#cb12-496"></a>::: {.callout-warning}</span>
-<span id="cb12-497"><a href="#cb12-497"></a><span class="fu">## El error más común: comprometer la aleatorización</span></span>
-<span id="cb12-498"><a href="#cb12-498"></a>El riesgo más grave en un RCT es que la asignación aleatoria se vea comprometida — por ejemplo, si administradores del programa reasignan beneficiarios después del sorteo, o si el grupo de control accede al tratamiento. Si la aleatorización pierde integridad, el RCT pierde su principal ventaja y los resultados dejan de ser causales. **Documente y proteja el proceso de asignación con protocolos estrictos.**</span>
-<span id="cb12-499"><a href="#cb12-499"></a>:::</span>
+<span id="cb12-442"><a href="#cb12-442"></a>¿Puede ayudarme a:</span>
+<span id="cb12-443"><a href="#cb12-443"></a><span class="ss">1. </span>Calcular el tamaño de muestra mínimo que necesito (análisis de poder) dado un efecto mínimo detectable de <span class="co">[</span><span class="ot">X</span><span class="co">]</span> y un nivel de significancia de 0.05</span>
+<span id="cb12-444"><a href="#cb12-444"></a><span class="ss">2. </span>Diseñar el protocolo de aleatorización (simple, estratificada, por bloques)</span>
+<span id="cb12-445"><a href="#cb12-445"></a><span class="ss">3. </span>Definir qué variables necesito recolectar en la línea base</span>
+<span id="cb12-446"><a href="#cb12-446"></a><span class="ss">4. </span>Sugerir un cronograma de recolección de datos (línea base, seguimiento)</span>
+<span id="cb12-447"><a href="#cb12-447"></a><span class="ss">5. </span>Identificar riesgos potenciales (atrición, incumplimiento, derrame) y cómo mitigarlos</span>
+<span id="cb12-448"><a href="#cb12-448"></a>:::</span>
+<span id="cb12-449"><a href="#cb12-449"></a></span>
+<span id="cb12-450"><a href="#cb12-450"></a>::: {.callout-warning}</span>
+<span id="cb12-451"><a href="#cb12-451"></a><span class="fu">## El error más común: comprometer la aleatorización</span></span>
+<span id="cb12-452"><a href="#cb12-452"></a>El riesgo más grave en un RCT es que la asignación aleatoria se vea comprometida — por ejemplo, si administradores del programa reasignan beneficiarios después del sorteo, o si el grupo de control accede al tratamiento. Si la aleatorización pierde integridad, el RCT pierde su principal ventaja y los resultados dejan de ser causales. **Documente y proteja el proceso de asignación con protocolos estrictos.**</span>
+<span id="cb12-453"><a href="#cb12-453"></a>:::</span>
 </code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
