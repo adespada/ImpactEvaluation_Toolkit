@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>30&nbsp; Código R: Matching y Propensity Score – Toolkit de Evaluación de Impacto</title>
+<title>30&nbsp; Código R: Propensity Score Matching – Toolkit de Evaluación de Impacto</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -288,7 +288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/06-guia-ia.html">Anexo: IA</a></li><li class="breadcrumb-item"><a href="../capitulos/anexo-codigo-matching.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/06-guia-ia.html">Anexo: IA</a></li><li class="breadcrumb-item"><a href="../capitulos/anexo-codigo-matching.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Propensity Score Matching</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -575,7 +575,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/anexo-codigo-matching.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Propensity Score Matching</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -615,7 +615,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#paso-3-estimar-el-propensity-score" id="toc-paso-3-estimar-el-propensity-score" class="nav-link" data-scroll-target="#paso-3-estimar-el-propensity-score"><span class="header-section-number">30.1.3</span> Paso 3: Estimar el propensity score</a></li>
   <li><a href="#paso-4-realizar-el-matching-con-matchit" id="toc-paso-4-realizar-el-matching-con-matchit" class="nav-link" data-scroll-target="#paso-4-realizar-el-matching-con-matchit"><span class="header-section-number">30.1.4</span> Paso 4: Realizar el matching con MatchIt</a></li>
   <li><a href="#paso-5-verificar-balance-love-plot" id="toc-paso-5-verificar-balance-love-plot" class="nav-link" data-scroll-target="#paso-5-verificar-balance-love-plot"><span class="header-section-number">30.1.5</span> Paso 5: Verificar balance (Love plot)</a></li>
-  <li><a href="#paso-6-estimar-el-att-sobre-la-muestra-emparejada" id="toc-paso-6-estimar-el-att-sobre-la-muestra-emparejada" class="nav-link" data-scroll-target="#paso-6-estimar-el-att-sobre-la-muestra-emparejada"><span class="header-section-number">30.1.6</span> Paso 6: Estimar el ATT sobre la muestra emparejada</a></li>
+  <li><a href="#paso-6-estimar-el-att-tot-sobre-la-muestra-emparejada" id="toc-paso-6-estimar-el-att-tot-sobre-la-muestra-emparejada" class="nav-link" data-scroll-target="#paso-6-estimar-el-att-tot-sobre-la-muestra-emparejada"><span class="header-section-number">30.1.6</span> Paso 6: Estimar el ATT (= ToT) sobre la muestra emparejada</a></li>
   </ul></li>
   <li><a href="#trabajando-con-ia-paso-a-paso" id="toc-trabajando-con-ia-paso-a-paso" class="nav-link" data-scroll-target="#trabajando-con-ia-paso-a-paso"><span class="header-section-number">30.2</span> Trabajando con IA paso a paso</a>
   <ul class="collapse">
@@ -640,11 +640,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#parte-4-análisis-psm" id="toc-parte-4-análisis-psm" class="nav-link" data-scroll-target="#parte-4-análisis-psm"><span class="header-section-number">30.6</span> Parte 4 — Análisis PSM</a>
   <ul class="collapse">
-  <li><a href="#prompt-17-descriptivos-y-comparación-simple-antes-de-psm" id="toc-prompt-17-descriptivos-y-comparación-simple-antes-de-psm" class="nav-link" data-scroll-target="#prompt-17-descriptivos-y-comparación-simple-antes-de-psm"><span class="header-section-number">30.6.1</span> Prompt 17 — Descriptivos y comparación simple antes de PSM</a></li>
-  <li><a href="#prompt-18-estimar-propensity-score-y-soporte-común" id="toc-prompt-18-estimar-propensity-score-y-soporte-común" class="nav-link" data-scroll-target="#prompt-18-estimar-propensity-score-y-soporte-común"><span class="header-section-number">30.6.2</span> Prompt 18 — Estimar propensity score y soporte común</a></li>
-  <li><a href="#prompt-19-matching-principal-y-balance" id="toc-prompt-19-matching-principal-y-balance" class="nav-link" data-scroll-target="#prompt-19-matching-principal-y-balance"><span class="header-section-number">30.6.3</span> Prompt 19 — Matching principal y balance</a></li>
-  <li><a href="#prompt-20-estimar-att-después-del-matching" id="toc-prompt-20-estimar-att-después-del-matching" class="nav-link" data-scroll-target="#prompt-20-estimar-att-después-del-matching"><span class="header-section-number">30.6.4</span> Prompt 20 — Estimar ATT después del matching</a></li>
-  <li><a href="#prompt-21-sensibilidad-con-varias-estrategias-de-psm" id="toc-prompt-21-sensibilidad-con-varias-estrategias-de-psm" class="nav-link" data-scroll-target="#prompt-21-sensibilidad-con-varias-estrategias-de-psm"><span class="header-section-number">30.6.5</span> Prompt 21 — Sensibilidad con varias estrategias de PSM</a></li>
+  <li><a href="#prompt-9-descriptivos-y-comparación-simple-antes-de-psm" id="toc-prompt-9-descriptivos-y-comparación-simple-antes-de-psm" class="nav-link" data-scroll-target="#prompt-9-descriptivos-y-comparación-simple-antes-de-psm"><span class="header-section-number">30.6.1</span> Prompt 9 — Descriptivos y comparación simple antes de PSM</a></li>
+  <li><a href="#prompt-10-estimar-propensity-score-y-soporte-común" id="toc-prompt-10-estimar-propensity-score-y-soporte-común" class="nav-link" data-scroll-target="#prompt-10-estimar-propensity-score-y-soporte-común"><span class="header-section-number">30.6.2</span> Prompt 10 — Estimar propensity score y soporte común</a></li>
+  <li><a href="#prompt-11-matching-principal-y-balance" id="toc-prompt-11-matching-principal-y-balance" class="nav-link" data-scroll-target="#prompt-11-matching-principal-y-balance"><span class="header-section-number">30.6.3</span> Prompt 11 — Matching principal y balance</a></li>
+  <li><a href="#prompt-12-estimar-att-después-del-matching" id="toc-prompt-12-estimar-att-después-del-matching" class="nav-link" data-scroll-target="#prompt-12-estimar-att-después-del-matching"><span class="header-section-number">30.6.4</span> Prompt 12 — Estimar ATT después del matching</a></li>
+  <li><a href="#prompt-13-sensibilidad-con-varias-estrategias-de-psm" id="toc-prompt-13-sensibilidad-con-varias-estrategias-de-psm" class="nav-link" data-scroll-target="#prompt-13-sensibilidad-con-varias-estrategias-de-psm"><span class="header-section-number">30.6.5</span> Prompt 13 — Sensibilidad con varias estrategias de PSM</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/edit/main/capitulos/anexo-codigo-matching.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/adespada/ImpactEvaluation_Toolkit/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></nav>
@@ -653,9 +653,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/06-guia-ia.html">Anexo: IA</a></li><li class="breadcrumb-item"><a href="../capitulos/anexo-codigo-matching.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/06-guia-ia.html">Anexo: IA</a></li><li class="breadcrumb-item"><a href="../capitulos/anexo-codigo-matching.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Propensity Score Matching</span></a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="sec-anexo-codigo-matching" class="quarto-section-identifier"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Matching y Propensity Score</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Código</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-anexo-codigo-matching" class="quarto-section-identifier"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Código R: Propensity Score Matching</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Código</button></div></div>
 </div>
 
 
@@ -981,8 +981,21 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 </div>
 </div>
 </section>
-<section id="paso-6-estimar-el-att-sobre-la-muestra-emparejada" class="level3" data-number="30.1.6">
-<h3 data-number="30.1.6" class="anchored" data-anchor-id="paso-6-estimar-el-att-sobre-la-muestra-emparejada"><span class="header-section-number">30.1.6</span> Paso 6: Estimar el ATT sobre la muestra emparejada</h3>
+<section id="paso-6-estimar-el-att-tot-sobre-la-muestra-emparejada" class="level3" data-number="30.1.6">
+<h3 data-number="30.1.6" class="anchored" data-anchor-id="paso-6-estimar-el-att-tot-sobre-la-muestra-emparejada"><span class="header-section-number">30.1.6</span> Paso 6: Estimar el ATT (= ToT) sobre la muestra emparejada</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota de notación
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El parámetro que estima Matching es el <strong>ATT</strong> (<em>Average Treatment Effect on the Treated</em>), también llamado <strong>ToT</strong> (<em>Treatment on the Treated</em>). Las dos siglas se usan indistintamente en la literatura: ambas designan el efecto promedio sobre <strong>quienes efectivamente recibieron</strong> el programa, no sobre toda la población. Para una discusión sobre la diferencia entre ATT/ToT, ATE e ITT, consulte la sección “Efecto promedio del tratamiento” del <a href="../capitulos/03-intro-cuantitativa.html">capítulo de introducción cuantitativa</a>.</p>
+</div>
+</div>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>datos_matched <span class="ot">&lt;-</span> <span class="fu">match.data</span>(m_out)</span>
 <span id="cb17-2"><a href="#cb17-2"></a></span>
@@ -998,9 +1011,9 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; ========================================</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">cat</span>(<span class="st">"Efecto estimado (ATT):"</span>, <span class="fu">round</span>(coef_trat[<span class="dv">1</span>]), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">cat</span>(<span class="st">"Efecto estimado (ATT = ToT):"</span>, <span class="fu">round</span>(coef_trat[<span class="dv">1</span>]), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>#&gt; Efecto estimado (ATT): 176</code></pre>
+<pre><code>#&gt; Efecto estimado (ATT = ToT): 176</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">cat</span>(<span class="st">"Error estándar:"</span>, <span class="fu">round</span>(coef_trat[<span class="dv">2</span>], <span class="dv">1</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1302,6 +1315,8 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 <li>eliminar duplicados idénticos;</li>
 <li>dejar duplicados conflictivos en una tabla para revisión humana.</li>
 </ul></li>
+<li>Para cada variable categórica, indica si es <strong>ordinal</strong> (educación, estrato, satisfacción) o <strong>nominal</strong> (zona, sector, estado civil). Para las ordinales, propone una versión numérica <code>escol_num &lt;- as.integer(factor(escolaridad, levels = c("Primaria","Secundaria","Preparatoria","Universidad"), ordered = TRUE))</code> y úsala en lugar del factor en el modelo de PS y en la regresión final.<br>
+</li>
 <li>Recodifique el tratamiento a una variable numérica 1/0 llamada <code>tratamiento_psm</code>.</li>
 <li>Cree una base limpia llamada <code>base_limpia</code>.</li>
 <li>Cree una tabla <code>log_limpieza</code> con: <code>variable</code>, <code>problema</code>, <code>accion_aplicada</code>, <code>n_afectados</code>, <code>requiere_revision</code>.</li>
@@ -1358,8 +1373,8 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 </section>
 <section id="parte-4-análisis-psm" class="level2" data-number="30.6">
 <h2 data-number="30.6" class="anchored" data-anchor-id="parte-4-análisis-psm"><span class="header-section-number">30.6</span> Parte 4 — Análisis PSM</h2>
-<section id="prompt-17-descriptivos-y-comparación-simple-antes-de-psm" class="level3" data-number="30.6.1">
-<h3 data-number="30.6.1" class="anchored" data-anchor-id="prompt-17-descriptivos-y-comparación-simple-antes-de-psm"><span class="header-section-number">30.6.1</span> Prompt 17 — Descriptivos y comparación simple antes de PSM</h3>
+<section id="prompt-9-descriptivos-y-comparación-simple-antes-de-psm" class="level3" data-number="30.6.1">
+<h3 data-number="30.6.1" class="anchored" data-anchor-id="prompt-9-descriptivos-y-comparación-simple-antes-de-psm"><span class="header-section-number">30.6.1</span> Prompt 9 — Descriptivos y comparación simple antes de PSM</h3>
 <div class="prompt-block">
 <p>Actúa como analista de evaluación de impacto que escribe código en R.</p>
 <p>Tengo una base limpia y unida llamada <code>base_limpia</code>.</p>
@@ -1382,8 +1397,8 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 <p>Devuélveme solo código R completo.</p>
 </div>
 </section>
-<section id="prompt-18-estimar-propensity-score-y-soporte-común" class="level3" data-number="30.6.2">
-<h3 data-number="30.6.2" class="anchored" data-anchor-id="prompt-18-estimar-propensity-score-y-soporte-común"><span class="header-section-number">30.6.2</span> Prompt 18 — Estimar propensity score y soporte común</h3>
+<section id="prompt-10-estimar-propensity-score-y-soporte-común" class="level3" data-number="30.6.2">
+<h3 data-number="30.6.2" class="anchored" data-anchor-id="prompt-10-estimar-propensity-score-y-soporte-común"><span class="header-section-number">30.6.2</span> Prompt 10 — Estimar propensity score y soporte común</h3>
 <div class="prompt-block">
 <p>Actúa como analista de evaluación de impacto que escribe código en R.</p>
 <p>Tengo:</p>
@@ -1406,8 +1421,8 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 <p>Devuélveme solo código R completo.</p>
 </div>
 </section>
-<section id="prompt-19-matching-principal-y-balance" class="level3" data-number="30.6.3">
-<h3 data-number="30.6.3" class="anchored" data-anchor-id="prompt-19-matching-principal-y-balance"><span class="header-section-number">30.6.3</span> Prompt 19 — Matching principal y balance</h3>
+<section id="prompt-11-matching-principal-y-balance" class="level3" data-number="30.6.3">
+<h3 data-number="30.6.3" class="anchored" data-anchor-id="prompt-11-matching-principal-y-balance"><span class="header-section-number">30.6.3</span> Prompt 11 — Matching principal y balance</h3>
 <div class="prompt-block">
 <p>Actúa como analista de evaluación de impacto que escribe código en R.</p>
 <p>Tengo la base <code>base_psm_soporte</code>, tratamiento <code>tratamiento_psm</code> y covariables:</p>
@@ -1416,7 +1431,12 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 <ol type="1">
 <li>Aplique matching por vecino más cercano con <code>MatchIt</code>.</li>
 <li>Use <code>method = "nearest"</code>, <code>distance = "glm"</code>, <code>estimand = "ATT"</code>.</li>
-<li>Use un caliper razonable y explícito. Si no tengo preferencia, usa <code>caliper = 0.1</code>.</li>
+<li>Antes de elegir el método, considera el desbalance de tamaño:
+<ul>
+<li>Si #tratados ≈ #controles: NN 1:1 sin reemplazo, <code>caliper = 0.2</code> (SD del logit PS).</li>
+<li>Si #tratados &gt;&gt; #controles o viceversa: usa <code>method = "full"</code> (no requiere caliper).</li>
+<li>Si hay una variable categórica crítica (zona, sector): agrega <code>exact = ~ variable</code>.</li>
+</ul></li>
 <li>Guarde el objeto como <code>matching_principal</code>.</li>
 <li>Imprima <code>summary(matching_principal, un = TRUE)</code>.</li>
 <li>Calcule balance con SMD antes y después usando <code>cobalt::bal.tab()</code>.</li>
@@ -1427,8 +1447,8 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 <p>Devuélveme solo código R completo.</p>
 </div>
 </section>
-<section id="prompt-20-estimar-att-después-del-matching" class="level3" data-number="30.6.4">
-<h3 data-number="30.6.4" class="anchored" data-anchor-id="prompt-20-estimar-att-después-del-matching"><span class="header-section-number">30.6.4</span> Prompt 20 — Estimar ATT después del matching</h3>
+<section id="prompt-12-estimar-att-después-del-matching" class="level3" data-number="30.6.4">
+<h3 data-number="30.6.4" class="anchored" data-anchor-id="prompt-12-estimar-att-después-del-matching"><span class="header-section-number">30.6.4</span> Prompt 12 — Estimar ATT después del matching</h3>
 <div class="prompt-block">
 <p>Actúa como analista de evaluación de impacto que escribe código en R.</p>
 <p>Tengo:</p>
@@ -1443,16 +1463,21 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 <ol type="1">
 <li>Extraiga la base emparejada con <code>match.data()</code>.</li>
 <li>Estime el ATT con una regresión del resultado sobre tratamiento y covariables, usando pesos del matching.</li>
-<li>Use errores robustos. Si existe <code>subclass</code>, usa errores clusterizados por <code>subclass</code>.</li>
+<li>Elige el estimador de varianza según el método:
+<ul>
+<li>NN 1:1 sin reemplazo: <code>vcovHC(modelo, type = "HC2")</code> (sin cluster — los pares son construidos, no de muestreo).</li>
+<li>NN con reemplazo: <code>vcovCL(modelo, cluster = ~ control_id)</code> (clusteriza por la unidad de control reutilizada).</li>
+<li>Full matching: <code>vcovCL(modelo, cluster = ~ subclass)</code> (subclases de tamaño variable son agrupaciones reales).</li>
+</ul></li>
 <li>Extraiga coeficiente, error estándar, IC95%, p-valor y N.</li>
-<li>Guarde una tabla <code>resultado_att</code>.</li>
+<li>Guarde una tabla <code>resultado_att</code>. Guarda los resultados como imagen. usa modelsummary</li>
 <li>Interprete el efecto en unidades del resultado.</li>
 </ol>
 <p>Devuélveme solo código R completo.</p>
 </div>
 </section>
-<section id="prompt-21-sensibilidad-con-varias-estrategias-de-psm" class="level3" data-number="30.6.5">
-<h3 data-number="30.6.5" class="anchored" data-anchor-id="prompt-21-sensibilidad-con-varias-estrategias-de-psm"><span class="header-section-number">30.6.5</span> Prompt 21 — Sensibilidad con varias estrategias de PSM</h3>
+<section id="prompt-13-sensibilidad-con-varias-estrategias-de-psm" class="level3" data-number="30.6.5">
+<h3 data-number="30.6.5" class="anchored" data-anchor-id="prompt-13-sensibilidad-con-varias-estrategias-de-psm"><span class="header-section-number">30.6.5</span> Prompt 13 — Sensibilidad con varias estrategias de PSM</h3>
 <div class="prompt-block">
 <p>Actúa como analista de evaluación de impacto que escribe código en R.</p>
 <p>Quiero saber si mi resultado depende del algoritmo de matching.</p>
@@ -1468,7 +1493,7 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 <ol type="1">
 <li>Vecino más cercano sin reemplazo.</li>
 <li>Vecino más cercano con reemplazo.</li>
-<li>Full matching o ponderación por propensity score para ATT.</li>
+<li>Full matching o ponderación por propensity score para ATT. Este produce múltiples controles por subclass, y vcovCL con ~subclass no puede alinear las observaciones. La solución es usar avg_comparisons de marginaleffects para full matching, o pasar los datos directamente a lm sin delegar la búsqueda del data al entorno:</li>
 </ol>
 <p>Para cada estrategia:</p>
 <ol type="1">
@@ -1476,7 +1501,7 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 <li>Calcula error estándar, IC95%, p-valor y N.</li>
 <li>Reporta balance máximo después del ajuste si es posible.</li>
 <li>Reúne todo en <code>tabla_sensibilidad_psm</code>.</li>
-<li>Guarda la tabla como CSV.</li>
+<li>Guarda los resultados como imagen. usa modelsummary</li>
 </ol>
 <p>Devuélveme solo código R completo. Al final imprime una frase: el resultado es más creíble si las estimaciones son parecidas y el balance es adecuado.</p>
 </div>
@@ -1971,7 +1996,7 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Ejecutar el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb53-1"><a href="#cb53-1"></a><span class="fu"># Código R: Matching y Propensity Score {#sec-anexo-codigo-matching}</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb53-1"><a href="#cb53-1"></a><span class="fu"># Código R: Propensity Score Matching {#sec-anexo-codigo-matching}</span></span>
 <span id="cb53-2"><a href="#cb53-2"></a></span>
 <span id="cb53-3"><a href="#cb53-3"></a>::: {.callout-note}</span>
 <span id="cb53-4"><a href="#cb53-4"></a><span class="fu">## Sobre este anexo</span></span>
@@ -2490,223 +2515,234 @@ Figura&nbsp;30.2: Love plot: balance de covariables antes y después del matchin
 <span id="cb53-529"><a href="#cb53-529"></a><span class="ss">7. </span>Revise duplicados por ID:</span>
 <span id="cb53-530"><a href="#cb53-530"></a><span class="ss">   - </span>eliminar duplicados idénticos;</span>
 <span id="cb53-531"><a href="#cb53-531"></a><span class="ss">   - </span>dejar duplicados conflictivos en una tabla para revisión humana.</span>
-<span id="cb53-532"><a href="#cb53-532"></a><span class="ss">8. </span>Recodifique el tratamiento a una variable numérica 1/0 llamada <span class="in">`tratamiento_psm`</span>.</span>
-<span id="cb53-533"><a href="#cb53-533"></a><span class="ss">9. </span>Cree una base limpia llamada <span class="in">`base_limpia`</span>.</span>
-<span id="cb53-534"><a href="#cb53-534"></a><span class="ss">10. </span>Cree una tabla <span class="in">`log_limpieza`</span> con:</span>
-<span id="cb53-535"><a href="#cb53-535"></a>   <span class="in">`variable`</span>, <span class="in">`problema`</span>, <span class="in">`accion_aplicada`</span>, <span class="in">`n_afectados`</span>, <span class="in">`requiere_revision`</span>.</span>
-<span id="cb53-536"><a href="#cb53-536"></a><span class="ss">11. </span>Guarde:</span>
-<span id="cb53-537"><a href="#cb53-537"></a><span class="ss">   - </span><span class="in">`base_limpia`</span> como <span class="in">`outputs/base_limpia.csv`</span>;</span>
-<span id="cb53-538"><a href="#cb53-538"></a><span class="ss">   - </span><span class="in">`log_limpieza`</span> como <span class="in">`outputs/log_limpieza.csv`</span>.</span>
-<span id="cb53-539"><a href="#cb53-539"></a></span>
-<span id="cb53-540"><a href="#cb53-540"></a>Reglas:</span>
+<span id="cb53-532"><a href="#cb53-532"></a><span class="ss">8. </span>Para cada variable categórica, indica si es **ordinal** (educación, estrato, satisfacción) o **nominal** (zona, sector, estado civil). Para las ordinales,</span>
+<span id="cb53-533"><a href="#cb53-533"></a>  propone una versión numérica <span class="in">`escol_num &lt;- as.integer(factor(escolaridad, levels = c("Primaria","Secundaria","Preparatoria","Universidad"), ordered = TRUE))`</span> y úsala en lugar del factor en el modelo de PS y en la regresión final.   </span>
+<span id="cb53-534"><a href="#cb53-534"></a><span class="ss">9. </span>Recodifique el tratamiento a una variable numérica 1/0 llamada <span class="in">`tratamiento_psm`</span>.</span>
+<span id="cb53-535"><a href="#cb53-535"></a><span class="ss">10. </span>Cree una base limpia llamada <span class="in">`base_limpia`</span>.</span>
+<span id="cb53-536"><a href="#cb53-536"></a><span class="ss">11. </span>Cree una tabla <span class="in">`log_limpieza`</span> con:</span>
+<span id="cb53-537"><a href="#cb53-537"></a>   <span class="in">`variable`</span>, <span class="in">`problema`</span>, <span class="in">`accion_aplicada`</span>, <span class="in">`n_afectados`</span>, <span class="in">`requiere_revision`</span>.</span>
+<span id="cb53-538"><a href="#cb53-538"></a><span class="ss">12. </span>Guarde:</span>
+<span id="cb53-539"><a href="#cb53-539"></a><span class="ss">   - </span><span class="in">`base_limpia`</span> como <span class="in">`outputs/base_limpia.csv`</span>;</span>
+<span id="cb53-540"><a href="#cb53-540"></a><span class="ss">   - </span><span class="in">`log_limpieza`</span> como <span class="in">`outputs/log_limpieza.csv`</span>.</span>
 <span id="cb53-541"><a href="#cb53-541"></a></span>
-<span id="cb53-542"><a href="#cb53-542"></a><span class="ss">1. </span>No inventes variables que no estén en el plan de limpieza.</span>
-<span id="cb53-543"><a href="#cb53-543"></a><span class="ss">2. </span>No elimines observaciones sin reportar cuántas se pierden.</span>
-<span id="cb53-544"><a href="#cb53-544"></a><span class="ss">3. </span>No tomes decisiones ambiguas por tu cuenta: marca esos casos como <span class="in">`"REVISAR"`</span>.</span>
-<span id="cb53-545"><a href="#cb53-545"></a><span class="ss">4. </span>No modifiques variables que no fueron mencionadas en el plan.</span>
-<span id="cb53-546"><a href="#cb53-546"></a><span class="ss">5. </span>Devuélveme solo código R completo, listo para copiar y ejecutar.</span>
-<span id="cb53-547"><a href="#cb53-547"></a>:::</span>
-<span id="cb53-548"><a href="#cb53-548"></a></span>
-<span id="cb53-549"><a href="#cb53-549"></a><span class="fu">### Prompt 8 — Definir resultado y covariables pretratamiento</span></span>
+<span id="cb53-542"><a href="#cb53-542"></a>Reglas:</span>
+<span id="cb53-543"><a href="#cb53-543"></a></span>
+<span id="cb53-544"><a href="#cb53-544"></a><span class="ss">1. </span>No inventes variables que no estén en el plan de limpieza.</span>
+<span id="cb53-545"><a href="#cb53-545"></a><span class="ss">2. </span>No elimines observaciones sin reportar cuántas se pierden.</span>
+<span id="cb53-546"><a href="#cb53-546"></a><span class="ss">3. </span>No tomes decisiones ambiguas por tu cuenta: marca esos casos como <span class="in">`"REVISAR"`</span>.</span>
+<span id="cb53-547"><a href="#cb53-547"></a><span class="ss">4. </span>No modifiques variables que no fueron mencionadas en el plan.</span>
+<span id="cb53-548"><a href="#cb53-548"></a><span class="ss">5. </span>Devuélveme solo código R completo, listo para copiar y ejecutar.</span>
+<span id="cb53-549"><a href="#cb53-549"></a>:::</span>
 <span id="cb53-550"><a href="#cb53-550"></a></span>
-<span id="cb53-551"><a href="#cb53-551"></a>::: {.prompt-block}</span>
-<span id="cb53-552"><a href="#cb53-552"></a>Actúa como asesor metodológico de PSM.</span>
-<span id="cb53-553"><a href="#cb53-553"></a></span>
-<span id="cb53-554"><a href="#cb53-554"></a>Tengo esta lista de variables limpias (usa <span class="in">`colnames(base_limpia)`</span>):</span>
+<span id="cb53-551"><a href="#cb53-551"></a><span class="fu">### Prompt 8 — Definir resultado y covariables pretratamiento</span></span>
+<span id="cb53-552"><a href="#cb53-552"></a></span>
+<span id="cb53-553"><a href="#cb53-553"></a>::: {.prompt-block}</span>
+<span id="cb53-554"><a href="#cb53-554"></a>Actúa como asesor metodológico de PSM.</span>
 <span id="cb53-555"><a href="#cb53-555"></a></span>
-<span id="cb53-556"><a href="#cb53-556"></a><span class="in">```</span></span>
-<span id="cb53-557"><a href="#cb53-557"></a><span class="in">[pegue nombres de columnas de la base limpia]</span></span>
+<span id="cb53-556"><a href="#cb53-556"></a>Tengo esta lista de variables limpias (usa <span class="in">`colnames(base_limpia)`</span>):</span>
+<span id="cb53-557"><a href="#cb53-557"></a></span>
 <span id="cb53-558"><a href="#cb53-558"></a><span class="in">```</span></span>
-<span id="cb53-559"><a href="#cb53-559"></a></span>
-<span id="cb53-560"><a href="#cb53-560"></a>Contexto del programa:</span>
+<span id="cb53-559"><a href="#cb53-559"></a><span class="in">[pegue nombres de columnas de la base limpia]</span></span>
+<span id="cb53-560"><a href="#cb53-560"></a><span class="in">```</span></span>
 <span id="cb53-561"><a href="#cb53-561"></a></span>
-<span id="cb53-562"><a href="#cb53-562"></a><span class="in">```</span></span>
-<span id="cb53-563"><a href="#cb53-563"></a><span class="in">[describa programa, población, fecha de inicio y resultado que quiere evaluar]</span></span>
+<span id="cb53-562"><a href="#cb53-562"></a>Contexto del programa:</span>
+<span id="cb53-563"><a href="#cb53-563"></a></span>
 <span id="cb53-564"><a href="#cb53-564"></a><span class="in">```</span></span>
-<span id="cb53-565"><a href="#cb53-565"></a></span>
-<span id="cb53-566"><a href="#cb53-566"></a>Variable de tratamiento propuesta:</span>
+<span id="cb53-565"><a href="#cb53-565"></a><span class="in">[describa programa, población, fecha de inicio y resultado que quiere evaluar]</span></span>
+<span id="cb53-566"><a href="#cb53-566"></a><span class="in">```</span></span>
 <span id="cb53-567"><a href="#cb53-567"></a></span>
-<span id="cb53-568"><a href="#cb53-568"></a><span class="in">```</span></span>
-<span id="cb53-569"><a href="#cb53-569"></a><span class="in">[nombre_tratamiento]</span></span>
+<span id="cb53-568"><a href="#cb53-568"></a>Variable de tratamiento propuesta:</span>
+<span id="cb53-569"><a href="#cb53-569"></a></span>
 <span id="cb53-570"><a href="#cb53-570"></a><span class="in">```</span></span>
-<span id="cb53-571"><a href="#cb53-571"></a></span>
-<span id="cb53-572"><a href="#cb53-572"></a>Variable de resultado propuesta:</span>
+<span id="cb53-571"><a href="#cb53-571"></a><span class="in">[nombre_tratamiento]</span></span>
+<span id="cb53-572"><a href="#cb53-572"></a><span class="in">```</span></span>
 <span id="cb53-573"><a href="#cb53-573"></a></span>
-<span id="cb53-574"><a href="#cb53-574"></a><span class="in">```</span></span>
-<span id="cb53-575"><a href="#cb53-575"></a><span class="in">[nombre_resultado]</span></span>
+<span id="cb53-574"><a href="#cb53-574"></a>Variable de resultado propuesta:</span>
+<span id="cb53-575"><a href="#cb53-575"></a></span>
 <span id="cb53-576"><a href="#cb53-576"></a><span class="in">```</span></span>
-<span id="cb53-577"><a href="#cb53-577"></a></span>
-<span id="cb53-578"><a href="#cb53-578"></a>Ayúdame a clasificar variables para PSM.</span>
+<span id="cb53-577"><a href="#cb53-577"></a><span class="in">[nombre_resultado]</span></span>
+<span id="cb53-578"><a href="#cb53-578"></a><span class="in">```</span></span>
 <span id="cb53-579"><a href="#cb53-579"></a></span>
-<span id="cb53-580"><a href="#cb53-580"></a>Devuélveme una tabla con:</span>
+<span id="cb53-580"><a href="#cb53-580"></a>Ayúdame a clasificar variables para PSM.</span>
 <span id="cb53-581"><a href="#cb53-581"></a></span>
-<span id="cb53-582"><a href="#cb53-582"></a><span class="ss">1. </span><span class="in">`variable`</span></span>
-<span id="cb53-583"><a href="#cb53-583"></a><span class="ss">2. </span><span class="in">`clasificacion`</span></span>
-<span id="cb53-584"><a href="#cb53-584"></a><span class="ss">3. </span><span class="in">`incluir_como_covariable_psm`</span></span>
-<span id="cb53-585"><a href="#cb53-585"></a><span class="ss">4. </span><span class="in">`razon`</span></span>
-<span id="cb53-586"><a href="#cb53-586"></a></span>
-<span id="cb53-587"><a href="#cb53-587"></a>Reglas:</span>
+<span id="cb53-582"><a href="#cb53-582"></a>Devuélveme una tabla con:</span>
+<span id="cb53-583"><a href="#cb53-583"></a></span>
+<span id="cb53-584"><a href="#cb53-584"></a><span class="ss">1. </span><span class="in">`variable`</span></span>
+<span id="cb53-585"><a href="#cb53-585"></a><span class="ss">2. </span><span class="in">`clasificacion`</span></span>
+<span id="cb53-586"><a href="#cb53-586"></a><span class="ss">3. </span><span class="in">`incluir_como_covariable_psm`</span></span>
+<span id="cb53-587"><a href="#cb53-587"></a><span class="ss">4. </span><span class="in">`razon`</span></span>
 <span id="cb53-588"><a href="#cb53-588"></a></span>
-<span id="cb53-589"><a href="#cb53-589"></a><span class="ss">1. </span>Incluir como covariables solo variables medidas antes del tratamiento.</span>
-<span id="cb53-590"><a href="#cb53-590"></a><span class="ss">2. </span>No incluir variables postratamiento.</span>
-<span id="cb53-591"><a href="#cb53-591"></a><span class="ss">3. </span>No incluir IDs.</span>
-<span id="cb53-592"><a href="#cb53-592"></a><span class="ss">4. </span>No incluir variables privadas.</span>
-<span id="cb53-593"><a href="#cb53-593"></a><span class="ss">5. </span>No incluir el resultado como covariable.</span>
-<span id="cb53-594"><a href="#cb53-594"></a><span class="ss">6. </span>Marcar como "requiere decisión" variables ambiguas.</span>
-<span id="cb53-595"><a href="#cb53-595"></a></span>
-<span id="cb53-596"><a href="#cb53-596"></a>Al final, propone una línea de R:</span>
+<span id="cb53-589"><a href="#cb53-589"></a>Reglas:</span>
+<span id="cb53-590"><a href="#cb53-590"></a></span>
+<span id="cb53-591"><a href="#cb53-591"></a><span class="ss">1. </span>Incluir como covariables solo variables medidas antes del tratamiento.</span>
+<span id="cb53-592"><a href="#cb53-592"></a><span class="ss">2. </span>No incluir variables postratamiento.</span>
+<span id="cb53-593"><a href="#cb53-593"></a><span class="ss">3. </span>No incluir IDs.</span>
+<span id="cb53-594"><a href="#cb53-594"></a><span class="ss">4. </span>No incluir variables privadas.</span>
+<span id="cb53-595"><a href="#cb53-595"></a><span class="ss">5. </span>No incluir el resultado como covariable.</span>
+<span id="cb53-596"><a href="#cb53-596"></a><span class="ss">6. </span>Marcar como "requiere decisión" variables ambiguas.</span>
 <span id="cb53-597"><a href="#cb53-597"></a></span>
-<span id="cb53-598"><a href="#cb53-598"></a><span class="in">```r</span></span>
-<span id="cb53-599"><a href="#cb53-599"></a>covariables_psm <span class="ot">&lt;-</span> <span class="fu">c</span>(...)</span>
-<span id="cb53-600"><a href="#cb53-600"></a><span class="in">```</span></span>
-<span id="cb53-601"><a href="#cb53-601"></a></span>
-<span id="cb53-602"><a href="#cb53-602"></a>No generes más código que esa línea.</span>
-<span id="cb53-603"><a href="#cb53-603"></a>:::</span>
-<span id="cb53-604"><a href="#cb53-604"></a></span>
-<span id="cb53-605"><a href="#cb53-605"></a><span class="fu">## Parte 4 — Análisis PSM</span></span>
+<span id="cb53-598"><a href="#cb53-598"></a>Al final, propone una línea de R:</span>
+<span id="cb53-599"><a href="#cb53-599"></a></span>
+<span id="cb53-600"><a href="#cb53-600"></a><span class="in">```r</span></span>
+<span id="cb53-601"><a href="#cb53-601"></a>covariables_psm <span class="ot">&lt;-</span> <span class="fu">c</span>(...)</span>
+<span id="cb53-602"><a href="#cb53-602"></a><span class="in">```</span></span>
+<span id="cb53-603"><a href="#cb53-603"></a></span>
+<span id="cb53-604"><a href="#cb53-604"></a>No generes más código que esa línea.</span>
+<span id="cb53-605"><a href="#cb53-605"></a>:::</span>
 <span id="cb53-606"><a href="#cb53-606"></a></span>
-<span id="cb53-607"><a href="#cb53-607"></a><span class="fu">### Prompt 17 — Descriptivos y comparación simple antes de PSM</span></span>
+<span id="cb53-607"><a href="#cb53-607"></a><span class="fu">## Parte 4 — Análisis PSM</span></span>
 <span id="cb53-608"><a href="#cb53-608"></a></span>
-<span id="cb53-609"><a href="#cb53-609"></a>::: {.prompt-block}</span>
-<span id="cb53-610"><a href="#cb53-610"></a>Actúa como analista de evaluación de impacto que escribe código en R.</span>
-<span id="cb53-611"><a href="#cb53-611"></a></span>
-<span id="cb53-612"><a href="#cb53-612"></a>Tengo una base limpia y unida llamada <span class="in">`base_limpia`</span>.</span>
+<span id="cb53-609"><a href="#cb53-609"></a><span class="fu">### Prompt 9 — Descriptivos y comparación simple antes de PSM</span></span>
+<span id="cb53-610"><a href="#cb53-610"></a></span>
+<span id="cb53-611"><a href="#cb53-611"></a>::: {.prompt-block}</span>
+<span id="cb53-612"><a href="#cb53-612"></a>Actúa como analista de evaluación de impacto que escribe código en R.</span>
 <span id="cb53-613"><a href="#cb53-613"></a></span>
-<span id="cb53-614"><a href="#cb53-614"></a>Variables:</span>
+<span id="cb53-614"><a href="#cb53-614"></a>Tengo una base limpia y unida llamada <span class="in">`base_limpia`</span>.</span>
 <span id="cb53-615"><a href="#cb53-615"></a></span>
-<span id="cb53-616"><a href="#cb53-616"></a><span class="ss">- </span>Tratamiento 1/0: <span class="in">`tratamiento_psm`</span></span>
-<span id="cb53-617"><a href="#cb53-617"></a><span class="ss">- </span>Resultado: <span class="in">`[nombre_resultado]`</span></span>
-<span id="cb53-618"><a href="#cb53-618"></a><span class="ss">- </span>Covariables pretratamiento:</span>
-<span id="cb53-619"><a href="#cb53-619"></a><span class="in">```r</span></span>
-<span id="cb53-620"><a href="#cb53-620"></a>covariables_psm</span>
-<span id="cb53-621"><a href="#cb53-621"></a><span class="in">```</span></span>
-<span id="cb53-622"><a href="#cb53-622"></a></span>
-<span id="cb53-623"><a href="#cb53-623"></a>Genera código R que:</span>
+<span id="cb53-616"><a href="#cb53-616"></a>Variables:</span>
+<span id="cb53-617"><a href="#cb53-617"></a></span>
+<span id="cb53-618"><a href="#cb53-618"></a><span class="ss">- </span>Tratamiento 1/0: <span class="in">`tratamiento_psm`</span></span>
+<span id="cb53-619"><a href="#cb53-619"></a><span class="ss">- </span>Resultado: <span class="in">`[nombre_resultado]`</span></span>
+<span id="cb53-620"><a href="#cb53-620"></a><span class="ss">- </span>Covariables pretratamiento:</span>
+<span id="cb53-621"><a href="#cb53-621"></a><span class="in">```r</span></span>
+<span id="cb53-622"><a href="#cb53-622"></a>covariables_psm</span>
+<span id="cb53-623"><a href="#cb53-623"></a><span class="in">```</span></span>
 <span id="cb53-624"><a href="#cb53-624"></a></span>
-<span id="cb53-625"><a href="#cb53-625"></a><span class="ss">1. </span>Reporte número de observaciones totales, tratadas y controles.</span>
-<span id="cb53-626"><a href="#cb53-626"></a><span class="ss">2. </span>Cree una tabla descriptiva por grupo para resultado y covariables.</span>
-<span id="cb53-627"><a href="#cb53-627"></a><span class="ss">3. </span>Estime una comparación simple:</span>
-<span id="cb53-628"><a href="#cb53-628"></a>   <span class="in">`resultado ~ tratamiento_psm`</span></span>
-<span id="cb53-629"><a href="#cb53-629"></a><span class="ss">4. </span>Use errores robustos HC1.</span>
-<span id="cb53-630"><a href="#cb53-630"></a><span class="ss">5. </span>Guarde la tabla descriptiva y la comparación simple.</span>
-<span id="cb53-631"><a href="#cb53-631"></a><span class="ss">6. </span>La comparación simple guárdala como una imagen. Usa <span class="in">`modelsummary`</span> para guardarla.</span>
-<span id="cb53-632"><a href="#cb53-632"></a></span>
-<span id="cb53-633"><a href="#cb53-633"></a>Devuélveme solo código R completo.</span>
-<span id="cb53-634"><a href="#cb53-634"></a>:::</span>
-<span id="cb53-635"><a href="#cb53-635"></a></span>
-<span id="cb53-636"><a href="#cb53-636"></a><span class="fu">### Prompt 18 — Estimar propensity score y soporte común</span></span>
+<span id="cb53-625"><a href="#cb53-625"></a>Genera código R que:</span>
+<span id="cb53-626"><a href="#cb53-626"></a></span>
+<span id="cb53-627"><a href="#cb53-627"></a><span class="ss">1. </span>Reporte número de observaciones totales, tratadas y controles.</span>
+<span id="cb53-628"><a href="#cb53-628"></a><span class="ss">2. </span>Cree una tabla descriptiva por grupo para resultado y covariables.</span>
+<span id="cb53-629"><a href="#cb53-629"></a><span class="ss">3. </span>Estime una comparación simple:</span>
+<span id="cb53-630"><a href="#cb53-630"></a>   <span class="in">`resultado ~ tratamiento_psm`</span></span>
+<span id="cb53-631"><a href="#cb53-631"></a><span class="ss">4. </span>Use errores robustos HC1.</span>
+<span id="cb53-632"><a href="#cb53-632"></a><span class="ss">5. </span>Guarde la tabla descriptiva y la comparación simple.</span>
+<span id="cb53-633"><a href="#cb53-633"></a><span class="ss">6. </span>La comparación simple guárdala como una imagen. Usa <span class="in">`modelsummary`</span> para guardarla.</span>
+<span id="cb53-634"><a href="#cb53-634"></a></span>
+<span id="cb53-635"><a href="#cb53-635"></a>Devuélveme solo código R completo.</span>
+<span id="cb53-636"><a href="#cb53-636"></a>:::</span>
 <span id="cb53-637"><a href="#cb53-637"></a></span>
-<span id="cb53-638"><a href="#cb53-638"></a>::: {.prompt-block}</span>
-<span id="cb53-639"><a href="#cb53-639"></a>Actúa como analista de evaluación de impacto que escribe código en R.</span>
-<span id="cb53-640"><a href="#cb53-640"></a></span>
-<span id="cb53-641"><a href="#cb53-641"></a>Tengo:</span>
+<span id="cb53-638"><a href="#cb53-638"></a><span class="fu">### Prompt 10 — Estimar propensity score y soporte común</span></span>
+<span id="cb53-639"><a href="#cb53-639"></a></span>
+<span id="cb53-640"><a href="#cb53-640"></a>::: {.prompt-block}</span>
+<span id="cb53-641"><a href="#cb53-641"></a>Actúa como analista de evaluación de impacto que escribe código en R.</span>
 <span id="cb53-642"><a href="#cb53-642"></a></span>
-<span id="cb53-643"><a href="#cb53-643"></a><span class="ss">- </span>Base: <span class="in">`base_limpia`</span></span>
-<span id="cb53-644"><a href="#cb53-644"></a><span class="ss">- </span>Tratamiento: <span class="in">`tratamiento_psm`</span></span>
-<span id="cb53-645"><a href="#cb53-645"></a><span class="ss">- </span>Covariables:</span>
-<span id="cb53-646"><a href="#cb53-646"></a><span class="in">```r</span></span>
-<span id="cb53-647"><a href="#cb53-647"></a>covariables_psm</span>
-<span id="cb53-648"><a href="#cb53-648"></a><span class="in">```</span></span>
-<span id="cb53-649"><a href="#cb53-649"></a></span>
-<span id="cb53-650"><a href="#cb53-650"></a>Genera código R que:</span>
+<span id="cb53-643"><a href="#cb53-643"></a>Tengo:</span>
+<span id="cb53-644"><a href="#cb53-644"></a></span>
+<span id="cb53-645"><a href="#cb53-645"></a><span class="ss">- </span>Base: <span class="in">`base_limpia`</span></span>
+<span id="cb53-646"><a href="#cb53-646"></a><span class="ss">- </span>Tratamiento: <span class="in">`tratamiento_psm`</span></span>
+<span id="cb53-647"><a href="#cb53-647"></a><span class="ss">- </span>Covariables:</span>
+<span id="cb53-648"><a href="#cb53-648"></a><span class="in">```r</span></span>
+<span id="cb53-649"><a href="#cb53-649"></a>covariables_psm</span>
+<span id="cb53-650"><a href="#cb53-650"></a><span class="in">```</span></span>
 <span id="cb53-651"><a href="#cb53-651"></a></span>
-<span id="cb53-652"><a href="#cb53-652"></a><span class="ss">1. </span>Estime un modelo logit del tratamiento usando las covariables.</span>
-<span id="cb53-653"><a href="#cb53-653"></a><span class="ss">2. </span>Guarde el propensity score como <span class="in">`ps`</span>.</span>
-<span id="cb53-654"><a href="#cb53-654"></a><span class="ss">3. </span>Grafique la distribución del propensity score por grupo.</span>
-<span id="cb53-655"><a href="#cb53-655"></a><span class="ss">4. </span>Calcule el rango de soporte común.</span>
-<span id="cb53-656"><a href="#cb53-656"></a><span class="ss">5. </span>Cree <span class="in">`base_psm_soporte`</span> con observaciones dentro del soporte común.</span>
-<span id="cb53-657"><a href="#cb53-657"></a><span class="ss">6. </span>Reporte cuántas observaciones tratadas y controles quedan dentro y fuera del soporte común.</span>
-<span id="cb53-658"><a href="#cb53-658"></a><span class="ss">7. </span>Guarde el gráfico y una tabla de soporte común.</span>
-<span id="cb53-659"><a href="#cb53-659"></a></span>
-<span id="cb53-660"><a href="#cb53-660"></a>Devuélveme solo código R completo.</span>
-<span id="cb53-661"><a href="#cb53-661"></a>:::</span>
-<span id="cb53-662"><a href="#cb53-662"></a></span>
-<span id="cb53-663"><a href="#cb53-663"></a><span class="fu">### Prompt 19 — Matching principal y balance</span></span>
+<span id="cb53-652"><a href="#cb53-652"></a>Genera código R que:</span>
+<span id="cb53-653"><a href="#cb53-653"></a></span>
+<span id="cb53-654"><a href="#cb53-654"></a><span class="ss">1. </span>Estime un modelo logit del tratamiento usando las covariables.</span>
+<span id="cb53-655"><a href="#cb53-655"></a><span class="ss">2. </span>Guarde el propensity score como <span class="in">`ps`</span>.</span>
+<span id="cb53-656"><a href="#cb53-656"></a><span class="ss">3. </span>Grafique la distribución del propensity score por grupo.</span>
+<span id="cb53-657"><a href="#cb53-657"></a><span class="ss">4. </span>Calcule el rango de soporte común.</span>
+<span id="cb53-658"><a href="#cb53-658"></a><span class="ss">5. </span>Cree <span class="in">`base_psm_soporte`</span> con observaciones dentro del soporte común.</span>
+<span id="cb53-659"><a href="#cb53-659"></a><span class="ss">6. </span>Reporte cuántas observaciones tratadas y controles quedan dentro y fuera del soporte común.</span>
+<span id="cb53-660"><a href="#cb53-660"></a><span class="ss">7. </span>Guarde el gráfico y una tabla de soporte común.</span>
+<span id="cb53-661"><a href="#cb53-661"></a></span>
+<span id="cb53-662"><a href="#cb53-662"></a>Devuélveme solo código R completo.</span>
+<span id="cb53-663"><a href="#cb53-663"></a>:::</span>
 <span id="cb53-664"><a href="#cb53-664"></a></span>
-<span id="cb53-665"><a href="#cb53-665"></a>::: {.prompt-block}</span>
-<span id="cb53-666"><a href="#cb53-666"></a>Actúa como analista de evaluación de impacto que escribe código en R.</span>
-<span id="cb53-667"><a href="#cb53-667"></a></span>
-<span id="cb53-668"><a href="#cb53-668"></a>Tengo la base <span class="in">`base_psm_soporte`</span>, tratamiento <span class="in">`tratamiento_psm`</span> y covariables:</span>
+<span id="cb53-665"><a href="#cb53-665"></a><span class="fu">### Prompt 11 — Matching principal y balance</span></span>
+<span id="cb53-666"><a href="#cb53-666"></a></span>
+<span id="cb53-667"><a href="#cb53-667"></a>::: {.prompt-block}</span>
+<span id="cb53-668"><a href="#cb53-668"></a>Actúa como analista de evaluación de impacto que escribe código en R.</span>
 <span id="cb53-669"><a href="#cb53-669"></a></span>
-<span id="cb53-670"><a href="#cb53-670"></a><span class="in">```r</span></span>
-<span id="cb53-671"><a href="#cb53-671"></a>covariables_psm</span>
-<span id="cb53-672"><a href="#cb53-672"></a><span class="in">```</span></span>
-<span id="cb53-673"><a href="#cb53-673"></a></span>
-<span id="cb53-674"><a href="#cb53-674"></a>Genera código R que:</span>
+<span id="cb53-670"><a href="#cb53-670"></a>Tengo la base <span class="in">`base_psm_soporte`</span>, tratamiento <span class="in">`tratamiento_psm`</span> y covariables:</span>
+<span id="cb53-671"><a href="#cb53-671"></a></span>
+<span id="cb53-672"><a href="#cb53-672"></a><span class="in">```r</span></span>
+<span id="cb53-673"><a href="#cb53-673"></a>covariables_psm</span>
+<span id="cb53-674"><a href="#cb53-674"></a><span class="in">```</span></span>
 <span id="cb53-675"><a href="#cb53-675"></a></span>
-<span id="cb53-676"><a href="#cb53-676"></a><span class="ss">1. </span>Aplique matching por vecino más cercano con <span class="in">`MatchIt`</span>.</span>
-<span id="cb53-677"><a href="#cb53-677"></a><span class="ss">2. </span>Use <span class="in">`method = "nearest"`</span>, <span class="in">`distance = "glm"`</span>, <span class="in">`estimand = "ATT"`</span>.</span>
-<span id="cb53-678"><a href="#cb53-678"></a><span class="ss">3. </span>Use un caliper razonable y explícito. Si no tengo preferencia, usa <span class="in">`caliper = 0.1`</span>.</span>
-<span id="cb53-679"><a href="#cb53-679"></a><span class="ss">4. </span>Guarde el objeto como <span class="in">`matching_principal`</span>.</span>
-<span id="cb53-680"><a href="#cb53-680"></a><span class="ss">5. </span>Imprima <span class="in">`summary(matching_principal, un = TRUE)`</span>.</span>
-<span id="cb53-681"><a href="#cb53-681"></a><span class="ss">6. </span>Calcule balance con SMD antes y después usando <span class="in">`cobalt::bal.tab()`</span>.</span>
-<span id="cb53-682"><a href="#cb53-682"></a><span class="ss">7. </span>Reporte cuántas covariables quedan con <span class="in">`|SMD| &gt; 0.10`</span> después del matching.</span>
-<span id="cb53-683"><a href="#cb53-683"></a><span class="ss">8. </span>Exporte un Love plot.</span>
-<span id="cb53-684"><a href="#cb53-684"></a><span class="ss">9. </span>Si el balance falla, imprime recomendaciones: cambiar caliper, agregar términos no lineales, exact matching en variables clave o revisar covariables.</span>
-<span id="cb53-685"><a href="#cb53-685"></a></span>
-<span id="cb53-686"><a href="#cb53-686"></a>Devuélveme solo código R completo.</span>
-<span id="cb53-687"><a href="#cb53-687"></a>:::</span>
-<span id="cb53-688"><a href="#cb53-688"></a></span>
-<span id="cb53-689"><a href="#cb53-689"></a><span class="fu">### Prompt 20 — Estimar ATT después del matching</span></span>
+<span id="cb53-676"><a href="#cb53-676"></a>Genera código R que:</span>
+<span id="cb53-677"><a href="#cb53-677"></a></span>
+<span id="cb53-678"><a href="#cb53-678"></a><span class="ss">1. </span>Aplique matching por vecino más cercano con <span class="in">`MatchIt`</span>.</span>
+<span id="cb53-679"><a href="#cb53-679"></a><span class="ss">2. </span>Use <span class="in">`method = "nearest"`</span>, <span class="in">`distance = "glm"`</span>, <span class="in">`estimand = "ATT"`</span>.</span>
+<span id="cb53-680"><a href="#cb53-680"></a><span class="ss">3. </span>Antes de elegir el método, considera el desbalance de tamaño:</span>
+<span id="cb53-681"><a href="#cb53-681"></a><span class="ss">    - </span>Si #tratados ≈ #controles: NN 1:1 sin reemplazo, <span class="in">`caliper = 0.2`</span> (SD del logit PS).</span>
+<span id="cb53-682"><a href="#cb53-682"></a><span class="ss">    - </span>Si #tratados &gt;&gt; #controles o viceversa: usa <span class="in">`method = "full"`</span> (no requiere caliper).</span>
+<span id="cb53-683"><a href="#cb53-683"></a><span class="ss">    - </span>Si hay una variable categórica crítica (zona, sector): agrega <span class="in">`exact = ~ variable`</span>.</span>
+<span id="cb53-684"><a href="#cb53-684"></a><span class="ss">4. </span>Guarde el objeto como <span class="in">`matching_principal`</span>.</span>
+<span id="cb53-685"><a href="#cb53-685"></a><span class="ss">5. </span>Imprima <span class="in">`summary(matching_principal, un = TRUE)`</span>.</span>
+<span id="cb53-686"><a href="#cb53-686"></a><span class="ss">6. </span>Calcule balance con SMD antes y después usando <span class="in">`cobalt::bal.tab()`</span>.</span>
+<span id="cb53-687"><a href="#cb53-687"></a><span class="ss">7. </span>Reporte cuántas covariables quedan con <span class="in">`|SMD| &gt; 0.10`</span> después del matching.</span>
+<span id="cb53-688"><a href="#cb53-688"></a><span class="ss">8. </span>Exporte un Love plot.</span>
+<span id="cb53-689"><a href="#cb53-689"></a><span class="ss">9. </span>Si el balance falla, imprime recomendaciones: cambiar caliper, agregar términos no lineales, exact matching en variables clave o revisar covariables.</span>
 <span id="cb53-690"><a href="#cb53-690"></a></span>
-<span id="cb53-691"><a href="#cb53-691"></a>::: {.prompt-block}</span>
-<span id="cb53-692"><a href="#cb53-692"></a>Actúa como analista de evaluación de impacto que escribe código en R.</span>
+<span id="cb53-691"><a href="#cb53-691"></a>Devuélveme solo código R completo.</span>
+<span id="cb53-692"><a href="#cb53-692"></a>:::</span>
 <span id="cb53-693"><a href="#cb53-693"></a></span>
-<span id="cb53-694"><a href="#cb53-694"></a>Tengo:</span>
+<span id="cb53-694"><a href="#cb53-694"></a><span class="fu">### Prompt 12 — Estimar ATT después del matching</span></span>
 <span id="cb53-695"><a href="#cb53-695"></a></span>
-<span id="cb53-696"><a href="#cb53-696"></a><span class="ss">- </span>Objeto de matching: <span class="in">`matching_principal`</span></span>
-<span id="cb53-697"><a href="#cb53-697"></a><span class="ss">- </span>Resultado: <span class="in">`[nombre_resultado]`</span></span>
-<span id="cb53-698"><a href="#cb53-698"></a><span class="ss">- </span>Tratamiento: <span class="in">`tratamiento_psm`</span></span>
-<span id="cb53-699"><a href="#cb53-699"></a><span class="ss">- </span>Covariables:</span>
-<span id="cb53-700"><a href="#cb53-700"></a><span class="in">```r</span></span>
-<span id="cb53-701"><a href="#cb53-701"></a>covariables_psm <span class="ot">&lt;-</span> <span class="fu">c</span>([pegue vector])</span>
-<span id="cb53-702"><a href="#cb53-702"></a><span class="in">```</span></span>
-<span id="cb53-703"><a href="#cb53-703"></a></span>
-<span id="cb53-704"><a href="#cb53-704"></a>Genera código R que:</span>
-<span id="cb53-705"><a href="#cb53-705"></a></span>
-<span id="cb53-706"><a href="#cb53-706"></a><span class="ss">1. </span>Extraiga la base emparejada con <span class="in">`match.data()`</span>.</span>
-<span id="cb53-707"><a href="#cb53-707"></a><span class="ss">2. </span>Estime el ATT con una regresión del resultado sobre tratamiento y covariables, usando pesos del matching.</span>
-<span id="cb53-708"><a href="#cb53-708"></a><span class="ss">3. </span>Use errores robustos. Si existe <span class="in">`subclass`</span>, usa errores clusterizados por <span class="in">`subclass`</span>.</span>
-<span id="cb53-709"><a href="#cb53-709"></a><span class="ss">4. </span>Extraiga coeficiente, error estándar, IC95%, p-valor y N.</span>
-<span id="cb53-710"><a href="#cb53-710"></a><span class="ss">5. </span>Guarde una tabla <span class="in">`resultado_att`</span>.</span>
-<span id="cb53-711"><a href="#cb53-711"></a><span class="ss">6. </span>Interprete el efecto en unidades del resultado.</span>
-<span id="cb53-712"><a href="#cb53-712"></a></span>
-<span id="cb53-713"><a href="#cb53-713"></a>Devuélveme solo código R completo.</span>
-<span id="cb53-714"><a href="#cb53-714"></a>:::</span>
-<span id="cb53-715"><a href="#cb53-715"></a></span>
-<span id="cb53-716"><a href="#cb53-716"></a><span class="fu">### Prompt 21 — Sensibilidad con varias estrategias de PSM</span></span>
-<span id="cb53-717"><a href="#cb53-717"></a></span>
-<span id="cb53-718"><a href="#cb53-718"></a>::: {.prompt-block}</span>
-<span id="cb53-719"><a href="#cb53-719"></a>Actúa como analista de evaluación de impacto que escribe código en R.</span>
-<span id="cb53-720"><a href="#cb53-720"></a></span>
-<span id="cb53-721"><a href="#cb53-721"></a>Quiero saber si mi resultado depende del algoritmo de matching.</span>
-<span id="cb53-722"><a href="#cb53-722"></a></span>
-<span id="cb53-723"><a href="#cb53-723"></a>Tengo:</span>
-<span id="cb53-724"><a href="#cb53-724"></a></span>
-<span id="cb53-725"><a href="#cb53-725"></a><span class="ss">- </span>Base dentro de soporte común: <span class="in">`base_psm_soporte`</span></span>
-<span id="cb53-726"><a href="#cb53-726"></a><span class="ss">- </span>Tratamiento: <span class="in">`tratamiento_psm`</span></span>
-<span id="cb53-727"><a href="#cb53-727"></a><span class="ss">- </span>Resultado: <span class="in">`[nombre_resultado]`</span></span>
-<span id="cb53-728"><a href="#cb53-728"></a><span class="ss">- </span>Covariables:</span>
-<span id="cb53-729"><a href="#cb53-729"></a><span class="in">```r</span></span>
-<span id="cb53-730"><a href="#cb53-730"></a>covariables_psm <span class="ot">&lt;-</span> <span class="fu">c</span>([pegue vector])</span>
-<span id="cb53-731"><a href="#cb53-731"></a><span class="in">```</span></span>
-<span id="cb53-732"><a href="#cb53-732"></a></span>
-<span id="cb53-733"><a href="#cb53-733"></a>Genera código R que compare al menos tres estrategias:</span>
-<span id="cb53-734"><a href="#cb53-734"></a></span>
-<span id="cb53-735"><a href="#cb53-735"></a><span class="ss">1. </span>Vecino más cercano sin reemplazo.</span>
-<span id="cb53-736"><a href="#cb53-736"></a><span class="ss">2. </span>Vecino más cercano con reemplazo.</span>
-<span id="cb53-737"><a href="#cb53-737"></a><span class="ss">3. </span>Full matching o ponderación por propensity score para ATT.</span>
-<span id="cb53-738"><a href="#cb53-738"></a></span>
-<span id="cb53-739"><a href="#cb53-739"></a>Para cada estrategia:</span>
-<span id="cb53-740"><a href="#cb53-740"></a></span>
-<span id="cb53-741"><a href="#cb53-741"></a><span class="ss">1. </span>Estima el efecto ATT.</span>
-<span id="cb53-742"><a href="#cb53-742"></a><span class="ss">2. </span>Calcula error estándar, IC95%, p-valor y N.</span>
-<span id="cb53-743"><a href="#cb53-743"></a><span class="ss">3. </span>Reporta balance máximo después del ajuste si es posible.</span>
-<span id="cb53-744"><a href="#cb53-744"></a><span class="ss">4. </span>Reúne todo en <span class="in">`tabla_sensibilidad_psm`</span>.</span>
-<span id="cb53-745"><a href="#cb53-745"></a><span class="ss">5. </span>Guarda la tabla como CSV.</span>
-<span id="cb53-746"><a href="#cb53-746"></a></span>
-<span id="cb53-747"><a href="#cb53-747"></a>Devuélveme solo código R completo. Al final imprime una frase: el resultado es más creíble si las estimaciones son parecidas y el balance es adecuado.</span>
-<span id="cb53-748"><a href="#cb53-748"></a>:::</span>
+<span id="cb53-696"><a href="#cb53-696"></a>::: {.prompt-block}</span>
+<span id="cb53-697"><a href="#cb53-697"></a>Actúa como analista de evaluación de impacto que escribe código en R.</span>
+<span id="cb53-698"><a href="#cb53-698"></a></span>
+<span id="cb53-699"><a href="#cb53-699"></a>Tengo:</span>
+<span id="cb53-700"><a href="#cb53-700"></a></span>
+<span id="cb53-701"><a href="#cb53-701"></a><span class="ss">- </span>Objeto de matching: <span class="in">`matching_principal`</span></span>
+<span id="cb53-702"><a href="#cb53-702"></a><span class="ss">- </span>Resultado: <span class="in">`[nombre_resultado]`</span></span>
+<span id="cb53-703"><a href="#cb53-703"></a><span class="ss">- </span>Tratamiento: <span class="in">`tratamiento_psm`</span></span>
+<span id="cb53-704"><a href="#cb53-704"></a><span class="ss">- </span>Covariables:</span>
+<span id="cb53-705"><a href="#cb53-705"></a><span class="in">```r</span></span>
+<span id="cb53-706"><a href="#cb53-706"></a>covariables_psm <span class="ot">&lt;-</span> <span class="fu">c</span>([pegue vector])</span>
+<span id="cb53-707"><a href="#cb53-707"></a><span class="in">```</span></span>
+<span id="cb53-708"><a href="#cb53-708"></a></span>
+<span id="cb53-709"><a href="#cb53-709"></a>Genera código R que:</span>
+<span id="cb53-710"><a href="#cb53-710"></a></span>
+<span id="cb53-711"><a href="#cb53-711"></a><span class="ss">1. </span>Extraiga la base emparejada con <span class="in">`match.data()`</span>.</span>
+<span id="cb53-712"><a href="#cb53-712"></a><span class="ss">2. </span>Estime el ATT con una regresión del resultado sobre tratamiento y covariables, usando pesos del matching.</span>
+<span id="cb53-713"><a href="#cb53-713"></a><span class="ss">3. </span>Elige el estimador de varianza según el método:</span>
+<span id="cb53-714"><a href="#cb53-714"></a><span class="ss">    - </span>NN 1:1 sin reemplazo:   <span class="in">`vcovHC(modelo, type = "HC2")`</span> (sin cluster — los pares</span>
+<span id="cb53-715"><a href="#cb53-715"></a>                             son construidos, no de muestreo).</span>
+<span id="cb53-716"><a href="#cb53-716"></a><span class="ss">    - </span>NN con reemplazo:       <span class="in">`vcovCL(modelo, cluster = ~ control_id)`</span> (clusteriza</span>
+<span id="cb53-717"><a href="#cb53-717"></a>                              por la unidad de control reutilizada).</span>
+<span id="cb53-718"><a href="#cb53-718"></a><span class="ss">    - </span>Full matching:          <span class="in">`vcovCL(modelo, cluster = ~ subclass)`</span> (subclases</span>
+<span id="cb53-719"><a href="#cb53-719"></a>                            de tamaño variable son agrupaciones reales).</span>
+<span id="cb53-720"><a href="#cb53-720"></a><span class="ss">4. </span>Extraiga coeficiente, error estándar, IC95%, p-valor y N.</span>
+<span id="cb53-721"><a href="#cb53-721"></a><span class="ss">5. </span>Guarde una tabla <span class="in">`resultado_att`</span>. Guarda los resultados como imagen. usa modelsummary </span>
+<span id="cb53-722"><a href="#cb53-722"></a><span class="ss">6. </span>Interprete el efecto en unidades del resultado.</span>
+<span id="cb53-723"><a href="#cb53-723"></a></span>
+<span id="cb53-724"><a href="#cb53-724"></a>Devuélveme solo código R completo.</span>
+<span id="cb53-725"><a href="#cb53-725"></a>:::</span>
+<span id="cb53-726"><a href="#cb53-726"></a></span>
+<span id="cb53-727"><a href="#cb53-727"></a><span class="fu">### Prompt 13 — Sensibilidad con varias estrategias de PSM</span></span>
+<span id="cb53-728"><a href="#cb53-728"></a></span>
+<span id="cb53-729"><a href="#cb53-729"></a>::: {.prompt-block}</span>
+<span id="cb53-730"><a href="#cb53-730"></a>Actúa como analista de evaluación de impacto que escribe código en R.</span>
+<span id="cb53-731"><a href="#cb53-731"></a></span>
+<span id="cb53-732"><a href="#cb53-732"></a>Quiero saber si mi resultado depende del algoritmo de matching.</span>
+<span id="cb53-733"><a href="#cb53-733"></a></span>
+<span id="cb53-734"><a href="#cb53-734"></a>Tengo:</span>
+<span id="cb53-735"><a href="#cb53-735"></a></span>
+<span id="cb53-736"><a href="#cb53-736"></a><span class="ss">- </span>Base dentro de soporte común: <span class="in">`base_psm_soporte`</span></span>
+<span id="cb53-737"><a href="#cb53-737"></a><span class="ss">- </span>Tratamiento: <span class="in">`tratamiento_psm`</span></span>
+<span id="cb53-738"><a href="#cb53-738"></a><span class="ss">- </span>Resultado: <span class="in">`[nombre_resultado]`</span></span>
+<span id="cb53-739"><a href="#cb53-739"></a><span class="ss">- </span>Covariables:</span>
+<span id="cb53-740"><a href="#cb53-740"></a><span class="in">```r</span></span>
+<span id="cb53-741"><a href="#cb53-741"></a>covariables_psm <span class="ot">&lt;-</span> <span class="fu">c</span>([pegue vector])</span>
+<span id="cb53-742"><a href="#cb53-742"></a><span class="in">```</span></span>
+<span id="cb53-743"><a href="#cb53-743"></a></span>
+<span id="cb53-744"><a href="#cb53-744"></a>Genera código R que compare al menos tres estrategias:</span>
+<span id="cb53-745"><a href="#cb53-745"></a></span>
+<span id="cb53-746"><a href="#cb53-746"></a><span class="ss">1. </span>Vecino más cercano sin reemplazo.</span>
+<span id="cb53-747"><a href="#cb53-747"></a><span class="ss">2. </span>Vecino más cercano con reemplazo.</span>
+<span id="cb53-748"><a href="#cb53-748"></a><span class="ss">3. </span>Full matching o ponderación por propensity score para ATT. Este produce múltiples controles por subclass, y vcovCL con ~subclass no puede alinear las observaciones. La solución es usar avg_comparisons de marginaleffects para full matching, o pasar los datos directamente a lm sin delegar la búsqueda del data al entorno:</span>
+<span id="cb53-749"><a href="#cb53-749"></a></span>
+<span id="cb53-750"><a href="#cb53-750"></a>Para cada estrategia:</span>
+<span id="cb53-751"><a href="#cb53-751"></a></span>
+<span id="cb53-752"><a href="#cb53-752"></a><span class="ss">1. </span>Estima el efecto ATT.</span>
+<span id="cb53-753"><a href="#cb53-753"></a><span class="ss">2. </span>Calcula error estándar, IC95%, p-valor y N.</span>
+<span id="cb53-754"><a href="#cb53-754"></a><span class="ss">3. </span>Reporta balance máximo después del ajuste si es posible.</span>
+<span id="cb53-755"><a href="#cb53-755"></a><span class="ss">4. </span>Reúne todo en <span class="in">`tabla_sensibilidad_psm`</span>.</span>
+<span id="cb53-756"><a href="#cb53-756"></a><span class="ss">5. </span>Guarda los resultados como imagen. usa modelsummary </span>
+<span id="cb53-757"><a href="#cb53-757"></a></span>
+<span id="cb53-758"><a href="#cb53-758"></a>Devuélveme solo código R completo. Al final imprime una frase: el resultado es más creíble si las estimaciones son parecidas y el balance es adecuado.</span>
+<span id="cb53-759"><a href="#cb53-759"></a>:::</span>
 </code></pre></div><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

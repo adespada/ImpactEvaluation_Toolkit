@@ -1,4 +1,4 @@
-# Matching y Propensity Score {#sec-matching}
+# Propensity Score Matching {#sec-matching}
 
 ## A. Teoría y explicación {#sec-matching-teoria}
 
@@ -173,6 +173,97 @@ knitr::kable(tabla_tipos,
 
 @gertler2016impact recomiendan verificar la robustez de los resultados utilizando diversos algoritmos de matching, ya que distintos métodos pueden producir estimaciones diferentes. Si los resultados son consistentes entre métodos, esto fortalece la credibilidad de las conclusiones.
 
+### Soporte común (overlap)
+
+El **soporte común** es la zona del *propensity score* donde **ambos grupos** —tratados y controles— tienen observaciones. Es la condición empírica que hace posible el matching: para encontrar un gemelo a cada participante, debe existir al menos una persona no participante con un PS similar. Donde no hay solapamiento, no hay con quién comparar y el matching no puede operar.
+
+Formalmente, si $p(X)$ es el propensity score, el soporte común es el intervalo:
+
+$$
+\mathcal{SC} = \left[ \max(\min p_T,\, \min p_C),\ \min(\max p_T,\, \max p_C) \right]
+$$
+
+donde $p_T$ y $p_C$ son los PS de tratados y controles respectivamente. Las observaciones tratadas con $p > \max p_C$ (demasiado parecidas a "tratadas típicas" pero sin contraparte real entre los controles) y las controles con $p < \min p_T$ (demasiado distintas de cualquier tratado) deben **descartarse** antes de estimar el efecto.
+
+::: {.callout-note}
+## ¿Por qué importa tanto?
+Imagine un programa de microcrédito donde **todos** los participantes son de zonas urbanas con educación secundaria, mientras que **todos** los no participantes son rurales sin escolarizar. El propensity score de los tratados se concentraría cerca de 1 y el de los controles cerca de 0, **sin solapamiento**. Aunque el algoritmo de matching siempre produce algún resultado numérico, ese resultado sería una **extrapolación**, no una comparación real. El soporte común protege contra ese tipo de inferencia espuria.
+:::
+
+**Cómo verificarlo en la práctica:**
+
+1. **Visualmente**: graficar las densidades del propensity score por grupo (la figura 12.1 de este capítulo muestra el patrón ideal). Las dos distribuciones deben superponerse en una zona razonable. Si la intersección es muy estrecha o nula, el PSM no es viable.
+2. **Numéricamente**: calcular $[\max(\min p_T, \min p_C),\ \min(\max p_T, \max p_C)]$ y reportar cuántas observaciones quedan dentro y fuera. Una pérdida de tratados superior al **10–15 %** al imponer el soporte común sugiere que los grupos son estructuralmente distintos y el ATT estimado solo aplica a una subpoblación restringida.
+3. **Con `MatchIt`**: el paquete hace esta verificación automáticamente cuando se especifica un `caliper`, descartando pares cuya distancia en PS supera el umbral.
+
+::: {.callout-warning}
+## Si el soporte común es débil
+Tres opciones, en orden de preferencia:
+
+1. **Reportar el ATT solo sobre la zona de soporte** y aclarar explícitamente que el efecto no es generalizable a las observaciones excluidas.
+2. **Reespecificar el modelo de propensión**: agregar interacciones, términos cuadráticos o eliminar covariables que predicen perfectamente el tratamiento (problema de *separación*). A veces un modelo más parsimonioso produce más solapamiento.
+3. **Reconocer que matching no es viable** y considerar un método distinto (DiD si hay datos pre-post, IV si hay un instrumento creíble, RDD si hay un punto de corte).
+:::
+
+### Análisis de sensibilidad
+
+Estimar un único ATT con un solo algoritmo y un solo conjunto de covariables no es suficiente: la credibilidad del resultado depende de mostrar que **no es un artefacto** de las decisiones metodológicas. Un análisis de sensibilidad serio examina tres frentes [@gertler2016impact; @huntingtonklein2022]:
+
+**1. Sensibilidad al algoritmo de matching.** Estimar el ATT con al menos **tres estrategias distintas** y comparar magnitudes:
+
+```{r}
+#| label: tbl-matching-sensibilidad
+#| tbl-cap: "Estrategias típicas para análisis de sensibilidad en PSM"
+#| echo: false
+
+tabla_sens <- data.frame(
+  Estrategia = c("Vecino más cercano (NN 1:1) sin reemplazo",
+                 "NN 1:1 con reemplazo",
+                 "Full matching",
+                 "Ponderación por inverso del PS (IPW)"),
+  Cuando = c("Muestras balanceadas en tamaño; análisis principal por defecto",
+             "Pocos controles disponibles, alguno se reutiliza para varios tratados",
+             "Desbalance fuerte de tamaño entre grupos (p. ej. 5:1)",
+             "Como contraste no basado en pareo; usa todas las observaciones"),
+  Limitacion = c("Descarta tratados sin par cercano; pierde poder",
+                 "Infla la varianza por reuso de controles",
+                 "Subclases de tamaño variable; SE más complejo",
+                 "Sensible a pesos extremos cerca de 0 o 1")
+)
+knitr::kable(tabla_sens,
+             col.names = c("Estrategia", "Cuándo usarla", "Limitación"))
+```
+
+Si las tres estimaciones coinciden en signo y magnitud (diferencias < 20 %), la conclusión es robusta. Si difieren sustancialmente, el resultado **depende del algoritmo** y debe reportarse con cautela: alguna especificación está capturando algo que las otras no.
+
+**2. Sensibilidad al modelo de propensión.** Reestimar el PS con distintas especificaciones (sin algunas covariables, con interacciones, con términos cuadráticos) y verificar que el ATT no cambia sustancialmente. Si una covariable individual mueve el resultado en > 30 %, esa covariable es crítica y conviene reportar resultados con y sin ella.
+
+**3. Sensibilidad a confusores no observados (Rosenbaum bounds).** Es la prueba más importante porque ataca directamente el talón de Aquiles del PSM: el supuesto de selección en observables. La pregunta concreta es: ¿qué tan fuerte tendría que ser un confusor **no observado** para invalidar el resultado?
+
+@rosenbaum2002 propuso parametrizar este confusor por $\Gamma$ (gamma), el ratio de odds de tratamiento entre dos individuos con covariables observables idénticas. Si $\Gamma = 1$ no hay sesgo oculto (el supuesto CIA se cumple); si $\Gamma > 1$ existe selección no observada que hace a unos $\Gamma$ veces más probables de ser tratados que a otros con las mismas $X$.
+
+::: {.callout-note}
+## Cómo interpretar gamma
+- **$\Gamma$ crítico ≥ 2.0**: muy robusto. Se necesitaría un confusor no observado que duplique las odds de participación —algo difícil de imaginar en datos ricos— para volver no significativo el ATT. Resultado creíble.
+- **$\Gamma$ crítico entre 1.3 y 2.0**: robustez moderada. Defendible si se argumenta que las covariables disponibles cubren las principales fuentes de selección.
+- **$\Gamma$ crítico ≤ 1.3**: el resultado es **frágil**. Un confusor no observado moderadamente correlacionado con el tratamiento basta para anular la inferencia. Reportar con honestidad y considerar un método alternativo.
+:::
+
+En R, el test se implementa con `rbounds::psens()` o `sensitivitymw::senmw()` sobre los pares emparejados.
+
+**4. Verificación post-matching del balance.** Tras emparejar, calcular las diferencias estandarizadas de medias (|SMD|) entre tratados y controles para cada covariable. La regla práctica es:
+
+- |SMD| < 0.10 → covariable balanceada (objetivo).
+- |SMD| entre 0.10 y 0.25 → balance marginal; reportar.
+- |SMD| > 0.25 → desbalance serio; volver a especificar el modelo de PS.
+
+Un **Love plot** (gráfico de Love) visualiza |SMD| antes y después del matching para todas las covariables simultáneamente y es la forma estándar de reportarlo (vea la Figura 30.2 del [anexo de código](anexo-codigo-matching.qmd)).
+
+::: {.callout-tip}
+## Regla práctica para reportar
+Un PSM convincente reporta: (1) el ATT principal con un algoritmo, (2) un Love plot mostrando balance, (3) ATT con al menos dos algoritmos alternativos, (4) gamma crítico de Rosenbaum, y (5) la fracción de tratados perdidos por soporte común. Sin estos cinco elementos, el lector no puede juzgar la robustez de la inferencia.
+:::
+
 ### Elementos clave de diseño
 
 Un PSM bien diseñado depende más de los datos disponibles que del algoritmo. Cinco decisiones críticas [@gertler2016impact; @huntingtonklein2022]:
@@ -186,8 +277,8 @@ Un PSM bien diseñado depende más de los datos disponibles que del algoritmo. C
 ### Supuestos y limitaciones
 
 ::: {.callout-warning}
-## Soporte común (overlap)
-Para cada participante debe existir al menos un no participante con un propensity score similar. Si los grupos son muy diferentes, no hay base para la comparación. Siempre verifique la zona de soporte común antes de estimar efectos.
+## Recordatorio sobre los supuestos
+El matching descansa en dos pilares: el supuesto de **selección en observables** (CIA) y la existencia de **soporte común**. El primero no es testeable empíricamente y se evalúa con análisis de sensibilidad de Rosenbaum; el segundo sí es verificable y debe inspeccionarse **antes** de estimar cualquier efecto. Vea las secciones específicas más arriba en este capítulo.
 :::
 
 @gertler2016impact señalan dos aspectos cruciales adicionales: el matching debe realizarse utilizando características de **línea base** (previas al tratamiento), nunca variables post-tratamiento que podrían estar afectadas por el programa; y la calidad del emparejamiento depende de contar con un número amplio de características de contexto. Además, matching es generalmente menos robusto que los métodos aleatorizados porque requiere el supuesto, que no puede verificarse empíricamente, de que no existen confusores no observados [@gertler2016impact].
